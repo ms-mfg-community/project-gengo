@@ -1,0 +1,5 @@
+p1.[] Create a virtual machine in Azure.
+r1.[] Sure! I can help you with that. Here's a code snippet to create a virtual machine in Azure using the Azure CLI:
+
+p2.[] Make the vm in the selection redundant accross 3 availability zones.
+r2.[] [appends] --zones 1 2 3

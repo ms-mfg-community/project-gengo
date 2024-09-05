@@ -1,0 +1,3 @@
+p1.[x] Deploy a resource group in an Azure subscription, with a virtual machine scale set, storage account, log analytics workspace, automation account and keyvault. 
+      Configure both the storage account and keyvault to use EntraID RBAC authentication.
+r1.[x]

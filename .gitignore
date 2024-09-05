@@ -1,0 +1,21 @@
+# Ignore node_modules
+node_modules/
+
+# Ignore subset of Visual Studio automatically generated content
+.vs/
+
+# Ignore NuGet packages
+*.nupkg
+*.snupkg
+
+# Ignore build outputs
+bin/
+obj/
+
+# Ignore user-specific files
+*.user
+*.suo
+
+# Ignore nuget.config files
+**/nuget.config
+.fake

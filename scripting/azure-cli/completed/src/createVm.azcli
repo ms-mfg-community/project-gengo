@@ -1,0 +1,17 @@
+# Set variables for resource group, VM name, and region
+resourceGroup="myResourceGroup"
+vmName="myVM"
+location="eastus"
+
+# Create a resource group
+az group create --name $resourceGroup --location $location
+
+# Create a virtual machine
+az vm create \
+    --resource-group $resourceGroup \
+    --name $vmName \
+    --image UbuntuLTS \
+    --availability-set myAvailabilitySet \
+    --admin-username azureuser \
+    --generate-ssh-keys \
+    --zones 1 2 3

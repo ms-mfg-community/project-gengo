@@ -1,0 +1,5 @@
+p1.[x] Create a yaml GitHub Actions workflow to install the requirements for java and the spring framework with the latest maven package version.
+r1.[x] Sure! Here's a YAML code block for a GitHub Actions workflow that installs Java, Spring Framework, and the latest Maven package version.
+
+p2.[] Convert this slection to an Azure DevOps pipleine yaml file.
+r2.[] Sure! Here's the equivalent Azure DevOps pipeline YAML file for your code:

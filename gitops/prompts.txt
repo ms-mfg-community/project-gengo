@@ -1,0 +1,73 @@
+p1. [] Add contents for a readme file that will cleanup resources from the most recent Azure laning zones terraform accelerator deployment.
+r1. []
+# README
+
+## Azure Landing Zone Terraform Accelerator Cleanup
+
+This Azure Function is designed to clean up resources from the most recent deployment of the Azure Landing Zone Terraform Accelerator.
+
+## Prerequisites
+
+- **Azure Subscription**: Ensure you have an active Azure subscription.
+- **Azure CLI**: Install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
+- **Terraform**: Install [Terraform](https://www.terraform.io/downloads.html).
+- **Function App**: An existing Azure Function App where the cleanup function will be deployed.
+
+## Setup
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/ms-mfg-community/alz-tf-accelerator-azure-cleanup.git
+cd alz-tf-accelerator-azure-cleanup
+```
+
+### Configure the Function App
+
+1. **Create a Function App** (if not already created):
+
+    ```bash
+    az functionapp create --resource-group <ResourceGroupName> --consumption-plan-location <Region> --name <FunctionAppName> --storage-account <StorageAccountName> --runtime dotnet
+    ```
+
+2. **Deploy the Function**:
+
+    ```bash
+    func azure functionapp publish <FunctionAppName>
+    ```
+
+### Environment Variables
+
+Set the following environment variables in your Function App configuration:
+
+- `AZURE_SUBSCRIPTION_ID`: Your Azure subscription ID.
+- `RESOURCE_GROUP_NAME`: The resource group name where the Terraform Accelerator was deployed.
+- `TF_STATE_STORAGE_ACCOUNT`: The name of the storage account where the Terraform state files are stored.
+- `TF_STATE_CONTAINER`: The name of the container in the storage account where the Terraform state files are stored.
+
+## Usage
+
+The Azure Function will automatically trigger based on the configuration. It will:
+
+1. Identify the resources from the most recent Terraform deployment.
+2. Perform cleanup operations to delete these resources.
+
+### Manual Trigger
+
+You can also trigger the function manually via the Azure Portal or Azure CLI:
+
+```bash
+az functionapp invoke --resource-group <ResourceGroupName> --name <FunctionAppName> --function-name <FunctionName>
+```
+
+## Contributing
+
+We welcome contributions to enhance the functionality of this cleanup tool. Please fork the repository and submit pull requests.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+For further details and troubleshooting, refer to the [official documentation](https://github.com/ms-mfg-community/alz-tf-accelerator-azure-cleanup).

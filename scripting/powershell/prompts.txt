@@ -1,0 +1,97 @@
+p1.[x] Create a powershell script to recursively enumerate all folders, subfolders and files from the current directory, 
+      while filtering to search for and display all files with the *.exe extension.
+r1.[x] Get-ChildItem -Path $PWD -Recurse -File -Filter "*.exe" | ForEach-Object { Write-Output $_.FullName }
+
+p2.[x] Create a custom class to save the output of the script
+r2.[x] class ExeFiles { [string[]] $Files }
+
+p3.[x] [Code completion] Export-Csv -path... 
+r3.[x] Export-Csv -Path "exe_files.csv" -InputObject $exeFiles -NoTypeInformation
+
+p4.[x] [Commenting prompt] #Import the CSV file and display the contents sorted by reverse order based on the filename.
+r4.[x] Import-Csv -Path "exe_files.csv" | Sort-Object -Property Files -Descending | Format-Table -AutoSize
+
+p5. [x] /generate Create a powershell script to construct the components for and issue a http rest request based on the content of #Get-CatalogSyncFailure.ps1
+r5. [x]
+        # Define the necessary variables
+        $subscriptionId = "your-subscription-id"
+        $resourceGroupName = "your-resource-group-name"
+        $devCenterName = "your-devcenter-name"
+        $catalogName = "your-catalog-name"
+        $apiVersion = "2024-02-01"
+        $accessToken = "your-access-token"  # You need to obtain an access token for Azure authentication
+
+        # Construct the URL
+        $url = "https://management.azure.com/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.DevCenter/devcenters/$devCenterName/catalogs/$catalogName/getSyncErrorDetails?api-version=$apiVersion"
+
+        # Define the headers
+        $headers = @{
+            "Authorization" = "Bearer $accessToken"
+            "Content-Type"  = "application/json"
+        }
+
+        # Issue the HTTP POST request
+        $response = Invoke-RestMethod -Uri $url -Method Post -Headers $headers
+
+        # Output the response
+        $response
+
+p6. [x] How do I get an access token for my Azure tenant?
+r6. [x]
+
+    # Define the necessary variables for token request
+    $tenantId = "your-tenant-id"
+    $clientId = "your-client-id"
+    $clientSecret = "your-client-secret"
+    $scope = "https://management.azure.com/.default"
+    $tokenEndpoint = "https://login.microsoftonline.com/$tenantId/oauth2/v2.0/token"
+
+    # Construct the body for the token request
+    $body = @{
+        client_id     = $clientId
+        scope         = $scope
+        client_secret = $clientSecret
+        grant_type    = "client_credentials"
+    }
+
+    # Issue the HTTP POST request to get the access token
+    $response = Invoke-RestMethod -Uri $tokenEndpoint -Method Post -ContentType "application/x-www-form-urlencoded" -Body $body
+
+    # Extract the access token
+    $accessToken = $response.access_token
+
+    # Define the necessary variables for REST request
+    $subscriptionId = "your-subscription-id"
+    $resourceGroupName = "your-resource-group-name"
+    $devCenterName = "your-devcenter-name"
+    $catalogName = "your-catalog-name"
+    $apiVersion = "2024-02-01"
+
+    # Construct the URL
+    $url = "https://management.azure.com/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.DevCenter/devcenters/$devCenterName/catalogs/$catalogName/getSyncErrorDetails?api-version=$apiVersion"
+
+    # Define the headers
+    $headers = @{
+        "Authorization" = "Bearer $accessToken"
+        "Content-Type"  = "application/json"
+    }
+
+    # Issue the HTTP POST request
+    $response = Invoke-RestMethod -Uri $url -Method Post -Headers $headers
+
+    # Output the response
+    $response
+
+p7.[] # @workspace Recursively remove all custom roles assignments from the roles in the $customRolesToRemove array starting from then tenant root at '/'.
+r7.[] 
+
+# Recursively remove all custom roles assignments from the roles in the $customRolesToRemove array starting from the tenant root at '/'.
+foreach ($role in $targetCustomRolesToRemove) {
+    $roleAssignments = Get-AzRoleAssignment -RoleDefinitionName $role.Name -Scope '/'
+    foreach ($assignment in $roleAssignments) {
+        Remove-AzRoleAssignment -ObjectId $assignment.ObjectId -RoleDefinitionName $role.Name -Scope '/'
+        Write-Host "Removed role assignment for role: $($role.Name) from object: $($assignment.ObjectId)"
+    }
+}
+
+r7. [] # Github Copilot follow-up: # followup: How can I retrieve all custom roles at a specific scope using PowerShell?

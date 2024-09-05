@@ -1,0 +1,29 @@
+# Git
+p1. [] add a .gitignore file to this repo and exclude the accelerator/config folder as well as any *-cache.json files.
+r1. [] # Exclude the accelerator/config folder
+    accelerator/config/
+    # Exclude any files ending with -cache.json
+    *-cache.json
+
+# Github
+p2. [] How do I authenitcate to github ?
+r2. [] gh auth refresh -h github.com    
+
+p3. [] How do I delete a github repository using the gh cli ?
+r3. [] gh repo delete {owner}/{repo_name} --yes
+
+p4. [] How do I remove members from a github org team with the gh cli?
+r4. [] gh api -X DELETE /orgs/auto-cloud-arc/teams/alz-mgmt-approvers/memberships/autocloudarc
+
+p5. [] How do I remove a github org team ?
+r5. [] gh api -X DELETE /orgs/auto-cloud-arc/teams/alz-mgmt-approvers 
+
+p6. [] How do I create a github repository named alz-mgmt ?
+r6. [] gh repo create alz-mgmt --public
+
+# Azure CLI
+p7. [] How can I write a azure cloud shell bash script to remove all resource groups that have the string prefix of "rg-alz-mgmt" using a loop ?
+r7. [] for rg in $(az group list --query "[?starts_with(name, 'rg-alz-mgmt')].name" -o tsv); do
+          az group delete --name $rg --yes --no-wait
+        done
+        

@@ -1,0 +1,11 @@
+p0.[] Create a new javascript calculator app. It should use the files index.html, calculator.css and calculator.js. 
+      The operations should include addition, subtraction, multiplication, division, modulo and exponent.
+p1.[] How do I install nodejs on Windows 11 using winget? r1: winget install OpenJS.NodeJS
+p2.[] Can you please create a test for this app?
+p3.[] How do I execute a javascript test file ? r3: npm install --save-dev jest
+p4.[] How do I remove an npm package? r4: npm uninstall {package_name}: The name of the npm package to be removed 
+p5.[] What is a popular tool I can use to run a javascript test file ? r5: Jest (abbr)
+p6.[] Are there any other tools I should consider using ? r6: Mocha, Jasmine, Karma, AVA
+s7.[] [copilot hyperlink] pre-emptive/suggested next question: How can I configure Jest to run JavaScript tests in a specific directory?
+p8.[] Add an entry in #file:.gitignore for the node_modules folder in any directory and any of it's contents. r8: node_modules/
+
