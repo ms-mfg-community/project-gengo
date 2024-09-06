@@ -10,7 +10,7 @@ p3. [] /generate change the code at #file:'main.bicep' to create two resource gr
 r3. [] initial match confidence score=100
 ref1. []
 
-p4. [] 
+p4. [] /generate What is the latest resource group type api version ?
 r4. []
 The latest Bicep resource type and API version for a resource group as of my knowledge cutoff in October 2023 is:
 •	Resource Type: Microsoft.Resources/resourceGroups
@@ -28,7 +28,12 @@ r6. [] imcs=100
 
 p7. [] the #file:'deploy-ampls.yml' file to deploy the bicep configuration #file:'main.bicep' to Azure with a self-hosted runner system assigned managed identity federated credentials 
        using parameters in  #file:'main.bicepparam'     
-r7. [] imcs=100
-f7. [] feedback: additional task may be to check the github action versions
+r7. [] imcs=80
+f7. [] feedback: additional task were required as follows:
+        - name: Set up Azure CLI
+        uses: azure/CLI@v2 # @v1 was specified, which is an outdated version
+        # The following lines were missing
+        with:
+          azcliversion: ${{ env.azCliversion }}
 
 

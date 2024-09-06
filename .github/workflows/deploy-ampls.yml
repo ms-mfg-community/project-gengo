@@ -1,4 +1,4 @@
-name: Deploy Bicep Configuration
+name: deploy-bicep-configuration
 
 on:
   push:
@@ -19,25 +19,60 @@ defaults:
     working-directory: iac/bicep/completed/ampls-poc/bicep
 
 env: 
-    location: "eastus2"
+    location: eastus2
+    azCliversion: latest
+    stackName: ampls-poc
+    templateFile: main.bicep
+    templateParametersFile: main.bicepparam
+    operation: deploy # options: plan, deploy, rollback
+    environment: dev # options: dev, tst, prd
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: self-hosted # https://github.com/orgs/community/discussions/120813
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-
-    - name: Set up Azure CLI
-      uses: azure/CLI@v2
 
     - name: Login to Azure using Managed Identity
       run: |
         az login --identity
 
-    - name: Deploy Bicep file
-      run: |
-        az deployment sub create \
-          --location ${{ env.location }} \
-          --template-file iac/bicep/completed/ampls-poc/bicep/main.bicep \
-          --parameters @iac/bicep/completed/ampls-poc/bicep/main.bicepparam
+    - name: plan
+      uses: azure/CLI@v2
+      with:
+        azcliversion: ${{ env.azCliversion }}
+        inlinesScript: |
+          az --version
+          az account show
+          az account set --subscription ${{ secret.AZURE_SUBSCRIPTION_ID }}
+          az deployment sub create --location ${{ env.location }} --template-file ${{ env.templateFile }} --parameters ${{ env.templateParametersFile }} \
+          --what-if --verbose
+      if: ${{ env.operation == 'plan' }}
+
+    - name: deploy
+      uses: azure/CLI@v2
+      with:
+        azcliversion: ${{ env.azCliversion }}
+        inlinesScript: |
+          az --version
+          az account show
+          az account set --subscription ${{ secret.AZURE_SUBSCRIPTION_ID }}
+          az stack sub create --name ${{ env.stackName }} --location ${{ env.location }} --template-file ${{ env.templateFile }} --parameters ${{ env.templateParametersFile }} \
+          --deny-settings-mode none --delete-all --yes --verbose
+      if: ${{ env.operation == 'deploy' }}
+
+    - name: rollback
+      uses: azure/CLI@v2
+      with:
+        azcliversion: ${{ env.azCliversion }}
+        inlinesScript: |
+          az --version
+          az account show
+          az account set --subscription ${{ secret.AZURE_SUBSCRIPTION_ID }}
+          az stack sub delete --name ${{ env.stackName }} --delete-all --yes --verbose
+      if: ${{ env.operation == 'rollback' }}
+    
+
+
+
