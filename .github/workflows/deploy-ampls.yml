@@ -42,39 +42,31 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}   
 
     - name: plan
-      uses: azure/CLI@v2
-      with:
-        azcliversion: ${{ env.azCliversion }}
-        inlinesScript: |
-          az --version
-          az account show
-          az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          az deployment sub create --location ${{ env.location }} --template-file ${{ env.templateFile }} --parameters ${{ env.templateParametersFile }} \
-          --what-if --verbose
       if: ${{ env.operation == 'plan' }}
+      run: |
+        az --version
+        az account show
+        az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        az deployment sub create --location ${{ env.location }} --template-file ${{ env.templateFile }} --parameters ${{ env.templateParametersFile }} \
+        --what-if --verbose
 
     - name: deploy
-      uses: azure/CLI@v2
-      with:
-        azcliversion: ${{ env.azCliversion }}
-        inlinesScript: |
-          az --version
-          az account show
-          az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          az stack sub create --name ${{ env.stackName }} --location ${{ env.location }} --template-file ${{ env.templateFile }} --parameters ${{ env.templateParametersFile }} \
-          --deny-settings-mode none --delete-all --yes --verbose
       if: ${{ env.operation == 'deploy' }}
-
+      run: |
+        az --version
+        az account show
+        az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        az stack sub create --name ${{ env.stackName }} --location ${{ env.location }} --template-file ${{ env.templateFile }} --parameters ${{ env.templateParametersFile }} \
+        --deny-settings-mode none --delete-all --yes --verbose
+    
     - name: rollback
-      uses: azure/CLI@v2
-      with:
-        azcliversion: ${{ env.azCliversion }}
-        inlinesScript: |
-          az --version
-          az account show
-          az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          az stack sub delete --name ${{ env.stackName }} --delete-all --yes --verbose
       if: ${{ env.operation == 'rollback' }}
+      run: |
+        az --version
+        az account show
+        az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        az stack sub delete --name ${{ env.stackName }} --delete-all --yes --verbose
+
     
 
 
