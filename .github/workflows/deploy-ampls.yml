@@ -1,0 +1,40 @@
+name: Deploy Bicep Configuration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+      branches:
+        - main
+  workflow_dispatch:  
+
+ permissions:
+   id-token: write
+   contents: read
+
+defaults:
+  run:
+    shell: bash
+    working-directory: iac/bicep/completed/ampls-poc/bicep
+
+jobs:
+  deploy:
+    runs-on: shr-vms-04
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Azure CLI
+      uses: azure/CLI@v1
+
+    - name: Login to Azure using Managed Identity
+      run: |
+        az login --identity
+
+    - name: Deploy Bicep file
+      run: |
+        az deployment sub create \
+          --location <location> \
+          --template-file iac/bicep/completed/ampls-poc/bicep/main.bicep \
+          --parameters @iac/bicep/completed/ampls-poc/bicep/main.bicepparam
