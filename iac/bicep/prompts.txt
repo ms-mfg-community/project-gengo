@@ -20,7 +20,13 @@ If there have been updates since my last training data, you can find the latest 
 az provider show --namespace Microsoft.Resources --expand "resourceTypes" --query "resourceTypes[?resourceType=='resourceGroups'].apiVersions" --output json
 
 p5. [] /generate Add parameters used in #file:'main.bicep' into the #file:'main.bicepparam' file.
-r5. [] imcs=100
+r5. [] imcs=50
+f5. [] feedback: A using declaration was not added
+ref1. []
+
+p5.1 [] /generate add a using declaration in #file:'main.bicepparam'
+r5.1 [] using 'main.bicep'
+f5.1 []
 ref1. [] 
 
 p6. [] /fix the code in #file:'main.bicep' by removing the parameter declarations.
