@@ -24,11 +24,11 @@ env:
     stackName: ampls-poc
     templateFile: main.bicep
     templateParametersFile: main.bicepparam
-    operation: deploy # options: plan, deploy, rollback
+    operation: rollback # options: plan, deploy, rollback
     environment: dev # options: dev, tst, prd
 
 jobs:
-  deploy:
+  provision:
     runs-on: self-hosted # https://github.com/orgs/community/discussions/120813
     steps:
     - name: Checkout repository
