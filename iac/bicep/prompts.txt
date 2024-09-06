@@ -26,7 +26,7 @@ ref1. []
 
 p5.1 [] /generate add a using declaration in #file:'main.bicepparam'
 r5.1 [] using 'main.bicep'
-f5.1 []
+f5.1 [] Did not prefix with './'; Response should have been using './main.bicep'
 ref1. [] 
 
 p6. [] /fix the code in #file:'main.bicep' by removing the parameter declarations.
