@@ -29,7 +29,7 @@ env:
 
 jobs:
   deploy:
-    runs-on: ms-mfg-community # https://github.com/orgs/community/discussions/120813
+    runs-on: self-hosted # https://github.com/orgs/community/discussions/120813
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
