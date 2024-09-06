@@ -57,7 +57,7 @@ jobs:
         az account show
         az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         az stack sub create --name ${{ env.stackName }} --location ${{ env.location }} --template-file ${{ env.templateFile }} --parameters ${{ env.templateParametersFile }} \
-        --deny-settings-mode none --delete-all --yes --verbose
+        --deny-settings-mode none --delete-all --action-on-unmanage delete-all --yes --verbose
     
     - name: rollback
       if: ${{ env.operation == 'rollback' }}
