@@ -21,7 +21,8 @@ az provider show --namespace Microsoft.Resources --expand "resourceTypes" --quer
 
 p5. [] /generate Add parameters used in #file:'main.bicep' into the #file:'main.bicepparam' file.
 r5. [] imcs=50
-f5. [] feedback: A using declaration was not added
+f5.a [] feedback: A using declaration was not added
+f5.b [] param location string = 'eastus2'; the data type, 'string' type should be excluded
 ref1. []
 
 p5.1 [] /generate add a using declaration in #file:'main.bicepparam'

@@ -24,7 +24,7 @@ env:
     stackName: ampls-poc
     templateFile: main.bicep
     templateParametersFile: main.bicepparam
-    operation: deploy # options: plan, deploy, rollback
+    operation: plan # options: plan, deploy, rollback
     environment: dev # options: dev, tst, prd
 
 jobs:
