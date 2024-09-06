@@ -18,6 +18,9 @@ defaults:
     shell: bash
     working-directory: iac/bicep/completed/ampls-poc/bicep
 
+env: 
+    location: "eastus2"
+
 jobs:
   deploy:
     runs-on: shr-vms-04
@@ -26,7 +29,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Set up Azure CLI
-      uses: azure/CLI@v1
+      uses: azure/CLI@v2
 
     - name: Login to Azure using Managed Identity
       run: |
@@ -35,6 +38,6 @@ jobs:
     - name: Deploy Bicep file
       run: |
         az deployment sub create \
-          --location <location> \
+          --location ${{ env.location }} \
           --template-file iac/bicep/completed/ampls-poc/bicep/main.bicep \
           --parameters @iac/bicep/completed/ampls-poc/bicep/main.bicepparam
