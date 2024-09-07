@@ -9,23 +9,23 @@ resource hubRgp 'Microsoft.Resources/resourceGroups@2023-09-01' = {
 
 // Deploy a virtual network in the hub resource group
 resource hubVnet 'Microsoft.Network/virtualNetworks@2023-01-01' = {
-  name: hubNetwork.vnetName
+  name: hub.vnetName
   location: resourceGroup().location
   properties: {
     addressSpace: {
       addressPrefixes: [
-          hubNetwork.vnetAddressPrefix
+          hub.vnetAddressPrefix
       ]
     }
     subnets: [
         {
-            name: hubNetwork.subnetName.ase
+            name: hub.subnetName.ase
             properties: {
-		        addressPrefix: hubNetwork.subnetAddressPrefixAseV3
+		        addressPrefix: hub.subnetAddressPrefixAseV3
 		    }
         },
         {
-            name: hubNetwork.subnetName.srv
+            name: hub.subnetName.srv
             properties: {
                 addressPrefix: subnet.subnetAddressPrefixServers
             }
