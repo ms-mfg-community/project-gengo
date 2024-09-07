@@ -43,4 +43,39 @@ f7. [] feedback: additional task were required as follows:
         with:
           azcliversion: ${{ env.azCliversion }}
 
+p8. [] // Add a moduel to deploy the hub resource group
+r8. []
+// Add a module to deploy the hub resource group
+module deployHubResourceGroup 'resources.bicep' = {
+  name: 'deployHubResourceGroup'
+  scope: resourceGroups[hubRgp]
+  params: {
+	// Add any parameters required by the resources.bicep module here
+  }
+}
+ref1. []
+
+p9. [] //
+r9. [] predictively autocompletes with 'Add a module to deploy the spoke resource group'
+// Add a module to deploy the spoke resource group
+module deploySpokeResourceGroup 'resources.bicep' = {
+  name: 'deploySpokeResourceGroup'
+  scope: resourceGroups[spokeRgp]
+  params: {
+	// Add any parameters required by the resources.bicep module here
+  }
+}
+
+p10. [] What is the minimum CIDR subnet size for Azure bastion ?
+r10. [] imcs=100: .../27
+ref1:
+
+p11. [] Can a subnet size of 10.100.0.0/24 fit inside a vnet address space of 10.100.0.0/22 ?
+r11. []
+Yes, a subnet with the address block of 10.100.0.0/24 can fit inside a Virtual Network (VNet) with the address space of 10.100.0.0/22.
+Here's why:
+•	The address space 10.100.0.0/22 covers the IP address range from 10.100.0.0 to 10.100.3.255.
+•	The subnet 10.100.0.0/24 covers the IP address range from 10.100.0.0 to 10.100.0.255.
+As you can see, the range of the /24 subnet falls entirely within the range of the /22 VNet. Therefore, the subnet can fit inside the VNet.
+ref1:
 
