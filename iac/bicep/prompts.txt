@@ -79,3 +79,39 @@ Here's why:
 As you can see, the range of the /24 subnet falls entirely within the range of the /22 VNet. Therefore, the subnet can fit inside the VNet.
 ref1:
 
+p12. [] /generate deploy the hub resource group in file  #hubResources.bicep
+r12. []
+targetScope = 'resourceGroup'
+
+param hub object
+
+// Deploy a virtual network in the hub resource group
+resource hubVnet 'Microsoft.Network/virtualNetworks@2021-02-01' = {
+  name: hub.name
+  location: resourceGroup().location
+  properties: {
+    addressSpace: {
+      addressPrefixes: hub.addressPrefixes
+    }
+    subnets: [
+      for subnet in hub.subnets: {
+        name: subnet.name
+        properties: {
+          addressPrefix: subnet.addressPrefix
+        }
+      }
+    ]
+  }
+}
+
+// Output the hub object
+output hubObject object = {
+  name: hubVnet.name
+  location: hubVnet.location
+  addressSpace: hubVnet.properties.addressSpace
+  subnets: hubVnet.properties.subnets
+}
+
+p13. [] /generate using the az cli, how do I get the latest version of 'Microsoft.Network/virtualNetworks@2021-02-01'
+r13. [] az provider show --namespace Microsoft.Network --query "resourceTypes[?resourceType=='virtualNetworks'].apiVersions" --output table
+
