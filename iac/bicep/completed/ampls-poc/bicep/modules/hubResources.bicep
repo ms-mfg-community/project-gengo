@@ -1,16 +1,18 @@
 targetScope = 'resourceGroup'
 
+param rgp string
+param region string
 param hub object
 
 resource hubResourceGroup 'Microsoft.Resources/resourceGroups@2023-09-01' = {
-  name: hubRgp
-  location: resourceGroup().location
+  name: rgp
+  location: region
 }
 
 // Deploy a virtual network in the hub resource group
 resource hubVnet 'Microsoft.Network/virtualNetworks@2023-01-01' = {
   name: hub.vnetName
-  location: resourceGroup().location
+  location: region
   properties: {
     addressSpace: {
       addressPrefixes: [
@@ -37,7 +39,7 @@ resource hubVnet 'Microsoft.Network/virtualNetworks@2023-01-01' = {
 // Output the hub object
 output hubObject object = {
   name: hub.vnetName
-  location: resourceGroup().location
+  location: region
   addressSpace: hub.properties.addressSpace
   subnets: hub.properties.subnets
 }

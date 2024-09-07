@@ -13,6 +13,8 @@ module hub 'modules/hubResources.bicep' = {
   name: 'hubResources'
   scope: resourceGroup(hubRgp)
   params: {
+    rgp: hubRgp
+    region: location
     hub: hubNetwork
   }
 }
