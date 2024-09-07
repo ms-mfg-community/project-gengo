@@ -29,7 +29,7 @@ env:
 
 jobs:
   call-update-runner-tools:
-    uses: ms-mfg-community/gengo-project/.github/workflows/reusable-update-runner-tools.yml@main
+    uses: .github/workflows/reusable-update-runner-tools.yml@main
     with:
      name: update-runner-tools
 
