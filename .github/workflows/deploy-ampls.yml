@@ -28,10 +28,10 @@ env:
     environment: dev # options: dev, tst, prd
 
 jobs:
-  call-update-runner-tools:
-    uses: ./.github/workflows/reusable-update-runner-tools.yml
+  call-runner-tools-workdlow:
+    uses: ms-mfg-community/org-shared-reusable-workflows/.github/workflows/shared-self-hosted-runner-tools.yml@main
     with:
-     name: update-runner-tools
+      runner: self-hosted
 
   provision:
     runs-on: self-hosted # https://github.com/orgs/community/discussions/120813
