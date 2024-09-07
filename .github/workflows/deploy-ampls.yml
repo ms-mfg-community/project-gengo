@@ -28,7 +28,7 @@ env:
     environment: dev # options: dev, tst, prd
 
 jobs:
-  call-runner-tools-workdlow:
+  call-runner-tools-workflow:
     uses: ms-mfg-community/org-shared-reusable-workflows/.github/workflows/shared-self-hosted-runner-tools.yml@main
     with:
       runner: self-hosted
