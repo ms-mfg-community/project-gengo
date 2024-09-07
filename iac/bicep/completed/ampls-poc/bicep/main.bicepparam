@@ -1,7 +1,7 @@
 using './main.bicep'
 
 param hubRgp = 'ampls-hub-rgp'
-param spokeRgb = 'ampls-spk-rgp'
+param spokeRgp = 'ampls-spk-rgp'
 param location = 'eastus2'
 param hubNetwork = {
 	vnetName: 'ampls-hub-vnt'
