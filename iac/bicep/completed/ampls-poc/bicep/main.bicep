@@ -8,14 +8,8 @@ param location string
 param hubNetwork object 
 param spokeNetwork object
 
-// Create the resource groups
-resource resourceGroups 'Microsoft.Resources/resourceGroups@2023-07-01' = [for name in resourceGroupNames: {
-  name: name
-  location: location
-}]
-
 @description('Deploy the hub resource group and resources')
-module hub 'hubResources.bicep' = {
+module hub 'modules/hubResources.bicep' = {
   name: 'deployHubResourceGroup'
   scope: resourceGroup
   params: {
