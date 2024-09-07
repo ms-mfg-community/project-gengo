@@ -7,12 +7,13 @@ param location string
 param hubNetwork object 
 param spokeNetwork object
 
+// Define the hub resource group and resources module
 @description('Deploy the hub resource group and resources')
 module hub 'modules/hubResources.bicep' = {
   name: 'deployHubResourceGroup'
-  scope: resourceGroup
+  scope: resourceGroup(hubRgp)
   params: {
-	hub: hubNetwork
+    hub: hubNetwork
   }
 }
 
@@ -25,4 +26,6 @@ module hub 'modules/hubResources.bicep' = {
 //   }
 // }
 
+// Output the hub object if needed
+output hubObject object = hub.outputs.hubObject
 
