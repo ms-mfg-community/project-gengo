@@ -6,7 +6,6 @@ param spokeRgp string // spoke resource
 param location string
 param hubNetwork object 
 param spokeNetwork object
-param iacSubscriptionId string
 
 resource hubRg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
   name: hubRgp
