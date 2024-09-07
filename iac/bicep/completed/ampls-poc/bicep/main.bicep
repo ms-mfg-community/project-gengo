@@ -17,7 +17,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
 @description('Deploy the hub resource group and resources')
 module hub 'modules/hubResources.bicep' = {
   name: 'hubResources'
-  scope: resourceGroup(iacSubscriptionId, hubRgp)
+  scope: resourceGroup('hubRgp')
   params: {
     region: location
     hub: hubNetwork
