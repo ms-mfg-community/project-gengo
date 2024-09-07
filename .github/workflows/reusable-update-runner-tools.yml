@@ -1,0 +1,16 @@
+name: update-runner-tools
+
+on:
+  workflow_call:
+      inputs:
+        name: 
+          required: true
+          type: string
+jobs:
+  update-runner-tools:
+    runs-on: self-hosted
+    steps:
+    - name: checkout-repository
+      uses: actions/checkout@v4
+    - name: update-runner-tools
+      run: echo $GITHUB_WORKFLOW

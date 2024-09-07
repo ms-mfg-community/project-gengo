@@ -24,10 +24,15 @@ env:
     stackName: ampls-poc
     templateFile: main.bicep
     templateParametersFile: main.bicepparam
-    operation: rollback # options: plan, deploy, rollback
+    operation: plan # options: plan, deploy, rollback
     environment: dev # options: dev, tst, prd
 
 jobs:
+  call-update-runner-tools:
+    uses: ./reusable-update-runner-tools.yml
+    with:
+     name: update-runner-tools
+
   provision:
     runs-on: self-hosted # https://github.com/orgs/community/discussions/120813
     steps:
