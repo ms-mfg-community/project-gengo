@@ -1,4 +1,3 @@
-// Set the target scope to subscription
 targetScope = 'subscription'
 
 // Import parameters from the parameters file

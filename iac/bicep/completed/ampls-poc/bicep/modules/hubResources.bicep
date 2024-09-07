@@ -2,4 +2,4 @@ targetScope = 'resourceGroup'
 
 param hub object
 
-output hubObject = hub
+output hubObject object = hub
