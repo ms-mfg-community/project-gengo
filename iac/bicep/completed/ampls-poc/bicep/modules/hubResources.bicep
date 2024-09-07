@@ -1,13 +1,7 @@
 targetScope = 'resourceGroup'
 
-param rgpName string
 param region string
 param hub object
-
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
-  name: rgpName
-  location: region
-}
 
 // Deploy a virtual network in the hub resource group
 resource hubVnet 'Microsoft.Network/virtualNetworks@2023-11-01' = {

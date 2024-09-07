@@ -7,6 +7,11 @@ param location string
 param hubNetwork object 
 param spokeNetwork object
 
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
+  name: rgpName
+  location: location
+}
+
 // Define the hub resource group and resources module
 @description('Deploy the hub resource group and resources')
 module hub 'modules/hubResources.bicep' = {
