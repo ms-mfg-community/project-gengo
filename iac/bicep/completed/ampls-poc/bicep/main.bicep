@@ -8,7 +8,7 @@ param hubNetwork object
 param spokeNetwork object
 param iacSubscriptionId string
 
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
+resource hubRg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
   name: hubRgp
   location: location
 }
@@ -17,7 +17,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
 @description('Deploy the hub resource group and resources')
 module hub 'modules/hubResources.bicep' = {
   name: 'hubResources'
-  scope: resourceGroup('hubRgp')
+  scope: hubRg
   params: {
     region: location
     hub: hubNetwork
