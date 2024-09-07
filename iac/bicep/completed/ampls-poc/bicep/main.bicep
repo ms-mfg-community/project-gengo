@@ -8,7 +8,7 @@ param hubNetwork object
 param spokeNetwork object
 
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
-  name: rgpName
+  name: hubRgp
   location: location
 }
 
@@ -18,7 +18,6 @@ module hub 'modules/hubResources.bicep' = {
   name: 'hubResources'
   scope: resourceGroup(hubRgp)
   params: {
-    rgpName: hubRgp
     region: location
     hub: hubNetwork
   }
