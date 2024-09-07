@@ -7,12 +7,13 @@ param hubNetwork = {
 	vnetName: 'ampls-hub-vnt'
 	vnetAddressPrefix: '10.100.0.0/22'
 	subnetAddressPrefixAseV3: '10.100.0.0/24'
-	subnetAddressPrefixServers: '0.100.0.1/29'
+	subnetAddressPrefixServers: '10.100.1.0/29'
 	subnetName: {
 		ase: 'hub-snt-ase'
 		srv: 'hub-snt-servers'
 	}
 	nsgName: 'hub-snt-nsg'
+	dnsServer: '168.63.129.16'
 }
 
 param spokeNetwork = {
