@@ -1,5 +1,3 @@
-targetScope = 'resourceGroup'
-
 param region string
 param hub object
 

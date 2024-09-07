@@ -1,5 +1,6 @@
 using './main.bicep'
 
+param iacSubscriptionId = '976c53b8-965c-4f97-ab51-993195a8623c'
 param hubRgp = 'ampls-hub-rgp'
 param spokeRgp = 'ampls-spk-rgp'
 param location = 'eastus2'
