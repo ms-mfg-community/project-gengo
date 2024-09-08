@@ -1,4 +1,5 @@
 
+param nsgName string
 param region string
 param tags object
 
