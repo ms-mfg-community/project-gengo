@@ -65,7 +65,7 @@ module spknet 'modules/spk-network.bicep' = {
     spk: spokeNetwork
     hub: hubNetwork
     tags: tagDefaults
-    nsgIdSpk: spknsg.outputs.nsgId
+    nsgIdSpk: spknsg.outputs.spkNsgId
   }
 }
 
