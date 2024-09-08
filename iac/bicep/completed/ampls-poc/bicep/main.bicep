@@ -1,7 +1,7 @@
 targetScope = 'subscription'
 
 // Import parameters from the parameters file
-param resourceGroups array
+param resourceGroups array // ['ampls-hub-rgp', 'ampls-spk-rgp']
 param location string
 param hubNetwork object 
 param spokeNetwork object
@@ -16,7 +16,7 @@ resource rgp 'Microsoft.Resources/resourceGroups@2024-03-01' = [for rg in resour
 @description('Deploy the hub resource group and resources')
 module hubnet 'modules/hub-network.bicep' = {
   name: 'hub-net'
-  scope: resourceGroups[0] // hubRg
+  scope: ampls-hub-rgp
   params: {
     region: location
     hub: hubNetwork
