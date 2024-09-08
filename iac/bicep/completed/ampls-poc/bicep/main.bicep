@@ -1,15 +1,17 @@
 targetScope = 'subscription'
 
 // Import parameters from the parameters file
-param hubRgp string // hub resource group 
-param spokeRgp string // spoke resource 
+param resourceGroups array
 param location string
 param hubNetwork object 
 param spokeNetwork object
+param nsgs object
 
-resource hubRg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
-  name: hubRgp
-  location: location
+for (var rg in resourceGroups) {
+  resource rg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
+    name: rg
+    location: location
+  }
 }
 
 // Define the hub resource group and resources module
@@ -23,15 +25,7 @@ module hubnet 'modules/hub-network.bicep' = {
   }
 }
 
-// Add a module to deploy the spoke resource group
-// module spk 'spokeResources.bicep' = {
-//   name: 'deploySpokeResourceGroup'
-//   scope: resourceGroup
-//   params: {
-// 	spk: spokeNetwork
-//   }
-// }
-
 // Output the hub object if needed
 output hubObject object = hubnet.outputs.hubObject
+
 

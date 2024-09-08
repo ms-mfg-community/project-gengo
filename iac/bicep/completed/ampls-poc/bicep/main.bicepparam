@@ -1,7 +1,6 @@
 using './main.bicep'
 
-param hubRgp = 'ampls-hub-rgp'
-param spokeRgp = 'ampls-spk-rgp'
+param resourceGroups = ['ampls-hub-rgp', 'ampls-spk-rgp']
 param location = 'eastus2'
 param hubNetwork = {
 	vnetName: 'ampls-hub-vnt'
@@ -27,3 +26,8 @@ param spokeNetwork = {
 		bas: 'AzureBastionSubnet'
 	}
 }
+
+param nsgs = {
+		hub: 'hub-snt-nsg'
+		spk: 'spk-snt-nsg'
+	}
