@@ -1,6 +1,7 @@
 param region string
 param hub object
 param tags object
+param nsgIdHub string
 
 // Deploy a virtual network in the hub resource group
 resource hubVnet 'Microsoft.Network/virtualNetworks@2023-11-01' = {
@@ -29,6 +30,9 @@ resource hubVnet 'Microsoft.Network/virtualNetworks@2023-11-01' = {
             name: hub.subnetName.srv
             properties: {
                 addressPrefix: hub.subnetAddressPrefixServers
+                networkSecurityGroup: {
+					id: nsgIdHub
+				}
             }
         }
     ]

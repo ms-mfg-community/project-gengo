@@ -35,6 +35,7 @@ module hubnet 'modules/hub-network.bicep' = {
     region: location
     hub: hubNetwork
     tags: tagDefaults
+    nsgIdHub: hubnsg.outputs.nsgId
   }
 }
 
@@ -54,6 +55,21 @@ module spknsg 'modules/spk-nsg.bicep' = {
   }
 }
 
+// Define the hub resource group and resources module
+@description('Deploy the spoke resource group and resources')
+module spknet 'modules/spk-network.bicep' = {
+  name: 'spk-net'
+  scope: spkRg
+  params: {
+    region: location
+    spk: spokeNetwork
+    hub: hubNetwork
+    tags: tagDefaults
+    nsgIdSpk: spknsg.outputs.nsgId
+  }
+}
+
 output hubNetProperties object = hubnet.outputs.hubInfo
+output spkNetProperties object = spknet.outputs.spkInfo
 
 

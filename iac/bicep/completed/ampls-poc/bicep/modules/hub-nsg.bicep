@@ -11,3 +11,5 @@ resource hubNsg 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
     flushConnection: false
   }
 }
+
+output nsgId string = hubNsg.id

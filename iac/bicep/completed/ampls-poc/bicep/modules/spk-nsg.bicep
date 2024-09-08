@@ -11,3 +11,5 @@ resource spkNsg 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
     flushConnection: false
   }
 }
+
+output spkNsgId string = spkNsg.id
