@@ -5,7 +5,7 @@ param spokeRgp = 'ampls-spk-rgp'
 param location = 'eastus2'
 param hubNetwork = {
 	vnetName: 'ampls-hub-vnt'
-	vnetAddressPrefix: '10.176.130.0/22'
+	vnetAddressPrefix: '10.176.128.0/22'
 	subnetAddressPrefixAseV3: '10.176.131.0/24'
 	subnetAddressPrefixServers: '10.176.130.0/29'
 	subnetName: {
