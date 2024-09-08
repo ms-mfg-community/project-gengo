@@ -26,12 +26,14 @@ env:
     templateParametersFile: main.bicepparam
     operation: plan # options: plan, deploy, rollback
     environment: dev # options: dev, tst, prd
+    runner-tools: skip # options are: apply | skip
 
 jobs:
   call-runner-tools-workflow:
     uses: ms-mfg-community/org-shared-reusable-workflows/.github/workflows/shared-self-hosted-runner-tools.yml@main
     with:
       runner: self-hosted
+    if : ${{ env.runner-tools == 'apply' }}
 
   provision:
     needs: call-runner-tools-workflow
