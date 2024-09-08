@@ -11,7 +11,6 @@ param hubNetwork = {
 		ase: 'hub-snt-ase'
 		srv: 'hub-snt-servers'
 	}
-	nsgName: 'hub-snt-nsg'
 	dnsServer: '10.176.130.4'
 }
 
@@ -19,7 +18,6 @@ param spokeNetwork = {
 	vnetName: 'ampls-spk-vnt'
 	vnetAddressPrefix: '172.16.1.0/24'
 	subnetAddressPrefixSpk: '172.16.1.0/29'
-	nsgName: 'spk-snt-nsg'
 	subnetAddressPrefixBastion: '172.16.1.8/27'
 	subnetName: {
 		spk: 'spk-snt'
@@ -27,7 +25,5 @@ param spokeNetwork = {
 	}
 }
 
-param nsgs = {
-		hub: 'hub-snt-nsg'
-		spk: 'spk-snt-nsg'
-	}
+param hubNsgName = 'hub-snt-nsg'
+param spkNsgName = 'spk-snt-nsg'
