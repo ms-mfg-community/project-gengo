@@ -21,7 +21,7 @@ resource spokeRg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
 @description('Deploy the hub resource group and resources')
 module hubnet 'modules/hub-network.bicep' = {
   name: 'hub-net'
-  scope: rgp[0]
+  scope: hubRg
   params: {
     region: location
     hub: hubNetwork
