@@ -19,23 +19,24 @@ defaults:
     working-directory: iac/bicep/completed/ampls-poc/bicep
 
 env: 
-    location: eastus2
-    azCliversion: latest
-    stackName: ampls-poc
-    templateFile: main.bicep
-    templateParametersFile: main.bicepparam
-    operation: plan # options: plan, deploy, rollback
-    environment: dev # options: dev, tst, prd
-    runner-tools: skip # options are: apply | skip
+  location: eastus2
+  azCliversion: latest
+  stackName: ampls-poc
+  templateFile: main.bicep
+  templateParametersFile: main.bicepparam
+  operation: plan # options: plan, deploy, rollback
+  environment: dev # options: dev, tst, prd
+  runnerTools: skip # options are: apply | skip
 
 jobs:
   call-runner-tools-workflow:
+    if : ${{ env.runnerTools == 'apply' }}
     uses: ms-mfg-community/org-shared-reusable-workflows/.github/workflows/shared-self-hosted-runner-tools.yml@main
     with:
       runner: self-hosted
-    if : ${{ env.runner-tools == 'apply' }}
 
   provision:
+    if: ${{ env.runnerTools == 'skip' || success() }}
     needs: call-runner-tools-workflow
     runs-on: self-hosted # https://github.com/orgs/community/discussions/120813
     steps:
