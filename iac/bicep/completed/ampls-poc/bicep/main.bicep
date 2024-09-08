@@ -7,12 +7,10 @@ param hubNetwork object
 param spokeNetwork object
 param nsgs object
 
-for (var rg in resourceGroups) {
-  resource rg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
+resource rgp 'Microsoft.Resources/resourceGroups@2024-03-01' = [for rg in resourceGroups: {
     name: rg
     location: location
-  }
-}
+}]
 
 // Define the hub resource group and resources module
 @description('Deploy the hub resource group and resources')
