@@ -54,7 +54,6 @@ module spknsg 'modules/spk-nsg.bicep' = {
   }
 }
 
-// Output the hub object if needed
-output hubObject object = hubnet.outputs.hubObject
+output hubNetProperties = hubnet.outputs.hubInfo
 
 

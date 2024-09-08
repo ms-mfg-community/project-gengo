@@ -35,10 +35,5 @@ resource hubVnet 'Microsoft.Network/virtualNetworks@2023-11-01' = {
   }
 }
 
-// Output the hub object
-output hubObject object = {
-  name: hub.vnetName
-  location: region
-  addressSpace: hub.properties.addressSpace
-  subnets: hub.properties.subnets
-}
+// Show output of hub object 
+output hubInfo object = hub
