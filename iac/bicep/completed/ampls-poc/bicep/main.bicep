@@ -14,8 +14,8 @@ resource hubRg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
 
 // Define the hub resource group and resources module
 @description('Deploy the hub resource group and resources')
-module hub 'modules/hubResources.bicep' = {
-  name: 'hubResources'
+module hubnet 'modules/hub-network.bicep' = {
+  name: 'hub-net'
   scope: hubRg
   params: {
     region: location
