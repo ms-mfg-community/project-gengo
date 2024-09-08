@@ -33,5 +33,5 @@ module hubnet 'modules/hub-network.bicep' = {
 // }
 
 // Output the hub object if needed
-output hubObject object = hub.outputs.hubObject
+output hubObject object = hubnet.outputs.hubObject
 
