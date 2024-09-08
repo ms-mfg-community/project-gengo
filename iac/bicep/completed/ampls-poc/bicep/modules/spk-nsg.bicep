@@ -8,6 +8,6 @@ resource spkNsg 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
   location: region
   tags: tags
   properties: {
-    flushConnection: true
+    flushConnection: false
   }
 }
