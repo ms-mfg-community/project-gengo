@@ -66,6 +66,7 @@ module spknet 'modules/spk-network.bicep' = {
     hub: hubNetwork
     tags: tagDefaults
     nsgIdSpk: spknsg.outputs.spkNsgId
+    hubVnetIdVal = hubnet.outputs.hubVnetId
   }
 }
 

@@ -18,7 +18,7 @@ param spokeNetwork = {
 	vnetName: 'ampls-spk-vnt'
 	vnetAddressPrefix: '172.16.1.0/24'
 	subnetAddressPrefixSpk: '172.16.1.0/29'
-	subnetAddressPrefixBastion: '172.16.1.8/27'
+	subnetAddressPrefixBastion: '172.16.1.32/27'
 	subnetName: {
 		spk: 'spk-snt'
 		bas: 'AzureBastionSubnet'
