@@ -29,14 +29,12 @@ env:
   runnerTools: skip # options are: apply | skip
 
 jobs:
-  call-runner-tools-workflow:
-    if: env.runnerTools == 'apply'
-    uses: ms-mfg-community/org-shared-reusable-workflows/.github/workflows/shared-self-hosted-runner-tools.yml@main
-    with:
-      runner: self-hosted
+  # call-runner-tools-workflow:
+  #   uses: ms-mfg-community/org-shared-reusable-workflows/.github/workflows/shared-self-hosted-runner-tools.yml@main
+  #   with:
+  #     runner: self-hosted
 
   provision:
-    if: env.runnerTools == 'skip' || success()
     needs: call-runner-tools-workflow
     runs-on: self-hosted # https://github.com/orgs/community/discussions/120813
     steps:
