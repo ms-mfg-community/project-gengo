@@ -46,7 +46,7 @@ resource spokeRg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
 @description('Deploy the spoke nsg')
 module spknsg 'modules/spk-nsg.bicep' = {
   name: 'spk-nsg'
-  scope: hubRg
+  scope: spokeRg
   params: {
 	nsgName: spkNsgName
     region: location
