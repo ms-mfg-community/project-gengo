@@ -33,7 +33,7 @@ resource spkVnet 'Microsoft.Network/virtualNetworks@2023-11-01' = {
         {
             name: spk.subnetName.bas
             properties: {
-                addressPrefix: hub.subnetAddressPrefixBastion
+                addressPrefix: spk.subnetAddressPrefixBastion
             }
         }
     ]
