@@ -34,6 +34,7 @@ jobs:
       runner: self-hosted
 
   provision:
+    needs: call-runner-tools-workflow
     runs-on: self-hosted # https://github.com/orgs/community/discussions/120813
     steps:
     - name: Checkout repository

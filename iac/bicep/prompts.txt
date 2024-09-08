@@ -115,3 +115,6 @@ output hubObject object = {
 p13. [] /generate using the az cli, how do I get the latest version of 'Microsoft.Network/virtualNetworks@2021-02-01'
 r13. [] az provider show --namespace Microsoft.Network --query "resourceTypes[?resourceType=='virtualNetworks'].apiVersions" --output table
 
+p14. [] /generate how do I make the provision job depend: on the call-runner-tools-workflow: to complete successfully first before running in file #file:'deploy-ampls.yml' ?
+r14. [] 
+
