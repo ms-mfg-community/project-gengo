@@ -36,7 +36,7 @@ jobs:
       runner: self-hosted
 
   provision:
-    if: ${{ runner.environment.runnerTools == 'skip' || success() }}
+    if: env.runnerTools == 'skip' || success()
     needs: call-runner-tools-workflow
     runs-on: self-hosted # https://github.com/orgs/community/discussions/120813
     steps:
