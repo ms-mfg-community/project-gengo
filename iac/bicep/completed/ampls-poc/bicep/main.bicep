@@ -16,7 +16,7 @@ resource rgp 'Microsoft.Resources/resourceGroups@2024-03-01' = [for rg in resour
 @description('Deploy the hub resource group and resources')
 module hubnet 'modules/hub-network.bicep' = {
   name: 'hub-net'
-  scope: 'ampls-hub-rgp'
+  scope: rgp[0]
   params: {
     region: location
     hub: hubNetwork
