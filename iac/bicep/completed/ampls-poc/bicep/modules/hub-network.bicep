@@ -1,6 +1,7 @@
 param region string
 param hub object
 
+
 // Deploy a virtual network in the hub resource group
 resource hubVnet 'Microsoft.Network/virtualNetworks@2023-11-01' = {
   name: hub.vnetName

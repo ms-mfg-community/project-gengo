@@ -1,10 +1,10 @@
 p1. [] /generate create a resource group in azure using bicep...'Microsoft.Resources/resourceGroups@2021-04-01'
 r1. [] initial match confidence score % imcs=100
-ref1. [] 
+ref1. []
 
 p2. [] How do I set the target scope for this?
 r2. [] In Bicep, you can set the target scope using the targetScope keyword. For creating a resource group, the target scope should be set to subscription: targetScope = 'subscription'. imcs=100
-ref1. [] 
+ref1. []
 
 p3. [] /generate change the code at #file:'main.bicep' to create two resource groups from an array with the values ampls-hub-rgp-01 and ampls-spk-rgp-01.
 r3. [] initial match confidence score=100
@@ -28,13 +28,13 @@ ref1. []
 p5.1 [] /generate add a using declaration in #file:'main.bicepparam'
 r5.1 [] using 'main.bicep'
 f5.1 [] Did not prefix with './'; Response should have been using './main.bicep'
-ref1. [] 
+ref1. []
 
 p6. [] /fix the code in #file:'main.bicep' by removing the parameter declarations.
 r6. [] imcs=100
 
-p7. [] the #file:'deploy-ampls.yml' file to deploy the bicep configuration #file:'main.bicep' to Azure with a self-hosted runner system assigned managed identity federated credentials 
-       using parameters in  #file:'main.bicepparam'     
+p7. [] the #file:'deploy-ampls.yml' file to deploy the bicep configuration #file:'main.bicep' to Azure with a self-hosted runner system assigned managed identity federated credentials
+       using parameters in  #file:'main.bicepparam'
 r7. [] imcs=80
 f7. [] feedback: additional task were required as follows:
         - name: Set up Azure CLI
@@ -116,5 +116,8 @@ p13. [] /generate using the az cli, how do I get the latest version of 'Microsof
 r13. [] az provider show --namespace Microsoft.Network --query "resourceTypes[?resourceType=='virtualNetworks'].apiVersions" --output table
 
 p14. [] /generate how do I make the provision job depend: on the call-runner-tools-workflow: to complete successfully first before running in file #file:'deploy-ampls.yml' ?
-r14. [] 
+r14. [] needs: call-runner-tools-workflow
+
+p15. [] <inline> Deploy an nsg resource
+
 
