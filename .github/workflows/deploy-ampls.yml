@@ -30,7 +30,7 @@ env:
 
 jobs:
   call-runner-tools-workflow:
-    if: ${{ env.runnerTools == 'apply' }}
+    if: env.runnerTools == 'apply'
     uses: ms-mfg-community/org-shared-reusable-workflows/.github/workflows/shared-self-hosted-runner-tools.yml@main
     with:
       runner: self-hosted
