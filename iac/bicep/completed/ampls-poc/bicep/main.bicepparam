@@ -27,3 +27,8 @@ param spokeNetwork = {
 
 param hubNsgName = 'hub-snt-nsg'
 param spkNsgName = 'spk-snt-nsg'
+
+param tagDefaults = {
+	project: 'project-gengo'
+	workstream: 'ampls'
+}

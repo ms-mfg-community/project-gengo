@@ -1,13 +1,12 @@
 
 param region string 
+param nsgName string
+param tags object
 
 resource hubNsg 'Microsoft.Network/networkSecurityGroups@2023-11-01' = {
-  name: hubNsgName
+  name: nsgName
   location: location
-  tags: {
-    project: 'project-gengo'
-    workstream: 'ampls'
-  }
+  tags: tags
   properties: {
     flushConnection: true
   }

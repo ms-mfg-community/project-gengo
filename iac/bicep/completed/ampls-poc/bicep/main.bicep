@@ -7,10 +7,12 @@ param hubNetwork object
 param spokeNetwork object
 param hubNsgName string
 param spkNsgName string
+param tagDefaults object
 
 resource hubRg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
     name: resourceGroups[0] // 'ampls-hub-rgp'
     location: location
+    tags: tagDefaults
 }
 
 @description('Deploy the hub nsg')
@@ -20,6 +22,7 @@ module hubnsg 'modules/hub-nsg.bicep' = {
   params: {
 	nsgName: hubNsgName
     region: location
+    tags: tagDefaults
   }
 }
 
@@ -31,6 +34,7 @@ module hubnet 'modules/hub-network.bicep' = {
   params: {
     region: location
     hub: hubNetwork
+    tags: tagDefaults
   }
 }
 
@@ -44,11 +48,11 @@ module spknsg 'modules/spk-nsg.bicep' = {
   name: 'spk-nsg'
   scope: hubRg
   params: {
-	nsgName: hubNsgName
+	nsgName: spkNsgName
     region: location
+    tags: tagDefaults
   }
 }
-
 
 // Output the hub object if needed
 output hubObject object = hubnet.outputs.hubObject

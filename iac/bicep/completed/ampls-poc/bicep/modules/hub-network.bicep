@@ -1,11 +1,12 @@
 param region string
 param hub object
-
+param tags object
 
 // Deploy a virtual network in the hub resource group
 resource hubVnet 'Microsoft.Network/virtualNetworks@2023-11-01' = {
   name: hub.vnetName
   location: region
+  tags: tags
   properties: {
     addressSpace: {
       addressPrefixes: [
