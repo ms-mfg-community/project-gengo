@@ -59,7 +59,7 @@ module spknsg 'modules/spk-nsg.bicep' = {
 @description('Deploy the spoke resource group and resources')
 module spknet 'modules/spk-network.bicep' = {
   name: 'spk-net'
-  scope: spkRg
+  scope: spokeRg
   params: {
     region: location
     spk: spokeNetwork
