@@ -35,4 +35,5 @@ resource bastion 'Microsoft.Network/bastionHosts@2020-11-01' = {
     ]
 	scaleUnits: instances
   tags: tags
+ }
 }
