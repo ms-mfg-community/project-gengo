@@ -85,19 +85,18 @@ module baspubip 'modules/bas-public-ip.bicep' = {
 }
 
 // Define the bastion host resource module
-var basSku = 'Standard'
 @description('Deploy the bastion host')
 module spkbastion 'modules/spk-bastion.bicep' = {
   name: 'spk-bastion'
   scope: spokeRg
   params: {
 	region: location
-    spkSntId: spknet.outputs.spkSubnetId
+    basSntId: spknet.outputs.basSubnetId
     tags: tagDefaults
     basName: 'spk-bas'
     pubIpId: baspubip.outputs.pubIpId
     spkVnetIdVal: spknet.outputs.spkVnetId
-    sku: basSku
+    sku: 'Standard'
   }
 }
 

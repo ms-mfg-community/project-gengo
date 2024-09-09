@@ -21,7 +21,7 @@ resource bastion 'Microsoft.Network/bastionHosts@2020-11-01' = {
         name: ipConfigName
         properties: {
           subnet: {
-            id: spkSntId
+            id: basSntId
           }
           publicIPAddress: {
             id: pubIpId
