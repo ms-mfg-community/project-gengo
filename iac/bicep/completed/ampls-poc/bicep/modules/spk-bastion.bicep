@@ -48,12 +48,8 @@ resource bastion 'Microsoft.Network/bastionHosts@2020-11-01' = {
     }
     scaleUnits: instances
     virualNetwork: {
-        id: spkVntIdVal
+        id: spkVnetIdVal
     }
-    zones: [
-        1,
-        2,
-        3
-  ]
+    zones: [ 1,2,3 ]
  }
 }
