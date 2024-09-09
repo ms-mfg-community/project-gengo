@@ -92,7 +92,7 @@ module spknet 'modules/spk-network.bicep' = {
 }
 
 @description('Deploy the spoke jump server nic')
-module adsnic 'modules/spk-jmp-nic.bicep' = {
+module svrnic 'modules/spk-jmp-nic.bicep' = {
     name: 'spk-jmp-nic'
     scope: SpokeRg
     params: {
