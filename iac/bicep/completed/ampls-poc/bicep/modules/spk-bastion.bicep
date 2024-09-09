@@ -17,5 +17,5 @@ resource bastion 'Microsoft.Network/bastionHosts@2020-11-01' = {
 	  id: spkSntId
 	}
   }
-  tags: tagDefaults
+  tags: tags
 }
