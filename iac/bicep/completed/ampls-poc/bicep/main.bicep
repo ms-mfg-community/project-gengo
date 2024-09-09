@@ -94,7 +94,7 @@ module spkbastion 'modules/spk-bastion.bicep' = {
     spkSntId: spknet.outputs.spkSubnetId
     tags: tagDefaults
     basName: 'spk-bas'
-    basPrivAlloc: 'Dynamic'
+    basAlloc: 'Dynamic'
     pubIpId: baspubip.outputs.pubIpId
     instances: 2
   }

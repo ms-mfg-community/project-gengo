@@ -2,7 +2,7 @@ param region string
 param spkSntId string
 param tags object
 param basName string
-param basPrivAlloc string
+param basAlloc string
 param pubIpId string
 param instances int
 
@@ -23,7 +23,7 @@ resource bastion 'Microsoft.Network/bastionHosts@2020-11-01' = {
       {
         name: ipConfigName
         properties: {
-          privateIPAllocationMethod: basPrivAlloc
+          privateIPAllocationMethod: basAlloc
           publicIPAddress: {
             id: pubIpId
           }
@@ -34,13 +34,5 @@ resource bastion 'Microsoft.Network/bastionHosts@2020-11-01' = {
       }
     ]
 	scaleUnits: instances
-	publicIPAllocationMethod: basIpAllocMethod
-	virtualNetwork: {
-	  id: spkVntId
-	}
-	subnet: {
-	  id: spkSntId
-	}
-  }
   tags: tags
 }
