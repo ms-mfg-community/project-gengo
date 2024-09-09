@@ -58,5 +58,5 @@ resource vnetPeerings 'Microsoft.Network/virtualNetworks/virtualNetworkPeerings@
 
 // Show output of hub object 
 output spkInfo object = spk
-output spkVnetId = spkVnet.id
-output spkSubnetId = spkVnet.properties.subnets[0].id
+output spkVnetId string = spkVnet.id
+output spkSubnetId string = spkVnet.properties.subnets[0].id
