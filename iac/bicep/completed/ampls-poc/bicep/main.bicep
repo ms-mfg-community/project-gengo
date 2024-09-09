@@ -55,7 +55,7 @@ module spknsg 'modules/spk-nsg.bicep' = {
   }
 }
 
-// Define the hub resource group and resources module
+// Define the spoke resource group and resources module
 @description('Deploy the spoke resource group and resources')
 module spknet 'modules/spk-network.bicep' = {
   name: 'spk-net'
@@ -69,6 +69,29 @@ module spknet 'modules/spk-network.bicep' = {
     hubVnetIdVal: hubnet.outputs.hubVnetId
   }
 }
+
+// Define the bastion host resource module
+@description('Deploy the bastion host')
+module spkbastion 'modules/spk-bastion.bicep' = {
+  name: 'spk-bastion'
+  scope: spkRg
+  params: {
+	region: location
+	spkVntId: spknet.outputs.spkVnetId
+    spkSntId: spknet.outputs.spkSubnetId
+    tags: tagDefaults
+    basIpAllocMethod: 'Dynamic'
+    basName: 'spk-bas'
+  }
+}
+param region string
+param spk object
+param tags object
+param bastionName string
+
+
+
+
 
 output hubNetProperties object = hubnet.outputs.hubInfo
 output spkNetProperties object = spknet.outputs.spkInfo
