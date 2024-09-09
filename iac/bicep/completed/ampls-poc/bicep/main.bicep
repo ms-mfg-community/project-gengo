@@ -70,6 +70,20 @@ module spknet 'modules/spk-network.bicep' = {
   }
 }
 
+var basPubIpName = 'bas-2139-pip'
+// Define a public ip address
+@description('Deploy the public ip address')
+module baspubip 'modules/bas-public-ip.bicep' = {
+  name: 'spk-pub-ip'
+  scope: spokeRg
+  params: {
+	region: location
+	tags: tagDefaults
+	pubIpName: basPubIpName
+    pubAlloc: 'Dynamic'
+  }
+}
+
 // Define the bastion host resource module
 @description('Deploy the bastion host')
 module spkbastion 'modules/spk-bastion.bicep' = {
@@ -77,11 +91,12 @@ module spkbastion 'modules/spk-bastion.bicep' = {
   scope: spokeRg
   params: {
 	region: location
-	spkVntId: spknet.outputs.spkVnetId
     spkSntId: spknet.outputs.spkSubnetId
     tags: tagDefaults
-    basIpAllocMethod: 'Dynamic'
     basName: 'spk-bas'
+    basPrivIpAlloc: 'Dynamic'
+    pubIpId: baspubip.outputs.pubIpId
+    insances: 2
   }
 }
 
