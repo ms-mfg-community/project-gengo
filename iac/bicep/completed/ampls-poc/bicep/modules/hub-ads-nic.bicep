@@ -14,7 +14,7 @@ resource nic 'Microsoft.Network/networkInterfaces@2023-11-01' = {
       {
         name: nicProps.ipConfigName
         properties: {
-          privateIPAllocationMethod: allocMethod
+          privateIPAllocationMethod: nicProps.allocMethod
           privateIPAddress: privateIp
           subnet: {
             id: subnetId
