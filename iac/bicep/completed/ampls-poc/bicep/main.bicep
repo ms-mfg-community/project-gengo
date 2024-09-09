@@ -9,6 +9,7 @@ param hubNsgName string
 param spkNsgName string
 param tagDefaults object
 param lawProperties object
+param nicProperties object
 
 var rules = loadJsonContent('./variables.json', 'nsgRules')
 var adNics = loadJsonContent('./variables.json', 'vmNicsAdSubnet')
@@ -43,6 +44,20 @@ module hubnet 'modules/hub-network.bicep' = {
     tags: tagDefaults
     nsgIdHub: hubnsg.outputs.nsgId
   }
+}
+
+@description('Deploy the hub dc nic')
+module adsnic 'modules/hub-ads-nic.bicep' = {
+    name: 'hub-ads-nic'
+    scope: hubRg
+    params: {
+        name: adNics[0].name
+        privateIp: adNics[0].privateIpAddress
+        region: location
+        tags: tagDefaults
+        nicProps: nicProperties
+        subnetId: hubnet.outputs.hubSntSrvId
+    }
 }
 
 resource spokeRg 'Microsoft.Resources/resourceGroups@2024-03-01' = {

@@ -40,3 +40,8 @@ param lawProperties = {
 	retentionInDays: 7
 	skuName: 'PerGB2018'
 }
+
+param nicProperties = {
+	allocMethod = 'Static'
+	ipconfigName = 'ipconfig1'
+}

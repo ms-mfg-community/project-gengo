@@ -122,7 +122,13 @@ p15. [] <inline> Deploy an nsg resource
 r15. [] imcs = 80
 
 p16. [] /generate add parameters here for the bicep configuration template file #file:'hub-law.bicep'
-r16. [] 
+r16. [] imcs = 80
+
+p17. [] Using this selected module, create a nic resource in the file #file:'hub-ads-nic.bicep'
+r17. [] imcs = 70
+
+p18. [] Also add parameters to the file #file: 'hub-ads-nic.bicep'
+r18. [] 
 
 
 
