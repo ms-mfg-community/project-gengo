@@ -85,7 +85,7 @@ module baspubip 'modules/bas-public-ip.bicep' = {
 	region: location
 	tags: tagDefaults
 	pubIpName: basPubIpName
-    pubAlloc: 'Dynamic'
+    pubAlloc: 'Static'
     sku: 'Standard'
   }
 }
@@ -105,6 +105,137 @@ module spkbastion 'modules/spk-bastion.bicep' = {
     sku: 'Standard'
   }
 }
+
+// task-item: deploy law
+// resource law 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
+//   name: lawName
+//   scope: resourceGroup(managementSubId, managementResourceGroup)
+// }
+
+// task-item: deploy nics
+// resource interfacesAdSub1 'Microsoft.Network/networkInterfaces@2023-05-01' = {
+//   name: adNics[0].name
+//   location: primaryLocation
+//   properties: {
+//     ipConfigurations: [
+//       {
+//         name: 'ipconfig1'
+//         properties: {
+//           subnet: {
+//             id: resourceId('Microsoft.Network/virtualNetworks/subnets', vnt.name, nsgLinks[0].name)
+//           }
+//           privateIPAllocationMethod: 'Static'
+//           privateIPAddress: adNics[0].privateIpAddress
+//         }
+//       }
+//     ]
+//   }
+// }
+
+// task-item: deploy domain controller
+// resource virtualMachine1 'Microsoft.Compute/virtualMachines@2023-07-01' = {
+//   name: vms[0].vmName
+//   location: primaryLocation
+//   properties: {
+//     availabilitySet: {
+//       id: availabilitySet.id A race condition occurs with looping for this id property and throws an error. See bug 1316
+//     }
+//     hardwareProfile: {
+//       vmSize: vms[0].vmSize
+//     }
+//     osProfile: {
+//       adminUsername: userName use parameter value
+//       adminPassword: pw use parameter value
+//       computerName: vms[0].vmName
+//       windowsConfiguration: {
+//         provisionVMAgent: vms[0].windowsConfig.provisionVMAgent
+//         enableAutomaticUpdates: vms[0].windowsConfig.enableAutoUpgrades
+//       }
+//     }
+//     storageProfile: {
+//       osDisk: {
+//         name: vms[0].diskOs.osDiskName
+//         caching: vms[0].diskOs.caching
+//         createOption: vms[0].diskOs.createOption
+//         diskSizeGB: vms[0].diskOs.diskSizeGB
+//         managedDisk: {
+//           storageAccountType: vms[0].diskOs.diskType
+//         }
+//       }
+//       imageReference: {
+//         publisher: vms[0].image.publisher
+//         offer: vms[0].image.offer
+//         sku: vms[0].image.sku
+//         version: vms[0].image.version
+//       }
+//     }
+//     networkProfile: {
+//       networkInterfaces: [
+//         {
+//           id: interfacesAdSub1.id
+//           properties: {
+//             primary: true
+//             deleteOption: 'Delete'
+//           }
+//         }
+//       ]
+//     }
+//   }
+// }
+
+// task-item: deploy jump server 
+// task-item: deploy domain controller
+// resource virtualMachine1 'Microsoft.Compute/virtualMachines@2023-07-01' = {
+//   name: vms[0].vmName
+//   location: primaryLocation
+//   properties: {
+//     availabilitySet: {
+//       id: availabilitySet.id A race condition occurs with looping for this id property and throws an error. See bug 1316
+//     }
+//     hardwareProfile: {
+//       vmSize: vms[0].vmSize
+//     }
+//     osProfile: {
+//       adminUsername: userName use parameter value
+//       adminPassword: pw use parameter value
+//       computerName: vms[0].vmName
+//       windowsConfiguration: {
+//         provisionVMAgent: vms[0].windowsConfig.provisionVMAgent
+//         enableAutomaticUpdates: vms[0].windowsConfig.enableAutoUpgrades
+//       }
+//     }
+//     storageProfile: {
+//       osDisk: {
+//         name: vms[0].diskOs.osDiskName
+//         caching: vms[0].diskOs.caching
+//         createOption: vms[0].diskOs.createOption
+//         diskSizeGB: vms[0].diskOs.diskSizeGB
+//         managedDisk: {
+//           storageAccountType: vms[0].diskOs.diskType
+//         }
+//       }
+//       imageReference: {
+//         publisher: vms[0].image.publisher
+//         offer: vms[0].image.offer
+//         sku: vms[0].image.sku
+//         version: vms[0].image.version
+//       }
+//     }
+//     networkProfile: {
+//       networkInterfaces: [
+//         {
+//           id: interfacesAdSub1.id
+//           properties: {
+//             primary: true
+//             deleteOption: 'Delete'
+//           }
+//         }
+//       ]
+//     }
+//   }
+// }
+
+
 
 output hubNetProperties object = hubnet.outputs.hubInfo
 output spkNetProperties object = spknet.outputs.spkInfo
