@@ -101,20 +101,6 @@ module spkbastion 'modules/spk-bastion.bicep' = {
   }
 }
 
-@description('Deploy the domain controller for dns services')
-module spkdc 'modules/spk-dc.bicep' = {
-  name: 'spk-dc'
-  scope: spokeRg
-  params: {
-	region: location
-	spkSntId: spknet.outputs.spkSubnetId
-	tags: tagDefaults
-	dcName: 'spk-dc'
-	pubIpId: baspubip.outputs.pubIpId
-	spkVnetIdVal: spknet.outputs.spkVnetId
-  }
-}
-
 output hubNetProperties object = hubnet.outputs.hubInfo
 output spkNetProperties object = spknet.outputs.spkInfo
 
