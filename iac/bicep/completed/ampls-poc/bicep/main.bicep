@@ -91,6 +91,20 @@ module spknet 'modules/spk-network.bicep' = {
   }
 }
 
+@description('Deploy the spoke jump server nic')
+module adsnic 'modules/spk-jmp-nic.bicep' = {
+    name: 'spk-jmp-nic'
+    scope: SpokeRg
+    params: {
+        name: svNics[0].name
+        privateIp: svNics[0].privateIpAddress
+        region: location
+        tags: tagDefaults
+        nicProps: nicProperties
+        subnetId: spknet.outputs.spkSubnetId
+    }
+}
+
 var basPubIpName = 'bas-2139-pip'
 // Define a public ip address
 @description('Deploy the public ip address')
