@@ -84,14 +84,6 @@ module spkbastion 'modules/spk-bastion.bicep' = {
     basName: 'spk-bas'
   }
 }
-param region string
-param spk object
-param tags object
-param bastionName string
-
-
-
-
 
 output hubNetProperties object = hubnet.outputs.hubInfo
 output spkNetProperties object = spknet.outputs.spkInfo
