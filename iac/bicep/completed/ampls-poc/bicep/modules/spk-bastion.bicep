@@ -5,12 +5,18 @@ param basName string
 param basAlloc string
 param pubIpId string
 param instances int
+param spkVnetIdVal string
+param sku string
 
 var ipConfigName = 'ipconfig1'
 // Create an Azure Bastion resource 
 resource bastion 'Microsoft.Network/bastionHosts@2020-11-01' = {
   name: basName
   location: region
+  tags: tags
+  sku: {
+	name: sku
+  }
   properties: {
 	disableCopyPaste: false
 	dnsName: '${basName}-core.windows.net'
@@ -33,7 +39,21 @@ resource bastion 'Microsoft.Network/bastionHosts@2020-11-01' = {
         }
       }
     ]
-	scaleUnits: instances
-  tags: tags
+    networkAcls: {
+      ipRules: [
+        {
+          addressPrefix: '0.0.0.0/0'
+        }
+      ]
+    }
+    scaleUnits: instances
+    virualNetwork: {
+        id: spkVntIdVal
+    }
+    zones: [
+        1,
+        2,
+        3
+  ]
  }
 }

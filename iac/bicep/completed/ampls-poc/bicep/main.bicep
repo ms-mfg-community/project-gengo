@@ -85,6 +85,7 @@ module baspubip 'modules/bas-public-ip.bicep' = {
 }
 
 // Define the bastion host resource module
+var basSku = 'Standard'
 @description('Deploy the bastion host')
 module spkbastion 'modules/spk-bastion.bicep' = {
   name: 'spk-bastion'
@@ -97,6 +98,8 @@ module spkbastion 'modules/spk-bastion.bicep' = {
     basAlloc: 'Dynamic'
     pubIpId: baspubip.outputs.pubIpId
     instances: 2
+    spkVnetIdVal: spknet.outputs.spkVnetId
+    sku: basSku
   }
 }
 
