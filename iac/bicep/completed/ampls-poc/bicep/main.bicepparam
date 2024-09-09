@@ -42,6 +42,6 @@ param lawProperties = {
 }
 
 param nicProperties = {
-	allocMethod = 'Static'
-	ipconfigName = 'ipconfig1'
+	allocMethod: 'Static'
+	ipconfigName: 'ipconfig1'
 }
