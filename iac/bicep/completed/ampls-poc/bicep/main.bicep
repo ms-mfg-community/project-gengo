@@ -94,7 +94,7 @@ module spknet 'modules/spk-network.bicep' = {
 @description('Deploy the spoke jump server nic')
 module svrnic 'modules/spk-jmp-nic.bicep' = {
     name: 'spk-jmp-nic'
-    scope: SpokeRg
+    scope: spokeRg
     params: {
         name: svNics[0].name
         privateIp: svNics[0].privateIpAddress
