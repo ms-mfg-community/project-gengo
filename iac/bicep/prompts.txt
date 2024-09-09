@@ -119,5 +119,10 @@ p14. [] /generate how do I make the provision job depend: on the call-runner-too
 r14. [] needs: call-runner-tools-workflow
 
 p15. [] <inline> Deploy an nsg resource
+r15. [] imcs = 80
+
+p16. [] /generate add parameters here for the bicep configuration template file #file:'hub-law.bicep'
+r16. [] 
+
 
 

@@ -8,6 +8,7 @@ param spokeNetwork object
 param hubNsgName string
 param spkNsgName string
 param tagDefaults object
+param lawProperties object
 
 var rules = loadJsonContent('./variables.json', 'nsgRules')
 var adNics = loadJsonContent('./variables.json', 'vmNicsAdSubnet')
@@ -19,6 +20,10 @@ resource hubRg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
     location: location
     tags: tagDefaults
 }
+
+var uniqueName = uniqueString(hubRg.id, utcNow())
+var uniqueString = substring(uniqueName, 0, 8)
+var lawName = 'law-${uniqueString}-01'
 
 @description('Deploy the hub nsg')
 module hubnsg 'modules/hub-nsg.bicep' = {
@@ -106,31 +111,18 @@ module spkbastion 'modules/spk-bastion.bicep' = {
   }
 }
 
-// task-item: deploy law
-// resource law 'Microsoft.OperationalInsights/workspaces@2022-10-01' existing = {
-//   name: lawName
-//   scope: resourceGroup(managementSubId, managementResourceGroup)
-// }
+@description('Deploy a log analytics workspace')
+module law 'modules/hub-law.bicep' = {
+    name: 'hub-law'
+    scope: hubRg
+    params: {
+        workspaceName: lawName
+        region: location
+        lawProps: lawProperties
+        tags: tagDefaults
+    }
+}
 
-// task-item: deploy nics
-// resource interfacesAdSub1 'Microsoft.Network/networkInterfaces@2023-05-01' = {
-//   name: adNics[0].name
-//   location: primaryLocation
-//   properties: {
-//     ipConfigurations: [
-//       {
-//         name: 'ipconfig1'
-//         properties: {
-//           subnet: {
-//             id: resourceId('Microsoft.Network/virtualNetworks/subnets', vnt.name, nsgLinks[0].name)
-//           }
-//           privateIPAllocationMethod: 'Static'
-//           privateIPAddress: adNics[0].privateIpAddress
-//         }
-//       }
-//     ]
-//   }
-// }
 
 // task-item: deploy domain controller
 // resource virtualMachine1 'Microsoft.Compute/virtualMachines@2023-07-01' = {

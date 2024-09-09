@@ -32,3 +32,10 @@ param tagDefaults = {
 	project: 'project-gengo'
 	workstream: 'ampls'
 }
+
+param lawProperties = {
+	publicNetworkAccessForIngestion: 'Disabled'
+	publicNetworkAccessForQuery: 'Disabled'
+	retentionInDays: 7
+	skuName: 'PerGB2018'
+}
