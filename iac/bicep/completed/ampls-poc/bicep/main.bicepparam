@@ -34,6 +34,7 @@ param tagDefaults = {
 }
 
 param lawProperties = {
+	name: 'law-0712-01'
 	publicNetworkAccessForIngestion: 'Disabled'
 	publicNetworkAccessForQuery: 'Disabled'
 	retentionInDays: 7

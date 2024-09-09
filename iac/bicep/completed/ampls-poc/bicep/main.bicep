@@ -21,10 +21,6 @@ resource hubRg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
     tags: tagDefaults
 }
 
-var uniqueName = uniqueString(subscription().subscriptionId, utcNow())
-var shortString = substring(uniqueName, 0, 8)
-var lawName = 'law-${shortString}-01'
-
 @description('Deploy the hub nsg')
 module hubnsg 'modules/hub-nsg.bicep' = {
   name: 'hub-nsg'
@@ -116,7 +112,6 @@ module law 'modules/hub-law.bicep' = {
     name: 'hub-law'
     scope: hubRg
     params: {
-        workspaceName: lawName
         region: location
         lawProps: lawProperties
         tags: tagDefaults
