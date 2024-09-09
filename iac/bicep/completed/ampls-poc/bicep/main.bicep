@@ -10,7 +10,6 @@ param spkNsgName string
 param tagDefaults object
 
 var rules = loadJsonContent('./variables.json', 'nsgRules')
-var idySubs = loadJsonContent('./variables.json', 'idySubnets')
 var adNics = loadJsonContent('./variables.json', 'vmNicsAdSubnet')
 var svNics = loadJsonContent('./variables.json', 'vmNicsSvSubnet')
 var vms = loadJsonContent('./variables.json', 'vms')
