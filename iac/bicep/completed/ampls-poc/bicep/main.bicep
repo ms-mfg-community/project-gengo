@@ -95,11 +95,23 @@ module spkbastion 'modules/spk-bastion.bicep' = {
     spkSntId: spknet.outputs.spkSubnetId
     tags: tagDefaults
     basName: 'spk-bas'
-    basAlloc: 'Dynamic'
     pubIpId: baspubip.outputs.pubIpId
-    instances: 2
     spkVnetIdVal: spknet.outputs.spkVnetId
     sku: basSku
+  }
+}
+
+@description('Deploy the domain controller for dns services')
+module spkdc 'modules/spk-dc.bicep' = {
+  name: 'spk-dc'
+  scope: spokeRg
+  params: {
+	region: location
+	spkSntId: spknet.outputs.spkSubnetId
+	tags: tagDefaults
+	dcName: 'spk-dc'
+	pubIpId: baspubip.outputs.pubIpId
+	spkVnetIdVal: spknet.outputs.spkVnetId
   }
 }
 
