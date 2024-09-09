@@ -74,7 +74,7 @@ module spknet 'modules/spk-network.bicep' = {
 @description('Deploy the bastion host')
 module spkbastion 'modules/spk-bastion.bicep' = {
   name: 'spk-bastion'
-  scope: spokRg
+  scope: spokeRg
   params: {
 	region: location
 	spkVntId: spknet.outputs.spkVnetId
