@@ -1,5 +1,5 @@
 param region string
-param spkSntId string
+param basSntId string
 param tags object
 param basName string
 param pubIpId string

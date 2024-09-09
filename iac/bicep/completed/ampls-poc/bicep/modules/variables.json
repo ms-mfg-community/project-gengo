@@ -1,8 +1,4 @@
 {
-  "nsgNames": [
-    "hub-snt-nsg",
-    "spk-snt-nsg"
-  ],
   "nsgRules": [
     {
       "name": "ingAllowTcpAll",
@@ -82,49 +78,21 @@
       "destination_address_prefix": "VirtualNetwork"
     }
   ],
-  "idyVnet": {
-    "name": "azr-vnt",
-    "addressPrefixes": [
-      "10.10.0.0/24"
-    ],
-    "dnsServers": [
-      "10.10.0.4",
-      "10.10.0.5"
-    ]
-  },
-  "idySubnets": [
-    {
-      "name": "adds",
-      "addressPrefix": "10.10.0.0/29"
-    },
-    {
-      "name": "svrs",
-      "addressPrefix": "10.10.0.8/29"
-    },
-    {
-      "name": "AzureBastionSubnet",
-      "addressPrefix": "10.10.0.64/26"
-    }
-  ],
   "vmNicsAdSubnet": [
     {
-      "name": "azr-nic-adds01",
-      "privateIpAddress": "10.10.0.4"
-    },
-    {
-      "name": "azr-nic-adds02",
-      "privateIpAddress": "10.10.0.5"
+      "name": "ads01-nic",
+      "privateIpAddress": "10.176.130.4"
     }
   ],
   "vmNicsSvSubnet": [
     {
-      "name": "azr-nic-svrs01",
-      "privateIpAddress": "10.10.0.12"
+      "name": "jmp01-nic",
+      "privateIpAddress": "10.174.26.20"
     }
   ],
   "vms": [
     {
-      "vmName": "azrads01",
+      "vmName": "ads01",
       "provisionVmAgent": true,
       "vmSize": "Standard_B2als_v2",
       "image": {
@@ -134,14 +102,14 @@
         "version": "latest"
       },
       "diskOs": {
-        "osDiskName": "azrads01-syst",
+        "osDiskName": "ads01-syst",
         "caching": "ReadWrite",
         "createOption": "FromImage",
         "diskType": "Standard_LRS",
         "diskSizeGB": 32
       },
       "diskData": {
-        "dataDiskName": "azrads01-data",
+        "dataDiskName": "ads01-data",
         "caching": "ReadWrite",
         "createOption": "Empty",
         "diskType": "Standard_LRS",
@@ -149,7 +117,7 @@
         "lun": 2
       },
       "osProfile": {
-        "userName": "adsadmin",
+        "userName": "amplsadmin",
         "pw": null
       },
       "windowsConfig": {
@@ -158,7 +126,7 @@
       }
     },
     {
-      "vmName": "azrads02",
+      "vmName": "jmp01",
       "provisionVmAgent": true,
       "vmSize": "Standard_B2als_v2",
       "image": {
@@ -168,14 +136,14 @@
         "version": "latest"
       },
       "diskOs": {
-        "osDiskName": "azrads02-syst",
+        "osDiskName": "jmp01-syst",
         "caching": "ReadWrite",
         "createOption": "FromImage",
         "diskType": "Standard_LRS",
         "diskSizeGB": 32
       },
       "diskData": {
-        "dataDiskName": "azrads02-data",
+        "dataDiskName": "jmp01-data",
         "caching": "ReadWrite",
         "createOption": "Empty",
         "diskType": "Standard_LRS",
@@ -183,41 +151,7 @@
         "lun": 2
       },
       "osProfile": {
-        "userName": "adsadmin",
-        "pw": null
-      },
-      "windowsConfig": {
-        "provisionVmAgent": true,
-        "enableAutoUpgrades": true
-      }
-    },
-    {
-      "vmName": "azrsvr01",
-      "provisionVmAgent": true,
-      "vmSize": "Standard_B2als_v2",
-      "image": {
-        "publisher": "MicrosoftWindowsServer",
-        "offer": "WindowsServer",
-        "sku": "2022-datacenter-azure-edition-smalldisk",
-        "version": "latest"
-      },
-      "diskOs": {
-        "osDiskName": "azrsvr01-syst",
-        "caching": "ReadWrite",
-        "createOption": "FromImage",
-        "diskType": "Standard_LRS",
-        "diskSizeGB": 32
-      },
-      "diskData": {
-        "dataDiskName": "azrsvr02-data",
-        "caching": "ReadWrite",
-        "createOption": "Empty",
-        "diskType": "Standard_LRS",
-        "diskSizeGB": 32,
-        "lun": 2
-      },
-      "osProfile": {
-        "userName": "adsadmin",
+        "userName": "amplsadmin",
         "pw": null
       },
       "windowsConfig": {
@@ -225,9 +159,5 @@
         "enableAutoUpgrades": true
       }
     }
-  ],
-  "automationAccount": {
-    "prefix": "aaa",
-    "sku": "Basic"
-  }
+  ]
 }
