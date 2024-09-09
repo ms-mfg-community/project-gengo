@@ -9,6 +9,12 @@ param hubNsgName string
 param spkNsgName string
 param tagDefaults object
 
+var rules = loadJsonContent('./variables.json', 'nsgRules')
+var idySubs = loadJsonContent('./variables.json', 'idySubnets')
+var adNics = loadJsonContent('./variables.json', 'vmNicsAdSubnet')
+var svNics = loadJsonContent('./variables.json', 'vmNicsSvSubnet')
+var vms = loadJsonContent('./variables.json', 'vms')
+
 resource hubRg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
     name: resourceGroups[0] // 'ampls-hub-rgp'
     location: location
@@ -81,6 +87,7 @@ module baspubip 'modules/bas-public-ip.bicep' = {
 	tags: tagDefaults
 	pubIpName: basPubIpName
     pubAlloc: 'Dynamic'
+    sku: 'Standard'
   }
 }
 

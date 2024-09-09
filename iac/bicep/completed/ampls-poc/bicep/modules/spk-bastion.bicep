@@ -12,9 +12,6 @@ resource bastion 'Microsoft.Network/bastionHosts@2020-11-01' = {
   name: basName
   location: region
   tags: tags
-  sku: {
-	name: sku
-  }
   properties: {
 	ipConfigurations: [
       {
