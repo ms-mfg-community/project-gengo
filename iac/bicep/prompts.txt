@@ -128,7 +128,7 @@ p17. [] Using this selected module, create a nic resource in the file #file:'hub
 r17. [] imcs = 70
 
 p18. [] Also add parameters to the file #file: 'hub-ads-nic.bicep'
-r18. [] 
+r18. []
 
 
 
