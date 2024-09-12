@@ -6,7 +6,7 @@ param dnsNicId string
 param dnsVmPw string
  
 
-resource virtualMachine1 'Microsoft.Compute/virtualMachines@2023-11-01' = {
+resource vmDns 'Microsoft.Compute/virtualMachines@2023-11-01' = {
   name: dnsVmProps.vmName
   location: region
   tags: tags

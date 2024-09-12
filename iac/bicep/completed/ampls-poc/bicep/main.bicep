@@ -133,8 +133,6 @@ module spkbastion 'modules/spk-bastion.bicep' = {
     tags: tagDefaults
     basName: 'spk-bas'
     pubIpId: baspubip.outputs.pubIpId
-    spkVnetIdVal: spknet.outputs.spkVnetId
-    sku: 'Standard'
   }
 }
 
