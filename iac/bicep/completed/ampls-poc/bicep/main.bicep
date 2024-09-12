@@ -10,7 +10,6 @@ param spkNsgName string
 param tagDefaults object
 param lawProperties object
 param nicProperties object
-@secure() 
 param secretReference string
 
 // var rules = loadJsonContent('./variables.json', 'nsgRules')
