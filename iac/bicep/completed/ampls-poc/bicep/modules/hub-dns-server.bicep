@@ -2,7 +2,6 @@ param region string
 param tags object
 param dnsVmProps object
 param dnsNicId string
-@secure()
 param dnsVmPw string
  
 

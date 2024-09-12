@@ -2,11 +2,10 @@ param region string
 param tags object
 param jmpVmProps object
 param jmpNicId string
-@secure()
 param jmpVmPw string
  
 
-resource vmDns 'Microsoft.Compute/virtualMachines@2024-07-01' = {
+resource vmJmp 'Microsoft.Compute/virtualMachines@2024-07-01' = {
   name: jmpVmProps.vmName
   location: region
   tags: tags
