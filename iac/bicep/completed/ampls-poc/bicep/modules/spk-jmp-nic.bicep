@@ -24,3 +24,5 @@ resource nic 'Microsoft.Network/networkInterfaces@2023-11-01' = {
     ]
   }
 }
+
+output svrNicId string = nic.id
