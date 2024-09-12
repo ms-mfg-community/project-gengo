@@ -173,8 +173,6 @@ module dcvm 'modules/spk-jmp-server.bicep' = {
     }
 }
 
-
-
 output hubNetProperties object = hubnet.outputs.hubInfo
 output spkNetProperties object = spknet.outputs.spkInfo
 
