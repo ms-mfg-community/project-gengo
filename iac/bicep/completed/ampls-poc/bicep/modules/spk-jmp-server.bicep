@@ -6,7 +6,7 @@ param jmpNicId string
 param jmpVmPw string
  
 
-resource vmDns 'Microsoft.Compute/virtualMachines@2023-11-01' = {
+resource vmDns 'Microsoft.Compute/virtualMachines@2024-07-01' = {
   name: jmpVmProps.vmName
   location: region
   tags: tags
