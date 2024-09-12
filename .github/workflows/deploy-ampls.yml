@@ -21,7 +21,7 @@ defaults:
 env: 
   location: eastus2
   azCliversion: latest
-  stackName: ampls-poc
+  stackName: ampls-poc-01
   templateFile: main.bicep
   templateParametersFile: main.bicepparam
   operation: deploy # options: plan, deploy, rollback
