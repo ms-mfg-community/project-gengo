@@ -9,13 +9,14 @@ param dnsVmPw string
 resource virtualMachine1 'Microsoft.Compute/virtualMachines@2023-11-01' = {
   name: dnsVmProps.vmName
   location: region
+  tags: tags
   properties: {
     hardwareProfile: {
       vmSize: dnsVmProps.vmSize
     }
     osProfile: {
       adminUsername: dnsVmProps.osProfile.userName // use parameter value
-      adminPassword: dnsVmProps.pw // use parameter value
+      adminPassword: dnsVmPw // use parameter value
       computerName: dnsVmProps.vmName
       windowsConfiguration: {
         provisionVMAgent: dnsVmProps.windowsConfig.provisionVMAgent

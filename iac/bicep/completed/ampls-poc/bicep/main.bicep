@@ -10,11 +10,10 @@ param spkNsgName string
 param tagDefaults object
 param lawProperties object
 param nicProperties object
-param userName string
 @secure() 
 param secretReference string
 
-var rules = loadJsonContent('./variables.json', 'nsgRules')
+// var rules = loadJsonContent('./variables.json', 'nsgRules')
 var adNics = loadJsonContent('./variables.json', 'vmNicsAdSubnet')
 var svNics = loadJsonContent('./variables.json', 'vmNicsSvSubnet')
 var vms = loadJsonContent('./variables.json', 'vms')
