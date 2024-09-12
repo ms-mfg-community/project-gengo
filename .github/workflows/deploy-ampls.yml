@@ -53,7 +53,7 @@ jobs:
       run: |
         az --version
         az account show
-        az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        az account set --subscription ${{ secrets.AZURE_AMPLS_SUBSCRIPTION_ID }}
         az deployment sub create --location ${{ env.location }} --template-file ${{ env.templateFile }} --parameters ${{ env.templateParametersFile }} \
         --what-if --verbose
 
@@ -62,7 +62,7 @@ jobs:
       run: |
         az --version
         az account show
-        az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        az account set --subscription ${{ secrets.AZURE_AMPLS_SUBSCRIPTION_ID }}
         az stack sub create --name ${{ env.stackName }} --location ${{ env.location }} --template-file ${{ env.templateFile }} --parameters ${{ env.templateParametersFile }} \
         --deny-settings-mode none --action-on-unmanage deleteAll --yes --verbose
     
