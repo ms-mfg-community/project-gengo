@@ -92,7 +92,7 @@
   ],
   "vms": [
     {
-      "vmName": "ads01",
+      "vmName": "hub-dns-01",
       "provisionVmAgent": true,
       "vmSize": "Standard_B2als_v2",
       "image": {
@@ -102,14 +102,14 @@
         "version": "latest"
       },
       "diskOs": {
-        "osDiskName": "ads01-syst",
+        "osDiskName": "hub-dns-syst",
         "caching": "ReadWrite",
         "createOption": "FromImage",
         "diskType": "Standard_LRS",
         "diskSizeGB": 32
       },
       "diskData": {
-        "dataDiskName": "ads01-data",
+        "dataDiskName": "hub-dns-data",
         "caching": "ReadWrite",
         "createOption": "Empty",
         "diskType": "Standard_LRS",

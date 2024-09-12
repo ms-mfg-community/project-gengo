@@ -1,43 +1,48 @@
+param region string 
+param tags object
+param dnsVmProps object
+param dnsNicId string
+@secure()
+param dnsVmPw string
+ 
+
 resource virtualMachine1 'Microsoft.Compute/virtualMachines@2023-11-01' = {
-  name: vms[0].vmName
-  location: primaryLocation
+  name: dnsVmProps.vmName
+  location: region
   properties: {
-    availabilitySet: {
-      id: availabilitySet.id // A race condition occurs with looping for this id property and throws an error. See bug 1316
-    }
     hardwareProfile: {
-      vmSize: vms[0].vmSize
+      vmSize: dnsVmProps.vmSize
     }
     osProfile: {
-      adminUsername: userName // use parameter value
-      adminPassword: pw // use parameter value
-      computerName: vms[0].vmName
+      adminUsername: dnsVmProps.osProfile.userName // use parameter value
+      adminPassword: dnsVmProps.pw // use parameter value
+      computerName: dnsVmProps.vmName
       windowsConfiguration: {
-        provisionVMAgent: vms[0].windowsConfig.provisionVMAgent
-        enableAutomaticUpdates: vms[0].windowsConfig.enableAutoUpgrades
+        provisionVMAgent: dnsVmProps.windowsConfig.provisionVMAgent
+        enableAutomaticUpdates: dnsVmProps.windowsConfig.enableAutoUpgrades
       }
     }
     storageProfile: {
       osDisk: {
-        name: vms[0].diskOs.osDiskName
-        caching: vms[0].diskOs.caching
-        createOption: vms[0].diskOs.createOption
-        diskSizeGB: vms[0].diskOs.diskSizeGB
+        name: dnsVmProps.diskOs.osDiskName
+        caching: dnsVmProps.diskOs.caching
+        createOption: dnsVmProps.diskOs.createOption
+        diskSizeGB: dnsVmProps.diskOs.diskSizeGB
         managedDisk: {
-          storageAccountType: vms[0].diskOs.diskType
+          storageAccountType: dnsVmProps.diskOs.diskType
         }
       }
       imageReference: {
-        publisher: vms[0].image.publisher
-        offer: vms[0].image.offer
-        sku: vms[0].image.sku
-        version: vms[0].image.version
+        publisher: dnsVmProps.image.publisher
+        offer: dnsVmProps.image.offer
+        sku: dnsVmProps.image.sku
+        version: dnsVmProps.image.version
       }
     }
     networkProfile: {
       networkInterfaces: [
         {
-          id: interfacesAdSub1.id
+          id: dnsNicId
           properties: {
             primary: true
             deleteOption: 'Delete'

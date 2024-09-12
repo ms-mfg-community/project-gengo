@@ -45,3 +45,7 @@ param nicProperties = {
 	allocMethod: 'Static'
 	ipconfigName: 'ipconfig1'
 }
+
+param secretReference = '/subscriptions/976c53b8-965c-4f97-ab51-993195a8623c/resourceGroups/rgp-iac-eu2-01/providers/Microsoft.KeyVault/vaults/iac-kvt-01/secrets/vmpw-ampls'
+
+param userName = 'ampls.admin'  
