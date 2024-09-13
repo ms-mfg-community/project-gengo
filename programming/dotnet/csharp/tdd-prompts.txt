@@ -33,3 +33,7 @@ p11. [] Add a data test method based on this test method with 3 data rows using 
 p12. [] Add another xUnit fact test for the dividinator method.
 
 p13. [] What are some other xUnit test I can perform on the Arithmelon project ?
+
+p14. [] Generate a random string selected from uppercase and lowercase letters, numeric values and special characters 0123456789!@#$%^&*()_+.
+
+p15. [] /doc the code in C# #TextInputTest.cs

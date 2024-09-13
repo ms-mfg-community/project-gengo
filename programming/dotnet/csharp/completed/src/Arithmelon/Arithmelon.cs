@@ -2,7 +2,6 @@
 {
     public class ArithmelonCS
     {
-
         // Method for additionator
         public static double Additionator(double num1, double num2)
         {
@@ -29,7 +28,7 @@
 
         static void Main()
         {
-            WriteLine("Welcome to Arithmelon, your Simple AI Calculator to demonstrate Unit Testing!");
+            Console.WriteLine("Welcome to Arithmelon, your Simple AI Calculator to demonstrate Unit Testing!");
 
             string arithmiUserInput;
             do

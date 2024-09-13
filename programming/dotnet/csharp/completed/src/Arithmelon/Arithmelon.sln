@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arithmelon", "Arithmelon.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArithmelonTest", "..\ArithmelonTest\ArithmelonTest.csproj", "{59887CC3-BA7F-4B77-AAFF-B2E1BBAE993D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnitArithmelonTests", "xUnitArithmelonTests\xUnitArithmelonTests.csproj", "{5C6E21DC-A429-4948-A246-F6305B82CE1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "xUnitArithmelonTests", "xUnitArithmelonTests\xUnitArithmelonTests.csproj", "{5C6E21DC-A429-4948-A246-F6305B82CE1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
