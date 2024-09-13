@@ -1,8 +1,6 @@
 p1. [] /generate Can you provide a list of the types of unit tests I can write with xUnit ?
 r1. []
 a. [] Fact Tests: Basic unit tests without parameters.
-
-
 b. [] Theory Tests: Parameterized tests with multiple data sets.
 c. [] Collection Tests: Tests that share context across multiple classes.
 d. [] Class Fixture Tests: Tests that share setup and cleanup within a single class.
@@ -37,3 +35,7 @@ p13. [] What are some other xUnit test I can perform on the Arithmelon project ?
 p14. [] Generate a random string selected from uppercase and lowercase letters, numeric values and special characters 0123456789!@#$%^&*()_+.
 
 p15. [] /doc the code in C# #TextInputTest.cs
+
+p16. [] /generate Create a github actions workflow for running both xUnit and MSUnit tests in parallel on the same C# .NET project.
+
+p17. [] /generate Create a github actions workflow to automate and run the unit tests in file #file:'xUnitTests.cs'
