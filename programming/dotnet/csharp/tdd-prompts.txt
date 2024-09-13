@@ -1,0 +1,35 @@
+p1. [] /generate Can you provide a list of the types of unit tests I can write with xUnit ?
+r1. []
+a. [] Fact Tests: Basic unit tests without parameters.
+
+
+b. [] Theory Tests: Parameterized tests with multiple data sets.
+c. [] Collection Tests: Tests that share context across multiple classes.
+d. [] Class Fixture Tests: Tests that share setup and cleanup within a single class.
+e. [] Collection Fixture Tests: Tests that share setup and cleanup across multiple classes.
+f. [] Data-Driven Tests: Tests that use external data sources.
+
+p2. [] /doc Add documentation to the code in #file:'ArithmelonTest.cs' to explane the type of test used and the parameters
+
+p3. [] /explain the datarow parameter attributes
+
+p4. [] Add another test for the subtractinator
+
+p5. [] Add other tests for the multiplicator and dividinator methods
+
+p6. [] Add a theory test with 3 sets of inline data for the additionator method. These data sets are (5,3,8), (2,2,4) and (8,2,10).
+
+p7. [] Add a theory test with 2 sets of inline data for the subtractinator method. These data sets are (10,2,8), (5,3,2) and (100,80,20).
+
+p8. [] Add theory test for the remaining multiplicator and dividinator functions using the same pattern used previously for the additionator and subtractinator methods.
+Select values for each inline data set that will make each test pass.
+
+p9. [] Add MSUnit data test methods for the subtractinator, mulitplicator and dividinator methods using the previous patterns and values that will make each test pass.
+
+p10. [] Make this test fail
+
+p11. [] Add a data test method based on this test method with 3 data rows using the previous pattern to make the test pass.
+
+p12. [] Add another xUnit fact test for the dividinator method.
+
+p13. [] What are some other xUnit test I can perform on the Arithmelon project ?

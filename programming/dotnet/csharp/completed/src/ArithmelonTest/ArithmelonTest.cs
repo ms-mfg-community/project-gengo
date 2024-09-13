@@ -63,5 +63,6 @@ namespace ArithmelonTests
             // Assert
             Assert.AreEqual(expected, result);
         }
+
     }
 }

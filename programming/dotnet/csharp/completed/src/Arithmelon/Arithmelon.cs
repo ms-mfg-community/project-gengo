@@ -29,7 +29,7 @@
 
         static void Main()
         {
-            WriteLine("Welcome to Arithmelon, you Simple AI Calculator to demonstrate Unit Testing!");
+            WriteLine("Welcome to Arithmelon, your Simple AI Calculator to demonstrate Unit Testing!");
 
             string arithmiUserInput;
             do
@@ -49,7 +49,7 @@
                 } while (!double.TryParse(Console.ReadLine(), out num2));
 
                 // Get the operator from the user
-                Console.Write("Enter the operator from this collection [additoinator | subtractinator | multiplicator | dividinator): ");
+                Console.Write("Enter the operator from this collection [additionator | subtractinator | multiplicator | dividinator): ");
 
                 string? op = Convert.ToString(Console.ReadLine());
 
