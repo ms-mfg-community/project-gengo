@@ -1,3 +1,7 @@
+p0. [] Create anohter MSTest method for Canada, where the // Arrange block contains: Name = "Canada", Capital = "Ottowa", Population = "38.9M", Language = "English".
+p0a. [] Combine all individual test methods to a single data test method with all provided variables as data rows.
+p0b. [] @github Create anohter MSTest method for Singapore. Obtain current values for variables using ChatGPT-4o.
+
 p1. [] /generate Can you provide a list of the types of unit tests I can write with xUnit ?
 r1. []
 a. [] Fact Tests: Basic unit tests without parameters.

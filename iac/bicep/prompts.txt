@@ -1,17 +1,19 @@
-p1. [] /generate create a resource group in azure using bicep...'Microsoft.Resources/resourceGroups@2021-04-01'
-r1. [] initial match confidence score % imcs=100
-ref1. []
+p01. [] /generate create a resource group in azure using bicep...'Microsoft.Resources/resourceGroups@2021-04-01'
+rp1. []
+s01. skip
 
-p2. [] How do I set the target scope for this?
-r2. [] In Bicep, you can set the target scope using the targetScope keyword. For creating a resource group, the target scope should be set to subscription: targetScope = 'subscription'. imcs=100
-ref1. []
+p02. [] How do I set the target scope for this?
+r02. [] In Bicep, you can set the target scope using the targetScope keyword. For creating a resource group, the target scope should be set to subscription: targetScope = 'subscription'. imcs=100
+s01. skip
 
-p3. [] /generate change the code at #file:'main.bicep' to create two resource groups from an array with the values ampls-hub-rgp-01 and ampls-spk-rgp-01.
-r3. [] initial match confidence score=100
-ref1. []
+p03. [] /generate change the code at #file:'main.bicep' to create two resource groups from an array with the values ampls-hub-rgp-01 and ampls-spk-rgp-01.
+r03. []
+s01. skip
 
-p4. [] /generate What is the latest resource group type api version ?
-r4. []
+p04. [] /generate What is the latest resource group type api version ?
+r04. []
+s04. see inline below
+
 The latest Bicep resource type and API version for a resource group as of my knowledge cutoff in October 2023 is:
 •	Resource Type: Microsoft.Resources/resourceGroups
 •	API Version: 2021-04-01
@@ -19,11 +21,11 @@ However, it's always a good idea to check the official Azure Resource Manager (A
 If there have been updates since my last training data, you can find the latest API version by running the following Azure CLI command:
 az provider show --namespace Microsoft.Resources --expand "resourceTypes" --query "resourceTypes[?resourceType=='resourceGroups'].apiVersions" --output json
 
-p5. [] /generate Add parameters used in #file:'main.bicep' into the #file:'main.bicepparam' file.
-r5. [] imcs=50
-f5.a [] feedback: A using declaration was not added
-f5.b [] param location string = 'eastus2'; the data type, 'string' type should be excluded
-ref1. []
+p05. [] /generate Add parameters used in #file:'main.bicep' into the #file:'main.bicepparam' file.
+r05. skip
+f05.a [] feedback: A using declaration was not added
+f05.b [] param location string = 'eastus2'; the data type, 'string' type should be excluded
+s01. C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\iac\bicep\completed\ampls-poc\bicep\main.bicepparam
 
 p5.1 [] /generate add a using declaration in #file:'main.bicepparam'
 r5.1 [] using 'main.bicep'

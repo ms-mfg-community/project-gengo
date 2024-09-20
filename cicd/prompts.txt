@@ -1,5 +1,7 @@
-p1.[x] Create a yaml GitHub Actions workflow to install the requirements for java and the spring framework with the latest maven package version.
-r1.[x] Sure! Here's a YAML code block for a GitHub Actions workflow that installs Java, Spring Framework, and the latest Maven package version.
+p01.[x] Create a yaml GitHub Actions workflow to install the requirements for java and the spring framework with the latest maven package version.
+r01.[x] Sure! Here's a YAML code block for a GitHub Actions workflow that installs Java, Spring Framework, and the latest Maven package version.
+l01.C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\cicd\workspace\src\workflow-ghb.yml
 
-p2.[] Convert this slection to an Azure DevOps pipleine yaml file.
-r2.[] Sure! Here's the equivalent Azure DevOps pipeline YAML file for your code:
+p02.[x] /generate convert the GitHub Actions workflow file #file:'workflow-ghb.yml' to an equivalent Azure DevOps pipeline.
+r02.[x]
+s01.C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\cicd\completed\src\pipeline-ado.yml

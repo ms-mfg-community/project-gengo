@@ -1,0 +1,13 @@
+NOTES:
+1. ###.r means this property is required
+2. ###.o means this property is optional and can be ommited for brevity and readability
+
+p01.r [x] #prompt, ie: Create a yaml GitHub Actions workflow to install the requirements for java and the spring framework with the latest maven package version.
+r01.o [x] #response, ie: Sure! Here's a YAML code block for a GitHub Actions workflow that installs Java, Spring Framework, and the latest Maven package version.
+s01.r #source, ie: C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\cicd\workspace\src\workflow-ghb.yml
+cat.o #category, ie: cicd
+rls.o #roles, ie: developer, devops-engineer
+exp.o #explaination provided, ie: true | false
+asp.o #additional-suggested-prompts, ie: How can I configure environment variables in an Azure DevOps pipeline?
+scr.o #score, ie: 100%
+fbk.o #feedback, ie: Add any feedback about the response here

@@ -1,21 +1,33 @@
-# Security Policy
+<!-- BEGIN MICROSOFT SECURITY.MD V0.0.9 BLOCK -->
 
-## Supported Versions
+## Security
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+We take the security of our software products and services seriously, which includes all source code repositories managed through our GitHub organizations.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+If you believe you have found a security vulnerability in any Microsoft-owned repository that meets [Microsoft's definition of a security vulnerability](https://aka.ms/security.md/definition), please report it to us as described below.
 
-## Reporting a Vulnerability
+## Reporting Security Issues
 
-Use this section to tell people how to report a vulnerability.
+**Please do not report security vulnerabilities through public GitHub issues.**
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+Instead, please report them by sending an email to [prestopa@microsoft.com](mailto:prestopa@microsoft.com).  If possible, encrypt your message with our PGP key; please download it from the [Microsoft Security Response Center PGP Key page](https://aka.ms/security.md/msrc/pgp).
+
+You should receive a response within 24 hours. If for some reason you do not, please follow up via email to ensure we received your original message.
+
+Please include the requested information listed below (as much as you can provide) to help us better understand the nature and scope of the possible issue:
+
+  * Type of issue (e.g. buffer overflow, SQL injection, cross-site scripting, etc.)
+  * Full paths of source file(s) related to the manifestation of the issue
+  * The location of the affected source code (tag/branch/commit or direct URL)
+  * Any special configuration required to reproduce the issue
+  * Step-by-step instructions to reproduce the issue
+  * Proof-of-concept or exploit code (if possible)
+  * Impact of the issue, including how an attacker might exploit the issue
+
+This information will help us triage your report more quickly.
+
+## Preferred Languages
+
+We prefer all communications to be in English.
+
+<!-- END MICROSOFT SECURITY.MD BLOCK -->

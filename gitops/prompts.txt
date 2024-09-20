@@ -1,5 +1,7 @@
-p1. [] Add contents for a readme file that will cleanup resources from the most recent Azure laning zones terraform accelerator deployment.
-r1. []
+p01. [] Add contents for a readme file that will cleanup resources from the most recent Azure laning zones terraform accelerator deployment.
+r01. []
+s01. see inline below
+
 # README
 
 ## Azure Landing Zone Terraform Accelerator Cleanup
@@ -71,3 +73,32 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ---
 
 For further details and troubleshooting, refer to the [official documentation](https://github.com/ms-mfg-community/alz-tf-accelerator-azure-cleanup).
+
+# Github
+p02. [] How do I authenitcate to github ?
+r02. [] gh auth refresh -h github.com
+s02. terminal
+
+p03. [] How do I delete a github repository using the gh cli ?
+r03. [] gh repo delete {owner}/{repo_name} --yes
+s03. terminal
+
+p04. [] How do I remove members from a github org team with the gh cli?
+r04. [] gh api -X DELETE /orgs/auto-cloud-arc/teams/alz-mgmt-approvers/memberships/autocloudarc
+s04. terminal
+
+p05. [] How do I remove a github org team ?
+r05. [] gh api -X DELETE /orgs/auto-cloud-arc/teams/alz-mgmt-approvers
+s05. terminal
+
+p06. [] How do I create a github repository named alz-mgmt ?
+r06. [] gh repo create alz-mgmt --public
+s06. terminal
+
+# Git
+p07. [] add a .gitignore file to this repo and exclude the accelerator/config folder as well as any *-cache.json files.
+r07. [] # Exclude the accelerator/config folder
+    accelerator/config/
+    # Exclude any files ending with -cache.json
+    *-cache.json
+s07. C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\.gitignore

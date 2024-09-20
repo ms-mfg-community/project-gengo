@@ -1,0 +1,44 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pr:
+  branches:
+    include:
+      - main
+
+jobs:
+- job: Build
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - task: Checkout@v2
+    displayName: 'Checkout code'
+
+  - task: UseJavaVersion@0
+    inputs:
+      versionSpec: '11'
+      jdkArchitecture: 'x64'
+    displayName: 'Set up Java'
+
+  - script: |
+      sudo apt-get update
+      sudo apt-get install -y maven
+    displayName: 'Install Maven'
+
+  - script: |
+      mvn clean install
+    displayName: 'Build and test'
+
+  - script: |
+      curl https://start.spring.io/starter.zip -o spring-starter.zip
+      unzip spring-starter.zip
+      cd spring-starter
+      ./mvnw clean install
+    displayName: 'Set up Spring Framework'
+
+  - script: |
+      ./mvnw test
+    displayName: 'Run tests'
