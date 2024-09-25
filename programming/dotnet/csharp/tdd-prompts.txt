@@ -43,3 +43,5 @@ p15. [] /doc the code in C# #TextInputTest.cs
 p16. [] /generate Create a github actions workflow for running both xUnit and MSUnit tests in parallel on the same C# .NET project.
 
 p17. [] /generate Create a github actions workflow to automate and run the unit tests in file #file:'xUnitTests.cs'
+
+p18. [] /generate In the file #file:'MethodPerCountry.cs' , decompose the single [DataTestMethod] into separate test methods for each country.

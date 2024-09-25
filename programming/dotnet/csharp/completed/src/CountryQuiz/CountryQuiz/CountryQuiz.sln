@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountryQuiz", "CountryQuiz.csproj", "{766863AD-B06D-492D-85BA-1AF582C965C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CountryQuiz", "CountryQuiz.csproj", "{766863AD-B06D-492D-85BA-1AF582C965C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quiz.Test", "..\Quiz.Test\Quiz.Test.csproj", "{A7A4D07B-85F1-43F7-9162-040B2AA49B7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiz.Test", "..\Quiz.Test\Quiz.Test.csproj", "{A7A4D07B-85F1-43F7-9162-040B2AA49B7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MethodPerCountry.Test", "..\QuizMethodPerCountry\MethodPerCountry.Test.csproj", "{297E097C-EAAD-416C-88D6-CCAD5E90EC6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A7A4D07B-85F1-43F7-9162-040B2AA49B7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7A4D07B-85F1-43F7-9162-040B2AA49B7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7A4D07B-85F1-43F7-9162-040B2AA49B7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{297E097C-EAAD-416C-88D6-CCAD5E90EC6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{297E097C-EAAD-416C-88D6-CCAD5E90EC6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{297E097C-EAAD-416C-88D6-CCAD5E90EC6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{297E097C-EAAD-416C-88D6-CCAD5E90EC6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
