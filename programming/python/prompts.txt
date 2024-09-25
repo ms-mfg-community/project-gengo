@@ -1,0 +1,140 @@
+p01. [] Create a directory for the game, in this case rps-demo-py, and create a file within named rps.py.
+r01. []
+
+p02. [] How are comments created in Python?
+
+p03. [] Create a Python application that allows a user to play rock, paper, scissors against a computer player.
+r03. []
+
+p04. [] Add a comment at the top of the program which explains how the game is played.
+r04. []
+
+p05. [] '''
+Create a Python application that allows a user to play Rock, Paper, Scissors against a computer player. The application should do the following:
+
+1. Display the welcome message.
+2. Prompt the user to enter their name.
+3. Display the rules of the game.
+4. Prompt the user to select Rock, Paper, or Scissors.
+5. Generate a random selection for the computer player.
+6. Display the user's selection and the computer's selection.
+7. Determine the winner of the game.
+8. Display the winner of the game.
+9. Prompt the user to play again.
+10. Display the goodbye message.
+'''
+r05. []
+
+p06. [] Add ASCII art for each round and user/computer selection
+r06. []
+
+p07. [] I want to keep score after each round to display it to the user
+r07. []
+
+p08. [] Can you help me refactor the program to use classes?
+     My future use cases will require unit testing of the code, I need to make it more efficient and scalable.
+     I want the classes to be in separate files and imported/exported appropriately
+r08. []
+
+p09. [] In #file:main.py  prompt user asking to continue with option yes/no.
+
+p10. [] In #file:main.py Prompt user to continue using an infinate while loop with the options: continue | exit.
+r10. []
+
+p11. [] If I wanted to use a package structure, how could I store the files to match that? #file:computer.py #file:game.py #player.py utils.py ?
+r11. []
+
+p12. [] @github How many possible combinations are there in the rock paper scissors game ?
+r12. [] In the game of rock-paper-scissors, each player has three possible choices: rock, paper, or scissors. Since there are two players, the total number of possible combinations is determined by multiplying the number of choices for each player.
+Number of choices for Player 1 = 3 (rock, paper, scissors)
+Number of choices for Player 2 = 3 (rock, paper, scissors)
+Total possible combinations = 3 * 3 = 9
+So, there are 9 possible combinations in a rock-paper-scissors game.
+
+p12. [] What are the cartesian product unit tests I will need for full coverage of the rock, paper scissors game, indicating the winner being either the player or computer ?
+r12. [] To achieve full coverage for the rock-paper-scissors game, you need to test all possible combinations of choices between the player and the computer, and verify the correct winner is determined. This involves creating unit tests for each of the 9 possible outcomes (the Cartesian product of the choices).
+
+Here are the combinations you need to test, along with the expected winner:
+
+1. Player chooses rock, Computer chooses rock (Tie)
+2. Player chooses rock, Computer chooses paper (Computer wins)
+3. Player chooses rock, Computer chooses scissors (Player wins)
+4. Player chooses paper, Computer chooses rock (Player wins)
+5. Player chooses paper, Computer chooses paper (Tie)
+6. Player chooses paper, Computer chooses scissors (Computer wins)
+7. Player chooses scissors, Computer chooses rock (Computer wins)
+8. Player chooses scissors, Computer chooses paper (Player wins)
+9. Player chooses scissors, Computer chooses scissors (Tie)
+
+### Example Unit Tests
+
+You can use a testing framework like `unittest` in Python to write these tests. Here's an example of how you might write these tests:
+
+#### test_game.py
+```python
+import unittest
+from test_game import Game
+
+class TestRockPaperScissors(unittest.TestCase):
+
+    def setUp(self):
+        self.game = Game()
+
+    def test_rock_vs_rock(self):
+        self.assertEqual(self.game.determine_winner("rock", "rock"), "It's a tie!")
+
+    def test_rock_vs_paper(self):
+        self.assertEqual(self.game.determine_winner("rock", "paper"), "Computer wins!")
+
+    def test_rock_vs_scissors(self):
+        self.assertEqual(self.game.determine_winner("rock", "scissors"), "You win!")
+
+    def test_paper_vs_rock(self):
+        self.assertEqual(self.game.determine_winner("paper", "rock"), "You win!")
+
+    def test_paper_vs_paper(self):
+        self.assertEqual(self.game.determine_winner("paper", "paper"), "It's a tie!")
+
+    def test_paper_vs_scissors(self):
+        self.assertEqual(self.game.determine_winner("paper", "scissors"), "Computer wins!")
+
+    def test_scissors_vs_rock(self):
+        self.assertEqual(self.game.determine_winner("scissors", "rock"), "Computer wins!")
+
+    def test_scissors_vs_paper(self):
+        self.assertEqual(self.game.determine_winner("scissors", "paper"), "You win!")
+
+    def test_scissors_vs_scissors(self):
+        self.assertEqual(self.game.determine_winner("scissors", "scissors"), "It's a tie!")
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+### Modifying `determine_winner` to Return Results
+
+To make the `determine_winner` method return results instead of printing them, you can modify the method in [`game.py`](command:_github.copilot.openSymbolFromReferences?%5B%22%22%2C%5B%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2Fc%3A%2Fonedrive-prsn%2FOneDrive%2F02.00.00.GENERAL%2Frepos%2Fgit%2Fcopilot-python-rps%2Frps-demo-py%2Fmain.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A0%2C%22character%22%3A5%7D%7D%5D%2C%222cb27fe4-cec6-4c48-ad24-c45b8552bef2%22%5D "Go to definition"):
+
+#### game.py
+```python
+class Game:
+    # ... other methods ...
+
+    def determine_winner(self, user_choice, computer_choice):
+        if user_choice == computer_choice:
+            return "It's a tie!"
+        elif (user_choice == "rock" and computer_choice == "scissors") or \
+             (user_choice == "scissors" and computer_choice == "paper") or \
+             (user_choice == "paper" and computer_choice == "rock"):
+            return "You win!"
+        else:
+            return "Computer wins!"
+```
+
+This setup ensures that you have full coverage of all possible outcomes in the rock-paper-scissors game, verifying the correct winner for each combination.
+
+NOTE: @github Get answers grounded in web search, code search, and your enterprise's knowledge bases.
+
+p13. [] How do I run the tests in #file:test_game.py ?
+
+

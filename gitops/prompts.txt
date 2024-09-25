@@ -74,7 +74,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 For further details and troubleshooting, refer to the [official documentation](https://github.com/ms-mfg-community/alz-tf-accelerator-azure-cleanup).
 
-# Github
 p02. [] How do I authenitcate to github ?
 r02. [] gh auth refresh -h github.com
 s02. terminal
@@ -95,10 +94,11 @@ p06. [] How do I create a github repository named alz-mgmt ?
 r06. [] gh repo create alz-mgmt --public
 s06. terminal
 
-# Git
 p07. [] add a .gitignore file to this repo and exclude the accelerator/config folder as well as any *-cache.json files.
 r07. [] # Exclude the accelerator/config folder
     accelerator/config/
     # Exclude any files ending with -cache.json
     *-cache.json
 s07. C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\.gitignore
+
+p08. [] What's the latest version of the GitHub Actions azure/login ?
