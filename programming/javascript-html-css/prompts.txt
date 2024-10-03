@@ -33,3 +33,12 @@ r12. [] ...matched public code...
 p13. [] @github How can I convert this javascript application to python?
 r13. []  
 
+p14. [] Can you please add explanatory comments to this code in German?
+s14. [] [repository]..project-gengo\programming\javascript-html-css\completed\src\calculator.js
+
+p15. [] Können Sie das bitte auf Deutsch erklären?
+r15. [] 
+
+p16. [] Can you please explain the selected code in Hindi ?
+
+p17. [] What about in Japanese ?
