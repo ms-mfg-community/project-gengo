@@ -1,0 +1,11 @@
+p01. [] [ide: azure data studio] -- Show all customers from the [SalesLT] table.
+r01. []
+ref01. [] sql-dbs-1510.SalesLT.Customers
+
+p02. -- Join the Customer table with the SalesOrderHeader table to return the customer's first name, last name, and the total number of orders they have placed.
+r01.
+ref01. [] sql-dbs-1510.SalesLT.SalesOrderHeader
+
+p03. [] -- Sort products by price from the SalesLT schema and SalesOrderDetail table in descending order.
+r03. []
+ref03. [] sql-dbs-1510.SalesLT.SalesOrderDetail
