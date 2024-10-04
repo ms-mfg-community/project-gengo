@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<h<head>
+
+    <meta charset="UTF-8">
+    <!-- Stellt sicher, dass die Seite reaktionsschnell ist und auf verschiedenen Geräten richtig skaliert -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rechner</title>
+">    <!-- Verlinkung zur externen CSS-Datei für das Styling -->
+e is re    <link rel="stylesheet" href="styles.css">
+a name="</head>
+lator</ti<body>
+k to the e    <!--    <div class="calculator">
+le for sty        <!-- Anzeigebereich für die Ausgabe des Rechners -->
+
+            <div id="display" class="display">0</div>
+et" href="st        <!-- Container für alle Rechner-Tasten -->
+d>        <div class="buttons">
+            <!-- Rechner-Tasten mit onclick-Ereignissen zur Verarbeitung der Benutzereingabe -->
+            <button class="btn" onclick="clearDisplay()">C</button>
+
+    <!-- Mai            <button class="btn" onclick="appendToDisplay('1')">1</button>
+ <div class="calc            <button class="btn" onclick="appendToDisplay('2')">2</button>
+
+        <!-- Di            <button class="btn" onclick="appendToDisplay('3')">3</button>
+        <div id="display" class="display">0</div>
+        <!-- Container for all the calculator buttons -->
+        <div class="buttons">
+            <!-- Calculator buttons with onclick events to handle user input -->
+            <button class="btn" onclick="clearDisplay()">C</button>
+            <button class="btn" onclick="appendToDisplay('1')">1</button>
+            <button class="btn" onclick="appendToDisplay('2')">2</button>
+            <button class="btn" onclick="appendToDisplay('3')">3</button>
+            <button class="btn" onclick="appendToDisplay('+')">+</button>
+            <button class="btn" onclick="appendToDisplay('4')">4</button>
+            <button class="btn" onclick="appendToDisplay('5')">5</button>
+            <button class="btn" onclick="appendToDisplay('6')">6</button>
+            <button class="btn" onclick="appendToDisplay('-')">-</button>
+            <button class="btn" onclick="appendToDisplay('7')">7</button>
+            <button class="btn" onclick="appendToDisplay('8')">8</button>
+            <button class="btn" onclick="appendToDisplay('9')">9</button>
+            <button class="btn" onclick="appendToDisplay('*')">*</button>
+            <button class="btn" onclick="appendToDisplay('0')">0</button>
+            <button class="btn" onclick="appendToDisplay('.')">.</button>
+            <button class="btn" onclick="calculateResult()">=</button>
+            <button class="btn" onclick="appendToDisplay('/')">/</button>
+            <button class="btn" onclick="appendToDisplay('%')">%</button>
+            <button class="btn" onclick="appendToDisplay('^')">^</button>
+        </div>
+    </div>
+    <script>
+        // Function to clear the display
+        function clearDisplay() {
+            document.getElementById('display').innerText = '0';
+        }
+    
+        // Function to append a value to the display
+        function appendToDisplay(value) {
+            const display = document.getElementById('display');
+            if (display.innerText === '0') {
+                display.innerText = value;
+            } else {
+                display.innerText += value;
+            }
+        }
+    
+        // Function to calculate the result of the expression in the display
+        function calculateResult() {
+            const display = document.getElementById('display');
+            try {
+                display.innerText = eval(display.innerText);
+            } catch (e) {
+                display.innerText = 'Error';
+            }
+        }
+    </script>
+    <!-- Link to an external JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>
