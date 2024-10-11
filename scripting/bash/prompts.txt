@@ -1,0 +1,3 @@
+p01. [] How can I combine the redundant code blocks from these two scripts?
+r01. []
+s01.a [] 
