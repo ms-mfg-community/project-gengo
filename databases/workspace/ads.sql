@@ -1,0 +1,5 @@
+CREATE LOGIN [dbw-01] FROM EXTERNAL PROVIDER;
+
+ALTER SERVER ROLE ##MS_ServerPerformanceStateReader## ADD MEMBER [dbw-01];
+ALTER SERVER ROLE ##MS_DefinitionReader## ADD MEMBER [dbw-01];
+ALTER SERVER ROLE ##MS_DatabaseConnector## ADD MEMBER [dbw-01];

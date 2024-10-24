@@ -1,0 +1,9 @@
+p001 [ide=ads] /* Create a database named ghc_prompts */
+r001 [ide=ads] CREATE DATABASE ghc_prompts;
+s001 /subscriptions/976c53b8-965c-4f97-ab51-993195a8623c/resourceGroups/pgr-rgp-01/providers/Microsoft.DBforPostgreSQL/flexibleServers/pfs-sql-01 ...ghc_prompts
+
+p003 [ide=ads] -- create a table named prompts with the following columns: id, prompt
+r001 [ide=ads] 
+s001 /subscriptions/976c53b8-965c-4f97-ab51-993195a8623c/resourceGroups/pgr-rgp-01/providers/Microsoft.DBforPostgreSQL/flexibleServers/pfs-sql-01 ...ghc_prompts/prompts 
+
+

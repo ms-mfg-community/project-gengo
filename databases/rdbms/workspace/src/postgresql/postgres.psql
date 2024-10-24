@@ -1,0 +1,18 @@
+create type category_enum as enum(
+ 'chatops',
+ 'cicd',
+ 'cli',
+ 'cm',
+ 'databases',
+ 'gitops',
+ 'iac',
+ 'ide',
+ 'issueops',
+ 'programming',
+ 'scripting'
+ );
+
+ alter table prompts
+ add column category category_enum not null default 'programming';
+
+ 

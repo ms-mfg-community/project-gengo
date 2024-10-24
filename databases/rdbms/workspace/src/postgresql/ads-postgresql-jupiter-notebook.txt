@@ -1,0 +1,29 @@
+jupyter notebooks: ipynb==> interactive python notebook 
+ref: https://www.youtube.com/watch?v=le_GyH6kZTo
+
+majic commands: %lsmagic
+1. line majic (%)
+2. cell majic (%%)
+
+-- 1. Get required packages:
+ipython-sql ==> enable sql commands to work properly in the jupyter notebook environment
+psycopg2 ==> the package to connect with the postgresDB 
+
+-- 2. Install packages:
+!pip install ipython-sql psycopg2 
+
+-- 3. Active the new sql environment
+%load_ext sql 
+
+-- 4. Connect to the postgresDB
+%sql postresql://<username>:<password>@<host>/<database_name>
+
+-- 5. Example connection
+%sql postgresql://ztadmin:<********>@pfs-sql-01.postgres.database.azure.com:5432/ghc_prompts
+
+-- 6. Run DQL commands
+-- 6a. line majic (single line)
+%sql select * from ghc_prompts 
+-- 6b. cell majic (multi line)
+%%sql select * from ghc_prompts
+where category = 'programming'
