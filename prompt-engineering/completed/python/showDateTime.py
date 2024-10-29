@@ -6,5 +6,3 @@ print(datetime.datetime.now())
 print(datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S"))
 # Make month all uppercase, like JAN, FEB, MAR, etc.
 print(datetime.datetime.now().strftime("%d-%b-%Y %H:%M:%S").upper())
-
-
