@@ -1,0 +1,19 @@
+Ref: https://docs.github.com/en/copilot/using-github-copilot/prompt-engineering-for-github-copilot
+
+Prompt Optimization Rules
+
+por01. [] General to specific
+por02. [] Give examples
+por03. [] Decompose complex tasks into simpler tasks
+por04. [] Avoid ambiguity
+    a. dotnet new console -f net8.0 -n TimeZones
+
+por05. [] Indicate relevant code
+    a. How do I count the number of files listed? <drag and drop: por02-list-directories>
+por06. [] Experiment and Iterate (see por01)
+por07. [] Keep history relevant 
+    a. /clear 
+por08. [] Follow good coding practices
+    a. Comment each line of code in #file:Program.cs (Yeah, I know. This is overkill.)
+    b. Add a unit test for #file:Program.cs
+    
