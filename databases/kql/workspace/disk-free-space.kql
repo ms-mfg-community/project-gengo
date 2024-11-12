@@ -1,0 +1,8 @@
+//Disk Free Space. 
+let threshold = 5;
+InsightsMetrics
+| where Name == "FreeSpacePercentage" and TimeGenerated >= ago(30m)
+| extend parsedTags = parse_json(Tags)
+| where (tostring(parsedTags["vm.azm.ms/mountId"]) !contains "snap" and tostring(parsedTags["vm.azm.ms/mountId"]) !contains "docker")
+| summarize avg(Val) by bin(TimeGenerated, 5m), Computer, tostring(parsedTags["vm.azm.ms/mountId"])
+| where avg_Val < threshold

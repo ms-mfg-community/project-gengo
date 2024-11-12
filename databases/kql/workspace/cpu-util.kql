@@ -1,0 +1,6 @@
+//CPU Utilization
+let threshold = 90;
+InsightsMetrics
+| where Name == "UtilizationPercentage"
+| summarize avg(Val) by bin(TimeGenerated, 5m), Computer
+| where avg_Val > threshold

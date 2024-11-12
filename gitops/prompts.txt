@@ -102,3 +102,5 @@ r07. [] # Exclude the accelerator/config folder
 s07. C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\.gitignore
 
 p08. [] What's the latest version of the GitHub Actions azure/login ?
+
+p09. [] How do I extract the schema from empty tables in a Postgres database to create data model files for a NodeJS application ?

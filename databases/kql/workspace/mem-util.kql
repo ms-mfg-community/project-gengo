@@ -1,0 +1,10 @@
+// Memory Utilization
+let threshold = 95;
+InsightsMetrics
+| where Name == "AvailableMB" and TimeGenerated >= ago(30m)
+| extend parsedTags = parse_json(Tags)
+| extend totalmem = todouble(parsedTags["vm.azm.ms/memorySizeMB"])
+| extend usedmem = totalmem - Val
+| extend utilization = (usedmem / totalmem) * 100
+| where utilization > threshold
+| summarize avg(utilization) by bin(TimeGenerated, 5m), Computer
