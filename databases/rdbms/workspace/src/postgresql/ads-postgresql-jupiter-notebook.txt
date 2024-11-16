@@ -12,7 +12,7 @@ psycopg2 ==> the package to connect with the postgresDB
 -- 2. Install packages:
 !pip install ipython-sql psycopg2 
 
--- 3. Active the new sql environment
+-- 3. Activate the new sql environment
 %load_ext sql 
 
 -- 4. Connect to the postgresDB

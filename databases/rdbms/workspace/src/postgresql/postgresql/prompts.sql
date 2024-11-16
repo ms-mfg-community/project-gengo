@@ -1,0 +1,1 @@
+select * from prompts WHERE prompt_id = $1;
