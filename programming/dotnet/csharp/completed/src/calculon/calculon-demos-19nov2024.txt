@@ -1,0 +1,21 @@
+Visual Studio 2022 v17.13.00 Preview release notes
+
+	1. [] Ask Copilot from Feature Search 
+		a. [] <Jason Laderman> How do I configure IntelliSense to autolist object members and parameter information?
+	2. [] New keyboard shortcuts for threads in GitHub Copilot Chat. This update registers new Commands for GitHub Copilot and binds them to keyboard shortcuts in the Chat window:
+		a. [] New thread: Ctrl+N
+		b. [] Previous thread: Ctrl+PgDown
+		c. [] Next thread: Ctrl+PgUp
+		d. [] Expand and focus thread drop-down: Ctrl+Shift+T
+		
+Demo Source: project-gengo\programming\dotnet\csharp\completed\src\calculon\calculon
+
+	3. [] @Context agent
+	4. []   Create a simple calculator that performs +,-,*, and / operations by prompting the user for the first number, then the second, followed by the operator. The calculator will then perform the specified operation and display the result. After the result is displayed, the calculator will also prompt the user if they want to continue with another operation. If they say yes, then the program should clear the screen and repeat prompting the user for the operands and operator. If the user says no, the program will say 'User has terminated the program!' and then exit to the console.
+	5. /tests #file:'calculon.cs' using the mstest framework and tools.
+	6. [] Natural language expansions
+		a. /fix the code in #file:'calculon.test.cs'
+	7. [] Demonstrate troubleshooting an issue 
+	8. [] @workspace How would I convert this solution to a nodejs app that uses typescript ?
+	9. [] @workspace What about python?
+    How would I connect a set of test data from a postgresql database for the .net solution ?
