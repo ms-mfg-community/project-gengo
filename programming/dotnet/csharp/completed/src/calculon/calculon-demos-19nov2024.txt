@@ -1,5 +1,5 @@
 Visual Studio 2022 v17.13.00 Preview release notes
-
+Reference: https://learn.microsoft.com/en-us/visualstudio/releases/2022/release-notes-preview#github-copilot
 	1. [] Ask Copilot from Feature Search 
 		a. [] <Jason Laderman> How do I configure IntelliSense to autolist object members and parameter information?
 	2. [] New keyboard shortcuts for threads in GitHub Copilot Chat. This update registers new Commands for GitHub Copilot and binds them to keyboard shortcuts in the Chat window:
