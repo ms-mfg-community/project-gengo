@@ -1,5 +1,5 @@
-# Create a powershell script to recursively enumerate all folders, subfolders and files from the current directory, while filtering to search for and display all files with the *.exe extension.
-
+# Recursively enumerate all folders, subfolders, and files from the current directory,
+# filtering to search for and display all files with the *.exe extension.
 Get-ChildItem -Path $PWD -Recurse -File -Filter "*.exe" | ForEach-Object {
     Write-Output $_.FullName
 } # end ForEach 
@@ -12,12 +12,13 @@ class ExeFiles {
 # Create an object instance of this class and export these results to a CSV file.
 $exeFiles = [ExeFiles]::new()
 
+# Add each found .exe file to the Files property of the ExeFiles object
 foreach ($file in $exeFiles) 
 {
     $exeFiles.Files += $file
 } # end foreach
 
-# Code completion example. Type 'Export-Csv ...' and press 'Tab' to auto-complete the command.
+# Export the list of .exe files to a CSV file
 Export-Csv -Path "exe_files.csv" -InputObject $exeFiles -NoTypeInformation
 
 # Import the CSV file and display the contents sorted by reverse order based on the filename.
