@@ -5,7 +5,7 @@
     cd calculator-xunit-testing
 
     # Create a new console application project named 'calculator' targeting .NET 8.0
-    dotnet new console -o calculator -f net8.0
+    dotnet new console -o calculator -f net8.0 --use-program-main false
 
     # Add the 'calculator' project to the solution
     dotnet sln add ./calculator/calculator.csproj
