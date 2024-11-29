@@ -1,38 +1,43 @@
-namespace calculator.tests;
+// FILE: calculator.tests/OperationsTests.cs
+using Xunit;
+using Calculator;
 
-public class UnitTest1
+namespace calculator.tests
 {
-    [Fact]
-    public void TestAddition()
+    public class OperationsTests
     {
-        double result = Calculator.Program.Add(5, 3);
-        Assert.Equal(8, result);
-    }
+        [Fact]
+        public void Add_ReturnsCorrectSum()
+        {
+            double result = Operations.Add(2, 3);
+            Assert.Equal(5, result);
+        }
 
-    [Fact]
-    public void TestSubtraction()
-    {
-        double result = Calculator.Program.Subtract(5, 3);
-        Assert.Equal(2, result);
-    }
+        [Fact]
+        public void Subtract_ReturnsCorrectDifference()
+        {
+            double result = Operations.Subtract(5, 3);
+            Assert.Equal(2, result);
+        }
 
-    [Fact]
-    public void TestMultiplication()
-    {
-        double result = Calculator.Program.Multiply(5, 3);
-        Assert.Equal(15, result);
-    }
+        [Fact]
+        public void Multiply_ReturnsCorrectProduct()
+        {
+            double result = Operations.Multiply(2, 3);
+            Assert.Equal(6, result);
+        }
 
-    [Fact]
-    public void TestDivision()
-    {
-        double result = Calculator.Program.Divide(6, 3);
-        Assert.Equal(2, result);
-    }
+        [Fact]
+        public void Divide_ReturnsCorrectQuotient()
+        {
+            double result = Operations.Divide(6, 3);
+            Assert.Equal(2, result);
+        }
 
-    [Fact]
-    public void TestDivisionByZero()
-    {
-        Assert.Throws<DivideByZeroException>(() => Calculator.Program.Divide(6, 0));
+        [Fact]
+        public void Divide_ByZero_ThrowsDivideByZeroException()
+        {
+            Assert.Throws<DivideByZeroException>(() => Operations.Divide(6, 0));
+        }
     }
 }

@@ -1,18 +1,16 @@
-﻿// FILE: calculator/Program.cs
-using System;
+﻿using System;
 
 namespace Calculator
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             bool continueCalculation = true;
 
             while (continueCalculation)
             {
-                Console.Clear(); // Clear the console at the start of each calculation
-
+                Console.Clear();
                 Console.Write("Enter the first number: ");
                 double firstNumber = Convert.ToDouble(Console.ReadLine());
 
@@ -20,56 +18,50 @@ namespace Calculator
                 double secondNumber = Convert.ToDouble(Console.ReadLine());
 
                 Console.Write("Enter the operator (+, -, *, /): ");
-                string? operatorInput = Console.ReadLine();
-
-                if (operatorInput == null)
-                {
-                    Console.WriteLine("Invalid operator. Please try again.");
-                    continue;
-                }
+                char operation = Console.ReadKey().KeyChar;
+                Console.WriteLine();
 
                 double result = 0;
 
                 try
                 {
-                    result = operatorInput switch
-                    {
-                        "+" => Operations.Add(firstNumber, secondNumber),
-                        "-" => Operations.Subtract(firstNumber, secondNumber),
-                        "*" => Operations.Multiply(firstNumber, secondNumber),
-                        "/" => Operations.Divide(firstNumber, secondNumber),
-                        _ => throw new InvalidOperationException("Invalid operator")
-                    };
+                    result = PerformOperation(firstNumber, secondNumber, operation);
+                    Console.WriteLine($"Result: {result}");
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error: {ex.Message}");
-                    continue;
                 }
 
-                Console.WriteLine($"Result: {result}");
-
                 Console.Write("Do you want to perform another calculation? (yes/no): ");
-                string? continueInput = Console.ReadLine();
-
-                if (continueInput == null || continueInput.ToLower() != "yes")
+                string? userResponse = Console.ReadLine()?.ToLower();
+                if (userResponse != "yes")
                 {
                     continueCalculation = false;
+                    Console.Clear();
                     Console.WriteLine("Thank you for using the calculator. Goodbye!");
                 }
             }
         }
-    }
-}
 
-// FILE: calculator/Operations.cs
-namespace Calculator
-{
-    public static class Operations
-    {
+        public static double PerformOperation(double firstNumber, double secondNumber, char operation)
+        {
+            return operation switch
+            {
+                '+' => Add(firstNumber, secondNumber),
+                '-' => Subtract(firstNumber, secondNumber),
+                '*' => Multiply(firstNumber, secondNumber),
+                '/' => Divide(firstNumber, secondNumber),
+                _ => throw new InvalidOperationException("Invalid operator.")
+            };
+        }
+
         public static double Add(double a, double b) => a + b;
+
         public static double Subtract(double a, double b) => a - b;
+
         public static double Multiply(double a, double b) => a * b;
+
         public static double Divide(double a, double b)
         {
             if (b == 0)

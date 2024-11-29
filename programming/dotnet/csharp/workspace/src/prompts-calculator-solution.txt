@@ -23,3 +23,14 @@
 	1. [] dotnet test .\calculator.test.csproj
 [] Reverse prompting
 	1. [] Given the code in #file:'calculator\Program.cs' , write a corresponding prompt to generate it.
+
+	This PowerShell script automates the setup of a .NET solution for unit testing using xUnit. It performs the following steps:
+1. Creates a new solution named `calculator-xunit-testing`.
+2. Changes the directory to the newly created solution directory.
+3. Creates a new console application project named `calculator` targeting .NET 8.0.
+4. Adds the `calculator` project to the solution.
+5. Creates a new xUnit test project named `calculator.tests` targeting .NET 8.0.
+6. Adds a reference to the `calculator` project in the `calculator.tests` project.
+7. Adds the `calculator.tests` project to the solution.
+
+The script ensures that the solution is properly set up for unit testing with xUnit.

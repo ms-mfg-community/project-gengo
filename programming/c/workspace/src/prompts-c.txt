@@ -1,0 +1,40 @@
+temp_converter
+
+[] p1. generate
+@workspace For the file #file:'temp_converter.c', create a C program that converts temperatures from Fahrenheit to Celsius. The program should include the following:
+1. A function `float fahrenheitToCelsius(float fahrenheit)` that takes a temperature in Fahrenheit as input and returns the equivalent temperature in Celsius. 
+The conversion formula is: `Celsius = (Fahrenheit - 32) * 5.0 / 9.0`.
+2. In the `main` function:
+   - Prompt the user to enter a temperature in Fahrenheit.
+   - Read the input temperature.
+   - Use the `fahrenheitToCelsius` function to convert the input temperature to Celsius.
+   - Display the input temperature in Fahrenheit and the converted temperature in Celsius, formatted to two decimal places.
+3. Include necessary headers and ensure the program compiles without errors.
+4. Provide a comment with the command to compile the program using the Windows Subsystem for Linux (WSL2) and the gcc compiler.
+
+[] p2 /generate Prompt the user if they want to convert from fahrenheit to celcius or from celcius to fahrenheit. 
+Add a function to convert from celcius to fahrenheit, in case the user selects this conversion option. 
+
+[] p3. (refactor) /generate Add a prompt to ask the user if they want to convert another temperature. 
+If the user answers yes, the program should repeat the conversion process. 
+If the user answers no, the program should exit.
+
+[] p4. /generate Clear the console before the program starts, and after each conversion, to keep the output clean and organized.
+[] p5. /generate Also clear the screen if the user decides not to convert another temperature, before exiting the program.
+
+spi_simulator
+p1. [] generate
+/gnerate Create a serial peripheral interface (SPI) simulator program in C that simulates the communication between a BMC controller from the Intel Z890 motherboard chipset and two peripheral devices representing a BIOS and a TPM using SPI protocol. 
+The program should include the following:
+1. A function to initialize the SPI communication, which sets up the necessary parameters such as clock speed, data order, and mode.
+2. A function to send data from the controller to the peripheral devices over SPI.
+3. A function to receive data from the peripheral device to the controller over SPI.
+4. In the `main` function:
+   - Initialize the SPI communication.
+   - Send data from the controller to the peripherals.
+   - Receive data from the peripherals by the controller.
+   - Display the sent and received data.
+   5. Include necessary headers and ensure the program compiles without errors.
+   6. Provide a comment with the command to compile the program using the Windows Subsystem for Linux (WSL2) and the gcc compiler.
+
+[] p6. Given the code in   create a prompt that can be used to regenerate it please.
