@@ -18,3 +18,9 @@ Export-Csv -Path "exe_files.csv" -InputObject $exeFiles -NoTypeInformation
 # Import the CSV file and display the contents sorted by reverse order based on the filename.
 Import-Csv -Path "exe_files.csv" | Sort-Object -Property Files -Descending | Format-Table -AutoSize
 
+# Get the current directroy content
+Get-ChildItem -Path $PWD -Recurse -File -Filter "*.exe" | ForEach-Object {
+    Write-Output $_.FullName
+}
+
+
