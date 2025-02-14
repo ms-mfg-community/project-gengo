@@ -1,3 +1,9 @@
+l01. [] gui
 p01. [] What is az-bot-chatops ?
 s01. [] https://github.com/ms-mfg-community/az-bot-chatops
 c01. [] 
+
+l02. [] ide 
+p02. [] What was the hash of the last commit message ?
+s02. [] na 
+c02. [] 
