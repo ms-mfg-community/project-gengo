@@ -29,5 +29,5 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 ### PowerShell
 - When writing powershell code blocks, like if, for, or functions, use #end at the end of each block.
 - Use Pascal Case for variables, functions, and classes.
-
+- After loops, or if statements, always close with # end ..., examples: # end if, # end foreach
 Thank you for using GitHub Copilot and contributing to our project! Your efforts are greatly appreciated.
