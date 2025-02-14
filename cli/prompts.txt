@@ -4,3 +4,7 @@ r01. [] for rg in $(az group list --query "[?starts_with(name, 'rg-alz-mgmt')].n
           az group delete --name $rg --yes --no-wait
         done
 s01. terminal (local or cloud shell)
+
+p02. [] @docker How do I create a docker file?
+s02. [] ide.vscode github copilot chat (after installing docker extension from the marketplace)
+c02. [] 
