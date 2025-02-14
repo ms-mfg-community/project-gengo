@@ -27,3 +27,14 @@ l06. [] gui.repo
 p06. [] Who closed the most issues ?
 c05. [] https://github.com/ms-mfg-community/az-bot-chatops
 c06. [] 
+
+l07. [] gui.repo 
+p07. [] Where can I find generateFibSequence.py ?
+s05. [] https://github.com/ms-mfg-community/project-gengo 
+c06. [] The generateFibSequence.py file can be found in the content-exclusion directory of the ms-mfg-community/project-gengo repository. 
+        You can view the file here.
+
+l08. [] gui.repo 
+p08. [] Are there any files with German content ?
+s08. [] https://github.com/ms-mfg-community/project-gengo
+c08. [] 
