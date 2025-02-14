@@ -37,4 +37,4 @@ c06. [] The generateFibSequence.py file can be found in the content-exclusion di
 l08. [] gui.repo 
 p08. [] Are there any files with German content ?
 s08. [] https://github.com/ms-mfg-community/project-gengo
-c08. [] 
+c08. [] Just testing PR summaries with ghc in github.com
