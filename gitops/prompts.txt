@@ -104,3 +104,8 @@ s07. C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\.gitigno
 p08. [] What's the latest version of the GitHub Actions azure/login ?
 
 p09. [] How do I extract the schema from empty tables in a Postgres database to create data model files for a NodeJS application ?
+
+l10. [] ide.vscode
+p10. [] How do I switch to  a new branch created in github named dev ?
+s10. [] https://github.com/ms-mfg-community/project-gengo
+c10. [] 
