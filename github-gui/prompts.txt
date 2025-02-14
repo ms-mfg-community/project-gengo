@@ -7,3 +7,23 @@ l02. [] ide
 p02. [] What was the hash of the last commit message ?
 s02. [] na 
 c02. [] 
+
+l03. [] gui.workspace
+p03. [] Summarize this pull request ?
+s03. [] https://github.com/ms-mfg-community/az-bot-chatops/pull/37
+c03. [] 
+
+l04. [] gui.workspace
+p04. [] What other questions can I ask about this PR? 
+s04. [] https://github.com/ms-mfg-community/az-bot-chatops/pull/37
+c04. []
+
+l05. [] gui.repo 
+p05. [] Can you tell me about this repository?
+s05. [] https://github.com/ms-mfg-community/az-bot-chatops
+c05. [] 
+
+l06. [] gui.repo 
+p06. [] Who closed the most issues ?
+c05. [] https://github.com/ms-mfg-community/az-bot-chatops
+c06. [] 
