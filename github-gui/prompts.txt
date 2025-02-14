@@ -38,3 +38,8 @@ l08. [] gui.repo
 p08. [] Are there any files with German content ?
 s08. [] https://github.com/ms-mfg-community/project-gengo
 c08. [] 
+
+l09. [] gui.repo 
+p09. [] click [Generate plan]
+s09. [] https://copilot-workspace.githubnext.com/autocloudarc/0074-migrate-mma-to-ama/issues/3
+c08. 
