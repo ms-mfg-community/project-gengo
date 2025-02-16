@@ -2,13 +2,14 @@
 	[]  Create a PowerShell script named Set-DotnetSlnForCalculator.ps1 in the ...\programming\dotnet\csharp\workspace\src directory 
 		that performs the following steps to set up a .NET 8 solution with a console app and an xUnit test project.
 		Use each of these numbered steps below as comments.
-		1.	Create a new solution named calculator-xunit-testing.
+		1.  Create a new folder for the solution named calculator-xunit-testing.
 		2.	Change into the newly created solution directory.
-		3.	Create a .NET 8 console application project named calculator without an explicit Main method and change the Program.cs filename to Calculator.cs
-		4.	Add the calculator project to the solution.
-		5.	Create a new xUnit test project named calculator.tests, targeting .NET 8.
-		6.	Add a project reference from calculator.tests to calculator.
-		7.	Add the calculator.tests project to the solution.
+		3.	Create a new solution named calculator-xunit-testing.
+		4.	Create a .NET 8 console application project named calculator without an explicit Main method and change the Program.cs filename to Calculator.cs
+		5.	Add the calculator project to the solution.
+		6.	Create a new xUnit test project named calculator.tests, targeting .NET 8 and change the default cs name from UnitTest1.cs to CalculatorTest.cs
+		7.	Add a project reference from calculator.tests to calculator.
+		8.	Add the calculator.tests project to the solution.
 		Make sure the script uses dotnet new sln, dotnet new console, dotnet sln add, 
 		and dotnet add reference commands in the correct order.
 
@@ -38,13 +39,9 @@
 [] Reverse prompting
 	1. [] Given the code in #file:'calculator\Program.cs' , write a corresponding prompt to generate it.
 
-	This PowerShell script automates the setup of a .NET solution for unit testing using xUnit. It performs the following steps:
-1. Creates a new solution named `calculator-xunit-testing`.
-2. Changes the directory to the newly created solution directory.
-3. Creates a new console application project named `calculator` targeting .NET 8.0.
-4. Adds the `calculator` project to the solution.
-5. Creates a new xUnit test project named `calculator.tests` targeting .NET 8.0.
-6. Adds a reference to the `calculator` project in the `calculator.tests` project.
-7. Adds the `calculator.tests` project to the solution.
+[] Create the content for a powershell script to reset the calculator-xunit-testing exercise. Add each step below as comments.
+   	1. Get the repository root path
+	2. Append to this root path, the relative root path of \programming\dotnet\csharp\workspace\src and assign this string value to the variable $targetPath
+	3. Set the current path to $targetPath
+	4. Remove the calculator-xunit-testing folder from the $targetPath
 
-The script ensures that the solution is properly set up for unit testing with xUnit.
