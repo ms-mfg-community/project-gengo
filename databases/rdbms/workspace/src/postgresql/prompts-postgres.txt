@@ -1,9 +1,40 @@
-p001 [ide=ads] /* Create a database named ghc_prompts */
-r001 [ide=ads] CREATE DATABASE ghc_prompts;
-s001 /subscriptions/976c53b8-965c-4f97-ab51-993195a8623c/resourceGroups/pgr-rgp-01/providers/Microsoft.DBforPostgreSQL/flexibleServers/pfs-sql-01 ...ghc_prompts
+[] To import a CSV file into an Azure-hosted PostgreSQL database using `psql`, you can follow these steps:
+[] 1. Assume you have a file named `ghc-skills-matrix-demo-catalog.csv` that is already populated with values.
+[] 2. [prompt] create an Azure keyvault instance to save the postgres user secret:
+    az keyvault secret set --vault-name "psql-kvt-01" --name "db-password" --value "mypassword"
+[] 2. [prompt] Connect to postgres host pfs-sql-01.postgres.database.azure.com on port 5432 with username ztmadmin for the database ghc_prompts and prompt for password
+[] 3. **Connect to the PostgreSQL database**: ```sh psql -h pfs-sql-01.postgres.database.azure.com -U ztmadmin -d ghc_prompts -W ```
+[] 4. create enum types:
+```psql
+create type prompt_type_enum as enum ('chat','inline');
+create type shot_type_enum as enum ('zero','one','multiple');
+create type test_type_enum as enum ('na','unit','integration','performance','load','resiliency','security');
 
-p003 [ide=ads] -- create a table named prompts with the following columns: id, prompt
-r001 [ide=ads] 
-s001 /subscriptions/976c53b8-965c-4f97-ab51-993195a8623c/resourceGroups/pgr-rgp-01/providers/Microsoft.DBforPostgreSQL/flexibleServers/pfs-sql-01 ...ghc_prompts/prompts 
+create table demo_catalog (
+    id int primary key,
+    category varchar(20),
+    sub_category varchar(20),
+    language varchar(20),
+    role varchar(50),
+    person varchar (50),
+    prompt_type prompt_type_enum not null,
+    shot_type shot_type_enum not null,
+    is_test boolean not null,
+    test_type test_type_enum not null,
+    epoch int check (epoch >= 1 AND epoch <= 10),
+    confidence_percent int check (confidence_percent >= 10 and confidence_percent <= 100),
+    scenario varchar(255),
+    github_org varchar(20),
+    reference varchar(255),
+    notes_feedback varchar(255)
+);
 
+exit 
+```
+```pwsh 
+# $topLevelGitPath = $(git rev-parse --show-toplevel)
+# $relativeTargetPath = "databases\rdbms\workspace\src\postgresql\ghc-skills-matrix-demo-catalog.csv" 
+# $targetPath = Join-path -Path $topLevelGitPath -ChildPath $relativeTargetPath
+# $sourceData = Import-Csv -path $targetPath
 
+7. [prompt] How do I find the reference from the demo_catalog where the scenario is create-basic-calculator ?

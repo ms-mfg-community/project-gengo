@@ -39,7 +39,7 @@
 [] Reverse prompting
 	1. [] Given the code in #file:'calculator\Program.cs' , write a corresponding prompt to generate it.
 
-[] Create the content for a powershell script to reset the calculator-xunit-testing exercise. Add each step below as comments.
+[] Create the content for a powershell script named Remove-DotnetSlnForCalculator.ps1 to reset the calculator-xunit-testing exercise. Add each step below as comments.
    	1. Get the repository root path
 	2. Append to this root path, the relative root path of \programming\dotnet\csharp\workspace\src and assign this string value to the variable $targetPath
 	3. Set the current path to $targetPath
