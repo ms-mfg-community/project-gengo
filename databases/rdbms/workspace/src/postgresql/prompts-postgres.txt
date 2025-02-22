@@ -9,14 +9,16 @@
 create type prompt_type_enum as enum ('chat','inline');
 create type shot_type_enum as enum ('zero','one','multiple');
 create type test_type_enum as enum ('na','unit','integration','performance','load','resiliency','security');
+create type ide_type_enum as enum ('vs_code','visual_studio','jetbrains_suite','vim_neovim','xcode','none','other');
 
 create table demo_catalog (
-    id int primary key,
+    index int primary key,
     category varchar(20),
     sub_category varchar(20),
     language varchar(20),
     role varchar(50),
     person varchar (50),
+    ide_type ide_type_enum not null,
     prompt_type prompt_type_enum not null,
     shot_type shot_type_enum not null,
     is_test boolean not null,
@@ -37,4 +39,4 @@ exit
 # $targetPath = Join-path -Path $topLevelGitPath -ChildPath $relativeTargetPath
 # $sourceData = Import-Csv -path $targetPath
 
-7. [prompt] How do I find the reference from the demo_catalog where the scenario is create-basic-calculator ?
+7. [prompt] How do I find the reference from the demo_catalog where the scenario is to create a basic calculator ?
