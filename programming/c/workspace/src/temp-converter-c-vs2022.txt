@@ -21,20 +21,3 @@ If the user answers no, the program should exit.
 
 [] p4. /generate Clear the console before the program starts, and after each conversion, to keep the output clean and organized.
 [] p5. /generate Also clear the screen if the user decides not to convert another temperature, before exiting the program.
-
-spi_simulator
-p1. [] generate
-/gnerate Create a serial peripheral interface (SPI) simulator program in C that simulates the communication between a BMC controller from the Intel Z890 motherboard chipset and two peripheral devices representing a BIOS and a TPM using SPI protocol. 
-The program should include the following:
-1. A function to initialize the SPI communication, which sets up the necessary parameters such as clock speed, data order, and mode.
-2. A function to send data from the controller to the peripheral devices over SPI.
-3. A function to receive data from the peripheral device to the controller over SPI.
-4. In the `main` function:
-   - Initialize the SPI communication.
-   - Send data from the controller to the peripherals.
-   - Receive data from the peripherals by the controller.
-   - Display the sent and received data.
-   5. Include necessary headers and ensure the program compiles without errors.
-   6. Provide a comment with the command to compile the program using the Windows Subsystem for Linux (WSL2) and the gcc compiler.
-
-[] p6. Given the code in   create a prompt that can be used to regenerate it please.

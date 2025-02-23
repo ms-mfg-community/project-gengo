@@ -1,0 +1,20 @@
+create table demo_catalog (
+    index int primary key,
+    points int check (points >= 1 AND points <= 100),
+    category varchar(20),
+    sub_category varchar(20),
+    language varchar(20),
+    role varchar(50),
+    person varchar (50),
+    ide_type ide_type_enum not null,
+    prompt_type prompt_type_enum not null,
+    shot_type shot_type_enum not null,
+    is_test boolean not null,
+    test_type test_type_enum not null,
+    epoch int check (epoch >= 0 AND epoch <= 10),
+    confidence_percent int check (confidence_percent >= 10 and confidence_percent <= 100),
+    scenario varchar(255),
+    github_org varchar(20),
+    reference varchar(255),
+    notes_feedback varchar(255)
+);

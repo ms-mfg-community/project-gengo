@@ -1,9 +1,8 @@
-[] To import a CSV file into an Azure-hosted PostgreSQL database using `psql`, you can follow these steps:
-[] 1. Assume you have a file named `ghc-skills-matrix-demo-catalog.csv` that is already populated with values.
-[] 2. [prompt] create an Azure keyvault instance to save the postgres user secret:
-    az keyvault secret set --vault-name "psql-kvt-01" --name "db-password" --value "mypassword"
-[] 2. [prompt] Connect to postgres host pfs-sql-01.postgres.database.azure.com on port 5432 with username ztmadmin for the database ghc_prompts and prompt for password
-[] 3. **Connect to the PostgreSQL database**: ```sh psql -h pfs-sql-01.postgres.database.azure.com -U ztmadmin -d ghc_prompts -W ```
+[prompt] Connect to postgres host pfs-sql-01.postgres.database.azure.com on port 5432 with username ztmadmin for the database ghc_prompts and prompt for password
+[] 3. **Connect to the PostgreSQL database**: 
+```bash
+psql -h pfs-sql-01.postgres.database.azure.com -U ztmadmin -d ghc_prompts -W 
+```
 [] 4. create enum types:
 ```psql
 create type prompt_type_enum as enum ('chat','inline');
@@ -13,6 +12,7 @@ create type ide_type_enum as enum ('vs_code','visual_studio','jetbrains_suite','
 
 create table demo_catalog (
     index int primary key,
+    points int check (points >= 1 AND points <= 100),
     category varchar(20),
     sub_category varchar(20),
     language varchar(20),

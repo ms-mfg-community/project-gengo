@@ -1,0 +1,47 @@
+[] Solution setup
+	[]  Create a PowerShell script named Set-DotnetSlnForCalculator.ps1 in the ...\programming\dotnet\csharp\workspace\src directory 
+		that performs the following steps to set up a .NET 8 solution with a console app and an xUnit test project.
+		Use each of these numbered steps below as comments.
+		1.  Create a new folder for the solution named calculator-xunit-testing.
+		2.	Change into the newly created solution directory.
+		3.	Create a new solution named calculator-xunit-testing.
+		4.	Create a .NET 8 console application project named calculator without an explicit Main method and change the Program.cs filename to Calculator.cs
+		5.	Add the calculator project to the solution.
+		6.	Create a new xUnit test project named calculator.tests, targeting .NET 8 and change the default cs name from UnitTest1.cs to CalculatorTest.cs
+		7.	Add a project reference from calculator.tests to calculator.
+		8.	Add the calculator.tests project to the solution.
+		Make sure the script uses dotnet new sln, dotnet new console, dotnet sln add, 
+		and dotnet add reference commands in the correct order.
+
+[] Prepare
+	[] 1. Execute the Set-DotnetSolutionForUnitTesting.ps1 script to setup the solution, main project and test project
+[] Generate
+	[] 1. Create a simple calculator program with the following arithmetic operations +,-,*,/. This program should prompt the user for the first number as an operand, then the second operand and finally the operator. The calculator will then display the result and ask the user if they want to perform another calculation. For this prompt, they can either say yes or no. If they say yes, the program will repeat the process, however, if the user states 'no', the program will terminate with a friendly message.
+[] Refactor
+	[] Please refactor this code to convert each operation into it's own independent method so it can be more easily tested with unit testing.
+[] Iterate
+	1. [] Please clear the screen when the program starts or when a user responds to the prompt with 'yes' or 'no' after each calculation. If the user responds with 'no', first clear the screen, then display the thank you message.
+	2. [] /generate make the methods in #file:'calculator\Program.cs' public so they can be tested by an xunit console project. 
+[] Fix
+	1. [] /fix: string userResponse = Console.ReadLine().ToLower(); // To prevent a NullReferenceException, add nullable types
+[] Build solution:  
+	1. []dotnet build .\calculator-mstest-testing.sln --verbosity diagnostic
+[] Restore project: 
+	1. [] dotnet restore .\Calculator.csproj
+[] Build project: 
+	1. [] dotnet build .\Calculator.csproj
+[] Run program: 
+	1. [] dotnet run .\Calculator.csproj
+[] Write Unit Tests: 
+	1. [] How can I add xUnit framework tests for the calculator operations in my test project ?
+[] Run test: 
+	1. [] dotnet test .\calculator.test.csproj
+[] Reverse prompting
+	1. [] Given the code in #file:'calculator\Program.cs' , write a corresponding prompt to generate it.
+
+[] Create the content for a powershell script named Remove-DotnetSlnForCalculator.ps1 to reset the calculator-xunit-testing exercise. Add each step below as comments.
+   	1. Get the repository root path
+	2. Append to this root path, the relative root path of \programming\dotnet\csharp\workspace\src and assign this string value to the variable $targetPath
+	3. Set the current path to $targetPath
+	4. Remove the calculator-xunit-testing folder from the $targetPath
+

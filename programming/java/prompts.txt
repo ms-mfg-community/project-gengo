@@ -1,14 +1,1 @@
-p1. [] How do I write an Azure function in .NET with C# that will cleanup azure custom role assignements that are staged at the tenant root level ?
-r1. [] Reference: https://github.com/ms-mfg-community/alz-tf-accelerator-azure-cleanup
-
-p2. [] /optimize the code in #file:'Function1.cs' by performing the custom role assignment deletions recursively from the tenant root.
-r2. []
-
-p3. [] /explain the code in #PostAlzDeploy.cs
-r3. [] 
-
-p4. [] /optimize the code in #PostAlzDeploy.cs to run every minute instead of every 24 hours so I can quickly observe and iterate on the results.
-r4. [] 
-
-p5. [] /optimize   the code in #PostAlzDeploy to filter customRoles that have names which starts with 'Azure Landing Zones'
-r5. [] 
+p01. [] Create a basic
