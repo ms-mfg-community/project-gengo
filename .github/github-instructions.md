@@ -9,6 +9,7 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 - Write clear and concise comments for complex code blocks.
 
 ## Testing
+- For DotNet projects, prefer the use of the xunit testing framework, versus mstest, and nunit.
 
 ## Documentation
 
