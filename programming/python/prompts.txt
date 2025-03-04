@@ -138,3 +138,17 @@ NOTE: @github Get answers grounded in web search, code search, and your enterpri
 p13. [] How do I run the tests in #file:test_game.py ?
 
 p14. [] Write a script to download the SVG files from https://primer.style/foundations/icons#24px to a new directory named ./github-octicons and show the title property of each svg.
+
+p15. [] calculator.py
+p15.1 [] /tests for #calculator.py
+p15.2 [] pip install pytest
+p15.3 [] pytest -v test_calculator.py
+p16 [] change data source
+p16.1 [] Create a csv file named test_params.csv with these parameter values.
+p16.2 [] Add a column to indicate the method being tested.
+p16.3 [refactor] Refactor this script #test_calculator.py to replace the parameter values with the appropriate values for each arithmetic operation being tested using the test_params.csv file.
+p17 [test] pytest -v test_calculator.py
+
+
+
+
