@@ -78,6 +78,17 @@ This format provides clear context and can be easily parsed by tools. The Topic 
 
 ### PowerShell
 - End control structures, loops and functions with `#end if,#end for,#end forach, #end while,#end until,#end case, #end FunctionName`.
+- Place each opening bracket '{' on a new line for each scope within a foreach, while, until, for loop or function block. For example:
+```powershell
+foreach ($item in $contents)
+{
+    Write-Host "Name: $($item.Name)"
+    Write-Host "Full Name: $($item.FullName)"
+    Write-Host "Size: $($item.Length) bytes"
+    Write-Host "Last Modified: $($item.LastWriteTime)"
+    Write-Host "-----------------------------"
+} # end foreach
+```
 - Use PascalCase for variables, functions, and classes.
 - Include comments for any non-trivial logic within scripts.
 
