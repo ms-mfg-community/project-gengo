@@ -96,6 +96,8 @@ foreach ($item in $contents)
 - Enable strict mode and use linting (e.g., ESLint).
 - Prefer ES6+ features and async/await for asynchronous operations.
 - Document functions with JSDoc comments where applicable.
+- Use vite for building and testing TypeScript projects instead of create-react-app, since it has recently been deprecated.
+- Reference:[Sunsetting Create React App](https://react.dev/blog/2025/02/14/sunsetting-create-react-app)
 
 ### Python
 - Follow the PEP 8 style guide.

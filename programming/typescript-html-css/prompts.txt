@@ -1,0 +1,2 @@
+[] p01. Can you create a typescript program with react to reflect this wireframe ? https://s3-alpha.figma.com/hub/file/3448294147/resized/1200x720/3c214535-969c-4a2d-8372-e663acbc0e75-cover.png
+[] p01.1 Use vite instead of create-react-app since it's deprecated.
