@@ -23,12 +23,13 @@ create table demo_catalog (
     shot_type shot_type_enum not null,
     is_test boolean not null,
     test_type test_type_enum not null,
-    epoch int check (epoch >= 1 AND epoch <= 10),
+    epoch int check (epoch >= 0 AND epoch <= 10),
     confidence_percent int check (confidence_percent >= 10 and confidence_percent <= 100),
     scenario varchar(255),
     github_org varchar(20),
     reference varchar(255),
-    notes_feedback varchar(255)
+    notes_feedback varchar(255),
+    data_source varchar(50)
 );
 
 exit 
