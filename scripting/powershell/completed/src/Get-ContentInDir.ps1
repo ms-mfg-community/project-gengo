@@ -9,3 +9,14 @@ $directoryPath = $(git rev-parse --show-toplevel) # Get the top-level directory 
 # Get the contents of the specified directory
 $contents = Get-ChildItem -Path $directoryPath -Recurse -File | Select-Object Name, FullName, Length, LastWriteTime
 
+# ...existing code...
+
+# Display the contents using a foreach loop
+foreach ($item in $contents)
+{
+    Write-Output "Name: $($item.Name)"
+    Write-Output "Full Name: $($item.FullName)"
+    Write-Output "Size (bytes): $($item.Length)"
+    Write-Output "Last Modified: $($item.LastWriteTime)"
+    Write-Output "----------------------------------------"
+} # end foreach
