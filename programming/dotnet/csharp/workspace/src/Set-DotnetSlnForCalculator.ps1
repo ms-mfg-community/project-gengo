@@ -26,3 +26,5 @@ dotnet add calculator.tests/calculator.tests.csproj reference calculator/calcula
 
 # 8. Add the calculator.tests project to the solution.
 dotnet sln add calculator.tests/calculator.tests.csproj
+
+#end FunctionName

@@ -1,22 +1,24 @@
-# This script lists all the files and directories in the specified directory.
-# It can be used to quickly view the contents of a directory.
+# Dieses Skript listet alle Dateien und Verzeichnisse im angegebenen Verzeichnis auf.
+# Es kann verwendet werden, um die Inhalte eines Verzeichnisses schnell anzuzeigen.
 
 
 
-# Specify the directory path (change this to the desired directory)
-$directoryPath = $(git rev-parse --show-toplevel) # Get the top-level directory of the Git repository
+# Dateipfad des gewünschten Verzeichnisses festlegen (bei Bedarf anpassen)
+$DirectoryPath = $(git rev-parse --show-toplevel) # Ermittelt das oberste Verzeichnis des Git-Repositories
 
-# Get the contents of the specified directory
-$contents = Get-ChildItem -Path $directoryPath -Recurse -File | Select-Object Name, FullName, Length, LastWriteTime
+# Inhalte des angegebenen Verzeichnisses abrufen
+$Contents = Get-ChildItem -Path $DirectoryPath -Recurse -File | Select-Object Name, FullName, Length, LastWriteTime
 
 # ...existing code...
 
-# Display the contents using a foreach loop
-foreach ($item in $contents)
+# Inhalte mit einer foreach-Schleife ausgeben
+foreach ($Item in $Contents)
 {
-    Write-Output "Name: $($item.Name)"
-    Write-Output "Full Name: $($item.FullName)"
-    Write-Output "Size (bytes): $($item.Length)"
-    Write-Output "Last Modified: $($item.LastWriteTime)"
+    Write-Output "Name: $($Item.Name)"
+    Write-Output "Vollständiger Name: $($Item.FullName)"
+    Write-Output "Größe (Bytes): $($Item.Length)"
+    Write-Output "Zuletzt geändert: $($Item.LastWriteTime)"
     Write-Output "----------------------------------------"
 } # end foreach
+
+# Inhalte mithilfe einer Pipeline ausgeben
