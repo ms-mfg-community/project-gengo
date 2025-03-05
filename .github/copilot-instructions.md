@@ -3,7 +3,7 @@
 ## Purpose
 This file provides custom instructions for using GitHub Copilot in this repository. It helps ensure that both human contributors and AI-generated code adhere to our project's standards, coding practices, and overall quality requirements.
 
-## General Guidelines (from YouTube Video: Vibe Coding Tutorial and Best Practices...)
+## General Guidelines [Vibe Coding] (https://youtu.be/YWwS911iLhg?si=TEdJIIqGryZdjezy)
 - Always prefer simple solutions.
 - Avoid duplication of code whenever possible, which means checking for other areas of the codebase that might already have simlar code and functionality.
 - Write code that takes into account hte different environments, for example; dev, test and prod.
@@ -16,6 +16,13 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 - Never add stubbing or fake data patterns to code that affects the dev or prod environments.
 - Never overwrite the .env file without consent.
 
+## Coding workflow preferences: [Vibe Coding](https://youtu.be/YWwS911iLhg?si=TEdJIIqGryZdjezy)
+- Focus on the areas of code relevant to the task.
+- Do not touch code that is unrelated to the task.
+- Write through tests for all major functionality.
+- Avoid making major changes to the patterns and architecture of how a feature works, after it has been proven to work properly, unless explicitly promted to do so.
+- Always consider how changes and updates may negatively impact the current function of the solution.
+  
 ## Code Style
 - **General:** Follow the repository's style guide for consistency.
 - **Naming Conventions:** Use meaningful and descriptive names.
