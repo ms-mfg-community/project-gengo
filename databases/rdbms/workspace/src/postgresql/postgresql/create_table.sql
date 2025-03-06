@@ -1,5 +1,5 @@
 create table demo_catalog (
-    index int primary key,
+    id int primary key,
     points int check (points >= 1 AND points <= 100),
     category varchar(20),
     sub_category varchar(20),
@@ -16,5 +16,6 @@ create table demo_catalog (
     scenario varchar(255),
     github_org varchar(20),
     reference varchar(255),
-    notes_feedback varchar(255)
+    notes_feedback varchar(255),
+    data_source varchar(50)
 );

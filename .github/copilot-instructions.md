@@ -3,7 +3,7 @@
 ## Purpose
 This file provides custom instructions for using GitHub Copilot in this repository. It helps ensure that both human contributors and AI-generated code adhere to our project's standards, coding practices, and overall quality requirements.
 
-## General Guidelines [Vibe Coding] (https://youtu.be/YWwS911iLhg?si=TEdJIIqGryZdjezy)
+## General Guidelines [Vibe Coding](https://youtu.be/YWwS911iLhg?si=TEdJIIqGryZdjezy)
 - Always prefer simple solutions.
 - Avoid duplication of code whenever possible, which means checking for other areas of the codebase that might already have simlar code and functionality.
 - Write code that takes into account hte different environments, for example; dev, test and prod.
@@ -30,6 +30,7 @@ This file provides custom instructions for using GitHub Copilot in this reposito
   - For Python, adhere to [PEP 8](https://www.python.org/dev/peps/pep-0008/).
 - **Line Length:** Aim for 80-100 characters per line where possible.
 - **Formatting:** Use automated tools (like Prettier or Black) to enforce formatting rules.
+- **SQL:** For SQL, reference both Microsoft T-SQL as well as PostgreSQL syntax.
 
 ## Commenting
 - **Clarity:** Write clear and concise comments for complex logic.
