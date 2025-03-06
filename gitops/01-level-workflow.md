@@ -14,3 +14,8 @@ Create a GitHub Actions workflow named "01-level-workflow" that meets the follow
   - Lists the contents of the `src` directory recursively using PowerShell.
 
 Ensure the workflow follows best practices and includes clear inline comments explaining each step.
+
+- In the .github\workflows\01-level-workflow.yml file:
+  - Change the job name from "Build" to "list-contents"
+  - Add a second job named "retrieve-values"
+  - Add a single step to this job to show the current branch

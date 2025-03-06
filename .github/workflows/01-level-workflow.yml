@@ -14,7 +14,7 @@ on:
   workflow_dispatch: # Allows manual trigger
 
 jobs:
-  Build:
+  list-contents: # Renamed from "Build" to "list-contents"
     runs-on: ubuntu-latest
     steps:
       # Print the event that triggered the workflow
@@ -39,4 +39,9 @@ jobs:
             Get-ChildItem -Path "./src" -Recurse | Format-List
           } else {
             Write-Host "The 'src' directory does not exist."
-          }
+
+  retrieve-values: # New job added
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show current branch
+        run: echo "Current branch is ${{ github.ref }}"
