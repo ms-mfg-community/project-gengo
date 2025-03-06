@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Build:
+  list-contents:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,3 +32,12 @@ jobs:
       - name: List src directory contents
         shell: pwsh
         run: Get-ChildItem -Recurse src
+
+  retrieve-values:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show current branch
+        shell: pwsh
+        run: | 
+          echo "Current branch: ${{ github.ref_name }}"
