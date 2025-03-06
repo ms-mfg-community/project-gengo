@@ -35,10 +35,14 @@ jobs:
       - name: List src Directory Contents
         shell: pwsh
         run: |
-          if (Test-Path -Path "./src") {
-            Get-ChildItem -Path "./src" -Recurse | Format-List
-          } else {
-            Write-Host "The 'src' directory does not exist."
+          if (Test-Path -Path "./src")
+          {
+              Get-ChildItem -Path "./src" -Recurse | Format-List
+          } #end if
+          else
+          {
+              Write-Host "The 'src' directory does not exist."
+          } #end else
 
   retrieve-values: # New job added
     runs-on: ubuntu-latest
