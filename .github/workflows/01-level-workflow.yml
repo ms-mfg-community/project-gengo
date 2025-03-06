@@ -1,0 +1,42 @@
+name: 01-level-workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/**' # Exclude changes in the .github directory
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *' # Runs every 24 hours at midnight
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      # Print the event that triggered the workflow
+      - name: Print Triggering Event
+        run: |
+          echo "Triggered by event: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref }}"
+
+      # Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # List repository contents using tree command
+      - name: List Repository Contents
+        run: tree
+
+      # List contents of the src directory recursively using PowerShell
+      - name: List src Directory Contents
+        shell: pwsh
+        run: |
+          if (Test-Path -Path "./src") {
+            Get-ChildItem -Path "./src" -Recurse | Format-List
+          } else {
+            Write-Host "The 'src' directory does not exist."
+          }
