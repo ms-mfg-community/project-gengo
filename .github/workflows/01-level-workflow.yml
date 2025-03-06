@@ -5,47 +5,30 @@ on:
     branches:
       - main
     paths-ignore:
-      - '.github/**' # Exclude changes in the .github directory
+      - '.github/**'
   pull_request:
     branches:
       - main
   schedule:
-    - cron: '0 0 * * *' # Runs every 24 hours at midnight
-  workflow_dispatch: # Allows manual trigger
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
-  list-contents: # Renamed from "Build" to "list-contents"
+  Build:
     runs-on: ubuntu-latest
-    steps:
-      # Print the event that triggered the workflow
-      - name: Print Triggering Event
-        run: |
-          echo "Triggered by event: ${{ github.event_name }}"
-          echo "Branch: ${{ github.ref }}"
 
-      # Checkout the repository
-      - name: Checkout Repository
+    steps:
+      - name: Print event and branch
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref_name }}"
+
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      # List repository contents using tree command
-      - name: List Repository Contents
+      - name: List repository contents
         run: tree
 
-      # List contents of the src directory recursively using PowerShell
-      - name: List src Directory Contents
+      - name: List src directory contents
         shell: pwsh
-        run: |
-          if (Test-Path -Path "./src")
-          {
-              Get-ChildItem -Path "./src" -Recurse | Format-List
-          } #end if
-          else
-          {
-              Write-Host "The 'src' directory does not exist."
-          } #end else
-
-  retrieve-values: # New job added
-    runs-on: ubuntu-latest
-    steps:
-      - name: Show current branch
-        run: echo "Current branch is ${{ github.ref }}"
+        run: Get-ChildItem -Recurse src
