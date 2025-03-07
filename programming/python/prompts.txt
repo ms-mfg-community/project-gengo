@@ -1,17 +1,9 @@
-p01. [] Create a directory for the game, in this case rps-demo-py, and create a file within named rps.py.
-r01. []
-
 p02. [] How are comments created in Python?
-
 p03. [] Create a Python application that allows a user to play rock, paper, scissors against a computer player.
-r03. []
-
 p04. [] Add a comment at the top of the program which explains how the game is played.
-r04. []
+     [] Clear the screen before the game starts, and also after each round.
 
-p05. [] '''
-Create a Python application that allows a user to play Rock, Paper, Scissors against a computer player. The application should do the following:
-
+p05. [] Create a Python application that allows a user to play Rock, Paper, Scissors against a computer player. The application should do the following:
 1. Display the welcome message.
 2. Prompt the user to enter their name.
 3. Display the rules of the game.
@@ -23,15 +15,9 @@ Create a Python application that allows a user to play Rock, Paper, Scissors aga
 9. Prompt the user to play again.
 10. Display the goodbye message.
 '''
-r05. []
 
 p06. [] Add ASCII art for each round and user/computer selection
-r06. []
-
-p07. [] I want to keep score after each round to display it to the user
-r07. []
-
-p08. [] Can you help me refactor the program to use classes?
+p07. [] Can you help me refactor the program to use classes?
      My future use cases will require unit testing of the code, I need to make it more efficient and scalable.
      I want the classes to be in separate files and imported/exported appropriately
 r08. []
