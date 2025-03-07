@@ -40,6 +40,6 @@ exit
 # $targetPath = Join-path -Path $topLevelGitPath -ChildPath $relativeTargetPath
 # $sourceData = Import-Csv -path $targetPath
 
-7. [prompt] How do I find the reference from the demo_catalog where the scenario is to create a basic calculator ?
+7. [prompt] How do I find the reference property from the demo_catalog table where the scenario is to create a basic calculator ?
 8. [prompt] Use psql to find all scenarios that use the typescript language. 
-            Assume authentication to the database is already completed and provide the query on a single short line.
+   [note] Assume authentication to the database is already completed and provide the query on a single short line.
