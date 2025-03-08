@@ -19,3 +19,6 @@ obj/
 # Ignore nuget.config files
 **/nuget.config
 .fake
+
+# Ignore any .env that might be in any folder of this repo
+**/.env

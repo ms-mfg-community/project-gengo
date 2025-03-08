@@ -16,6 +16,5 @@ create table demo_catalog (
     scenario varchar(255),
     github_org varchar(20),
     reference varchar(255),
-    notes_feedback varchar(255),
     data_source varchar(50)
 );
