@@ -15,7 +15,9 @@ const HomePage: React.FC = () => {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite and React</h1>
+      <h1>Universal GitHub Copilot Demo Catalog</h1>
+      <h2>Node + Vite + React + TypeScript + HTML + CSS</h2>
+      <h3>Click the Catalog Form link above to add a new demo entry</h3>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}

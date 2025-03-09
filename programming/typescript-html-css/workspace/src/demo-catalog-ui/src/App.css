@@ -12,10 +12,10 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #0066cc);
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em #0066cc);
 }
 
 @keyframes logo-spin {
@@ -38,7 +38,7 @@
 }
 
 .read-the-docs {
-  color: #888;
+  color: #555;
 }
 
 /* Navigation styles */
@@ -62,21 +62,40 @@ nav {
 }
 
 .nav-links a {
-  color: #646cff;
+  color: #00509e;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 700;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   transition: background-color 0.3s;
 }
 
 .nav-links a:hover {
-  background-color: rgba(100, 108, 255, 0.1);
+  background-color: rgba(0, 80, 158, 0.1);
+  text-decoration: underline;
 }
 
 /* Page specific styles */
 .home-page, .catalog-form-page {
   width: 100%;
+}
+
+.home-page h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #2d4ba0;
+}
+
+.home-page h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #0066cc;
+}
+
+.home-page h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #007e33;
 }
 
 /* Catalog Form Styles */
@@ -93,18 +112,88 @@ nav {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
+  position: relative;
 }
 
 .form-group label {
   font-weight: 500;
   margin-bottom: 0.5rem;
   color: #333;
+  position: relative;
+  display: inline-block;
+  cursor: help;
+}
+
+/* Tooltip styles */
+.form-group label .tooltip-text {
+  visibility: hidden;
+  width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 8px 12px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-weight: normal;
+  font-size: 0.85rem;
+  pointer-events: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Semantic icons */
+.semantic-icon {
+  display: inline-block;
+  margin-right: 6px;
+  font-size: 1.1rem;
+}
+
+/* Info icon styles */
+.info-icon {
+  display: inline-block;
+  color: #00509e;
+  font-size: 0.8rem;
+  margin-left: 4px;
+  cursor: help;
+}
+
+/* Triangle pointer for tooltip */
+.form-group label .tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+/* Show the tooltip when hovering over the label */
+.form-group label:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Special handling for the checkbox tooltip */
+.checkbox-group label .tooltip-text {
+  left: 0;
+  margin-left: 0;
+}
+
+.checkbox-group label .tooltip-text::after {
+  left: 10%;
 }
 
 .form-group input[type="text"],
 .form-group input[type="number"] {
   padding: 0.6rem;
-  border: 1px solid #ccc;
+  border: 1px solid #777;
   border-radius: 4px;
   font-size: 1rem;
 }
@@ -123,15 +212,16 @@ nav {
 .form-group button {
   grid-column: 1 / -1;
   padding: 0.8rem;
-  background-color: #646cff;
+  background-color: #00509e;
   color: white;
   border: none;
   border-radius: 4px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s;
+  font-weight: bold;
 }
 
 .form-group button:hover {
-  background-color: #535bf2;
+  background-color: #003d75;
 }
