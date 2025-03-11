@@ -24,3 +24,6 @@ create table demo_catalog (
     data_source varchar(50)
 );
 ```
+
+[] p03. Based on this project in the demo-catalog-ui folder, generate a numerically and hierarchially indexed, step-by-step prompt written in markdown that can be used to describe this implementation as well as to demonstrate each step as a prompt. Save the results in a file named demo-catalog-ui.md at the path: ...programming\typescript-html-css\workspace\src.
+[] q01. What else can we do to further enhance this project?
