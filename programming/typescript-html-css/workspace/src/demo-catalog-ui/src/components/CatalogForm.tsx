@@ -19,14 +19,17 @@ const CatalogForm: React.FC = () => {
         scenario: '',
         github_org: '',
         reference: '',
-        data_source: ''
+        data_source: '',
+        notes: ''
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const { name, value, type } = e.target as HTMLInputElement;
+        
         setFormData({
             ...formData,
-            [name]: value
+            // For checkbox inputs, use the checked property; otherwise, use the value property
+            [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
         });
     };
 
@@ -191,6 +194,14 @@ const CatalogForm: React.FC = () => {
                     <span className="tooltip-text">Origin of the data for this entry</span>
                 </label>
                 <input type="text" id="data_source" name="data_source" value={formData.data_source} onChange={handleChange} placeholder="Data Source" />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="notes">
+                    <span className="semantic-icon">📝</span> Notes: <span className="info-icon">ⓘ</span>
+                    <span className="tooltip-text">Additional comments or notes about this entry</span>
+                </label>
+                <textarea id="notes" name="notes" value={formData.notes} onChange={handleChange} placeholder="Notes" rows={4} />
             </div>
 
             <div className="form-group">

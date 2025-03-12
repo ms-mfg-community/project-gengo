@@ -34,14 +34,14 @@ app.use(bodyParser.json());
 
 app.post('/api/demo-catalog-ui', async (req, res) => {
     const {
-        id, points, category, sub_category, language, role, person, ide_type, prompt_type, shot_type, is_test, test_type, epoch, confidence_percent, scenario, github_org, reference, notes_feedback, data_source
+        id, points, category, sub_category, language, role, person, ide_type, prompt_type, shot_type, is_test, test_type, epoch, confidence_percent, scenario, github_org, reference, notes_feedback, data_source, notes
     } = req.body;
 
     try {
         const result = await pool.query(
-            `INSERT INTO demo_catalog (id, points, category, sub_category, language, role, person, ide_type, prompt_type, shot_type, is_test, test_type, epoch, confidence_percent, scenario, github_org, reference, data_source)
+            `INSERT INTO demo_catalog (id, points, category, sub_category, language, role, person, ide_type, prompt_type, shot_type, is_test, test_type, epoch, confidence_percent, scenario, github_org, reference, data_source, notes)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)`,
-            [id, points, category, sub_category, language, role, person, ide_type, prompt_type, shot_type, is_test, test_type, epoch, confidence_percent, scenario, github_org, reference, data_source]
+            [id, points, category, sub_category, language, role, person, ide_type, prompt_type, shot_type, is_test, test_type, epoch, confidence_percent, scenario, github_org, reference, data_source, notes]
         );
         res.status(201).send(result);
     } catch (err) {
