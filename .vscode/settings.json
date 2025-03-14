@@ -1,6 +1,8 @@
 {
     "java.project.sourcePaths": [
         "programming/java/workspace/src",
-        "programming/java/workspace/calculator/src/main/java/com/calculator"
-    ]
+        "programming/java/workspace/calculator/src/main/java/com/calculator",
+        "programming/java/workspace/calculator/src/main/java/com/example/calculator"
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
