@@ -113,6 +113,10 @@ foreach ($item in $contents)
 - Use PascalCase for variables, functions, and classes.
 - Include comments for any non-trivial logic within scripts.
 
+### IaC
+- For bicep, use the Azure Cloud Shell or az cli for bicep commands with az bicep instead of the standalone bicep executable.
+- Use *.bicepparam parameter files instead of *.json parameter files
+
 ### JavaScript / TypeScript
 - Enable strict mode and use linting (e.g., ESLint).
 - Prefer ES6+ features and async/await for asynchronous operations.

@@ -1,0 +1,4 @@
+$rgName = "Runner-Group-PP-1"
+$location = "eastus2"
+az group create --name $rgName --location $location --verbose
+az deployment group create --resource-group $rgName --template-file ./main.bicep --verbose

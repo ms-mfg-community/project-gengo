@@ -1,8 +1,10 @@
-@description('NSG for outbound rules')
-param location string
-param nsgName string = 'actions_NSG'
+@description('Azure region for NSG deployment')
+param location string = 'eastus2' // Default to East US 2
 
-resource actions_NSG 'Microsoft.Network/networkSecurityGroups@2017-06-01' = {
+@description('Name for the Network Security Group')
+param nsgName string = 'github-runner-nsg-prd'
+
+resource actions_NSG 'Microsoft.Network/networkSecurityGroups@2023-05-01' = {
   name: nsgName
   location: location
   properties: {
@@ -199,3 +201,6 @@ resource actions_NSG 'Microsoft.Network/networkSecurityGroups@2017-06-01' = {
     ]
   }
 }
+
+// Add output to expose the NSG resource ID
+output nsgId string = actions_NSG.id
