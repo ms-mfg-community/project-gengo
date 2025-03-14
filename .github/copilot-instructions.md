@@ -129,6 +129,9 @@ foreach ($item in $contents)
 - Use virtual environments to manage dependencies.
 - Include comprehensive docstrings for functions and classes.
 
+### Java
+- For Java apps, use maven for build automation, dependency management, project structure standardization, plugins and exstensibility and project information management unless otherwise specified in prompts.
+
 ## Style Guides & References
 
 - **Java:** [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html)
