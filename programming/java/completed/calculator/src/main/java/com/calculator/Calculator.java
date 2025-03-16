@@ -10,7 +10,6 @@ public class Calculator {
     private static final Scanner scanner = new Scanner(System.in);
     
     public static void main(String[] args) {
-        clearScreen();
         boolean continueCalculating = true;
         
         System.out.println("Welcome to the Simple Calculator!");
@@ -29,33 +28,8 @@ public class Calculator {
             continueCalculating = askToContinue();
         }
         
-        clearScreen();
         System.out.println("Thank you for using the Simple Calculator. Goodbye!");
         scanner.close();
-    }
-    
-    /**
-     * Clears the console screen.
-     * Uses system-specific commands when possible, with a fallback to printing newlines.
-     */
-    private static void clearScreen() {
-        try {
-            String os = System.getProperty("os.name").toLowerCase();
-            
-            if (os.contains("win")) {
-                // For Windows
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                // For Unix/Linux/Mac
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
-            }
-        } catch (Exception e) {
-            // Fallback: print multiple newlines
-            for (int i = 0; i < 50; i++) {
-                System.out.println();
-            }
-        }
     }
     
     /**
@@ -80,17 +54,17 @@ public class Calculator {
     /**
      * Gets and validates the operator from the user.
      * 
-     * @return A valid arithmetic operator (+, -, *, /, %, ^)
+     * @return A valid arithmetic operator (+, -, *, /)
      */
     private static char getOperatorInput() {
         while (true) {
-            System.out.print("Enter the operator (+, -, *, /, %, ^): ");
+            System.out.print("Enter the operator (+, -, *, /): ");
             String input = scanner.nextLine().trim();
             
-            if (input.length() == 1 && "+-*/%^".contains(input)) {
+            if (input.length() == 1 && "+-*/".contains(input)) {
                 return input.charAt(0);
             }
-            System.out.println("Invalid operator. Please enter +, -, *, /, %, or ^.");
+            System.out.println("Invalid operator. Please enter +, -, *, or /.");
         }
     }
     
@@ -116,14 +90,6 @@ public class Calculator {
                     return 0;
                 }
                 return first / second;
-            case '%':
-                if (second == 0) {
-                    System.out.println("Warning: Modulo by zero is not allowed!");
-                    return 0;
-                }
-                return first % second;
-            case '^':
-                return Math.pow(first, second);
             default:
                 // This should never happen due to input validation
                 throw new IllegalArgumentException("Unsupported operator: " + operator);
@@ -141,7 +107,6 @@ public class Calculator {
             String response = scanner.nextLine().trim().toLowerCase();
             
             if (response.equals("yes")) {
-                clearScreen();
                 return true;
             } else if (response.equals("no")) {
                 return false;

@@ -55,6 +55,11 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 - **API Docs:** Maintain inline documentation and generated API docs.
 - **Style:** Use Markdown for all documentation, ensuring consistency in headings and formatting.
 
+## Diagrams
+When working with mermaid diagrams, makes sture that you always start each block with
+```mermaid
+
+
 ## Commit Messages
 - **Format:** Use the following pattern:
 - Topic Subtopic Activity Specification: **_topic(subtopic): activity_**
