@@ -4,11 +4,14 @@ import (
 	"encoding/csv"
 	"fmt"
 	"io"
-	"math"
 	"os"
 	"path/filepath"
 	"strconv"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	"github.com/stretchr/testify/suite"
 )
 
 // TestCase represents a single test scenario
@@ -19,7 +22,116 @@ type TestCase struct {
 	expectedMax    float64
 	expectedMean   float64
 	expectedStdDev float64
-	result         string // Added result field to track pass/fail status
+	result         string
+}
+
+// StatisticsTestSuite defines a test suite for statistics operations
+type StatisticsTestSuite struct {
+	suite.Suite
+	testCases []TestCase
+	csvPath   string
+}
+
+// SetupSuite prepares the test suite by loading test data
+func (s *StatisticsTestSuite) SetupSuite() {
+	// Set the CSV file path
+	s.csvPath = filepath.Join(".", "statistics_test.csv")
+
+	// Load test cases from CSV
+	testCases, err := readTestDataFromCSV(s.csvPath)
+	s.Require().NoError(err, "Failed to read test data from CSV")
+	s.testCases = testCases
+}
+
+// TestStatistics tests all statistical functions using CSV data
+func (s *StatisticsTestSuite) TestStatistics() {
+	for i := range s.testCases {
+		tc := &s.testCases[i] // Use pointer to modify the slice element
+
+		s.Run(tc.name, func() {
+			t := s.T() // Get the testing.T from the suite
+			testPassed := true
+
+			// Test minimum calculation
+			min := findMin(tc.values)
+			if !assert.Equal(t, tc.expectedMin, min, "findMin() returned incorrect value") {
+				testPassed = false
+			}
+
+			// Test maximum calculation
+			max := findMax(tc.values)
+			if !assert.Equal(t, tc.expectedMax, max, "findMax() returned incorrect value") {
+				testPassed = false
+			}
+
+			// Test mean calculation
+			mean := calculateMean(tc.values)
+			if !assert.InDelta(t, tc.expectedMean, mean, 0.01, "calculateMean() returned incorrect value") {
+				testPassed = false
+			}
+
+			// Test standard deviation calculation
+			stdDev := calculateStdDev(tc.values, mean)
+			if !assert.InDelta(t, tc.expectedStdDev, stdDev, 0.01, "calculateStdDev() returned incorrect value") {
+				testPassed = false
+			}
+
+			// Set the test result
+			if testPassed {
+				tc.result = "pass"
+			} else {
+				tc.result = "fail"
+			}
+		})
+	}
+
+	// Write results back to the CSV file
+	err := writeTestResultsToCSV(s.csvPath, s.testCases)
+	s.Require().NoError(err, "Failed to write test results to CSV")
+
+	// Display the content of the CSV file after writing results
+	s.T().Log("CSV file content after test execution:")
+	err = displayCSVContent(s.csvPath, s.T())
+	s.Assert().NoError(err, "Failed to display CSV content")
+}
+
+// TestParseArgs tests the argument parsing function
+func (s *StatisticsTestSuite) TestParseArgs() {
+	t := s.T()
+
+	// Test valid arguments
+	validArgs := []string{"10.50", "20.30", "15.70", "30.20", "25.00"}
+	values, err := parseArgs(validArgs)
+	require.NoError(t, err, "parseArgs() returned unexpected error")
+	assert.Len(t, values, 5, "parseArgs() returned slice with incorrect length")
+
+	// Test invalid arguments
+	invalidArgs := []string{"10.50", "not-a-number", "15.70"}
+	_, err = parseArgs(invalidArgs)
+	assert.Error(t, err, "parseArgs() should return error for invalid argument")
+}
+
+// TearDownSuite runs after all tests in the suite have completed
+func (s *StatisticsTestSuite) TearDownSuite() {
+	// Display final CSV content
+	fmt.Println("Final CSV content:")
+	csvPath := filepath.Join(".", "statistics_test.csv")
+	file, err := os.Open(csvPath)
+	if err == nil {
+		defer file.Close()
+		reader := csv.NewReader(file)
+		rows, err := reader.ReadAll()
+		if err == nil {
+			for _, row := range rows {
+				fmt.Println(row)
+			}
+		}
+	}
+}
+
+// TestStatisticsSuite runs the entire test suite
+func TestStatisticsSuite(t *testing.T) {
+	suite.Run(t, new(StatisticsTestSuite))
 }
 
 // readTestDataFromCSV reads test data from a CSV file
@@ -154,92 +266,6 @@ func writeTestResultsToCSV(filePath string, testCases []TestCase) error {
 	return nil
 }
 
-func TestStatistics(t *testing.T) {
-	// Get the path to the CSV file
-	csvPath := filepath.Join(".", "statistics_test.csv")
-
-	// Read test cases from CSV
-	testCases, err := readTestDataFromCSV(csvPath)
-	if err != nil {
-		t.Fatalf("Failed to read test data from CSV: %v", err)
-	}
-
-	// Run tests for each test case
-	for i := range testCases {
-		tc := &testCases[i] // Use pointer to modify the slice element
-
-		t.Run(tc.name, func(t *testing.T) {
-			testPassed := true
-
-			// Test minimum calculation
-			min := findMin(tc.values)
-			if min != tc.expectedMin {
-				t.Errorf("findMin() = %.2f, want %.2f", min, tc.expectedMin)
-				testPassed = false
-			}
-
-			// Test maximum calculation
-			max := findMax(tc.values)
-			if max != tc.expectedMax {
-				t.Errorf("findMax() = %.2f, want %.2f", max, tc.expectedMax)
-				testPassed = false
-			}
-
-			// Test mean calculation
-			mean := calculateMean(tc.values)
-			if math.Abs(mean-tc.expectedMean) > 0.01 { // Adjusted tolerance for 2 decimal places
-				t.Errorf("calculateMean() = %.2f, want %.2f", mean, tc.expectedMean)
-				testPassed = false
-			}
-
-			// Test standard deviation calculation
-			stdDev := calculateStdDev(tc.values, mean)
-			if math.Abs(stdDev-tc.expectedStdDev) > 0.01 { // Adjusted tolerance for 2 decimal places
-				t.Errorf("calculateStdDev() = %.2f, want %.2f", stdDev, tc.expectedStdDev)
-				testPassed = false
-			}
-
-			// Set the test result
-			if testPassed {
-				tc.result = "pass"
-			} else {
-				tc.result = "fail"
-			}
-		})
-	}
-
-	// Write results back to the CSV file
-	if err := writeTestResultsToCSV(csvPath, testCases); err != nil {
-		t.Fatalf("Failed to write test results to CSV: %v", err)
-	}
-
-	// Display the content of the CSV file after writing results
-	t.Log("CSV file content after test execution:")
-	if err := displayCSVContent(csvPath, t); err != nil {
-		t.Logf("Failed to display CSV content: %v", err)
-	}
-}
-
-// TestParseArgs tests the argument parsing function
-func TestParseArgs(t *testing.T) {
-	// Test valid arguments
-	validArgs := []string{"10.50", "20.30", "15.70", "30.20", "25.00"}
-	values, err := parseArgs(validArgs)
-	if err != nil {
-		t.Errorf("parseArgs() returned unexpected error: %v", err)
-	}
-	if len(values) != 5 {
-		t.Errorf("parseArgs() returned slice with length %d, want 5", len(values))
-	}
-
-	// Test invalid arguments
-	invalidArgs := []string{"10.50", "not-a-number", "15.70"}
-	_, err = parseArgs(invalidArgs)
-	if err == nil {
-		t.Error("parseArgs() did not return error for invalid argument")
-	}
-}
-
 // displayCSVContent reads and displays the content of a CSV file
 func displayCSVContent(filePath string, t *testing.T) error {
 	file, err := os.Open(filePath)
@@ -283,19 +309,4 @@ func displayCSVContent(filePath string, t *testing.T) error {
 	}
 
 	return nil
-}
-
-// TestMain runs setup before tests and teardown after tests
-func TestMain(m *testing.M) {
-	// Run the tests
-	code := m.Run()
-
-	// Display the CSV content after tests
-	csvPath := filepath.Join(".", "statistics_test.csv")
-	if err := displayCSVContent(csvPath, &testing.T{}); err != nil {
-		fmt.Printf("Failed to display CSV content: %v\n", err)
-	}
-
-	// Exit with the test code
-	os.Exit(code)
 }

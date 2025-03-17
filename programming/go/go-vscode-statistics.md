@@ -24,5 +24,8 @@ Add a column named result to the input file that will either be pass or fail for
 ## Show the results from the csv file
 After the test is complete, read and display the content of the #file:statistics_test.csv directly from #file:statistics_test.go 
 
+## Refactor to use the testify framework
+Refactor the #file:statistics_test.go to use the testify framework instead of Go's standard library functionality for all testing operations. This is intended to improve test readability, assertions and overall structure.
+
 ## Thought Exercise
 How else can we scale this application to make it handle more volume in a distributed architecture?
