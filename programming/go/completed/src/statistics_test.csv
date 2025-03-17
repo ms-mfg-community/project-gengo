@@ -1,0 +1,4 @@
+test_name,val1,val2,val3,val4,val5,expected_min,expected_max,expected_mean,expected_stddev,result
+Positive integers,10.00,20.00,30.00,40.00,50.00,10.00,50.00,30.00,15.81,pass
+Decimal values,1.50,2.50,3.50,4.50,5.50,1.50,5.50,3.50,1.58,pass
+Mixed positive and negative values,-10.50,0.00,10.50,100.00,-50.30,-50.30,100.00,9.94,55.35,pass
