@@ -1,49 +1,108 @@
+// VS Code tasks.json - Configures build tasks for C/C++ development
+// This file defines compilation tasks that can be executed via Terminal > Run Task in VS Code
 {
+	// Version of the tasks configuration format
 	"version": "2.0.0",
+	// List of available tasks
 	"tasks": [
 		{
-			"type": "cppbuild",
+			// Task 1: Basic MSVC compiler configuration for single file compilation
+			"type": "cppbuild",   // Indicates this is a C/C++ build task
 			"label": "C/C++: cl.exe build active file",
-			"command": "cl.exe",
+			"command": "cl.exe",  // Microsoft Visual C++ compiler
 			"args": [
-				"/Zi",
-				"/EHsc",
-				"/nologo",
-				"/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",
-				"${file}"
+				"/Zi",            // Generate complete debugging information
+				"/EHsc",          // Enable C++ exception handling
+				"/nologo",        // Suppress startup banner
+				"/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",  // Set output executable name
+				"${file}"         // Compile the currently active file
 			],
 			"options": {
-				"cwd": "${fileDirname}"
+				"cwd": "${fileDirname}"  // Set working directory to the directory of the file being compiled
 			},
 			"problemMatcher": [
-				"$msCompile"
+				"$msCompile"      // Use MSVC problem matcher to parse compiler output for errors
 			],
 			"group": "build",
 			"detail": "compiler: cl.exe"
 		},
 		{
+			// Task 2: Enhanced MSVC compiler configuration with additional include paths
 			"type": "cppbuild",
 			"label": "C/C++: cl.exe build active file",
 			"command": "cl.exe",
 			"args": [
-				"/Zi",
-				"/EHsc",
-				"/nologo",
-				"/I", "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.42.34433\\include",
-				"/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",
-				"${file}"
+				"/Zi",            // Generate complete debugging information
+				"/EHsc",          // Enable C++ exception handling
+				"/nologo",        // Suppress startup banner
+				"/I", "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.42.34433\\include",  // Additional include directory
+				"/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",  // Set output executable name
+				"${file}"         // Compile the currently active file
 			],
 			"options": {
-				"cwd": "${fileDirname}"
+				"cwd": "${fileDirname}"  // Set working directory to the directory of the file being compiled
 			},
 			"problemMatcher": [
-				"$msCompile"
+				"$msCompile"      // Use MSVC problem matcher to parse compiler output for errors
 			],
 			"group": {
 				"kind": "build",
-				"isDefault": true
+				"isDefault": true  // Set as the default build task when pressing Ctrl+Shift+B
 			},
 			"detail": "compiler: cl.exe"
+		},
+		{
+			// Task 3: GCC/G++ compiler configuration for single file compilation with thorough warnings
+			"type": "cppbuild",
+			"label": "C/C++: g++.exe build active file",
+			"command": "g++.exe",  // GCC C++ compiler
+			"args": [
+				"-fdiagnostics-color=always",  // Colorize compiler output
+				"-g",                          // Generate debugging information
+				"-std=c++17",                  // Use C++17 standard
+				"-Wall",                       // Enable all warnings
+				"-Wextra",                     // Enable extra warnings
+				"-Wpedantic",                  // Issue warnings for strict ISO C/C++ compliance
+				"${file}",                     // Compile the currently active file
+				"-o",                          // Output flag
+				"${fileDirname}\\${fileBasenameNoExtension}.exe"  // Output executable path
+			],
+			"options": {
+				"cwd": "${fileDirname}"  // Set working directory to the directory of the file being compiled
+			},
+			"problemMatcher": [
+				"$gcc"           // Use GCC problem matcher to parse compiler output for errors
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true  // Set as the default build task (Note: conflict with Task 2 default setting)
+			},
+			"detail": "compiler: g++.exe"
+		},
+		{
+			// Task 4: Project-wide compilation using G++ to build all .cpp files in workspace
+			"type": "cppbuild",
+			"label": "C/C++: g++.exe build project",
+			"command": "g++.exe",  // GCC C++ compiler
+			"args": [
+				"-fdiagnostics-color=always",  // Colorize compiler output
+				"-g",                          // Generate debugging information
+				"-std=c++17",                  // Use C++17 standard
+				"-Wall",                       // Enable all warnings
+				"-Wextra",                     // Enable extra warnings
+				"-Wpedantic",                  // Issue warnings for strict ISO C/C++ compliance
+				"*.cpp",                       // Compile all .cpp files in working directory
+				"-o",                          // Output flag
+				"${workspaceFolder}\\main.exe" // Output executable path in workspace root
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"    // Set working directory to the workspace folder
+			},
+			"problemMatcher": [
+				"$gcc"           // Use GCC problem matcher to parse compiler output for errors
+			],
+			"group": "build",
+			"detail": "compiler: g++.exe - build all cpp files in workspace"
 		}
 	]
 }
