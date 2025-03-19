@@ -80,9 +80,9 @@
 			"detail": "compiler: g++.exe"
 		},
 		{
-			// Task 4: Project-wide compilation using G++ to build all .cpp files in workspace
+			// Task 4: Project-wide compilation using G++ to build all .cpp files for inventory system
 			"type": "cppbuild",
-			"label": "C/C++: g++.exe build project",
+			"label": "C/C++: g++.exe build project with multiple *.cpp files",
 			"command": "g++.exe",  // GCC C++ compiler
 			"args": [
 				"-fdiagnostics-color=always",  // Colorize compiler output
@@ -91,18 +91,21 @@
 				"-Wall",                       // Enable all warnings
 				"-Wextra",                     // Enable extra warnings
 				"-Wpedantic",                  // Issue warnings for strict ISO C/C++ compliance
-				"*.cpp",                       // Compile all .cpp files in working directory
+				"$(Get-ChildItem -Path . -Recurse -File -Filter *.cpp).Name",  // Specific path to InventoryItem implementation
 				"-o",                          // Output flag
-				"${workspaceFolder}\\main.exe" // Output executable path in workspace root
+				"./main.exe"  // Output executable name
 			],
 			"options": {
-				"cwd": "${workspaceFolder}"    // Set working directory to the workspace folder
+				"cwd": "."    // Set working directory to the workspace folder
 			},
 			"problemMatcher": [
 				"$gcc"           // Use GCC problem matcher to parse compiler output for errors
 			],
-			"group": "build",
-			"detail": "compiler: g++.exe - build all cpp files in workspace"
+			"group": {
+				"kind": "build", 
+				"isDefault": false  // Not set as default yet to avoid conflict
+			},
+			"detail": "compiler: g++.exe - build inventory management system"
 		}
 	]
 }

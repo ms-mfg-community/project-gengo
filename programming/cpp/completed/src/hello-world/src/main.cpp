@@ -15,7 +15,7 @@
  */
 int main() {
     // Print greeting message to standard output
-    const std::string greeting = "Hello, World!";  // Create constant string variable with greeting message
+    const std::string greeting = "Hello, World!\n";  // Create constant string variable with greeting message
     std::cout << greeting << std::endl;            // Output greeting to console and end with new line
     return 0;
 } // end main
