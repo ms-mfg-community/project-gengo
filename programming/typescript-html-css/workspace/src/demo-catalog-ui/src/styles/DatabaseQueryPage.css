@@ -1,0 +1,456 @@
+/* Database Query Page Styles */
+.database-query-page {
+  max-width: 1700px; /* Increased from 1400px */
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.database-query-page h1 {
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.loading-message {
+  text-align: center;
+  padding: 30px;
+  font-style: italic;
+  color: #666;
+}
+
+.query-builder {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.query-section {
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.query-section h2 {
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+.query-section:last-child {
+  border-bottom: none;
+}
+
+.table-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+}
+
+.column-selector-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.column-selector {
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  background-color: white;
+}
+
+.column-selector option {
+  padding: 5px;
+}
+
+.column-selector-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.select-all-button,
+.clear-all-button {
+  flex: 1;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s, color 0.2s;
+  font-weight: 500;
+}
+
+.select-all-button {
+  background-color: #4caf50;
+  color: white;
+  border: 1px solid #45a049;
+}
+
+.select-all-button:hover {
+  background-color: #45a049;
+}
+
+.clear-all-button {
+  background-color: #f44336;
+  color: white;
+  border: 1px solid #d32f2f;
+}
+
+.clear-all-button:hover {
+  background-color: #d32f2f;
+}
+
+.filter-conditions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.filter-condition {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%; /* Ensure full width */
+}
+
+.filter-condition select,
+.filter-condition input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  color: #213547; /* Adding dark text color for visibility against white background */
+}
+
+.filter-condition select {
+  min-width: 150px; /* Slightly wider for better readability */
+  max-width: 200px; /* Limit maximum width */
+}
+
+.filter-condition input {
+  padding: 8px;
+  flex: 1; /* Allow input to take remaining space */
+  min-width: 300px; /* Ensure minimum width for readability */
+}
+
+.remove-filter-button {
+  padding: 8px 15px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.2s;
+}
+
+.remove-filter-button:hover {
+  background-color: #f5c6cb;
+}
+
+.add-filter-button {
+  padding: 8px 15px;
+  background-color: #e0f7fa;
+  color: #0288d1;
+  border: 1px solid #b2ebf2;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  align-self: flex-start;
+  transition: background-color 0.2s;
+}
+
+.add-filter-button:hover {
+  background-color: #b2ebf2;
+}
+
+.sorting-options {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.sorting-options select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  min-width: 150px;
+}
+
+.limit-input {
+  width: 100px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.query-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.execute-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.execute-button:hover {
+  background-color: #45a049;
+}
+
+.execute-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  margin: 15px 0;
+  padding: 12px 15px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+  background-color: #2a0000;
+  color: #ff9999;
+  border: 1px solid #ff6666;
+}
+
+.generated-query {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+}
+
+.generated-query h3 {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #495057;
+}
+
+.generated-query pre {
+  background-color: #e9ecef;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+
+.results-container {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.results-container h2 {
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+  color: #2c3e50;
+}
+
+.results-table-container {
+  overflow-x: auto;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: left; /* Explicitly set left alignment */
+}
+
+.results-table th {
+  background-color: #f2f2f2;
+  padding: 12px;
+  text-align: left;
+  font-weight: bold;
+  border-bottom: 2px solid #ddd;
+}
+
+.results-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  word-break: break-word;
+  text-align: left; /* Explicitly set left alignment */
+}
+
+.results-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.results-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.no-results {
+  color: #666;
+  font-style: italic;
+  text-align: center;
+  padding: 20px;
+}
+
+.database-query-page select {
+  color: #fff; /* Light text for dark mode */
+  background-color: #2a2a2a; /* Darker background for dark mode */
+  border: 1px solid #444;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.database-query-page select option {
+  color: #fff; /* Light text for dark mode */
+  background-color: #2a2a2a; /* Darker background for dark mode */
+}
+
+@media (prefers-color-scheme: light) {
+  .database-query-page select,
+  .database-query-page select option {
+    color: #213547; /* Dark text for light mode */
+    background-color: #fff; /* Light background for light mode */
+    border-color: #ddd;
+  }
+
+  .select-all-button {
+    background-color: #4caf50;
+    color: white;
+    border: 1px solid #45a049;
+  }
+  
+  .select-all-button:hover {
+    background-color: #45a049;
+  }
+  
+  .clear-all-button {
+    background-color: #f44336;
+    color: white;
+    border: 1px solid #d32f2f;
+  }
+  
+  .clear-all-button:hover {
+    background-color: #d32f2f;
+  }
+  
+  .filter-condition input {
+    background-color: #fff;
+    color: #213547;
+    border-color: #ddd;
+  }
+
+  .error-message {
+    background-color: #ffd9d9;
+    color: #700;
+    border: 1px solid #ffb3b3;
+  }
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .query-builder {
+    background-color: #1a1a1a;
+    color: #e1e1e1;
+  }
+
+  .query-section h2 {
+    color: #e1e1e1;
+  }
+
+  .loading-message {
+    color: #ccc;
+  }
+
+  .database-query-page h1 {
+    color: #e1e1e1;
+  }
+
+  .results-container {
+    background-color: #1a1a1a;
+    color: #e1e1e1;
+  }
+
+  .results-container h2 {
+    color: #e1e1e1;
+  }
+
+  .results-table th {
+    background-color: #2a2a2a;
+    color: #e1e1e1;
+    border-bottom-color: #444;
+  }
+
+  .results-table td {
+    border-bottom-color: #444;
+  }
+
+  .results-table tr:nth-child(even) {
+    background-color: #2a2a2a;
+  }
+
+  .results-table tr:hover {
+    background-color: #333;
+  }
+
+  .no-results {
+    color: #ccc;
+  }
+
+  .generated-query {
+    background-color: #2a2a2a;
+    border-color: #444;
+  }
+
+  .generated-query h3 {
+    color: #e1e1e1;
+  }
+
+  .generated-query pre {
+    background-color: #333;
+    color: #e1e1e1;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .filter-condition {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-condition > * {
+    margin-bottom: 5px;
+  }
+  
+  .sorting-options {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .sorting-options > * {
+    margin-bottom: 5px;
+  }
+}

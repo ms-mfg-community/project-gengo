@@ -1,5 +1,5 @@
 #root {
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -43,36 +43,52 @@
 
 /* Navigation styles */
 .app-container {
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
 nav {
+  background-color: #1a1a1a;
+  padding: 1rem;
   margin-bottom: 2rem;
 }
 
 .nav-links {
-  display: flex;
   list-style: none;
   padding: 0;
   margin: 0;
-  gap: 2rem;
+  display: flex;
   justify-content: center;
+  gap: 2rem;
 }
 
-.nav-links a {
-  color: #00509e;
+.nav-links li a {
+  color: #fff;
   text-decoration: none;
-  font-weight: 700;
+  font-size: 1.1rem;
   padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
+  border-radius: 4px;
   transition: background-color 0.3s;
 }
 
-.nav-links a:hover {
-  background-color: rgba(0, 80, 158, 0.1);
-  text-decoration: underline;
+.nav-links li a:hover {
+  background-color: #333;
+}
+
+@media (prefers-color-scheme: light) {
+  nav {
+    background-color: #f0f0f0;
+  }
+  
+  .nav-links li a {
+    color: #213547;
+  }
+  
+  .nav-links li a:hover {
+    background-color: #e0e0e0;
+  }
 }
 
 /* Page specific styles */
