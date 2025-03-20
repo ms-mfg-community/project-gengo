@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import reactLogo from '../assets/react.svg';
 import viteLogo from '/vite.svg';
 
 const HomePage: React.FC = () => {
-  const [count, setCount] = useState(0);
-
   return (
     <div className="home-page">
       <div>
@@ -19,9 +17,6 @@ const HomePage: React.FC = () => {
       <h2>Node + Vite + React + TypeScript + HTML + CSS</h2>
       <h3>Click the Catalog Form link above to add a new demo entry</h3>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test Hot Module Reload (HMR).
         </p>
@@ -33,4 +28,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage; 
+export default HomePage;
