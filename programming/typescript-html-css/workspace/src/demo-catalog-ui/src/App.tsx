@@ -3,6 +3,7 @@ import './App.css';
 import HomePage from './pages/HomePage';
 import CatalogFormPage from './pages/CatalogFormPage';
 import DatabaseQueryPage from './pages/DatabaseQueryPage';
+import DatabaseUpdatePage from './pages/DatabaseUpdatePage';
 
 const App = () => {
   return (
@@ -19,6 +20,9 @@ const App = () => {
             <li>
               <Link to="/database-query">Database Query</Link>
             </li>
+            <li>
+              <Link to="/database-update">Database Update</Link>
+            </li>
           </ul>
         </nav>
 
@@ -26,6 +30,7 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/catalog-form" element={<CatalogFormPage />} />
           <Route path="/database-query" element={<DatabaseQueryPage />} />
+          <Route path="/database-update" element={<DatabaseUpdatePage />} />
         </Routes>
       </div>
     </Router>

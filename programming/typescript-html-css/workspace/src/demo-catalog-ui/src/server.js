@@ -190,6 +190,157 @@ const initializeApp = async () => {
       }
     });
 
+    // Add endpoint for updating records
+    app.put('/api/update/:tableName', async (req, res) => {
+      try {
+        const { tableName } = req.params;
+        const recordData = req.body;
+        
+        if (!recordData || Object.keys(recordData).length === 0) {
+          return res.status(400).json({ error: 'No data provided for update' });
+        }
+        
+        // Get primary key for the table - currently assuming 'id' is always the primary key
+        const idField = 'id';
+        const idValue = recordData[idField];
+        
+        if (!idValue) {
+          return res.status(400).json({ error: 'Record ID is required for update' });
+        }
+        
+        // Validate the table name
+        const tableCheck = await pool.query(`
+          SELECT EXISTS (
+            SELECT FROM information_schema.tables 
+            WHERE table_schema = 'public' 
+            AND table_name = $1
+          ) as "exists"
+        `, [tableName]);
+        
+        if (!tableCheck.rows[0].exists) {
+          return res.status(404).json({ error: 'Table not found' });
+        }
+        
+        // Build the SET clause for the UPDATE statement
+        const updates = [];
+        const values = [];
+        let paramIndex = 1;
+        
+        // Exclude the ID field from the SET clause
+        for (const [key, value] of Object.entries(recordData)) {
+          if (key !== idField) {
+            updates.push(`${key} = $${paramIndex}`);
+            values.push(value);
+            paramIndex++;
+          }
+        }
+        
+        // Add the ID value as the last parameter for the WHERE clause
+        values.push(idValue);
+        
+        const query = `
+          UPDATE "${tableName}"
+          SET ${updates.join(', ')}
+          WHERE ${idField} = $${paramIndex}
+        `;
+        
+        const result = await pool.query(query, values);
+        
+        if (result.rowCount === 0) {
+          return res.status(404).json({ error: 'Record not found' });
+        }
+        
+        res.json({ message: 'Record updated successfully' });
+      } catch (err) {
+        console.error('Error updating record:', err);
+        
+        // Extract meaningful error message for common database errors
+        let errorMessage = 'Error updating record';
+        if (err.code === '42P01') {
+          errorMessage = 'Table does not exist';
+        } else if (err.code === '42703') {
+          errorMessage = 'Column does not exist';
+        } else if (err.code === '22P02') {
+          errorMessage = 'Invalid data type in update';
+        } else if (err.message) {
+          errorMessage = err.message.split('\n')[0]; // Take only the first line
+        }
+        
+        res.status(500).json({ 
+          error: errorMessage,
+          code: err.code || 'UNKNOWN_ERROR',
+          details: process.env.NODE_ENV === 'development' ? err.message : undefined
+        });
+      }
+    });
+
+    // Add endpoint for deleting records
+    app.delete('/api/delete/:tableName/:idField/:idValue', async (req, res) => {
+      try {
+        const { tableName, idField, idValue } = req.params;
+        
+        // Validate the table name
+        const tableCheck = await pool.query(`
+          SELECT EXISTS (
+            SELECT FROM information_schema.tables 
+            WHERE table_schema = 'public' 
+            AND table_name = $1
+          ) as "exists"
+        `, [tableName]);
+        
+        if (!tableCheck.rows[0].exists) {
+          return res.status(404).json({ error: 'Table not found' });
+        }
+        
+        // Validate the column name
+        const columnCheck = await pool.query(`
+          SELECT EXISTS (
+            SELECT FROM information_schema.columns 
+            WHERE table_schema = 'public' 
+            AND table_name = $1
+            AND column_name = $2
+          ) as "exists"
+        `, [tableName, idField]);
+        
+        if (!columnCheck.rows[0].exists) {
+          return res.status(404).json({ error: 'Column not found' });
+        }
+        
+        const query = `
+          DELETE FROM "${tableName}"
+          WHERE ${idField} = $1
+        `;
+        
+        const result = await pool.query(query, [idValue]);
+        
+        if (result.rowCount === 0) {
+          return res.status(404).json({ error: 'Record not found' });
+        }
+        
+        res.json({ message: 'Record deleted successfully' });
+      } catch (err) {
+        console.error('Error deleting record:', err);
+        
+        // Extract meaningful error message for common database errors
+        let errorMessage = 'Error deleting record';
+        if (err.code === '42P01') {
+          errorMessage = 'Table does not exist';
+        } else if (err.code === '42703') {
+          errorMessage = 'Column does not exist';
+        } else if (err.code === '22P02') {
+          errorMessage = 'Invalid data type in delete condition';
+        } else if (err.message) {
+          errorMessage = err.message.split('\n')[0]; // Take only the first line
+        }
+        
+        res.status(500).json({ 
+          error: errorMessage,
+          code: err.code || 'UNKNOWN_ERROR',
+          details: process.env.NODE_ENV === 'development' ? err.message : undefined
+        });
+      }
+    });
+
     // Add endpoint for executing custom SQL queries
     app.post('/api/query', async (req, res) => {
       try {
