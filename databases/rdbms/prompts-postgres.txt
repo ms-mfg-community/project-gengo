@@ -1,0 +1,178 @@
+[prompt] Connect to postgres host pfs-sql-01.postgres.database.azure.com on port 5432 with username ztmadmin for the database ghc_prompts and prompt for password
+[] 3. **Connect to the PostgreSQL database**: 
+```bash
+psql -h pfs-sql-01.postgres.database.azure.com -U ztmadmin -d ghc_prompts -W 
+```
+[] 4. create enum types:
+```psql
+create type prompt_type_enum as enum ('chat','inline');
+create type shot_type_enum as enum ('zero','one','multiple');
+create type test_type_enum as enum ('na','unit','integration','performance','load','resiliency','security');
+create type ide_type_enum as enum ('vs_code','visual_studio','jetbrains_suite','vim_neovim','xcode','none','other');
+
+create table demo_catalog (
+    id int primary key,
+    points int check (points >= 1 AND points <= 100),
+    category varchar(20),
+    sub_category varchar(20),
+    language varchar(20),
+    role varchar(50),
+    person varchar (50),
+    ide_type ide_type_enum not null,
+    prompt_type prompt_type_enum not null,
+    shot_type shot_type_enum not null,
+    is_test boolean not null,
+    test_type test_type_enum not null,
+    epoch int check (epoch >= 0 AND epoch <= 10),
+    confidence_percent int check (confidence_percent >= 10 and confidence_percent <= 100),
+    scenario varchar(255),
+    github_org varchar(20),
+    reference varchar(255),
+    data_source varchar(50)
+);
+
+exit 
+```
+```pwsh 
+# $topLevelGitPath = $(git rev-parse --show-toplevel)
+# $relativeTargetPath = "databases\rdbms\workspace\src\postgresql\ghc-skills-matrix-demo-catalog.csv" 
+# $targetPath = Join-path -Path $topLevelGitPath -ChildPath $relativeTargetPath
+# $sourceData = Import-Csv -path $targetPath
+
+7. [prompt] How do I find the reference property from the demo_catalog table where the scenario is to create a basic calculator ?
+8. [prompt] Use psql to find all scenarios that use the typescript language. 
+   [note] Assume authentication to the database is already completed and provide the query on a single short line.
+
+[prompt] How do I add a vector database to postgres for semantic searching?
+[ref-01] https://www.youtube.com/watch?v=em0PKDGzzlQ
+[ref-02] https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/how-to-use-pgvector
+[ref-03] https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/generative-ai-semantic-search
+
+
+[] 1. **Connect to your PostgreSQL database**:
+```bash
+psql -h pfs-sql-01.postgres.database.azure.com -U ztmadmin -d ghc_prompts -W 
+```
+
+[] 2. **Install the pgvector extension**:
+```sql
+CREATE EXTENSION IF NOT EXISTS vector;
+```
+
+[] 3. **Create a table with vector column for embeddings**:
+```sql
+CREATE TABLE document_embeddings (
+    id SERIAL PRIMARY KEY,
+    content TEXT NOT NULL,
+    embedding vector(1536) NOT NULL -- 1536 dimensions for OpenAI embeddings
+);
+```
+
+[] 4. **Insert vector data (example with dummy data)**:
+```sql
+-- In practice, these vectors would come from embedding models like OpenAI's
+INSERT INTO document_embeddings (content, embedding)
+VALUES 
+('Sample document about semantic search', '[0.1, 0.2, ..., 0.5]'::vector);
+```
+
+[] 5. **Create an index for efficient vector searching**:
+```sql
+-- Create an HNSW index (faster for approximate nearest neighbor search)
+CREATE INDEX ON document_embeddings USING hnsw (embedding vector_cosine_ops);
+
+-- Alternative: Create an IVFFlat index
+-- CREATE INDEX ON document_embeddings USING ivfflat (embedding vector_l2_ops) WITH (lists = 100);
+```
+
+[] 6. **Perform semantic searches**:
+```sql
+-- Find the 5 most similar documents to a query vector using cosine similarity
+SELECT content, 1 - (embedding <=> '[0.2, 0.1, ..., 0.3]'::vector) as similarity
+FROM document_embeddings
+ORDER BY embedding <=> '[0.2, 0.1, ..., 0.3]'::vector
+LIMIT 5;
+
+-- Using inner product similarity
+SELECT content, embedding <#> '[0.2, 0.1, ..., 0.3]'::vector as similarity
+FROM document_embeddings
+ORDER BY similarity DESC
+LIMIT 5;
+
+-- Using Euclidean distance
+SELECT content, embedding <-> '[0.2, 0.1, ..., 0.3]'::vector as distance
+FROM document_embeddings
+ORDER BY distance
+LIMIT 5;
+```
+
+[] 7. **Practical implementation workflow**:
+1. Generate embeddings using external API/model (OpenAI, HuggingFace, etc.)
+2. Store embeddings in PostgreSQL using pgvector
+3. For search, embed the query text and find similar vectors
+
+[] 8. **Note on embedding generation (pseudocode)**:
+```python
+# Using OpenAI embeddings API (example)
+import openai
+
+# Function to generate embeddings
+def get_embedding(text):
+    response = openai.Embedding.create(
+        input=text,
+        model="text-embedding-ada-002"
+    )
+    return response['data'][0]['embedding']
+
+# Generate vector for document
+document_vector = get_embedding("Sample document about semantic search")
+# Store this vector in PostgreSQL
+```
+
+[prompt] How do I upgrade a postgres extension to the latest version?
+
+[] 1. **Connect to your PostgreSQL database**:
+```bash
+psql -h pfs-sql-01.postgres.database.azure.com -U ztmadmin -d ghc_prompts -W 
+```
+
+[] 2. **Check the current version of the extension**:
+```sql
+SELECT extname, extversion FROM pg_extension WHERE extname = 'extension_name';
+```
+
+[] 3. **Check available versions of the extension**:
+```sql
+SELECT * FROM pg_available_extension_versions WHERE name = 'extension_name';
+```
+
+[] 4. **Upgrade the extension to the latest version**:
+```sql
+ALTER EXTENSION extension_name UPDATE;
+```
+
+[] 5. **Upgrade to a specific version (if needed)**:
+```sql
+ALTER EXTENSION extension_name UPDATE TO 'version_number';
+```
+
+[] 6. **Verify the extension has been upgraded**:
+```sql
+SELECT extname, extversion FROM pg_extension WHERE extname = 'extension_name';
+```
+
+[] 7. **Example for upgrading pgvector**:
+```sql
+-- Check current pgvector version
+SELECT extname, extversion FROM pg_extension WHERE extname = 'vector';
+
+-- Upgrade pgvector to latest version
+ALTER EXTENSION vector UPDATE;
+
+-- Verify new version
+SELECT extname, extversion FROM pg_extension WHERE extname = 'vector';
+```
+
+-- Verify new extensions 
+SELECT name, version FROM pg_available_extension_versions WHERE name in('azure_ai', 'vector');
+```
