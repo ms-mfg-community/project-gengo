@@ -96,7 +96,7 @@ try:
         logging.info("Table is already fully vectorized. Proceeding with semantic search test.")
         
         # Perform semantic search test
-        query_text = "Find scenarios involving junior developers writing Python tests"
+        query_text = "Find scenarios involving junior developers writing Python tests with a JetBrains IDE."
         results = perform_semantic_search(cursor, query_text)
         
         # Display results
