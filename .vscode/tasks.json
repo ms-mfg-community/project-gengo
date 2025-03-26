@@ -84,7 +84,6 @@
 			"args": [
 				"-Command",
 				"g++ -fdiagnostics-color=always -g -std=c++17 -Wall -Wextra -Wpedantic (Get-ChildItem -Path \\\"${fileDirname}\\\" -Filter \\\"*.cpp\\\" | ForEach-Object { \\\"$($_.FullName)\\\" }) -o \\\"${fileDirname}\\main.exe\\\""
-      ],
 			],
 			"options": {
 				"cwd": ".",

@@ -138,6 +138,34 @@ foreach ($item in $contents)
 - For Java apps, use maven for build automation, dependency management, project structure standardization, plugins and exstensibility and project information management unless otherwise specified in prompts.
 
 ### C++
+
+- Use the recommended project directory structure
+
+```C++
+MyCppProject/
+├── build/                  # Generated build files (by CMake or other build systems)
+├── cmake/                  # Additional CMake modules or scripts (optional)
+├── docs/                   # Project documentation
+├── examples/               # Usage examples of the library/application (optional)
+├── external/               # Third-party external libraries (if not managed by package manager)
+├── include/                # Public headers (.h or .hpp files)
+│   └── MyCppProject/
+│       └── foo.hpp
+├── src/                    # Source code files (.cpp files and private headers)
+│   ├── foo.cpp
+│   └── internal/
+│       └── helper.hpp
+├── tests/                  # Test cases (unit tests, integration tests)
+│   └── test_foo.cpp
+├── scripts/                # Utility scripts (for build, CI/CD, etc.)
+├── .gitignore              # Git ignore rules
+├── .clang-format           # Formatting rules for clang-format (recommended)
+├── CMakeLists.txt          # Main build script for CMake
+├── LICENSE                 # Project license file
+└── README.md               # Introduction and project overview
+
+```
+
 - To configure compilers for running C++ projects, use the following sample .vscode\tasks.json to adhere to recommended common practices.
 
 ```C++
@@ -148,6 +176,35 @@ foreach ($item in $contents)
 	"version": "2.0.0",
 	// List of available tasks
 	"tasks": [
+		{
+			"label": "G++ compililation of all C++ files with pwsh",
+			"type": "shell",
+			"command": "powershell",
+			"args": [
+				"-Command",
+				"g++ -fdiagnostics-color=always -g -std=c++17 -Wall -Wextra -Wpedantic (Get-ChildItem -Path \\\"${fileDirname}\\\" -Filter \\\"*.cpp\\\" | ForEach-Object { \\\"$($_.FullName)\\\" }) -o \\\"${fileDirname}\\main.exe\\\""
+			],
+			"options": {
+				"cwd": ".",
+				"shell": {
+					"executable": "powershell.exe",
+					"args": [
+						"-ExecutionPolicy",
+						"Bypass",
+						"-NoProfile",
+						"-Command"
+					]
+				}
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: g++.exe - build inventory management system"
+		},
 		{
 			// Task 1: Basic MSVC compiler configuration for single file compilation
 			"type": "cppbuild",   // Indicates this is a C/C++ build task
@@ -250,7 +307,121 @@ foreach ($item in $contents)
 	]
 }
 ```
+## C
 
+The recommended directory and file structure for a modern, clean, and maintainable **C** project is very similar to the C++ structure, but typically simpler. Here's a well-accepted and standard layout:
+
+---
+
+### Recommended Project Structure for C
+
+```
+MyCProject/
+├── build/                  # Build output (executables, binaries, object files)
+├── docs/                   # Documentation files
+├── examples/               # Example usage of your library/application (optional)
+├── external/               # Third-party libraries or dependencies (optional)
+├── include/                # Public header files (.h files)
+│   └── MyCProject/
+│       └── foo.h
+├── src/                    # Source code files (.c files and private headers)
+│   ├── foo.c
+│   └── internal/
+│       └── helper.h
+├── tests/                  # Unit and integration tests
+│   └── test_foo.c
+├── scripts/                # Utility scripts (build automation, CI/CD, etc.)
+├── .gitignore              # Git ignore rules
+├── .clang-format           # Formatting rules (optional, but recommended)
+├── CMakeLists.txt          # Modern build system (recommended)
+├── LICENSE                 # License information
+└── README.md               # Project overview and build instructions
+```
+
+---
+
+### Explanation of directories and files:
+
+**1. Root-Level Files**
+- `README.md`: Overview, build instructions, and example usage.
+- `LICENSE`: Contains open-source license (MIT, Apache, GPL, etc.).
+- `.gitignore`: Ignore build outputs, binaries, temporary files.
+- `.clang-format`: Recommended formatting style for consistent code.
+- `CMakeLists.txt`: Recommended build system (CMake is increasingly common even for C).
+
+**2. `include/`**
+- Contains public headers (`.h` files) intended for external usage.
+- Use project name subdirectories (`include/MyCProject`) to avoid name collisions.
+
+**3. `src/`**
+- Contains all implementation (`.c`) files and internal/private header files.
+- Private headers (internal implementation details) are typically placed in a subdirectory (e.g., `internal`).
+
+**4. `tests/`**
+- Contains unit or integration tests.
+- Typically uses testing frameworks like Unity, CMocka, Criterion, or custom test runners.
+
+**5. `examples/`**
+- Optional: Contains example programs demonstrating usage of your library/application.
+
+**6. `external/`**
+- Optional: Includes third-party libraries or code dependencies if not managed by a package manager.
+
+**7. `docs/`**
+- Documentation and files related to documentation generators (Doxygen, Sphinx, etc.).
+
+**8. `scripts/`**
+- Build automation scripts, CI/CD scripts, deployment, packaging, etc.
+
+**9. `build/`**
+- All generated build artifacts (binaries, objects, executables) go here and are never committed to source control.
+
+---
+
+### Minimal Example CMakeLists.txt for C:
+
+```cmake
+cmake_minimum_required(VERSION 3.16)
+
+project(MyCProject VERSION 1.0 LANGUAGES C)
+
+# Set C standard (C11 recommended)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+# Define library
+add_library(${PROJECT_NAME} src/foo.c)
+
+target_include_directories(${PROJECT_NAME}
+    PUBLIC
+        ${PROJECT_SOURCE_DIR}/include
+    PRIVATE
+        ${PROJECT_SOURCE_DIR}/src
+)
+
+# Example executable
+add_executable(${PROJECT_NAME}_example examples/example_main.c)
+target_link_libraries(${PROJECT_NAME}_example PRIVATE ${PROJECT_NAME})
+
+# Enable tests
+enable_testing()
+add_subdirectory(tests)
+```
+
+---
+
+### Best Practices for C Projects:
+
+- Clearly separate **public headers** (`include/`) from **implementation details** (`src/`).
+- Use a modern build system (CMake is widely accepted, alternatives are Makefiles, Meson, Bazel).
+- Write clear documentation and comments.
+- Consistently format code with tools like `clang-format`.
+- Place unit tests in a dedicated directory to encourage good testing practices.
+- Avoid mixing third-party code directly into your source; use a dedicated `external/` folder or dependency management tools.
+
+---
+
+This recommended structure will help ensure your project remains clear, maintainable, and scalable over time.
 
 ## Style Guides & References
 
