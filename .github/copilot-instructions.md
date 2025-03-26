@@ -140,6 +140,8 @@ foreach ($item in $contents)
 ### C++
 
 - Use the recommended project directory structure
+- Create the project structure using this prompt as a reference:
+	_Create a python script at relative path: ...programming\cpp\workspace named cpp_project_setup.py that will create C++ a project workspace directory structure and files based on the guidance provided in the 'MyCppProject' example in copilot-instructions.md. Name the project 'cpp-project-name'._
 
 ```C++
 MyCppProject/
