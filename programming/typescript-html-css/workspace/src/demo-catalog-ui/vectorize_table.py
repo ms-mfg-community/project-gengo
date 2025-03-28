@@ -1,4 +1,3 @@
-import openai
 from openai import AzureOpenAI
 import psycopg2
 import json
@@ -6,12 +5,10 @@ import getpass
 import os
 import logging
 from tqdm import tqdm
+from dotenv import load_dotenv
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-# OpenAI API Key (Replace with your actual API key)
-OPENAI_API_KEY = "your-api-key"
 
 # Prompt for the OpenAI API key
 OPENAI_API_KEY = getpass.getpass(prompt="Enter OpenAI API key: ")
@@ -24,13 +21,23 @@ client = AzureOpenAI(
 )
 
 # Database connection details
+# Import dotenv for loading environment variables
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Database connection details from environment variables
 DB_PARAMS = {
-    "dbname": "ghc_prompts",
-    "user": "ztmadmin",
-    "password": None,  # Password will be prompted
-    "host": "pfs-sql-01.postgres.database.azure.com",
-    "port": "5432"
+    "dbname": os.getenv("DB_NAME"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),  # Will be prompted if not in env
+    "host": os.getenv("DB_HOST"),
+    "port": os.getenv("DB_PORT")
 }
+
+# Prompt for the database password if not in environment variables
+if not DB_PARAMS["password"]:
+    DB_PARAMS["password"] = getpass.getpass(prompt="Enter database password: ")
 
 # Prompt for the database password
 DB_PARAMS["password"] = getpass.getpass(prompt="Enter database password: ")
