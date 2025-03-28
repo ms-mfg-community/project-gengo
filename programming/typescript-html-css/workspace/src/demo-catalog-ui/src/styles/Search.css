@@ -64,6 +64,7 @@
 
 .search-results {
   margin-top: 20px;
+  text-align: left;
 }
 
 .results-list {
@@ -78,6 +79,7 @@
   background-color: #f3f2f1;
   border-radius: 4px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: left;
 }
 
 .result-item h4 {
@@ -88,6 +90,30 @@
 
 .result-item p {
   margin: 5px 0;
+}
+
+.result-item .ide-tag {
+  display: inline-block;
+  background-color: #107c10;
+  color: white;
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  margin-right: 5px;
+  margin-top: 8px;
+}
+
+.result-item .reference-link {
+  display: block;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #0078d4;
+  text-decoration: underline;
+}
+
+.result-item .reference-link:hover {
+  color: #106ebe;
+  text-decoration: none;
 }
 
 /* Credentials Form Styles */

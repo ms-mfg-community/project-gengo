@@ -549,6 +549,8 @@ const initializeApp = async () => {
               sub_category,
               language,
               role,
+              ide_type as ide,
+              reference,
               1 - (embedding <-> $1::vector) as similarity
             FROM demo_catalog
             WHERE embedding IS NOT NULL
@@ -720,7 +722,7 @@ const initializeApp = async () => {
         // Format the results with left justification
         const formattedResults = results.map((result, index) => {
           const score = typeof result.similarity === 'number' ? result.similarity.toFixed(4) : result.score?.toFixed(4) || 'N/A';
-          return [
+            return [
             `Result ${index + 1} - Score: ${score}`,
             `Category: ${result.category || 'N/A'}${result.sub_category ? ' / ' + result.sub_category : ''}`,
             '',
@@ -728,9 +730,13 @@ const initializeApp = async () => {
             '',
             `Role: ${result.role || 'N/A'}`,
             '',
+            `IDE: ${result.ide || 'N/A'}`,
+            '',
+            `Reference: ${result.reference || 'N/A'}`,
+            '',
             `Scenario: ${result.scenario || 'N/A'}`,
             ''
-          ].join('\n');
+            ].join('\n');
         }).join('\n');
         
         res.json({ formattedResults });

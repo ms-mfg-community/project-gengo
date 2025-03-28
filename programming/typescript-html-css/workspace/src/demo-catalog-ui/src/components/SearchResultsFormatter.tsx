@@ -9,6 +9,8 @@ interface SearchResult {
   language?: string;
   role?: string;
   scenario?: string;
+  ide?: string;
+  reference?: string;
 }
 
 interface SearchResultsFormatterProps {

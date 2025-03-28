@@ -9,6 +9,8 @@ interface SearchResult {
   language: string;
   role: string;
   similarity: number;
+  ide?: string;
+  reference?: string;
 }
 
 type MessageType = 'user' | 'system' | 'results';
@@ -405,6 +407,19 @@ const SearchChat: React.FC = () => {
                               ? `${result.scenario.substring(0, 150)}...` 
                               : result.scenario}
                           </p>
+                          
+                          {result.ide && <span className="ide-tag">{result.ide}</span>}
+                          
+                          {result.reference && (
+                            <a 
+                              href={result.reference}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="reference-link"
+                            >
+                              Reference Documentation
+                            </a>
+                          )}
                         </div>
                       </div>
                     ))

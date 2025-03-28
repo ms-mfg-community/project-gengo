@@ -10,6 +10,8 @@ interface SearchResult {
   language?: string;
   role?: string;
   scenario?: string;
+  ide?: string;
+  reference?: string;
 }
 
 interface Credentials {
@@ -241,6 +243,19 @@ const SearchPage: React.FC = () => {
                     <p><strong>Language:</strong> {result.language || 'N/A'}</p>
                     <p><strong>Role:</strong> {result.role || 'N/A'}</p>
                     <p><strong>Scenario:</strong> {result.scenario || 'N/A'}</p>
+                    
+                    {result.ide && <span className="ide-tag">{result.ide}</span>}
+                    
+                    {result.reference && (
+                      <a 
+                        href={result.reference}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="reference-link"
+                      >
+                        Reference Documentation
+                      </a>
+                    )}
                   </div>
                 ))}
               </div>

@@ -60,7 +60,7 @@ def perform_semantic_search(cursor, query_text, limit=5):
     
     # Perform the search using cosine similarity
     cursor.execute("""
-        SELECT id, scenario, category, sub_category, language, role, 
+        SELECT id, scenario, category, sub_category, language, role, ide_type, reference,
                1 - (embedding <=> %s) AS similarity
         FROM demo_catalog
         WHERE embedding IS NOT NULL
@@ -104,12 +104,14 @@ try:
         print(f"Query: '{query_text}'")
         print("-----------------------------------")
         
-        for i, (id, scenario, category, sub_category, language, role, similarity) in enumerate(results, 1):
+        for i, (id, scenario, category, sub_category, language, role, ide_type, reference, similarity) in enumerate(results, 1):
             print(f"Result {i}:")
             print(f"ID: {id}")
             print(f"Category: {category} / {sub_category}")
             print(f"Language: {language}")
             print(f"Role: {role}")
+            print(f"IDE Type: {ide_type}")
+            print(f"Reference: {reference}")
             print(f"Similarity Score: {similarity:.4f}")
             print(f"Scenario: {scenario[:100]}..." if len(scenario) > 100 else f"Scenario: {scenario}")
             print("-----------------------------------")
