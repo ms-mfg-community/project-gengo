@@ -37,13 +37,16 @@ Ingest the test values from a csv file instead of specifying hard coded values f
 Create a mermaid chart class diagram. #file: statistics_test.csv, #file: mermaid_csv.md
 
 ## Add a new column to the csv input file
-Add a column named result to the input file that will either be pass or fail for each test, then after running each test, write the result to this column. #file:statistics_test.csv #file:statistics_test.go 
+Add a column named result to the input file that will either be pass or fail for each test, then after running each test, write the result to this column. #file:statistics_test.csv #file:statistics_test.go.
 
 ## Show the results from the csv file
 After the test is complete, read and display the content of the #file:statistics_test.csv directly from #file:statistics_test.go 
 
 ## Refactor to use the testify framework
 Refactor the #file:statistics_test.go to use the testify framework instead of Go's standard library functionality for all testing operations. This is intended to improve test readability, assertions and overall structure.
+
+## Regression testing 
+Perform a final execution of the test to confirm that the last refactoring operation above did not change the successful behavior of the program.
 
 ## Thought Exercise
 How else can we scale this application to make it handle more volume in a distributed architecture?
