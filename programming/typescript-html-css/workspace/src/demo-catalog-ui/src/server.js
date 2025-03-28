@@ -4,6 +4,7 @@ import pkg from 'pg';
 const { Pool } = pkg;
 import dotenv from 'dotenv';
 import inquirer from 'inquirer';
+import fetch from 'node-fetch'; // Add this for making API calls to Azure OpenAI
 
 const app = express();
 const port = 3000;
@@ -405,6 +406,337 @@ const initializeApp = async () => {
       } catch (err) {
           console.error(err);
           res.status(500).send('Server error');
+      }
+    });
+
+    // Add semantic-search endpoint
+    app.post('/api/semantic-search', async (req, res) => {
+      try {
+        console.log('Received semantic search request');
+        const { query, credentials } = req.body;
+        
+        if (!query || typeof query !== 'string') {
+          console.error('Invalid query in request');
+          return res.status(400).json({ error: 'Invalid query' });
+        }
+        
+        if (!credentials || !credentials.azureOpenAI || !credentials.dbParams) {
+          console.error('Missing required credentials:', JSON.stringify({ 
+            hasCredentials: !!credentials,
+            hasAzureOpenAI: !!(credentials && credentials.azureOpenAI),
+            hasDbParams: !!(credentials && credentials.dbParams)
+          }));
+          return res.status(400).json({ error: 'Missing required credentials' });
+        }
+        
+        const { azureOpenAI, dbParams } = credentials;
+        console.log('Connecting to database with params:', {
+          user: dbParams.user,
+          host: dbParams.host,
+          database: dbParams.dbname,
+          port: dbParams.port,
+          ssl: { rejectUnauthorized: false }
+        });
+        
+        // Step 1: Create a connection to the specified database
+        const searchPool = new Pool({
+          user: dbParams.user,
+          host: dbParams.host,
+          database: dbParams.dbname,
+          password: dbParams.password,
+          port: dbParams.port,
+          ssl: { rejectUnauthorized: false } // Adjust as needed for your DB security
+        });
+        
+        try {
+          // Test the connection
+          await searchPool.query('SELECT 1');
+          console.log('Database connection successful');
+        } catch (dbError) {
+          console.error('Database connection failed:', dbError);
+          await searchPool.end();
+          return res.status(500).json({ error: `Database connection error: ${dbError.message}` });
+        }
+        
+        console.log('Requesting embedding from Azure OpenAI');
+        // Step 2: Get embedding for the query from Azure OpenAI
+        let embeddingResponse;
+        try {
+          // Use the deploymentName from credentials or default to "embedding-ada-002"
+          const deploymentName = azureOpenAI.deploymentName || "embedding-ada-002";
+          const embedUrl = `${azureOpenAI.azureEndpoint}/openai/deployments/${deploymentName}/embeddings?api-version=${azureOpenAI.apiVersion}`;
+          console.log('Making embedding request to:', embedUrl);
+          
+          embeddingResponse = await fetch(embedUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'api-key': azureOpenAI.apiKey
+            },
+            body: JSON.stringify({
+              input: query,
+              model: "text-embedding-ada-002" 
+            })
+          });
+        } catch (fetchError) {
+          console.error('Fetch to Azure OpenAI failed:', fetchError);
+          await searchPool.end();
+          return res.status(500).json({ error: `Azure OpenAI API fetch error: ${fetchError.message}` });
+        }
+        
+        if (!embeddingResponse.ok) {
+          const errorText = await embeddingResponse.text();
+          console.error('Azure OpenAI API returned error:', embeddingResponse.status, errorText);
+          await searchPool.end();
+          return res.status(502).json({ 
+            error: `Azure OpenAI API error: ${embeddingResponse.status} ${errorText}`,
+            status: embeddingResponse.status
+          });
+        }
+        
+        const embeddingData = await embeddingResponse.json();
+        console.log('Received embedding data with dimensions:', embeddingData.data[0].embedding.length);
+        const queryEmbedding = embeddingData.data[0].embedding;
+        
+        // Check if the demo_catalog table exists and has the embedding column
+        try {
+          const tableCheck = await searchPool.query(`
+            SELECT EXISTS (
+              SELECT FROM information_schema.tables
+              WHERE table_schema = 'public'
+              AND table_name = 'demo_catalog'
+            ) as exists
+          `);
+          
+          if (!tableCheck.rows[0].exists) {
+            console.error('demo_catalog table does not exist');
+            await searchPool.end();
+            return res.status(500).json({ error: 'Database error: demo_catalog table does not exist' });
+          }
+
+          const columnCheck = await searchPool.query(`
+            SELECT EXISTS (
+              SELECT FROM information_schema.columns
+              WHERE table_schema = 'public'
+              AND table_name = 'demo_catalog'
+              AND column_name = 'embedding'
+            ) as exists
+          `);
+          
+          if (!columnCheck.rows[0].exists) {
+            console.error('embedding column does not exist in demo_catalog table');
+            await searchPool.end();
+            return res.status(500).json({ error: 'Database error: embedding column does not exist' });
+          }
+        } catch (dbStructureError) {
+          console.error('Error checking database structure:', dbStructureError);
+          await searchPool.end();
+          return res.status(500).json({ error: `Database structure error: ${dbStructureError.message}` });
+        }
+        
+        console.log('Performing vector similarity search');
+        // Step 3: Use the embedding to search the database for similar content
+        try {
+          // Format the embedding vector for PostgreSQL - convert JavaScript array to PostgreSQL vector format
+          // The correct pgvector format is '[x1,x2,...,xn]' - a string with square brackets
+          const formattedVector = JSON.stringify(queryEmbedding);
+          
+          const searchResults = await searchPool.query(`
+            SELECT 
+              id,
+              scenario, 
+              category,
+              sub_category,
+              language,
+              role,
+              1 - (embedding <-> $1::vector) as similarity
+            FROM demo_catalog
+            WHERE embedding IS NOT NULL
+            ORDER BY embedding <-> $1::vector
+            LIMIT 5;
+          `, [formattedVector]);
+          
+          console.log(`Search complete, found ${searchResults.rows.length} results`);
+          
+          // Close the connection to the search pool
+          await searchPool.end();
+          
+          // Return the search results
+          res.json(searchResults.rows);
+        } catch (searchError) {
+          console.error('Database search error:', searchError);
+          await searchPool.end();
+          return res.status(500).json({ error: `Database search error: ${searchError.message}` });
+        }
+      } catch (err) {
+        console.error('Error performing semantic search:', err);
+        res.status(500).json({ error: `Error performing semantic search: ${err.message}` });
+      }
+    });
+
+    // Add validate-deployment endpoint
+    app.post('/api/validate-deployment', async (req, res) => {
+      try {
+        const { credentials } = req.body;
+        
+        if (!credentials || !credentials.azureOpenAI) {
+          return res.status(400).json({ 
+            valid: false,
+            message: 'Missing required credentials' 
+          });
+        }
+        
+        const { apiKey, azureEndpoint, apiVersion, deploymentName } = credentials.azureOpenAI;
+        
+        if (!apiKey || !azureEndpoint || !deploymentName) {
+          return res.status(400).json({ 
+            valid: false,
+            message: 'Missing required Azure OpenAI parameters' 
+          });
+        }
+        
+        console.log(`Validating deployment: ${deploymentName} at ${azureEndpoint}`);
+        
+        // For embedding models, we'll test with a simple embedding request
+        if (deploymentName.includes('embedding')) {
+          try {
+            const testUrl = `${azureEndpoint}/openai/deployments/${deploymentName}/embeddings?api-version=${apiVersion}`;
+            console.log('Testing embedding endpoint:', testUrl);
+            
+            const embeddingResponse = await fetch(testUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'api-key': apiKey
+              },
+              body: JSON.stringify({
+                input: "Test validation",
+                model: deploymentName
+              })
+            });
+            
+            if (!embeddingResponse.ok) {
+              const errorText = await embeddingResponse.text();
+              console.error('Embedding test failed:', embeddingResponse.status, errorText);
+              throw new Error(`Embedding test failed: ${embeddingResponse.status} ${errorText}`);
+            }
+            
+            // Test passed, response was successful
+            await embeddingResponse.json(); // Just to validate the response is proper JSON
+          } catch (testError) {
+            console.error('Deployment test failed:', testError);
+            throw testError;
+          }
+        } else {
+          // For generative models, we'll use a simple completion request
+          try {
+            const testUrl = `${azureEndpoint}/openai/deployments/${deploymentName}/completions?api-version=${apiVersion}`;
+            console.log('Testing completion endpoint:', testUrl);
+            
+            const completionResponse = await fetch(testUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'api-key': apiKey
+              },
+              body: JSON.stringify({
+                prompt: "Hello",
+                max_tokens: 5,
+                temperature: 0.5
+              })
+            });
+            
+            if (!completionResponse.ok) {
+              const errorText = await completionResponse.text();
+              console.error('Completion test failed:', completionResponse.status, errorText);
+              throw new Error(`Completion test failed: ${completionResponse.status} ${errorText}`);
+            }
+            
+            // Test passed, response was successful
+            await completionResponse.json(); // Just to validate the response is proper JSON
+          } catch (testError) {
+            console.error('Deployment test failed:', testError);
+            throw testError;
+          }
+        }
+        
+        // If we got here, the validation was successful
+        console.log('Deployment validation successful');
+        
+        // Attempt to get available deployments
+        let availableDeployments = [];
+        try {
+          // This endpoint works with Azure OpenAI
+          const modelsUrl = `${azureEndpoint}/openai/deployments?api-version=${apiVersion}`;
+          console.log('Fetching available deployments:', modelsUrl);
+          
+          const modelsResponse = await fetch(modelsUrl, {
+            headers: {
+              'api-key': apiKey
+            }
+          });
+          
+          if (modelsResponse.ok) {
+            const modelsData = await modelsResponse.json();
+            if (modelsData.data && Array.isArray(modelsData.data)) {
+              availableDeployments = modelsData.data.map(deployment => ({
+                id: deployment.id,
+                model: deployment.model
+              }));
+              console.log(`Found ${availableDeployments.length} available deployments`);
+            }
+          } else {
+            console.log('Could not fetch available deployments, continuing with validation');
+          }
+        } catch (modelsError) {
+          console.log('Error fetching available deployments:', modelsError.message);
+          // Non-critical error, we can continue without available deployments
+        }
+        
+        // Return success response
+        res.json({ 
+          valid: true, 
+          message: 'Deployment validated successfully',
+          availableDeployments 
+        });
+      } catch (error) {
+        console.error('Deployment validation error:', error);
+        res.status(400).json({ 
+          valid: false,
+          message: `Validation failed: ${error.message}` 
+        });
+      }
+    });
+
+    // Add endpoint to format search results with left justification
+    app.post('/api/format-search-results', async (req, res) => {
+      try {
+        const { results } = req.body;
+        
+        if (!results || !Array.isArray(results)) {
+          return res.status(400).json({ error: 'Invalid results data. Expected an array.' });
+        }
+        
+        // Format the results with left justification
+        const formattedResults = results.map((result, index) => {
+          const score = typeof result.similarity === 'number' ? result.similarity.toFixed(4) : result.score?.toFixed(4) || 'N/A';
+          return [
+            `Result ${index + 1} - Score: ${score}`,
+            `Category: ${result.category || 'N/A'}${result.sub_category ? ' / ' + result.sub_category : ''}`,
+            '',
+            `Language: ${result.language || 'N/A'}`,
+            '',
+            `Role: ${result.role || 'N/A'}`,
+            '',
+            `Scenario: ${result.scenario || 'N/A'}`,
+            ''
+          ].join('\n');
+        }).join('\n');
+        
+        res.json({ formattedResults });
+      } catch (err) {
+        console.error('Error formatting search results:', err);
+        res.status(500).json({ error: `Error formatting results: ${err.message}` });
       }
     });
 

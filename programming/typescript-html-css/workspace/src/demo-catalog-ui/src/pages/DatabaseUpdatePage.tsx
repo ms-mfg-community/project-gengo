@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import '../styles/DatabaseUpdatePage.css';
 
 interface TableInfo {
@@ -13,6 +13,11 @@ interface ColumnInfo {
 
 interface RecordData {
   [key: string]: any;
+}
+
+interface SortConfig {
+  key: string;
+  direction: 'ascending' | 'descending' | null;
 }
 
 /**
@@ -37,6 +42,12 @@ const DatabaseUpdatePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  
+  // State for sorting
+  const [sortConfig, setSortConfig] = useState<SortConfig>({
+    key: '',
+    direction: null
+  });
 
   // Fetch tables and their columns on component mount
   useEffect(() => {
@@ -220,6 +231,62 @@ const DatabaseUpdatePage: React.FC = () => {
   };
 
   /**
+   * Handles sorting when a column header is clicked
+   */
+  const requestSort = (key: string) => {
+    let direction: 'ascending' | 'descending' | null = 'ascending';
+    
+    if (sortConfig.key === key) {
+      if (sortConfig.direction === 'ascending') {
+        direction = 'descending';
+      } else if (sortConfig.direction === 'descending') {
+        direction = null;
+      }
+    }
+    
+    setSortConfig({ key, direction });
+  };
+
+  /**
+   * Sorts the table data based on current sort configuration
+   */
+  const sortedData = useMemo(() => {
+    if (!sortConfig.key || !sortConfig.direction) {
+      return tableData;
+    }
+
+    return [...tableData].sort((a, b) => {
+      // Handle null values
+      if (a[sortConfig.key] === null) return 1;
+      if (b[sortConfig.key] === null) return -1;
+      
+      // Compare based on type
+      if (typeof a[sortConfig.key] === 'string') {
+        // Case-insensitive string comparison
+        const valA = a[sortConfig.key].toLowerCase();
+        const valB = b[sortConfig.key].toLowerCase();
+        
+        if (valA < valB) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (valA > valB) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      } else {
+        // Numeric or other comparison
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      }
+    });
+  }, [tableData, sortConfig]);
+
+  /**
    * Renders form fields based on column data types
    */
   const renderFormField = (column: ColumnInfo) => {
@@ -332,46 +399,98 @@ const DatabaseUpdatePage: React.FC = () => {
           ) : tableData.length === 0 ? (
             <div className="no-records">No records found in this table</div>
           ) : (
-            <div className="table-container">
-              <table className="records-table">
-                <thead>
-                  <tr>
-                    <th>Select</th>
-                    {tables.find(t => t.name === selectedTable)?.columns.slice(0, 5).map(column => (
-                      <th key={column.name}>{column.name}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {tableData.map((record, rowIndex) => (
-                    <tr 
-                      key={rowIndex} 
-                      className={selectedRecord && record.id === selectedRecord.id ? 'selected-row' : ''}
-                      onClick={() => handleRecordSelect(record)}
-                    >
-                      <td>
-                        <button 
-                          className="select-button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleRecordSelect(record);
-                          }}
-                        >
-                          Select
-                        </button>
-                      </td>
+            <>
+              {/* Sorting controls */}
+              <div className="sorting-controls">
+                <label htmlFor="sort-select">Sort by:</label>
+                <select 
+                  id="sort-select"
+                  value={sortConfig.key} 
+                  onChange={(e) => requestSort(e.target.value)}
+                  className="sort-select"
+                >
+                  <option value="">-- No sorting --</option>
+                  {tables.find(t => t.name === selectedTable)?.columns.map(column => (
+                    <option key={column.name} value={column.name}>
+                      {column.name}
+                    </option>
+                  ))}
+                </select>
+                
+                {sortConfig.key && (
+                  <button 
+                    className="sort-direction-button"
+                    onClick={() => {
+                      const newDirection = sortConfig.direction === 'ascending' ? 'descending' : 'ascending';
+                      setSortConfig({ ...sortConfig, direction: newDirection });
+                    }}
+                  >
+                    {sortConfig.direction === 'ascending' ? 'Sort Descending ↓' : 'Sort Ascending ↑'}
+                  </button>
+                )}
+                
+                {sortConfig.key && (
+                  <button 
+                    className="clear-sort-button"
+                    onClick={() => setSortConfig({ key: '', direction: null })}
+                  >
+                    Clear Sort
+                  </button>
+                )}
+              </div>
+              
+              <div className="table-container">
+                <table className="records-table">
+                  <thead>
+                    <tr>
+                      <th>Select</th>
                       {tables.find(t => t.name === selectedTable)?.columns.slice(0, 5).map(column => (
-                        <td key={column.name}>
-                          {typeof record[column.name] === 'object' 
-                            ? JSON.stringify(record[column.name]) 
-                            : record[column.name]?.toString() || ''}
-                        </td>
+                        <th 
+                          key={column.name} 
+                          className={`sortable-header ${sortConfig.key === column.name ? 'sorted' : ''}`}
+                          onClick={() => requestSort(column.name)}
+                        >
+                          {column.name}
+                          {sortConfig.key === column.name && (
+                            <span className="sort-indicator">
+                              {sortConfig.direction === 'ascending' ? ' ↑' : ' ↓'}
+                            </span>
+                          )}
+                        </th>
                       ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {sortedData.map((record, rowIndex) => (
+                      <tr 
+                        key={rowIndex} 
+                        className={selectedRecord && record.id === selectedRecord.id ? 'selected-row' : ''}
+                        onClick={() => handleRecordSelect(record)}
+                      >
+                        <td>
+                          <button 
+                            className="select-button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleRecordSelect(record);
+                            }}
+                          >
+                            Select
+                          </button>
+                        </td>
+                        {tables.find(t => t.name === selectedTable)?.columns.slice(0, 5).map(column => (
+                          <td key={column.name}>
+                            {typeof record[column.name] === 'object' 
+                              ? JSON.stringify(record[column.name]) 
+                              : record[column.name]?.toString() || ''}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </div>
       )}
