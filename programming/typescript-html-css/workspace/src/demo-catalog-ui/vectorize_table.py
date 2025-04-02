@@ -1,11 +1,11 @@
-from openai import AzureOpenAI
-import psycopg2
-import json
-import getpass
-import os
-import logging
-from tqdm import tqdm
-from dotenv import load_dotenv
+from openai import AzureOpenAI  # Import Azure OpenAI client for generating embeddings
+import psycopg2                 # PostgreSQL adapter for database connections
+import json                     # JSON encoder/decoder for handling embedding data
+import getpass                  # Secure password input without displaying characters
+import os                       # Operating system interface for environment variables
+import logging                  # Logging facility for tracking application events
+from tqdm import tqdm           # Progress bar library for visualizing batch operations
+from dotenv import load_dotenv  # Environment variable loader from .env files
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
