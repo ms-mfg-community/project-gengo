@@ -1,3 +1,4 @@
+// https://docs.github.com/en/enterprise-cloud@latest/admin/configuring-settings/configuring-private-networking-for-hosted-compute-products/configuring-private-networking-for-github-hosted-runners-in-your-enterprise
 @description('Azure region for NSG deployment')
 param location string = 'eastus2' // Default to East US 2
 
