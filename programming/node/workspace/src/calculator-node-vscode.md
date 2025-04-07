@@ -3,12 +3,12 @@ Sure! Here's a step-by-step guide to help you write a basic calculator program i
 ### Step 1: Set Up Your Project
 
 1. **Create a New Project**:
-   - Open Visual Studio 2022 and create a new project.
+   - Open Visual Studio Code and create a new project folder named 'calculator'
    - Select "Node.js Console Application" from the project templates and click "Next".
    - Name your project and choose a location to save it, then click "Create".
 
 2. **Initialize Your Project**:
-   - Open the terminal in Visual Studio (View > Terminal) and navigate to your project directory.
+   - Open the terminal in Visual Studio Code and navigate to your project directory.
    - Initialize a new Node.js project:
 
      ```sh

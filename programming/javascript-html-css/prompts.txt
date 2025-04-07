@@ -1,7 +1,7 @@
-p01.01 [] Create a new javascript calculator app with the basic four arithmetic functions of addition, subtraction, multiplication and division.
+p01.01 [] Create a new typescript calculator app with the basic four arithmetic functions of addition, subtraction, multiplication and division.
 .02 [] It should use the files index.html, calculator.css and calculator.js under the ./src folder.
 .03 [] Can we add the modulo and exponent features also?
-f01.01 [] How can I run the javascript calculator app in visual studio code?
+f01.01 [] How can I run the typescript calculator app in visual studio code?
 
 p02.[] How do I install nodejs on Windows 11 using winget?
 r02: winget install OpenJS.NodeJS
@@ -14,15 +14,15 @@ r04. [skip]
 
 p05.[] Can you please create a test for this app?
 
-p06.[] How do I execute a javascript test file ? r3: npm install --save-dev jest
+p06.[] How do I execute a typescript test file ? r3: npm install --save-dev jest
 
 p07.[] How do I remove an npm package? r4: npm uninstall {package_name}: The name of the npm package to be removed
 
-p08.[] What is a popular tool I can use to run a javascript test file ? r5: Jest (abbr)
+p08.[] What is a popular tool I can use to run a typescript test file ? r5: Jest (abbr)
 
 p09.[] Are there any other tools I should consider using ? r6: Mocha, Jasmine, Karma, AVA
 
-p10.[] [copilot hyperlink] pre-emptive/suggested next question: How can I configure Jest to run JavaScript tests in a specific directory?
+p10.[] [copilot hyperlink] pre-emptive/suggested next question: How can I configure Jest to run typescript tests in a specific directory?
 
 p11.[] Add an entry in #file:.gitignore for the node_modules folder in any directory and any of it's contents.
 r11 [] node_modules/
@@ -30,11 +30,11 @@ r11 [] node_modules/
 p12. [] How can I convert this appliction to python3?
 r12. [] ...matched public code...
 
-p13. [] @github How can I convert this javascript application to python?
+p13. [] @github How can I convert this typescript application to python?
 r13. []  
 
 p14. [] Can you please add explanatory comments to this code in German?
-s14. [] [repository]..project-gengo\programming\javascript-html-css\completed\src\calculator.js
+s14. [] [repository]..project-gengo\programming\typescript-html-css\completed\src\calculator.js
 
 p15. [] Können Sie das bitte auf Deutsch erklären?
 r15. [] 
