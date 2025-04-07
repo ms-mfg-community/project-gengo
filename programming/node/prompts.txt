@@ -1,7 +1,14 @@
-p01.01 [] Create a node calculator app using typescript, with the basic four arithmetic functions of addition, subtraction, multiplication and division.
-.02 [] It should use the files index.ts and calculator.ts under the ./calculator folder.
-.03 [] Can we add the modulo and exponent features also?
-f01.01 [] How can I run the typescript calculator app in visual studio code?
+p01.01 [] Create a node project using typescript at the path
+C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\node\workspace\src in a new folder named calculator.
+02 [] For this app, create a calculator with basic four arithmetic functions of addition, subtraction, multiplication and division.
+03 [] It should use the files index.ts and calculator.ts under the ./calculator folder.
+04 [] Add a UI version of this calculator with html and css files.
+05 [] Implement hot module reload (HMR) with vite for the UI.
+06 [] The number keys in the UI aren't contiguous.
+07 [] Can you also place the 0 right below the 1 and 2 numeric buttons ?
+08 [] Can you please also add the modulo and exponent operations also to the UI?
+09 [] This looks amazing now. Thank you. Can you also add the modulo and exponent operations to the console app as well please?
+10 [] Create unit tests for the console calculator app.
 
 p02.[] How do I install nodejs on Windows 11 using winget?
 r02: winget install OpenJS.NodeJS
