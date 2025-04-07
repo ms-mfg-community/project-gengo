@@ -8,12 +8,15 @@ $currentDirectory = Get-Location
 $dirContent = Get-ChildItem -Path $currentDirectory
 
 # Extract the filename property from the directory contents
-$filenames = $dirContent | Select-Object -ExpandProperty Name
+# $filenames = $dirContent | Select-Object -ExpandProperty Name
+$filenames = $dirContent | ForEach-Object { $_.Name }
 
 # Output the filenames
 $filenames | ForEach-Object { Write-Host $_ }
 
-# Sort the filenames alphabetically
-$sortedFilenames = $filenames | Sort-Object
+# Sort the filenames in descending order
+$sortedFilenames = $filenames | Sort-Object -Descending
 # Output the sorted filenames
 $sortedFilenames | ForEach-Object { Write-Host $_ }
+
+# PR demo

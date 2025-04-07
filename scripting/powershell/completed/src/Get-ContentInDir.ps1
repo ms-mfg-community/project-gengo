@@ -7,7 +7,8 @@
 $DirectoryPath = $(git rev-parse --show-toplevel) # Ermittelt das oberste Verzeichnis des Git-Repositories
 
 # Inhalte des angegebenen Verzeichnisses abrufen
-$Contents = Get-ChildItem -Path $DirectoryPath -Recurse -File | Select-Object Name, FullName, Length, LastWriteTime
+# $Contents = Get-ChildItem -Path $DirectoryPath -Recurse -File | Select-Object Name, FullName, Length, LastWriteTime
+
 
 # ...existing code...
 
