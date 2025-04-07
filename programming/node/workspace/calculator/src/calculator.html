@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Calculator</title>
+    <link rel="stylesheet" href="./calculator.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <h1>Accessible Calculator</h1>
+        <div class="calculator">
+            <div class="calculator-display" id="display" aria-live="polite">0</div>
+            <div class="calculator-keys">
+                <div class="calculator-row">
+                    <button class="calculator-key clear" data-action="clear" aria-label="Clear">C</button>
+                    <button class="calculator-key backspace" data-action="backspace" aria-label="Backspace">⌫</button>
+                    <button class="calculator-key operator" data-action="modulo" aria-label="Modulo">%</button>
+                    <button class="calculator-key operator" data-action="divide" aria-label="Divide">÷</button>
+                </div>
+                <div class="calculator-row">
+                    <button class="calculator-key number" data-digit="7" aria-label="7">7</button>
+                    <button class="calculator-key number" data-digit="8" aria-label="8">8</button>
+                    <button class="calculator-key number" data-digit="9" aria-label="9">9</button>
+                    <button class="calculator-key operator" data-action="multiply" aria-label="Multiply">×</button>
+                </div>
+                <div class="calculator-row">
+                    <button class="calculator-key number" data-digit="4" aria-label="4">4</button>
+                    <button class="calculator-key number" data-digit="5" aria-label="5">5</button>
+                    <button class="calculator-key number" data-digit="6" aria-label="6">6</button>
+                    <button class="calculator-key operator" data-action="subtract" aria-label="Subtract">−</button>
+                </div>
+                <div class="calculator-row">
+                    <button class="calculator-key number" data-digit="1" aria-label="1">1</button>
+                    <button class="calculator-key number" data-digit="2" aria-label="2">2</button>
+                    <button class="calculator-key number" data-digit="3" aria-label="3">3</button>
+                    <button class="calculator-key operator" data-action="add" aria-label="Add">+</button>
+                </div>
+                <div class="calculator-row">
+                    <button class="calculator-key number" data-digit="0" aria-label="0">0</button>
+                    <button class="calculator-key decimal" data-action="decimal" aria-label="Decimal point">.</button>
+                    <button class="calculator-key operator" data-action="exponent" aria-label="Exponent">x^y</button>
+                    <button class="calculator-key equals" data-action="calculate" aria-label="Equals">=</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="./calculator-ui.js"></script>
+</body>
+</html>

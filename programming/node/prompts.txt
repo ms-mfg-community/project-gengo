@@ -1,51 +1,17 @@
-p01.01 [] Create a node project using typescript at the path
-C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\node\workspace in a new folder named calculator.
+p01
+[] generate
+01 [] Create a node project using typescript at the path:
+      C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\node\workspace in a new folder named calculator.
 02 [] For this app, create a calculator with basic four arithmetic functions of addition, subtraction, multiplication and division.
-03 [] It should use the files index.ts and calculator.ts under the ./calculator folder.
-04 [] Add a UI version of this calculator with html and css files.
-05 [] Implement hot module reload (HMR) with vite for the UI.
-06 [] The number keys in the UI aren't contiguous.
-07 [] Can you also place the 0 right below the 1 and 2 numeric buttons ?
-08 [] Can you please also add the modulo and exponent operations also to the UI?
-09 [] This looks amazing now. Thank you. Can you also add the modulo and exponent operations to the console app as well please?
-10 [] Create unit tests for the console calculator app.
-
-p02.[] How do I install nodejs on Windows 11 using winget?
-r02: winget install OpenJS.NodeJS
-
-p03. [] Can we add a variety of colors to the keypad, where each number and operation uses a different color ?
-f01.01 [] Please change the equal sign to a darker green.
-
-p04. [ask] How can I convert this to a node.js application?
-r04. [skip]
-
-p05.[] Can you please create a test for this app?
-
-p06.[] How do I execute a typescript test file ? r3: npm install --save-dev jest
-
-p07.[] How do I remove an npm package? r4: npm uninstall {package_name}: The name of the npm package to be removed
-
-p08.[] What is a popular tool I can use to run a typescript test file ? r5: Jest (abbr)
-
-p09.[] Are there any other tools I should consider using ? r6: Mocha, Jasmine, Karma, AVA
-
-p10.[] [copilot hyperlink] pre-emptive/suggested next question: How can I configure Jest to run typescript tests in a specific directory?
-
-p11.[] Add an entry in #file:.gitignore for the node_modules folder in any directory and any of it's contents.
-r11 [] node_modules/
-
-p12. [] How can I convert this appliction to python3?
-r12. [] ...matched public code...
-
-p13. [] @github How can I convert this typescript application to python?
-r13. []  
-
-p14. [] Can you please add explanatory comments to this code in German?
-s14. [] [repository]..project-gengo\programming\typescript-html-css\completed\src\calculator.js
-
-p15. [] Können Sie das bitte auf Deutsch erklären?
-r15. [] 
-
-p16. [] Can you please explain the selected code in Hindi ?
-
-p17. [] What about in Japanese ?
+03 [] It should use the files index.ts and calculator.ts under the ./calculator/src folder.
+04 [] Perform initial test with: npm run start
+[] refactor 01
+05 [] Can you please also add the modulo and exponent operations?
+[] refactor 02
+06 [] Add a UI version of this calculator with html and css files implemented with typescript. When assigning colors to calculator keys use accessibility friendly colors.
+[] refactor 03
+07 [] Implement hot module reload (HMR) with vite for the UI to make the iterative changes easier and faster to visualize.
+[] iteration to test HMR
+08 [] The number keys are too dull. Please make them medium orange instead while maintaining proper visual accessibility standards.
+[] unit testing
+09 [] Create unit tests for the console calculator app.
