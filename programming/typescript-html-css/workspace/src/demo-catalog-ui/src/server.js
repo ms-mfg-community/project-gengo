@@ -5,6 +5,7 @@ const { Pool } = pkg;
 import dotenv from 'dotenv';
 import inquirer from 'inquirer';
 import fetch from 'node-fetch'; // Add this for making API calls to Azure OpenAI
+import punycode from 'punycode'; // Using the installed punycode package
 
 const app = express();
 const port = 3000;
@@ -86,7 +87,7 @@ const initializeApp = async () => {
         res.json(result.rows.map(row => row.table_name));
       } catch (err) {
         console.error('Error fetching tables:', err);
-        res.status(500).send('Error fetching database tables');
+        res.status(500).json({ error: 'Error fetching database tables' });
       }
     });
 
