@@ -1,29 +1,30 @@
 {
   "name": "calculator",
-  "version": "1.0.0",
-  "main": "dist/index.js",
+  "private": true,
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "start": "ts-node src/index.ts",
-    "dev": "vite",
-    "build:vite": "vite build",
-    "preview": "vite preview",
-    "serve": "npx http-server src -o calculator.html",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "dev": "node server",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build --outDir dist/client",
+    "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
+    "preview": "cross-env NODE_ENV=production node server"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "A simple calculator application built with TypeScript",
+  "dependencies": {
+    "compression": "^1.8.0",
+    "express": "^5.0.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sirv": "^3.0.1"
+  },
   "devDependencies": {
-    "@types/jest": "^29.5.14",
-    "@types/node": "^22.14.0",
-    "http-server": "^14.1.1",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.3.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3",
-    "vite": "^6.2.5"
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.4",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react-swc": "^3.8.0",
+    "cross-env": "^7.0.3",
+    "typescript": "~5.7.3",
+    "vite": "^6.1.1"
   }
 }

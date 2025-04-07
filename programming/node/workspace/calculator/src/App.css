@@ -1,0 +1,141 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Calculator Styles */
+.calculator-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: #f9f9f9;
+}
+
+.calculator-container h1 {
+  color: #1a202c;  /* Darker color for the header text */
+  font-weight: 700;  /* Bolder text for better visibility */
+}
+
+.calculator-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.calculate-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100%;  /* Ensure button takes full width */
+  position: relative;  /* Ensure proper stacking context */
+  z-index: 1;  /* Bring button forward to prevent overlay issues */
+  margin-top: 1rem;  /* Add some spacing above the button */
+}
+
+.calculate-btn:hover {
+  background-color: #4338ca;
+}
+
+.calculate-btn:active {
+  background-color: #3730a3;  /* Darker color for active state */
+  transform: translateY(1px);  /* Slight push effect */
+}
+
+.calculate-btn:focus {
+  outline: 2px solid #818cf8;  /* Focus outline for accessibility */
+  outline-offset: 2px;
+}
+
+.error-message {
+  color: #dc2626;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #fee2e2;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.result-container {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f0fdf4;
+  border-radius: 4px;
+  border-left: 4px solid #10b981;
+}
+
+.result-container h2 {
+  color: #1a202c;  /* Darker color for the result header */
+  font-weight: 600;
+}
+
+.result {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #111827;  /* Darker color for the result text */
+}
