@@ -143,6 +143,7 @@ nav {
   display: inline-block;
   cursor: help;
   font-size: 0.9rem; /* Slightly smaller font for labels */
+  text-align: left; /* Explicitly set left alignment for labels */
 }
 
 /* Tooltip styles */

@@ -1,0 +1,145 @@
+/* Form.css - Styles for form elements */
+
+.catalog-form {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  font-weight: 500;
+  position: relative;
+}
+
+.form-group label > * {
+  margin-right: 4px;
+}
+
+.form-group label span:last-child {
+  margin-left: 2px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  text-align: left; /* Ensure text is left-justified within input fields */
+}
+
+.form-group textarea {
+  min-height: 100px;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-group label {
+  margin-right: 10px;
+  margin-bottom: 0;
+}
+
+.checkbox-group input {
+  width: auto;
+}
+
+.form-group button {
+  background-color: #0078d4;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.form-group button:hover {
+  background-color: #106ebe;
+}
+
+/* Tooltip styles */
+.info-icon {
+  cursor: help;
+  color: #0078d4;
+  font-size: 0.8rem;
+  margin-left: 4px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle; /* Align icon vertically with text */
+}
+
+.tooltip-text {
+  visibility: hidden;
+  position: absolute;
+  background-color: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 1;
+  width: 200px;
+  left: 10%;
+  bottom: 50%;
+  margin-left: 10px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-weight: normal;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  text-align: left; /* Ensure tooltip text is left-justified */
+}
+
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #333 transparent transparent;
+}
+
+.form-group label:hover .tooltip-text,
+label:hover .tooltip-text,
+.info-icon:hover + .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Special handling for checkbox tooltips */
+.checkbox-group .tooltip-text {
+  left: 100%;
+  margin-left: 10px;
+  bottom: 50%;
+}
+
+.checkbox-group .tooltip-text::after {
+  top: 50%;
+  right: 100%;
+  left: auto;
+  margin-top: -5px;
+  border-color: transparent #333 transparent transparent;
+}
+
+.semantic-icon {
+  margin-right: 5px;
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+}
