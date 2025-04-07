@@ -1,5 +1,5 @@
 p01.01 [] Create a node project using typescript at the path
-C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\node\workspace\src in a new folder named calculator.
+C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\node\workspace in a new folder named calculator.
 02 [] For this app, create a calculator with basic four arithmetic functions of addition, subtraction, multiplication and division.
 03 [] It should use the files index.ts and calculator.ts under the ./calculator folder.
 04 [] Add a UI version of this calculator with html and css files.
