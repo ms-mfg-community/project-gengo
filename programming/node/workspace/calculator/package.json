@@ -12,9 +12,13 @@
   },
   "dependencies": {
     "compression": "^1.8.0",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^16.4.7",
     "express": "^5.0.1",
+    "mssql": "^11.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "readline-sync": "^1.4.10",
     "sirv": "^3.0.1"
   },
   "devDependencies": {

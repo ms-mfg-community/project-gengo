@@ -11,10 +11,11 @@ p01
 [] prep for database connection
 05 [] Create a csv file named calculator-test.csv in a new directory under \src called 'test' for the calculator unit tests with these colums: operation, operandA, operandB, result, status. 
       The result column represents the toBe value and status will be either pass or fail.
-11 [] Next, connect to an SQL database in Azure and upload the data from the calculator-test.csv file into a new table (if it doesn't exist) named calculator-test
+06 [] Next, connect to an SQL database in Azure and upload the data from the calculator-test.csv file into a new table (if it doesn't exist) named calculator
 with the following connection parameters:
-username: ztamdin
+username: ztmadmin
 hostname: svr-asi-01.database.windows.net
 database: sql-asi-01
-table: react-caclulator-test
+table: calculator
 password: <prompt user for a secure text password>
+07. [] Add a new page component to query the calculator table and call it QueryTestData.tsx

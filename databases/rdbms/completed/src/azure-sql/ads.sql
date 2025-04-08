@@ -1,1 +1,1 @@
-select * from SalesLT.Customer
+select * from calculator;
