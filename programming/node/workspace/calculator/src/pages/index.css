@@ -1,0 +1,100 @@
+.calculator {
+  width: 320px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.calculator-display {
+  background-color: #f0f0f0;
+  padding: 20px;
+  text-align: right;
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calculator-keypad {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-gap: 10px;
+}
+
+.input-keys {
+  display: grid;
+  grid-template-rows: 1fr 4fr;
+  grid-gap: 10px;
+}
+
+.function-keys {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+}
+
+.digit-keys {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+
+.operator-keys {
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  grid-gap: 10px;
+}
+
+.calculator-key {
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+  height: 45px;
+  padding: 0;
+  cursor: pointer;
+  color: #333;
+  transition: background-color 0.2s;
+}
+
+.calculator-key:hover {
+  background-color: #d0d0d0;
+}
+
+.calculator-key:active {
+  background-color: #c0c0c0;
+}
+
+.key-0 {
+  grid-column: 1 / span 2;
+}
+
+.key-clear {
+  background-color: #ff8c66;
+  color: white;
+}
+
+.key-clear:hover {
+  background-color: #ff7c50;
+}
+
+.key-equals, .key-add, .key-subtract, .key-multiply, .key-divide {
+  background-color: #4c6ef5;
+  color: white;
+}
+
+.key-equals:hover, .key-add:hover, .key-subtract:hover, .key-multiply:hover, .key-divide:hover {
+  background-color: #3b5bdb;
+}

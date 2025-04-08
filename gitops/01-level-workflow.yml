@@ -1,0 +1,71 @@
+# 01-level-workflow.yml
+# Azure DevOps pipeline with multiple trigger configurations
+
+# Trigger on push to main branch, excluding .github directory
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - .github/**
+
+# Trigger on pull requests targeting main branch
+pr:
+  branches:
+    include:
+      - main
+
+# Schedule trigger to run every 24 hours at midnight (UTC)
+schedules:
+- cron: "0 0 * * *"
+  displayName: Daily midnight build
+  branches:
+    include:
+      - main
+  always: false # only run if there are source code changes
+
+# Manual trigger option
+parameters:
+- name: runManually
+  displayName: Run Pipeline Manually
+  type: boolean
+  default: false
+
+# Pipeline stages and jobs would go here
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  displayName: Build Stage
+  jobs:
+  - job: BuildJob
+    displayName: Build Job
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - checkout: self
+      displayName: 'Checkout Repository'
+
+    - script: |
+        echo "This pipeline was triggered by: $(Build.Reason)"
+        echo "Branch name: $(Build.SourceBranch)"
+      displayName: 'Display Trigger Information'
+      
+    - script: |
+        echo "Listing repository contents using tree:"
+        sudo apt-get update
+        sudo apt-get install -y tree
+        tree -a -L 3
+      displayName: 'List Repository Contents with Tree'
+      
+    - powershell: |
+        Write-Host "Listing src directory contents recursively with PowerShell:"
+        if (Test-Path -Path "$(Build.SourcesDirectory)/src") {
+          Get-ChildItem -Path "$(Build.SourcesDirectory)/src" -Recurse | Format-Table -Property Name, LastWriteTime, Length
+        } else {
+          Write-Host "src directory not found in repository"
+        }
+      displayName: 'List Src Directory Contents with PowerShell'
