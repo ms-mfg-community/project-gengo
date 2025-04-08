@@ -4,26 +4,17 @@ p01
       C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\node\workspace in a new folder named calculator.
 02 [] For this app, create a pages folder in the src directory, then create a Calculator.tsx page web UI component with basic four arithmetic operations. 
       These operations will be implemented as separate functions and will include addition, subtraction, multiplication and division.
-[] increment
+[] increment-01
 03 [] Add the modulo and exponent operations to the Calculator.tsx component.
-
-03 [] With each prompt, update the README.md file with instructions on purpose, pre-requisites, and usage.
-04 [] It should use the files index.ts and calculator.ts under the ./calculator/src folder.
-05 [] Perform initial test with: npm run start
-[] refactor 01
-06 [] Can you please also add the modulo and exponent operations?
-[] refactor 02
-07 [] Add a UI version of this calculator with html and css files implemented with typescript. When assigning colors to calculator keys use accessibility friendly colors.
-[] iteration to test HMR
-08 [] The number keys are too dull. Please make them medium orange instead while maintaining proper visual accessibility standards.
-[] unit testing
-09 [] Create unit tests for the console calculator app.
+[] refactor-01
+04 [] Change the appearance of the calculator to resemble a basic but realistic physical consumer electronics rectangular calculator.
 [] prep for database connection
-10 [] Create a csv file named calculator.test.data.csv for the calculator unit tests with these colums: operation, operandA, operandB, result, status. 
-      Result represents the toBe value and status will be either pass or fail.
-11 [] Use a node script to connect to an SQL database in Azure and upload the data in the csv file into a new table (if it doesn't exist) named react-calculator-test 
+05 [] Create a csv file named calculator-test.csv in a new directory under \src called 'test' for the calculator unit tests with these colums: operation, operandA, operandB, result, status. 
+      The result column represents the toBe value and status will be either pass or fail.
+11 [] Next, connect to an SQL database in Azure and upload the data from the calculator-test.csv file into a new table (if it doesn't exist) named calculator-test
 with the following connection parameters:
 username: ztamdin
 hostname: svr-asi-01.database.windows.net
 database: sql-asi-01
 table: react-caclulator-test
+password: <prompt user for a secure text password>

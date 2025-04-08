@@ -139,3 +139,127 @@
   font-weight: bold;
   color: #111827;  /* Darker color for the result text */
 }
+
+/* Physical Calculator Styles */
+.physical-calculator {
+  width: 300px;
+  margin: 0 auto;
+  background-color: #333;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5),
+              inset 0 2px 0 rgba(255, 255, 255, 0.1),
+              0 0 0 2px rgba(0, 0, 0, 0.2),
+              0 0 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid #222;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.calc-display {
+  background-color: #c3e4c7; /* LCD green background color */
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 15px;
+  text-align: right;
+  font-family: 'Digital', monospace;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+  border: 2px solid #222;
+  position: relative;
+  min-height: 60px;
+}
+
+.calc-operation {
+  font-size: 14px;
+  height: 20px;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 5px;
+}
+
+.calc-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #222;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calc-error {
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  font-size: 12px;
+  color: #d32f2f;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 3px;
+  padding: 2px;
+}
+
+.calc-keypad {
+  display: grid;
+  grid-gap: 8px;
+}
+
+.calc-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 8px;
+}
+
+.calc-row:last-child {
+  grid-template-columns: 1fr;
+}
+
+.calc-key {
+  background: linear-gradient(to bottom, #f9f9f9, #d9d9d9);
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 15px 0;
+  cursor: pointer;
+  color: #333;
+  box-shadow: 
+    0 4px 0 #999,
+    0 5px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.1s ease;
+  user-select: none;
+}
+
+.calc-key:active {
+  box-shadow: 
+    0 1px 0 #999,
+    0 2px 3px rgba(0, 0, 0, 0.2);
+  transform: translateY(3px);
+}
+
+.function-key {
+  background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
+  color: #333;
+}
+
+.operator-key {
+  background: linear-gradient(to bottom, #f89406, #e07900);
+  color: white;
+}
+
+.equals-key {
+  background: linear-gradient(to bottom, #4d90fe, #357ae8);
+  color: white;
+}
+
+/* Add some 3D effect for physical appearance */
+.physical-calculator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  pointer-events: none;
+}

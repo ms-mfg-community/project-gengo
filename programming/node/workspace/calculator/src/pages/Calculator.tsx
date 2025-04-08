@@ -35,57 +35,108 @@ const exponent = (a: number, b: number): number => {
 };
 
 const Calculator: React.FC = () => {
-  // State for managing input values and result
-  const [firstNumber, setFirstNumber] = useState<string>('');
-  const [secondNumber, setSecondNumber] = useState<string>('');
-  const [operation, setOperation] = useState<string>('+');
-  const [result, setResult] = useState<number | null>(null);
+  // State for managing display and calculations
+  const [display, setDisplay] = useState<string>('0');
+  const [firstOperand, setFirstOperand] = useState<string>('');
+  const [operation, setOperation] = useState<string | null>(null);
+  const [waitingForSecondOperand, setWaitingForSecondOperand] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
-  // Handle calculation
-  const calculateResult = () => {
-    // Reset error state
+  // Handle number input
+  const handleNumberInput = (digit: string) => {
     setError('');
     
-    // Convert string inputs to numbers
-    const num1 = parseFloat(firstNumber);
-    const num2 = parseFloat(secondNumber);
+    if (waitingForSecondOperand) {
+      setDisplay(digit);
+      setWaitingForSecondOperand(false);
+    } else {
+      setDisplay(display === '0' ? digit : display + digit);
+    }
+  };
+
+  // Handle decimal point
+  const handleDecimalPoint = () => {
+    setError('');
     
-    // Validate inputs
-    if (isNaN(num1) || isNaN(num2)) {
-      setError('Please enter valid numbers');
+    if (waitingForSecondOperand) {
+      setDisplay('0.');
+      setWaitingForSecondOperand(false);
+      return;
+    }
+
+    if (!display.includes('.')) {
+      setDisplay(display + '.');
+    }
+  };
+
+  // Handle operator selection
+  const handleOperator = (nextOperator: string) => {
+    setError('');
+    
+    const inputValue = parseFloat(display);
+
+    if (firstOperand === '' || operation === null) {
+      setFirstOperand(display);
+      setWaitingForSecondOperand(true);
+      setOperation(nextOperator);
+      return;
+    }
+
+    // If we already have a pending operation, perform calculation first
+    if (operation) {
+      const result = performCalculation();
+      setDisplay(String(result));
+      setFirstOperand(String(result));
+    }
+
+    setOperation(nextOperator);
+    setWaitingForSecondOperand(true);
+  };
+
+  // Perform calculation based on stored operation
+  const performCalculation = (): number => {
+    const firstValue = parseFloat(firstOperand);
+    const secondValue = parseFloat(display);
+
+    try {
+      switch (operation) {
+        case '+':
+          return add(firstValue, secondValue);
+        case '-':
+          return subtract(firstValue, secondValue);
+        case '*':
+          return multiply(firstValue, secondValue);
+        case '/':
+          return divide(firstValue, secondValue);
+        case '%':
+          return modulo(firstValue, secondValue);
+        case '^':
+          return exponent(firstValue, secondValue);
+        default:
+          return secondValue;
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred');
+      }
+      return 0;
+    }
+  };
+
+  // Handle equals button
+  const handleEquals = () => {
+    if (operation === null || waitingForSecondOperand) {
       return;
     }
 
     try {
-      let calculationResult: number;
-      
-      // Perform calculation based on selected operation
-      switch (operation) {
-        case '+':
-          calculationResult = add(num1, num2);
-          break;
-        case '-':
-          calculationResult = subtract(num1, num2);
-          break;
-        case '*':
-          calculationResult = multiply(num1, num2);
-          break;
-        case '/':
-          calculationResult = divide(num1, num2);
-          break;
-        case '%':
-          calculationResult = modulo(num1, num2);
-          break;
-        case '^':
-          calculationResult = exponent(num1, num2);
-          break;
-        default:
-          setError('Invalid operation');
-          return;
-      }
-      
-      setResult(calculationResult);
+      const result = performCalculation();
+      setDisplay(String(result));
+      setFirstOperand('');
+      setOperation(null);
+      setWaitingForSecondOperand(false);
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
@@ -95,81 +146,75 @@ const Calculator: React.FC = () => {
     }
   };
 
-  // Handle form submission
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    calculateResult();
+  // Handle clear button
+  const handleClear = () => {
+    setDisplay('0');
+    setFirstOperand('');
+    setOperation(null);
+    setWaitingForSecondOperand(false);
+    setError('');
   };
 
-  // Add direct button click handler for redundancy
-  const handleButtonClick = () => {
-    calculateResult();
+  // Handle backspace button
+  const handleBackspace = () => {
+    setDisplay(display.length > 1 ? display.slice(0, -1) : '0');
+  };
+
+  // Handle plus/minus toggle
+  const handlePlusMinus = () => {
+    setDisplay(String(parseFloat(display) * -1));
   };
 
   return (
-    <div className="calculator-container">
-      <h1>Simple Calculator</h1>
+    <div className="physical-calculator">
+      <div className="calc-display">
+        <div className="calc-operation">
+          {operation && `${firstOperand} ${operation}`}
+        </div>
+        <div className="calc-value">{display}</div>
+        {error && <div className="calc-error">{error}</div>}
+      </div>
       
-      <form onSubmit={handleSubmit} className="calculator-form">
-        <div className="form-group">
-          <label htmlFor="firstNumber">First Number:</label>
-          <input
-            id="firstNumber"
-            type="number"
-            value={firstNumber}
-            onChange={(e) => setFirstNumber(e.target.value)}
-            placeholder="Enter first number"
-            required
-          />
+      <div className="calc-keypad">
+        <div className="calc-row">
+          <button className="calc-key function-key" onClick={handleClear}>AC</button>
+          <button className="calc-key function-key" onClick={handleBackspace}>⌫</button>
+          <button className="calc-key function-key" onClick={handlePlusMinus}>±</button>
+          <button className="calc-key operator-key" onClick={() => handleOperator('/')}>/</button>
         </div>
         
-        <div className="form-group">
-          <label htmlFor="operation">Operation:</label>
-          <select
-            id="operation"
-            value={operation}
-            onChange={(e) => setOperation(e.target.value)}
-          >
-            <option value="+">Addition (+)</option>
-            <option value="-">Subtraction (-)</option>
-            <option value="*">Multiplication (×)</option>
-            <option value="/">Division (÷)</option>
-            <option value="%">Modulo (%)</option>
-            <option value="^">Exponent (^)</option>
-          </select>
+        <div className="calc-row">
+          <button className="calc-key" onClick={() => handleNumberInput('7')}>7</button>
+          <button className="calc-key" onClick={() => handleNumberInput('8')}>8</button>
+          <button className="calc-key" onClick={() => handleNumberInput('9')}>9</button>
+          <button className="calc-key operator-key" onClick={() => handleOperator('*')}>×</button>
         </div>
         
-        <div className="form-group">
-          <label htmlFor="secondNumber">Second Number:</label>
-          <input
-            id="secondNumber"
-            type="number"
-            value={secondNumber}
-            onChange={(e) => setSecondNumber(e.target.value)}
-            placeholder="Enter second number"
-            required
-          />
+        <div className="calc-row">
+          <button className="calc-key" onClick={() => handleNumberInput('4')}>4</button>
+          <button className="calc-key" onClick={() => handleNumberInput('5')}>5</button>
+          <button className="calc-key" onClick={() => handleNumberInput('6')}>6</button>
+          <button className="calc-key operator-key" onClick={() => handleOperator('-')}>-</button>
         </div>
         
-        <button 
-          type="submit" 
-          className="calculate-btn" 
-          onClick={handleButtonClick}
-        >
-          Calculate
-        </button>
-      </form>
-      
-      {error && <div className="error-message">{error}</div>}
-      
-      {result !== null && !error && (
-        <div className="result-container">
-          <h2>Result:</h2>
-          <div className="result">
-            {firstNumber} {operation} {secondNumber} = {result}
-          </div>
+        <div className="calc-row">
+          <button className="calc-key" onClick={() => handleNumberInput('1')}>1</button>
+          <button className="calc-key" onClick={() => handleNumberInput('2')}>2</button>
+          <button className="calc-key" onClick={() => handleNumberInput('3')}>3</button>
+          <button className="calc-key operator-key" onClick={() => handleOperator('+')}>+</button>
         </div>
-      )}
+        
+        <div className="calc-row">
+          <button className="calc-key" onClick={() => handleNumberInput('0')}>0</button>
+          <button className="calc-key" onClick={handleDecimalPoint}>.</button>
+          <button className="calc-key function-key" onClick={() => handleOperator('^')}>^</button>
+          <button className="calc-key equals-key" onClick={handleEquals}>=</button>
+        </div>
+        
+        <div className="calc-row">
+          <button className="calc-key function-key" onClick={() => handleOperator('%')}>mod</button>
+        </div>
+      </div>
     </div>
   );
 };
