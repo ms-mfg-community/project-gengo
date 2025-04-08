@@ -38,17 +38,27 @@ END
 async function uploadDataToAzure() {
   console.log('Connecting to Azure SQL Database...');
   
-  // Prompt for secure password input with asterisk masking
-  const password = readlineSync.question('Please enter your database password: ', {
-    hideEchoBack: true, // The typed characters will be hidden
-    mask: '*'           // Mask with asterisks instead of hiding completely
-  });
+  // Use environment variable for password without prompting, or provide fallback method
+  const password = process.env.DB_PASSWORD || process.env.DB_PWD;
+  
+  // If no password is found in env vars and not in production, prompt for it
+  let finalPassword = password;
+  if (!finalPassword && process.env.NODE_ENV !== 'production') {
+    console.log('No password found in environment variables.');
+    console.log('You can add DB_PASSWORD to your .env file to avoid this prompt.');
+    finalPassword = readlineSync.question('Please enter your database password: ', {
+      hideEchoBack: true,
+      mask: '*'
+    });
+  } else if (!finalPassword) {
+    throw new Error('Database password not found in environment variables. Set DB_PASSWORD in your .env file.');
+  }
   
   try {
     // Configure SQL connection
     const config = {
       user: process.env.DB_USER,
-      password: password,
+      password: finalPassword,
       server: process.env.DB_SERVER,
       database: process.env.DB_DATABASE,
       options: {

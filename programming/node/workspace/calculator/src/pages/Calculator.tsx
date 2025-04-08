@@ -165,6 +165,10 @@ const Calculator: React.FC = () => {
     setDisplay(String(parseFloat(display) * -1));
   };
 
+  const buttonStyle = {
+    color: 'black'
+  };
+
   return (
     <div className="physical-calculator">
       <div className="calc-display">
@@ -177,42 +181,42 @@ const Calculator: React.FC = () => {
       
       <div className="calc-keypad">
         <div className="calc-row">
-          <button className="calc-key function-key" onClick={handleClear}>AC</button>
-          <button className="calc-key function-key" onClick={handleBackspace}>⌫</button>
-          <button className="calc-key function-key" onClick={handlePlusMinus}>±</button>
-          <button className="calc-key operator-key" onClick={() => handleOperator('/')}>/</button>
+          <button className="calc-key function-key" onClick={handleClear} style={buttonStyle}>AC</button>
+          <button className="calc-key function-key" onClick={handleBackspace} style={buttonStyle}>⌫</button>
+          <button className="calc-key function-key" onClick={handlePlusMinus} style={buttonStyle}>±</button>
+          <button className="calc-key operator-key" onClick={() => handleOperator('/')} style={buttonStyle}>/</button>
         </div>
         
         <div className="calc-row">
-          <button className="calc-key" onClick={() => handleNumberInput('7')}>7</button>
-          <button className="calc-key" onClick={() => handleNumberInput('8')}>8</button>
-          <button className="calc-key" onClick={() => handleNumberInput('9')}>9</button>
-          <button className="calc-key operator-key" onClick={() => handleOperator('*')}>×</button>
+          <button className="calc-key" onClick={() => handleNumberInput('7')} style={buttonStyle}>7</button>
+          <button className="calc-key" onClick={() => handleNumberInput('8')} style={buttonStyle}>8</button>
+          <button className="calc-key" onClick={() => handleNumberInput('9')} style={buttonStyle}>9</button>
+          <button className="calc-key operator-key" onClick={() => handleOperator('*')} style={buttonStyle}>×</button>
         </div>
         
         <div className="calc-row">
-          <button className="calc-key" onClick={() => handleNumberInput('4')}>4</button>
-          <button className="calc-key" onClick={() => handleNumberInput('5')}>5</button>
-          <button className="calc-key" onClick={() => handleNumberInput('6')}>6</button>
-          <button className="calc-key operator-key" onClick={() => handleOperator('-')}>-</button>
+          <button className="calc-key" onClick={() => handleNumberInput('4')} style={buttonStyle}>4</button>
+          <button className="calc-key" onClick={() => handleNumberInput('5')} style={buttonStyle}>5</button>
+          <button className="calc-key" onClick={() => handleNumberInput('6')} style={buttonStyle}>6</button>
+          <button className="calc-key operator-key" onClick={() => handleOperator('-')} style={buttonStyle}>-</button>
         </div>
         
         <div className="calc-row">
-          <button className="calc-key" onClick={() => handleNumberInput('1')}>1</button>
-          <button className="calc-key" onClick={() => handleNumberInput('2')}>2</button>
-          <button className="calc-key" onClick={() => handleNumberInput('3')}>3</button>
-          <button className="calc-key operator-key" onClick={() => handleOperator('+')}>+</button>
+          <button className="calc-key" onClick={() => handleNumberInput('1')} style={buttonStyle}>1</button>
+          <button className="calc-key" onClick={() => handleNumberInput('2')} style={buttonStyle}>2</button>
+          <button className="calc-key" onClick={() => handleNumberInput('3')} style={buttonStyle}>3</button>
+          <button className="calc-key operator-key" onClick={() => handleOperator('+')} style={buttonStyle}>+</button>
         </div>
         
         <div className="calc-row">
-          <button className="calc-key" onClick={() => handleNumberInput('0')}>0</button>
-          <button className="calc-key" onClick={handleDecimalPoint}>.</button>
-          <button className="calc-key function-key" onClick={() => handleOperator('^')}>^</button>
-          <button className="calc-key equals-key" onClick={handleEquals}>=</button>
+          <button className="calc-key" onClick={() => handleNumberInput('0')} style={buttonStyle}>0</button>
+          <button className="calc-key" onClick={handleDecimalPoint} style={buttonStyle}>.</button>
+          <button className="calc-key function-key" onClick={() => handleOperator('^')} style={buttonStyle}>^</button>
+          <button className="calc-key equals-key" onClick={handleEquals} style={buttonStyle}>=</button>
         </div>
         
         <div className="calc-row">
-          <button className="calc-key function-key" onClick={() => handleOperator('%')}>mod</button>
+          <button className="calc-key function-key" onClick={() => handleOperator('%')} style={buttonStyle}>mod</button>
         </div>
       </div>
     </div>

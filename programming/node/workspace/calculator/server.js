@@ -1,5 +1,11 @@
 import fs from 'node:fs/promises'
 import express from 'express'
+import dotenv from 'dotenv'
+import sql from 'mssql'
+import readlineSync from 'readline-sync'
+
+// Load environment variables
+dotenv.config()
 
 // Constants
 const isProduction = process.env.NODE_ENV === 'production'
@@ -13,6 +19,9 @@ const templateHtml = isProduction
 
 // Create http server
 const app = express()
+
+// Add JSON parsing middleware
+app.use(express.json())
 
 // Add Vite or respective production middlewares
 /** @type {import('vite').ViteDevServer | undefined} */
@@ -31,6 +40,48 @@ if (!isProduction) {
   app.use(compression())
   app.use(base, sirv('./dist/client', { extensions: [] }))
 }
+
+// API endpoint to fetch calculator test data
+app.get('/api/calculator-data', async (req, res) => {
+  try {
+    // Use environment variable for password without prompting
+    const password = process.env.DB_PASSWORD || 'dev_password';
+    
+    // Configure SQL connection
+    const config = {
+      user: process.env.DB_USER,
+      password: password,
+      server: process.env.DB_SERVER,
+      database: process.env.DB_DATABASE,
+      options: {
+        encrypt: true,
+        trustServerCertificate: false
+      }
+    };
+    
+    // Connect to database
+    await sql.connect(config);
+    
+    // Query the calculator table
+    const result = await sql.query(`SELECT * FROM [dbo].[${process.env.DB_TABLE}]`);
+    
+    // Return the data as JSON
+    res.json(result.recordset);
+  } catch (err) {
+    console.error('Database query error:', err);
+    res.status(500).json({ 
+      error: 'Error fetching calculator data', 
+      details: isProduction ? null : err.message
+    });
+  } finally {
+    // Close SQL connection
+    try {
+      await sql.close();
+    } catch (err) {
+      console.error('Error closing SQL connection:', err);
+    }
+  }
+});
 
 // Serve HTML
 app.use('*all', async (req, res) => {
