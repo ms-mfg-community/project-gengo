@@ -1,29 +1,20 @@
-cmake_minimum_required(VERSION 3.16)
+# CMakeLists.txt
 
-project(project-gengo-cpp VERSION 1.0 LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.10)
 
-# Set C++ standard
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Set the project name
+project(InventoryManagementSystem)
 
-# Add include directory
-include_directories(${PROJECT_SOURCE_DIR}/include)
+# Set the C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Add source files
-file(GLOB_RECURSE SOURCES src/*.cpp)
-
-# Create executable
-add_executable(${PROJECT_NAME} ${SOURCES})
-
-target_include_directories(${PROJECT_NAME}
-    PUBLIC
-        ${PROJECT_SOURCE_DIR}/include
-    PRIVATE
-        ${PROJECT_SOURCE_DIR}/src
+# Add the executable
+add_executable(InventoryManagementSystem
+    src/InventoryItem.cpp
+    src/InventoryManager.cpp
+    src/main.cpp
 )
 
-# Enable tests if tests/ exists
-if(EXISTS "${PROJECT_SOURCE_DIR}/tests")
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+# Include directories
+target_include_directories(InventoryManagementSystem PRIVATE src)
