@@ -7,4 +7,3 @@ Create a CodeQL GitHub workflow action to scan C/C++ code in this repository on 
 ### NOTE
 
 _To User: As a pre-requisite, code scanning must be set to 'Advanced' instead of 'Default' for the targeteted repository.
-
