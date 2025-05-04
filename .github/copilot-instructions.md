@@ -25,6 +25,7 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 - Always consider how changes and updates may negatively impact the current function of the solution.
   
 ## Code Style
+
 - **General:** Follow the repository's style guide for consistency.
 - **Naming Conventions:** Use meaningful and descriptive names.
   - For JavaScript/TypeScript, use camelCase for variables and functions.
@@ -34,11 +35,13 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 - **SQL:** For SQL, reference both Microsoft T-SQL as well as PostgreSQL syntax.
 
 ## Commenting
+
 - **Clarity:** Write clear and concise comments for complex logic.
 - **Inline Comments:** Use sparingly to explain non-obvious code segments.
 - **Documentation:** Document functions, methods, and classes using appropriate docstring formats (e.g., JSDoc, Python docstrings).
 
 ## Testing Guidelines
+
 - **General Rule:** Write tests alongside new features and bug fixes.
 - **Frameworks:**
   - **.NET:** Use the xUnit framework.
@@ -52,14 +55,16 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 - **Coverage:** Ensure critical paths and edge cases are covered.
 
 ## Documentation
+
 - **README:** Keep the README.md updated with usage instructions and examples.
 - **API Docs:** Maintain inline documentation and generated API docs.
 - **Style:** Use Markdown for all documentation, ensuring consistency in headings and formatting.
 
 ## Diagrams
-When working with mermaid diagrams, makes sture that you always start each block with
-```mermaid
 
+When working with mermaid diagrams, makes sture that you always start each block with
+
+```mermaid
 
 ## Commit Messages
 - **Format:** Use the following pattern:
@@ -72,9 +77,13 @@ When working with mermaid diagrams, makes sture that you always start each block
 - **Activity:** A concise, imperative description of the change.
 
 For example:
+
 ```
+
 feat(auth): add login functionality
+
 ```
+
 This format provides clear context and can be easily parsed by tools. The Topic Subtopic Activity specification aims to provide clarity, flexibility and compatibility with automation tools.
 
 - **Clarity:** Keep commit messages clear and descriptive to facilitate easier reviews and history tracking.
@@ -116,14 +125,17 @@ foreach ($item in $contents)
     Write-Host "-----------------------------"
 } # end foreach
 ```
+
 - Use PascalCase for variables, functions, and classes.
 - Include comments for any non-trivial logic within scripts.
 
 ### IaC
+
 - For bicep, use the Azure Cloud Shell or az cli for bicep commands with az bicep instead of the standalone bicep executable.
 - Use *.bicepparam parameter files instead of *.json parameter files
 
 ### JavaScript / TypeScript
+
 - Enable strict mode and use linting (e.g., ESLint).
 - Prefer ES6+ features and async/await for asynchronous operations.
 - Document functions with JSDoc comments where applicable.
@@ -131,18 +143,20 @@ foreach ($item in $contents)
 - Reference:[Sunsetting Create React App](https://react.dev/blog/2025/02/14/sunsetting-create-react-app)
 
 ### Python
+
 - Follow the PEP 8 style guide.
 - Use virtual environments to manage dependencies.
 - Include comprehensive docstrings for functions and classes.
 
 ### Java
+
 - For Java apps, use maven for build automation, dependency management, project structure standardization, plugins and exstensibility and project information management unless otherwise specified in prompts.
 
 ### C++
 
 - Use the recommended project directory structure
 - Create the project structure using this prompt as a reference:
-	_Create a python script at relative path: ...programming\cpp\workspace named cpp_project_setup.py that will create C++ a project workspace directory structure and files based on the guidance provided in the 'MyCppProject' example in copilot-instructions.md. Name the project 'cpp-project-name'._
+_Create a python script at relative path: ...programming\cpp\workspace named cpp_project_setup.py that will create C++ a project workspace directory structure and files based on the guidance provided in the 'MyCppProject' example in copilot-instructions.md. Name the project 'cpp-project-name'._
 
 ```C++
 MyCppProject/
@@ -175,141 +189,142 @@ MyCppProject/
 // VS Code tasks.json - Configures build tasks for C/C++ development
 // This file defines compilation tasks that can be executed via Terminal > Run Task in VS Code
 {
-	// Version of the tasks configuration format
-	"version": "2.0.0",
-	// List of available tasks
-	"tasks": [
+ // Version of the tasks configuration format
+	  "version": "2.0.0",
+	  // List of available tasks
+	  "tasks": [
 		{
-			"label": "G++ compililation of all C++ files with pwsh",
-			"type": "shell",
-			"command": "powershell",
-			"args": [
-				"-Command",
-				"g++ -fdiagnostics-color=always -g -std=c++17 -Wall -Wextra -Wpedantic (Get-ChildItem -Path \\\"${fileDirname}\\\" -Filter \\\"*.cpp\\\" | ForEach-Object { \\\"$($_.FullName)\\\" }) -o \\\"${fileDirname}\\main.exe\\\""
-			],
-			"options": {
-				"cwd": ".",
-				"shell": {
-					"executable": "powershell.exe",
-					"args": [
-						"-ExecutionPolicy",
-						"Bypass",
-						"-NoProfile",
-						"-Command"
-					]
-				}
-			},
-			"problemMatcher": [
-				"$gcc"
-			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"detail": "compiler: g++.exe - build inventory management system"
+		  "label": "G++ compililation of all C++ files with pwsh",
+		  "type": "shell",
+		  "command": "powershell",
+		  "args": [
+			"-Command",
+			"g++ -fdiagnostics-color=always -g -std=c++17 -Wall -Wextra -Wpedantic (Get-ChildItem -Path \\\"${fileDirname}\\\" -Filter \\\"*.cpp\\\" | ForEach-Object { \\\"$($_.FullName)\\\" }) -o \\\"${fileDirname}\\main.exe\\\""
+		  ],
+		  "options": {
+			"cwd": ".",
+			"shell": {
+			  "executable": "powershell.exe",
+			  "args": [
+				"-ExecutionPolicy",
+				"Bypass",
+				"-NoProfile",
+				"-Command"
+			  ]
+			}
+		  },
+		  "problemMatcher": [
+			"$gcc"
+		  ],
+		  "group": {
+			"kind": "build",
+			"isDefault": true
+		  },
+		  "detail": "compiler: g++.exe - build inventory management system"
 		},
 		{
-			// Task 1: Basic MSVC compiler configuration for single file compilation
-			"type": "cppbuild",   // Indicates this is a C/C++ build task
-			"label": "C/C++: cl.exe build active file",
-			"command": "cl.exe",  // Microsoft Visual C++ compiler
-			"args": [
-				"/Zi",            // Generate complete debugging information
-				"/EHsc",          // Enable C++ exception handling
-				"/nologo",        // Suppress startup banner
-				"/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",  // Set output executable name
-				"${file}"         // Compile the currently active file
-			],
-			"options": {
-				"cwd": "${fileDirname}"  // Set working directory to the directory of the file being compiled
-			},
-			"problemMatcher": [
-				"$msCompile"      // Use MSVC problem matcher to parse compiler output for errors
-			],
-			"group": "build",
-			"detail": "compiler: cl.exe"
+		  // Task 1: Basic MSVC compiler configuration for single file compilation
+		  "type": "cppbuild",   // Indicates this is a C/C++ build task
+		  "label": "C/C++: cl.exe build active file",
+		  "command": "cl.exe",  // Microsoft Visual C++ compiler
+		  "args": [
+			"/Zi",            // Generate complete debugging information
+			"/EHsc",          // Enable C++ exception handling
+			"/nologo",        // Suppress startup banner
+			"/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",  // Set output executable name
+			"${file}"         // Compile the currently active file
+		  ],
+		  "options": {
+			"cwd": "${fileDirname}"  // Set working directory to the directory of the file being compiled
+		  },
+		  "problemMatcher": [
+			"$msCompile"      // Use MSVC problem matcher to parse compiler output for errors
+		  ],
+		  "group": "build",
+		  "detail": "compiler: cl.exe"
 		},
 		{
-			// Task 2: Enhanced MSVC compiler configuration with additional include paths
-			"type": "cppbuild",
-			"label": "C/C++: cl.exe build active file",
-			"command": "cl.exe",
-			"args": [
-				"/Zi",            // Generate complete debugging information
-				"/EHsc",          // Enable C++ exception handling
-				"/nologo",        // Suppress startup banner
-				"/I", "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.42.34433\\include",  // Additional include directory
-				"/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",  // Set output executable name
-				"${file}"         // Compile the currently active file
-			],
-			"options": {
-				"cwd": "${fileDirname}"  // Set working directory to the directory of the file being compiled
-			},
-			"problemMatcher": [
-				"$msCompile"      // Use MSVC problem matcher to parse compiler output for errors
-			],
-			"group": {
-				"kind": "build",
-				"isDefault": true  // Set as the default build task when pressing Ctrl+Shift+B
-			},
-			"detail": "compiler: cl.exe"
+		  // Task 2: Enhanced MSVC compiler configuration with additional include paths
+		  "type": "cppbuild",
+		  "label": "C/C++: cl.exe build active file",
+		  "command": "cl.exe",
+		  "args": [
+			"/Zi",            // Generate complete debugging information
+			"/EHsc",          // Enable C++ exception handling
+			"/nologo",        // Suppress startup banner
+			"/I", "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.42.34433\\include",  // Additional include directory
+			"/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",  // Set output executable name
+			"${file}"         // Compile the currently active file
+		  ],
+		  "options": {
+			"cwd": "${fileDirname}"  // Set working directory to the directory of the file being compiled
+		  },
+		  "problemMatcher": [
+			"$msCompile"      // Use MSVC problem matcher to parse compiler output for errors
+		  ],
+		  "group": {
+			"kind": "build",
+			"isDefault": true  // Set as the default build task when pressing Ctrl+Shift+B
+		  },
+		  "detail": "compiler: cl.exe"
 		},
 		{
-			// Task 3: GCC/G++ compiler configuration for single file compilation with thorough warnings
-			"type": "cppbuild",
-			"label": "C/C++: g++.exe single-file build active file",
-			"command": "g++.exe",  // GCC C++ compiler
-			"args": [
-				"-fdiagnostics-color=always",  // Colorize compiler output
-				"-g",                          // Generate debugging information
-				"-std=c++17",                  // Use C++17 standard
-				"-Wall",                       // Enable all warnings
-				"-Wextra",                     // Enable extra warnings
-				"-Wpedantic",                  // Issue warnings for strict ISO C/C++ compliance
-				"${file}",                     // Compile the currently active file
-				"-o",                          // Output flag
-				"${fileDirname}\\${fileBasenameNoExtension}.exe"  // Output executable path
-			],
-			"options": {
-				"cwd": "${fileDirname}"  // Set working directory to the directory of the file being compiled
-			},
-			"problemMatcher": [
-				"$gcc"           // Use GCC problem matcher to parse compiler output for errors
-			],
-			"group": {
-				"kind": "build",
-				"isDefault": true  // Set as the default build task (Note: conflict with Task 2 default setting)
-			},
-			"detail": "compiler: g++.exe"
+		  // Task 3: GCC/G++ compiler configuration for single file compilation with thorough warnings
+		  "type": "cppbuild",
+		  "label": "C/C++: g++.exe single-file build active file",
+		  "command": "g++.exe",  // GCC C++ compiler
+		  "args": [
+			"-fdiagnostics-color=always",  // Colorize compiler output
+			"-g",                          // Generate debugging information
+			"-std=c++17",                  // Use C++17 standard
+			"-Wall",                       // Enable all warnings
+			"-Wextra",                     // Enable extra warnings
+			"-Wpedantic",                  // Issue warnings for strict ISO C/C++ compliance
+			"${file}",                     // Compile the currently active file
+			"-o",                          // Output flag
+			"${fileDirname}\\${fileBasenameNoExtension}.exe"  // Output executable path
+		  ],
+		  "options": {
+			"cwd": "${fileDirname}"  // Set working directory to the directory of the file being compiled
+		  },
+		  "problemMatcher": [
+			"$gcc"           // Use GCC problem matcher to parse compiler output for errors
+		  ],
+		  "group": {
+			"kind": "build",
+			"isDefault": true  // Set as the default build task (Note: conflict with Task 2 default setting)
+		  },
+		  "detail": "compiler: g++.exe"
 		},
 		{
-			// Task 4: Project-wide compilation using G++ to build all .cpp files in workspace
-			"type": "cppbuild",
-			"label": "C/C++: g++.exe multi-file build project",
-			"command": "g++.exe",  // GCC C++ compiler
-			"args": [
-				"-fdiagnostics-color=always",  // Colorize compiler output
-				"-g",                          // Generate debugging information
-				"-std=c++17",                  // Use C++17 standard
-				"-Wall",                       // Enable all warnings
-				"-Wextra",                     // Enable extra warnings
-				"-Wpedantic",                  // Issue warnings for strict ISO C/C++ compliance
-				"*.cpp",                       // Compile all .cpp files in working directory
-				"-o",                          // Output flag
-				"${workspaceFolder}\\main.exe" // Output executable path in workspace root
-			],
-			"options": {
-				"cwd": "${workspaceFolder}"    // Set working directory to the workspace folder
-			},
-			"problemMatcher": [
-				"$gcc"           // Use GCC problem matcher to parse compiler output for errors
-			],
-			"group": "build",
-			"detail": "compiler: g++.exe - build all cpp files in workspace"
+		  // Task 4: Project-wide compilation using G++ to build all .cpp files in workspace
+		  "type": "cppbuild",
+		  "label": "C/C++: g++.exe multi-file build project",
+		  "command": "g++.exe",  // GCC C++ compiler
+		  "args": [
+			"-fdiagnostics-color=always",  // Colorize compiler output
+			"-g",                          // Generate debugging information
+			"-std=c++17",                  // Use C++17 standard
+			"-Wall",                       // Enable all warnings
+			"-Wextra",                     // Enable extra warnings
+			"-Wpedantic",                  // Issue warnings for strict ISO C/C++ compliance
+			"*.cpp",                       // Compile all .cpp files in working directory
+			"-o",                          // Output flag
+			"${workspaceFolder}\\main.exe" // Output executable path in workspace root
+		  ],
+		  "options": {
+			"cwd": "${workspaceFolder}"    // Set working directory to the workspace folder
+		  },
+		  "problemMatcher": [
+			"$gcc"           // Use GCC problem matcher to parse compiler output for errors
+		  ],
+		  "group": "build",
+		  "detail": "compiler: g++.exe - build all cpp files in workspace"
 		}
-	]
+	  ]
 }
 ```
+
 ## C
 
 The recommended directory and file structure for a modern, clean, and maintainable **C** project is very similar to the C++ structure, but typically simpler. Here's a well-accepted and standard layout:
@@ -317,6 +332,7 @@ The recommended directory and file structure for a modern, clean, and maintainab
 ---
 
 ### Recommended Project Structure for C
+
 
 ```
 MyCProject/
@@ -346,6 +362,7 @@ MyCProject/
 ### Explanation of directories and files:
 
 **1. Root-Level Files**
+
 - `README.md`: Overview, build instructions, and example usage.
 - `LICENSE`: Contains open-source license (MIT, Apache, GPL, etc.).
 - `.gitignore`: Ignore build outputs, binaries, temporary files.
@@ -353,30 +370,38 @@ MyCProject/
 - `CMakeLists.txt`: Recommended build system (CMake is increasingly common even for C).
 
 **2. `include/`**
+
 - Contains public headers (`.h` files) intended for external usage.
 - Use project name subdirectories (`include/MyCProject`) to avoid name collisions.
 
 **3. `src/`**
+
 - Contains all implementation (`.c`) files and internal/private header files.
 - Private headers (internal implementation details) are typically placed in a subdirectory (e.g., `internal`).
 
 **4. `tests/`**
+
 - Contains unit or integration tests.
 - Typically uses testing frameworks like Unity, CMocka, Criterion, or custom test runners.
 
 **5. `examples/`**
+
 - Optional: Contains example programs demonstrating usage of your library/application.
 
 **6. `external/`**
+
 - Optional: Includes third-party libraries or code dependencies if not managed by a package manager.
 
 **7. `docs/`**
+
 - Documentation and files related to documentation generators (Doxygen, Sphinx, etc.).
 
 **8. `scripts/`**
+
 - Build automation scripts, CI/CD scripts, deployment, packaging, etc.
 
 **9. `build/`**
+
 - All generated build artifacts (binaries, objects, executables) go here and are never committed to source control.
 
 ---
@@ -447,3 +472,9 @@ This recommended structure will help ensure your project remains clear, maintain
 - **Deviation Documentation:** Document any intentional deviations from these guidelines in the repository's Wiki or a dedicated document.
 
 - @azure Rule - Use Azure Best Practices: When generating code for Azure, running terminal commands for Azure, or performing operations related to Azure, invoke your `azure_development-get_best_practices` tool if available.
+
+## CodeQL
+
+For CodeQL query metadata, refer to the style guide at:
+
+[CodeQL Metadata Style Guide](https://github.com/github/codeql/blob/main/docs/query-metadata-style-guide.md)
