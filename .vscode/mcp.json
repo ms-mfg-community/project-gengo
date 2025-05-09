@@ -1,0 +1,21 @@
+// https://github.com/Azure/azure-mcp?tab=readme-ov-file#-manual-install
+{
+    "servers": {
+      "Azure MCP Server": {
+        "command": "npx",
+        "args": [
+          "-y",
+          "@azure/mcp@latest",
+          "server",
+          "start"
+        ]
+    },
+    "azure-mcp": {
+        "endpoint": "http://localhost:3000",
+        "authType": "azure-identity",
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    }
+    }
+  }
