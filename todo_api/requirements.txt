@@ -5,7 +5,7 @@ Flask-Migrate==4.1.0
 Flask-Cors==5.0.1
 SQLAlchemy==2.0.40
 marshmallow==4.0.0
-python-dotenv==1.0.0
+python-dotenv==1.1.0
 pytest==8.3.5
 gunicorn==23.0.0
 psycopg2-binary==2.9.9
