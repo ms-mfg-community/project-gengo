@@ -1,0 +1,223 @@
+# The latest version of pack1 is downloaded, and all default queries are run.
+# Version 1.2.3 of pack2 is downloaded, and all default queries are run.
+# The latest version of pack3 that is compatible with version 3.2.1 is downloaded, and all queries are run.
+# Version 4.5.6 of pack4 is downloaded, and only the queries found in path/to/queries are run.
+# Ref: https://learn.microsoft.com/en-us/training/modules/code-scanning-with-github-codeql/6-customize-your-scanning-workflow-with-codeql
+
+- uses: github/codeql-action/init@v3
+  with:
+    # Comma-separated list of packs to download
+    packs: scope/pack1,scope/pack2@1.2.3,scope/pack3@~3.2.1,scope/pack4@4.5.6:path/to/queries
+
+- uses: github/codeql-action/init@v3
+  with:
+    # Comma-separated list of queries / packs / suites to run.
+    # This may include paths or a built in suite, for example:
+    # security-extended or security-and-quality.
+    queries: security-extended # Queries from the default suite, plus lower severity and precision queries
+    # queries: security-and-quality Queries from security-extended, plus maintainability and reliability queries
+    # Optional. Provide a token to access queries stored in private repositories.
+    external-repository-token: ${{ secrets.ACCESS_TOKEN }}
+
+# Combine queries from a workflow file and a custom configuration file
+# If you also use a configuration file for custom settings, any additional packs or queries specified in your workflow are used instead of those specified in the configuration file. 
+# If you want to run the combined set of additional packs or queries, prefix the value of packs or queries in the workflow with the + symbol.
+# In the following example, the + symbol ensures that the specified additional packs and queries are used together with any specified in the referenced configuration file:
+
+- uses: github/codeql-action/init@v3
+  with:
+    config-file: ./.github/codeql/codeql-config.yml
+    queries: +security-and-quality,octo-org/python-qlpack/show_ifs.ql@main
+    packs: +scope/pack1,scope/pack2@1.2.3,scope/pack3@4.5.6:path/to/queries
+
+# ./.github/codeql/codeql-config.yml
+# packs:
+#   # Use the latest version of 'pack1' published by 'scope'
+#   - scope/pack1
+#   # Use version 1.2.3 of 'pack2'
+#   - scope/pack2@1.2.3
+#   # Use the latest version of 'pack3' compatible with 3.2.1
+#   - scope/pack3@~3.2.1
+#   # Use pack4 and restrict it to queries found in the 'path/to/queries' directory
+#   - scope/pack4:path/to/queries
+#   # Use pack5 and restrict it to the query 'path/to/single/query.ql'
+#   - scope/pack5:path/to/single/query.ql
+#   # Use pack6 and restrict it to the query suite 'path/to/suite.qls'
+#   - scope/pack6:path/to/suite.qls
+
+# packs:
+#   # Use these packs for JavaScript and TypeScript analysis
+#   javascript:
+#     - scope/js-pack1
+#     - scope/js-pack2
+#   # Use these packs for Java and Kotlin analysis
+#   java:
+#     - scope/java-pack1
+#     - scope/java-pack2@v1.0.0
+
+# Specify additional queries in a custom configuration
+# You can specify additional queries in a queries array. Each element of the array contains a uses parameter with a value that identifies a single query file, a directory containing query files, or a query suite definition file.
+
+# queries:
+#   - uses: ./my-basic-queries/example-query.ql
+#   - uses: ./my-advanced-queries
+#   - uses: ./query-suites/my-security-queries.qls
+# Optionally, you can give each array element a name, as shown in the following example configuration file:
+
+# yml
+
+# Copy
+# name: "My CodeQL config"
+
+# disable-default-queries: true
+
+# queries:
+#   - name: Use an in-repository QL pack (run queries in the my-queries directory)
+#     uses: ./my-queries
+#   - name: Use an external JavaScript QL pack (run queries from an external repo)
+#     uses: octo-org/javascript-qlpack@main
+#   - name: Use an external query (run a single query from an external QL pack)
+#     uses: octo-org/python-qlpack/show_ifs.ql@main
+#   - name: Use a query suite file (run queries from a query suite in this repo)
+#     uses: ./codeql-qlpacks/complex-python-qlpack/rootAndBar.qls
+
+# paths:
+#   - src
+# paths-ignore:
+#   - src/node_modules
+#   - '**/*.test.js'
+
+# query-filters:
+#   - exclude:
+#       id: js/redundant-assignment
+#   - exclude:
+#       id: js/useless-assignment-to-local
+
+# paths:
+#   - src
+# paths-ignore:
+#   - src/node_modules
+#   - '**/*.test.js'
+
+# Single language example
+# This example creates a CodeQL database for the repository checked out at /checkouts/example-repo. 
+# It uses the JavaScript extractor to create a hierarchical representation of the JavaScript and TypeScript code in the repository. 
+# The resulting database is stored in /codeql-dbs/example-repo.
+
+# $ codeql database create /codeql-dbs/example-repo --language=javascript \
+#     --source-root /checkouts/example-repo
+
+# > Initializing database at /codeql-dbs/example-repo.
+# > Running command [/codeql-home/codeql/javascript/tools/autobuild.cmd]
+#     in /checkouts/example-repo.
+# > [build-stdout] Single-threaded extraction.
+# > [build-stdout] Extracting
+# ...
+# > Finalizing database at /codeql-dbs/example-repo.
+# > Successfully created database at /codeql-dbs/example-repo.
+
+# $ codeql database create /codeql-dbs/example-repo-multi \
+#     --db-cluster --language python,cpp \
+#     --command make --no-run-unnecessary-builds \
+#     --source-root /checkouts/example-repo-multi
+# Initializing databases at /codeql-dbs/example-repo-multi.
+# Running build command: [make]
+# [build-stdout] Calling python3 /codeql-bundle/codeql/python/tools/get_venv_lib.py
+# [build-stdout] Calling python3 -S /codeql-bundle/codeql/python/tools/python_tracer.py -v -z all -c /codeql-dbs/example-repo-multi/python/working/trap_cache -p ERROR: 'pip' not installed.
+# [build-stdout] /usr/local/lib/python3.6/dist-packages -R /checkouts/example-repo-multi
+# [build-stdout] [INFO] Python version 3.6.9
+# [build-stdout] [INFO] Python extractor version 5.16
+# [build-stdout] [INFO] [2] Extracted file /checkouts/example-repo-multi/hello.py in 5ms
+# [build-stdout] [INFO] Processed 1 modules in 0.15s
+# [build-stdout] <output from calling 'make' to build the C/C++ code>
+# Finalizing databases at /codeql-dbs/example-repo-multi.
+# Successfully created databases at /codeql-dbs/example-repo-multi.
+# $
+
+
+# codeql database analyze <database> --format=<format> --sarif-category=<language-specifier> --output=<output> <packs,queries>
+
+# Option	Required Usage
+# <database>	Specify the path for the directory that contains the CodeQL database to analyze.
+# <packs,queries>	Specify CodeQL packs or queries to run. To run the standard queries used for code scanning, omit this parameter. You can find the other query suites included in the CodeQL CLI bundle in /<extraction-root>/codeql/qlpacks/codeql-<language>/codeql-suites. For information about creating your own query suite, check out Creating CodeQL query suites[5] in the documentation for the CodeQL CLI.
+# --format	Specify the format for the results file generated by the command. For upload to GitHub, this should be: sarif-latest.
+# --output	Specify where to save the SARIF results file.
+# --sarif-category	Optional for single database analysis. Required to define the language when you analyze multiple databases for a single commit in a repository. Specify a category to include in the SARIF results file for this analysis. A category is used to distinguish multiple analyses for the same tool and commit, but performed on different languages or different parts of the code.
+# --sarif-add-query-help	Optional. Use if you want to include any available markdown-rendered query help for custom queries used in your analysis. Any query help for custom queries included in the SARIF output will be displayed in the code scanning UI if the relevant query generates an alert.
+# <packs>	Optional. Use if you have downloaded CodeQL query packs and want to run the default queries or query suites specified in the packs.
+# --threads	Optional. Use if you want to use more than one thread to run queries. The default value is 1. You can specify more threads to speed up query execution. To set the number of threads to the number of logical processors, specify 0.
+# --verbose	Optional. Use to get more detailed information about the analysis process and diagnostic data from the database creation process.
+
+# $ codeql database analyze /codeql-dbs/example-repo  \
+#     javascript-code-scanning.qls --sarif-category=javascript
+#     --format=sarif-latest --output=/temp/example-repo-js.sarif
+
+# > Running queries.
+# > Compiling query plan for /codeql-home/codeql/qlpacks/
+#     codeql-javascript/AngularJS/DisablingSce.ql.
+# ...
+# > Shutting down query evaluator.
+# > Interpreting results.
+
+# Upload results to GitHub
+# SARIF upload supports a maximum of 25,000 results per upload. However, only the top 5,000 results are displayed, prioritized by severity. If a tool generates too many results, you should update the configuration to focus on results for the most important rules or queries.
+
+# For each upload, SARIF upload supports a maximum size of 10 MB for the gzip-compressed SARIF file. Any uploads over this limit will be rejected. If your SARIF file is too large because it contains too many results, you should update the configuration to focus on results for the most important rules or queries. For more information on limitations and validating SARIF files, see the documentation[6].
+
+# Before you can upload results to GitHub, you must determine the best way to pass the GitHub App or personal access token you created earlier to the CodeQL CLI. We recommend that you review your CI system's guidance on the secure use of a secret store. The CodeQL CLI supports:
+
+# Interfacing with a secret store using the --github-auth-stdin option. This is the recommended way to authenticate.
+# Saving the secret in the environment variable GITHUB_TOKEN and running the CLI without including the --github-auth-stdin option.
+# Pass the --github-auth-stdin command-line option and supply a temporary token via standard input. This is recommended for testing purposes.
+# When you've decided on the most secure and reliable method for your CI server, run codeql github upload-results on each SARIF results file and include --github-auth-stdin unless the token is available in the environment variable GITHUB_TOKEN.
+
+# Bash
+
+# Copy
+# # GitHub App or personal access token available from a secret store
+# <call-to-retrieve-secret> | codeql github upload-results \
+#     --repository=<repository-name> \
+#     --ref=<ref> --commit=<commit> \
+#     --sarif=<file> --github-auth-stdin
+
+# # GitHub App or personal access token available in GITHUB_TOKEN
+# codeql github upload-results \
+#     --repository=<repository-name> \
+#     --ref=<ref> --commit=<commit> \
+#     --sarif=<file> 
+# The full list of parameters for the github upload-results command is shown in the table as follows.
+
+# Option	Required Usage
+# --repository	Specify the OWNER/NAME of the repository to which to upload data. The owner must be an organization within an enterprise that has a license for GitHub Advanced Security, and GitHub Advanced Security must be enabled for the repository unless the repository is public.
+# --ref	Specify the name of the ref you checked out and analyzed so that the results can be matched to the correct code. For a branch, use refs/heads/BRANCH-NAME; for the head commit of a pull request, use refs/pulls/NUMBER/head; or for the GitHub-generated merge commit of a pull request, use refs/pulls/NUMBER/merge.
+# --commit	Specify the full SHA of the commit you analyzed.
+# --sarif	Specify the SARIF file to load.
+# --github-auth-stdin	Optional. Use to pass the CLI the GitHub App or personal access token created for authentication with GitHub's REST API via standard input. This isn't needed if the command has access to a GITHUB_TOKEN environment variable set with this token.
+
+# jobs:
+#   analyze:
+#     name: Analyze
+#     ...
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         language: ['javascript', 'python']
+
+# - uses: github/codeql-action/init@v1
+#   with:
+#     languages: cpp, csharp, python
+
+# - run: |
+#   make bootstrap
+#   make release
+
+# - if: matrix.language == 'cpp' || matrix.language == 'csharp'
+#   name: Autobuild
+#   uses: github/codeql-action/autobuild@v1
+
+# - if: matrix.language == 'java'
+#   name: Build Java
+#   run: |
+#     make bootstrap
+#     make release
+
