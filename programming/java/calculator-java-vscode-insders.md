@@ -3,6 +3,7 @@
 This document provides a step-by-step guide for setting up and performing unit testing on the Java calculator application.
 
 ## Table of Contents
+
 1. [Project Overview](#project-overview)
 2. [Prerequisites](#prerequisites)
 3. [Setting Up the Test Environment](#setting-up-the-test-environment)
@@ -14,6 +15,7 @@ This document provides a step-by-step guide for setting up and performing unit t
 ## Project Overview
 
 The Java calculator application is a simple command-line calculator that supports basic arithmetic operations:
+
 - Addition (+)
 - Subtraction (-)
 - Multiplication (*)

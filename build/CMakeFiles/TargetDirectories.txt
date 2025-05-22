@@ -1,0 +1,3 @@
+C:/onedrive-prsn/OneDrive/02.00.00.GENERAL/repos/git/project-gengo/build/CMakeFiles/InventoryManagementSystem.dir
+C:/onedrive-prsn/OneDrive/02.00.00.GENERAL/repos/git/project-gengo/build/CMakeFiles/edit_cache.dir
+C:/onedrive-prsn/OneDrive/02.00.00.GENERAL/repos/git/project-gengo/build/CMakeFiles/rebuild_cache.dir

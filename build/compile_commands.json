@@ -1,0 +1,20 @@
+[
+{
+  "directory": "C:/onedrive-prsn/OneDrive/02.00.00.GENERAL/repos/git/project-gengo/build",
+  "command": "C:\\apps\\mingw\\mingw64\\bin\\g++.exe  @CMakeFiles/InventoryManagementSystem.dir/includes_CXX.rsp -g -std=gnu++11 -o CMakeFiles\\InventoryManagementSystem.dir\\programming\\cpp\\completed\\inventory-management-system\\src\\InventoryItem.cpp.obj -c C:\\onedrive-prsn\\OneDrive\\02.00.00.GENERAL\\repos\\git\\project-gengo\\programming\\cpp\\completed\\inventory-management-system\\src\\InventoryItem.cpp",
+  "file": "C:/onedrive-prsn/OneDrive/02.00.00.GENERAL/repos/git/project-gengo/programming/cpp/completed/inventory-management-system/src/InventoryItem.cpp",
+  "output": "CMakeFiles/InventoryManagementSystem.dir/programming/cpp/completed/inventory-management-system/src/InventoryItem.cpp.obj"
+},
+{
+  "directory": "C:/onedrive-prsn/OneDrive/02.00.00.GENERAL/repos/git/project-gengo/build",
+  "command": "C:\\apps\\mingw\\mingw64\\bin\\g++.exe  @CMakeFiles/InventoryManagementSystem.dir/includes_CXX.rsp -g -std=gnu++11 -o CMakeFiles\\InventoryManagementSystem.dir\\programming\\cpp\\completed\\inventory-management-system\\src\\InventoryManager.cpp.obj -c C:\\onedrive-prsn\\OneDrive\\02.00.00.GENERAL\\repos\\git\\project-gengo\\programming\\cpp\\completed\\inventory-management-system\\src\\InventoryManager.cpp",
+  "file": "C:/onedrive-prsn/OneDrive/02.00.00.GENERAL/repos/git/project-gengo/programming/cpp/completed/inventory-management-system/src/InventoryManager.cpp",
+  "output": "CMakeFiles/InventoryManagementSystem.dir/programming/cpp/completed/inventory-management-system/src/InventoryManager.cpp.obj"
+},
+{
+  "directory": "C:/onedrive-prsn/OneDrive/02.00.00.GENERAL/repos/git/project-gengo/build",
+  "command": "C:\\apps\\mingw\\mingw64\\bin\\g++.exe  @CMakeFiles/InventoryManagementSystem.dir/includes_CXX.rsp -g -std=gnu++11 -o CMakeFiles\\InventoryManagementSystem.dir\\programming\\cpp\\completed\\inventory-management-system\\src\\main.cpp.obj -c C:\\onedrive-prsn\\OneDrive\\02.00.00.GENERAL\\repos\\git\\project-gengo\\programming\\cpp\\completed\\inventory-management-system\\src\\main.cpp",
+  "file": "C:/onedrive-prsn/OneDrive/02.00.00.GENERAL/repos/git/project-gengo/programming/cpp/completed/inventory-management-system/src/main.cpp",
+  "output": "CMakeFiles/InventoryManagementSystem.dir/programming/cpp/completed/inventory-management-system/src/main.cpp.obj"
+}
+]
