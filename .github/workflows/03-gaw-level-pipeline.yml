@@ -20,7 +20,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: List Contents with PowerShell
+      - name: list-contents
         shell: pwsh
         run: |
           # Create artifacts directory if it doesn't exist
@@ -40,10 +40,10 @@ jobs:
           python ${{ github.workspace }}/.github/workflows/src/getDirectoryContents.py
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: repository-contents
-          path: ${{ github.workspace }}/artifacts/**/*
+          name: list-contents
+          path: artifacts/**/*
           retention-days: 7
 
   retrieve-values:
