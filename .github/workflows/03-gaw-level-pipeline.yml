@@ -56,17 +56,22 @@ jobs:
           echo "Current Branch: ${{ github.ref_name }}"
           echo "Runner Job ID: ${{ github.run_id }}-${{ github.job }}"
 
+      - name: create-downloads-directory
+        shell: pwsh
+        run: |
+          # Create downloads directory if it doesn't exist
+          New-Item -Path "downloads" -ItemType Directory -Force
       - name: download-artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: repository-contents
-          path: downloaded-artifacts
+          name: list-contents
+          path: downloads
 
       - name: Show Artifact Contents
         shell: pwsh
         run: |
           Write-Host "Contents of downloaded artifacts:"
-          Get-ChildItem -Path ./downloaded-artifacts -Recurse
+          Get-ChildItem -Path downloads -Recurse
           
           Write-Host "`nContents of list-contents.txt:"
-          Get-Content -Path ./downloaded-artifacts/list-contents.txt
+          Get-Content -Path downloads/list-contents.txt

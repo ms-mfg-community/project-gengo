@@ -44,6 +44,10 @@
 1. Add a step named "get-current-branch"
 2. For this step, display the current branch name and the runner job id
 
+## Create downloads folder
+
+1. Create a downloads folder at the repo top level if it doesn't already exist
+
 ## Download artifacts
 
 1. Add a step named "download-artifact"
