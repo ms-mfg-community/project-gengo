@@ -28,8 +28,7 @@ jobs:
           
           # List contents recursively and save to file
           Get-ChildItem -Path ${{ github.workspace }} -Recurse | 
-            Select-Object FullName, LastWriteTime, Length, @{Name="Type";Expression={if($_.PSIsContainer){"Directory"}else{"File"}}} | 
-            Format-Table -AutoSize | 
+            Select-Object FullName, LastWriteTime, Length, @{Name="Type";Expression={if($_.PSIsContainer){"Directory"} else {"File"}}} | 
             Out-File -FilePath "${{ github.workspace }}/artifacts/list-contents.txt"
           
           # Display success message
@@ -44,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: repository-contents
-          path: ${{ github.workspace }}/artifacts
+          path: ${{ github.workspace }}/artifacts/**/*
           retention-days: 7
 
   retrieve-values:
