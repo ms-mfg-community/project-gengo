@@ -1,0 +1,71 @@
+# filepath: c:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\.github\workflows\03-gaw-level-pipeline.yml
+name: 03-level-workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  list-contents:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Display Event
+        run: echo "Event: ${{ github.event_name }}"
+
+      - name: Display Branch
+        run: echo "Branch: ${{ github.ref_name }}"
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: List Contents with PowerShell
+        shell: pwsh
+        run: |
+          # Create artifacts directory if it doesn't exist
+          New-Item -Path "${{ github.workspace }}/artifacts" -ItemType Directory -Force
+          
+          # List contents recursively and save to file
+          Get-ChildItem -Path ${{ github.workspace }} -Recurse | 
+            Select-Object FullName, LastWriteTime, Length, @{Name="Type";Expression={if($_.PSIsContainer){"Directory"}else{"File"}}} | 
+            Format-Table -AutoSize | 
+            Out-File -FilePath "${{ github.workspace }}/artifacts/list-contents.txt"
+          
+          # Display success message
+          Write-Host "Repository contents have been saved to artifacts/list-contents.txt"
+
+      - name: Run Python Directory Listing Script
+        run: |
+          chmod +x ${{ github.workspace }}/.github/workflows/src/getDirectoryContents.py
+          python ${{ github.workspace }}/.github/workflows/src/getDirectoryContents.py
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: repository-contents
+          path: ${{ github.workspace }}/artifacts
+          retention-days: 7
+
+  retrieve-values:
+    needs: list-contents
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: get-current-branch
+        run: |
+          echo "Current Branch: ${{ github.ref_name }}"
+          echo "Runner Job ID: ${{ github.run_id }}-${{ github.job }}"
+
+      - name: download-artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: repository-contents
+          path: downloaded-artifacts
+
+      - name: Show Artifact Contents
+        shell: pwsh
+        run: |
+          Write-Host "Contents of downloaded artifacts:"
+          Get-ChildItem -Path ./downloaded-artifacts -Recurse
+          
+          Write-Host "`nContents of list-contents.txt:"
+          Get-Content -Path ./downloaded-artifacts/list-contents.txt
