@@ -11,6 +11,13 @@
 2. This script should display the entire repository contents recursively from the top level
 3. Add a task to invoke the script from the pipeline
 
+## Add a job
+
+1. Add a job to the pipeline named "retrieve-values"
+2. Use the "ubuntu-latest" agent
+3. Add a step named "get-current-branch"
+4. For this step, display the current branch name and the runner job id
+
 ## Manually add it to an ADO project pipeline
 
 1. Add this pipeline to the autocloudarc-mcaps ADO org and project named ado-pipeline-demos
