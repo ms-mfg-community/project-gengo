@@ -1,4 +1,4 @@
-p1.[x] Create a powershell script to recursively enumerate all folders, subfolders and files from the current directory, 
+p1.[x] Create a powershell script to recursively enumerate all folders, subfolders and files from the current directory,,
       while filtering to search for and display all files with the *.exe extension.
 r1.[x] Get-ChildItem -Path $PWD -Recurse -File -Filter "*.exe" | ForEach-Object { Write-Output $_.FullName }
 
