@@ -1,0 +1,56 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - '.azure-pipelines/**'
+
+pr:
+  branches:
+    include:
+      - main
+
+schedules:
+  - cron: "0 0 * * *"
+    displayName: Daily midnight build
+    branches:
+      include:
+        - main
+
+pool:
+  vmImage: ubuntu-latest
+
+jobs:
+  - job: Build
+    displayName: 'Build Job'
+    steps:
+      - script: |
+          echo "Event: $(Build.Reason)"
+          echo "Branch: $(Build.SourceBranchName)"
+        displayName: 'Print event and branch'
+      
+      - checkout: self
+        displayName: 'Checkout repository'
+      
+      - script: tree
+        displayName: 'List repository contents'
+      
+      - task: PowerShell@2
+        displayName: 'List src directory contents'
+        inputs:
+          targetType: 'inline'
+          script: 'Get-ChildItem -Recurse src'
+  
+  - job: retrieve_values
+    displayName: 'Retrieve Values'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - script: |
+          echo "Current Branch: $(Build.SourceBranchName)"
+          echo "Runner Job ID: $(Agent.JobId)"
+        displayName: 'get-current-branch'
+      
+      - script: python $(System.DefaultWorkingDirectory)/.azure-pipelines/src/getDirectoryContents.py
+        displayName: 'Run Python script'
