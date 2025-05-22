@@ -1,5 +1,6 @@
 # Azure DevOps Pipeline
 
+
 ## Upgrade from GitHub Actions Workflow 01 to 03
 
 1. Create a new github action workflow file at $(git rev-parse --show-toplevel) + "/.github/workflows" with the new name: "03-gaw-level-pipeline.yml"
@@ -36,7 +37,7 @@
 
 ## Add a job
 
-1. Add a job to the pipeline named "retrieve-values"
+1. Add a job to the pipeline named "retrieve-contents"
 2. Use the "ubuntu-latest" agent
 
 ## List workflow metadata
@@ -46,7 +47,7 @@
 
 ## Create downloads folder
 
-1. Create a downloads folder at the repo top level if it doesn't already exist
+1. Create a "downloads" folder at the repo top level if it doesn't already exist
 
 ## Download artifacts
 
