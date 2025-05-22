@@ -10,10 +10,12 @@ jobs:
 
     steps:
       - name: Display Event
-        run: echo "Event: ${{ github.event_name }}"
+        run: |
+          echo "Event: ${{ github.event_name }}"
 
       - name: Display Branch
-        run: echo "Branch: ${{ github.ref_name }}"
+        run: |
+          echo "Branch: ${{ github.ref_name }}"
 
       - name: Checkout Repository
         uses: actions/checkout@v4
