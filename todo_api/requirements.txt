@@ -3,7 +3,7 @@ Flask-RESTful==0.3.10
 Flask-SQLAlchemy==3.1.1
 Flask-Migrate==4.1.0
 Flask-Cors==6.0.0
-SQLAlchemy==2.0.40
+SQLAlchemy==2.0.41
 marshmallow==4.0.0
 python-dotenv==1.1.0
 pytest==8.3.5
