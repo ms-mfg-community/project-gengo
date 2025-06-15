@@ -478,3 +478,16 @@ This recommended structure will help ensure your project remains clear, maintain
 For CodeQL query metadata, refer to the style guide at:
 
 [CodeQL Metadata Style Guide](https://github.com/github/codeql/blob/main/docs/query-metadata-style-guide.md)
+
+## Known issues
+
+### Problem 
+Sorry, your request failed. Please try again. Request id: d3c19b76-b43d-457a-a0bb-73af1eafa2a0
+Reason: You may not include more than 128 tools in your request.
+
+### Reference
+https://github.com/microsoft/vscode-copilot-release/issues/10496
+
+### Resolution Summary
+
+Reduce the number of tools included in the request to stay within the limit.

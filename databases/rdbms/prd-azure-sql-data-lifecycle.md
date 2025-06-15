@@ -1,6 +1,7 @@
 # Product Requirements Document: Azure SQL Database Operations Demo
 
 ## Document Information
+
 **Version:** 1.0  
 **Author:** GitHub Copilot Workshop Team  
 **Date:** 2023-07-20  

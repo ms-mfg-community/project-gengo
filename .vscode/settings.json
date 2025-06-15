@@ -9,5 +9,27 @@
         "iomanip": "cpp",
         "iostream": "cpp"
     },
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "dbcode.connections": [
+        {
+            "connectionId": "_U1po_aJmEEXvPL1ynjOk",
+            "name": "svr-ghc-01.database.windows.net",
+            "driver": "azure",
+            "color": "#0074B3",
+            "host": "svr-ghc-01.database.windows.net",
+            "port": 1433,
+            "ssl": true,
+            "driverOptions": {
+                "authType": "sql"
+            },
+            "username": "sqladmin",
+            "password": "",
+            "savePassword": "secretStorage",
+            "database": "demos",
+            "readOnly": false,
+            "role": "development",
+            "connectionTimeout": 30,
+            "connectionType": "host"
+        }
+    ]
 }
