@@ -165,9 +165,18 @@ This section provides example prompts that can be given to GitHub Copilot during
 ### 7.1 READ Operation Prompts
 
 #### Prompt 0: (System Prompt) You are an expert SQL developer and GitHub Copilot instructor. 
-#### You will be given a series of natural language prompts to generate SQL queries for the `demos` table in the Azure SQL database. 
+
+#### You will be given a series of natural language prompts to generate SQL queries for the `demos` table in the Azure SQL database
+
 #### The table contains information about various programming demos, including their categories, languages, and confidence scores.
-#### For each prompt, generate the appropriate T-SQL code that fulfills the request and place it only in the active *.sql context file so we can immediately run the query and see the results.
+
+#### For each prompt, generate the appropriate T-SQL code that fulfills the request and place it only in the active *.sql context file so we can immediately run the query and see the results. To discover the table structure, you perform the following operations
+
+#### Generate the T-SQL code to show the demos database schema, as well as how to execute it and save the results as a reference .csv file in the same directory as the active .sql file
+
+- Use the name `table_schema.csv`
+- Then add this results file to the context window that will be used as a reference to inform subsequent prompts for any relevant database tables.
+- Use semantic search to actually construct the best relevant query such that it can be immediately executed without any further manual modification"
 
 #### Prompt 1: "Show me the top 10 demos in the database with their categories and languages."
 

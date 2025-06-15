@@ -1,0 +1,13 @@
+TABLE_SCHEMA,TABLE_NAME,TABLE_TYPE
+cdc,captured_columns,BASE TABLE
+cdc,change_tables,BASE TABLE
+cdc,ddl_history,BASE TABLE
+cdc,index_columns,BASE TABLE
+cdc,lsn_time_mapping,BASE TABLE
+dbo,ChangeTrackingControl,BASE TABLE
+dbo,demos,BASE TABLE
+dbo,MSchange_tracking_history,BASE TABLE
+dbo,scenario_hashes,BASE TABLE
+dbo,SyncVersionControl,BASE TABLE
+dbo,systranschemas,BASE TABLE
+dbo,vectorization_change_log,BASE TABLE
