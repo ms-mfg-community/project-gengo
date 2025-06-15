@@ -1,13 +1,23 @@
-TABLE_SCHEMA,TABLE_NAME,TABLE_TYPE
-cdc,captured_columns,BASE TABLE
-cdc,change_tables,BASE TABLE
-cdc,ddl_history,BASE TABLE
-cdc,index_columns,BASE TABLE
-cdc,lsn_time_mapping,BASE TABLE
-dbo,ChangeTrackingControl,BASE TABLE
-dbo,demos,BASE TABLE
-dbo,MSchange_tracking_history,BASE TABLE
-dbo,scenario_hashes,BASE TABLE
-dbo,SyncVersionControl,BASE TABLE
-dbo,systranschemas,BASE TABLE
-dbo,vectorization_change_log,BASE TABLE
+"COLUMN_NAME","DATA_TYPE","IS_NULLABLE","CHARACTER_MAXIMUM_LENGTH","NUMERIC_PRECISION","NUMERIC_SCALE","COLUMN_DEFAULT","ORDINAL_POSITION"
+"id","int","NO","","10","0","","1"
+"points","int","YES","","10","0","","2"
+"category","nvarchar","YES","255","","","","3"
+"sub_category","nvarchar","YES","255","","","","4"
+"language","nvarchar","YES","255","","","","5"
+"role","nvarchar","YES","255","","","","6"
+"person","nvarchar","YES","255","","","","7"
+"ide_type","nvarchar","YES","255","","","","8"
+"prompt_type","nvarchar","YES","255","","","","9"
+"shot_type","nvarchar","YES","255","","","","10"
+"is_test","bit","YES","","","","","11"
+"test_type","nvarchar","YES","255","","","","12"
+"epoch","int","YES","","10","0","","13"
+"confidence_percent","int","YES","","10","0","","14"
+"scenario","nvarchar","YES","-1","","","","15"
+"github_org","nvarchar","YES","255","","","","16"
+"reference","nvarchar","YES","-1","","","","17"
+"data_source","nvarchar","YES","255","","","","18"
+"notes","nvarchar","YES","-1","","","","19"
+"Embedding","vector","YES","6152","","","","20"
+"embedding_hash","varchar","YES","64","","","","21"
+"embedding_updated_at","datetime2","YES","","","","","22"
