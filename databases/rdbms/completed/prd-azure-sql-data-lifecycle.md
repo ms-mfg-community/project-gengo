@@ -31,19 +31,17 @@ This document outlines a demonstration scenario for GitHub Copilot workshops, fo
 - **Tested With:** T-SQL queries
 - **Tested Features:** CRUD operations, query generation, and safety practices
 - **Tested Prompts:** Natural language prompts for SQL generation
-- **Tested Results:** Successful generation of SQL queries for all CRUD operations with appropriate safety measures and context awareness. **NOTE**: GPT-4.1 was the fasted model tested.
-- **Tested Limitations:** No significant limitations observed; Copilot effectively handled complex queries and provided relevant suggestions based on context. 
+- **Tested Results:** Successful generation of SQL queries for all CRUD operations with appropriate safety measures and context awareness.
+- **Tested Limitations:** No significant limitations observed; Copilot effectively handled complex queries and provided relevant suggestions based on context.
 
 #### 1.1.3 Claude 3.7 Sonnet
-
 - **Date Tested:** 14jun2025
 - **Tested By:** GitHub Copilot Workshop Team
 - **Tested On:** Azure SQL Database
 - **Tested With:** T-SQL queries
 - **Tested Features:** CRUD operations, query generation, and safety practices
 - **Tested Prompts:** Natural language prompts for SQL generation
-- **Tested Results:** Successful generation of SQL queries for all CRUD operations with appropriate safety measures and context awareness. **NOTE**: Claude 3.7 Sonnet was the most explainable model tested with detailed explanations of SQL syntax and logic.
-- **Tested Limitations:** No significant limitations observed; Copilot effectively handled complex queries and provided relevant suggestions based on context. 
+- **Tested Results:** 
  
 ## 2. Connection Details
 
@@ -78,25 +76,81 @@ The `demos` table contains information about different demonstration scenarios u
 
 **Scenario:** "Let's see what demonstrations we have available for our workshop."
 -- Basic SELECT query
--- Filtering data
--- Searching with pattern matching
+SELECT TOP 5 id, category, language, scenario
+FROM dbo.demos;
 
+-- Filtering data
+SELECT id, category, language, scenario, confidence_percent
+FROM dbo.demos
+WHERE category = 'programming' AND confidence_percent > 70
+ORDER BY confidence_percent DESC;
+
+-- Searching with pattern matching
+SELECT id, category, language, scenario
+FROM dbo.demos
+WHERE scenario LIKE '%calculator%'
+OR scenario LIKE '%Azure SQL%';
 
 #### 3.3.2 Adding New Content (CREATE)
 
 **Scenario:** "We need to add a new demonstration for our upcoming workshop."
 -- INSERT statement
+INSERT INTO dbo.demos (
+    id, points, category, sub_category, language, 
+    role, person, ide_type, prompt_type, shot_type, 
+    is_test, test_type, epoch, confidence_percent, scenario, 
+    github_org, reference, data_source, notes
+)
+VALUES (
+    (SELECT ISNULL(MAX(id), 0) + 1 FROM dbo.demos), -- Auto-increment ID
+    25, -- Points value
+    'databases', -- Category
+    'azure-sql', -- Sub-category
+    'tsql', -- Language
+    'instructor', -- Role
+    'workshop presenter', -- Person
+    'azure_data_studio', -- IDE type
+    'chat', -- Prompt type
+    'one', -- Shot type
+    0, -- Is test
+    'na', -- Test type
+    0, -- Epoch
+    95, -- Confidence percent
+    'Demonstrate how to use GitHub Copilot for generating SQL queries', -- Scenario
+    'github-workshop', -- GitHub org
+    'databases/rdbms/workspace/sql/dmo-azure-sql-data-lifecycle.sql', -- Reference
+    'workshop-demos', -- Data source
+    'Created during GitHub Copilot workshop demo' -- Notes
+);
 
 #### 3.3.3 Updating Content (UPDATE)
 
 **Scenario:** "We need to update the confidence score for one of our demonstrations based on feedback."
 -- UPDATE statement
+UPDATE dbo.demos
+SET confidence_percent = 90,
+    notes = CONCAT(notes, ' | Updated during workshop on ', CONVERT(VARCHAR, GETDATE(), 120))
+WHERE scenario LIKE '%GitHub Copilot%'
+AND category = 'databases';
+
+-- Verify the update
+SELECT id, scenario, confidence_percent, notes
+FROM dbo.demos
+WHERE scenario LIKE '%GitHub Copilot%';
 
 #### 3.3.4 Removing Content (DELETE)
 
 **Scenario:** "Let's implement a safe removal process for outdated demonstrations."
 -- Safe DELETE with verification
 -- First, identify what would be deleted
+SELECT id, category, scenario
+FROM dbo.demos
+WHERE id = [specific_id_to_delete];
+
+-- Then perform the delete with a safety WHERE clause
+-- DELETE FROM dbo.demos
+-- WHERE id = [specific_id_to_delete]
+-- AND category = 'databases'; -- Added safety check
 
 ## 4. Teaching Points for GitHub Copilot
 
