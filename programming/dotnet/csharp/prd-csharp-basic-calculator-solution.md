@@ -97,12 +97,13 @@ There is a need for a simple, interactive calculator application that demonstrat
 ### 12.2 Prepare
 
 - Execute the `Set-DotnetSolutionForUnitTesting.ps1` script to set up the solution, main project, and test project.
+- Change directory to ./calculator/ and open the `Calculator.cs` file in your editor.
 
 ### 12.3 Generate
 
 1. In `Calculator.cs`, create a simple calculator program using top-level statements with the following arithmetic operations: +, -, *, /.
 2. The program should:
-   - Prompt the user for the first operand, second operand, and the operator.
+   - Prompt the user for the first operand, second operand, and the operator in that order.
    - Display the result.
    - Ask the user if they want to perform another calculation (yes/no).
    - Repeat the process if 'yes'; terminate with a friendly message if 'no'.
