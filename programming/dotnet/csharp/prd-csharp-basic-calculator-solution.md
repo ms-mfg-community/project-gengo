@@ -3,8 +3,8 @@
 ## 1. Document Information
 
 - **Version:** 1.0
-- **Author:** [Your Name]
-- **Date:** [YYYY-MM-DD]
+- **Author:** Preston K. Parsard
+- **Date:** 15jun2025
 - **Status:** Draft
 
 ## 2. Executive Summary
