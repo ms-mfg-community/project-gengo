@@ -6,8 +6,8 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 
 ## General Guidelines [Vibe Coding](https://youtu.be/YWwS911iLhg?si=TEdJIIqGryZdjezy)
 - Always prefer simple solutions.
-- Avoid duplication of code whenever possible, which means checking for other areas of the codebase that might already have simlar code and functionality.
-- Write code that takes into account hte different environments, for example; dev, test and prod.
+- Avoid duplication of code whenever possible, which means checking for other areas of the codebase that might already have similar code and functionality.
+- Write code that takes into account the different environments, for example; dev, test, and prod.
 - Only make changes that are requested unless you are confident, the context is well understood and related to the change being requested.
 - When fixing an issue or bug, do not introduce a new pattern or technology without first exhausting all options for the existing implementation. If however, you must still introduce a new pattern, make sure to please remove the old implementation afterwards so we don't have duplicate logic.
 - Keep the codebase clean and organized
@@ -21,7 +21,7 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 - Focus on the areas of code relevant to the task.
 - Do not touch code that is unrelated to the task.
 - Write through tests for all major functionality.
-- Avoid making major changes to the patterns and architecture of how a feature works, after it has been proven to work properly, unless explicitly promted to do so.
+- Avoid making major changes to the patterns and architecture of how a feature works, after it has been proven to work properly, unless explicitly prompted to do so.
 - Always consider how changes and updates may negatively impact the current function of the solution.
   
 ## Code Style
@@ -62,9 +62,7 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 
 ## Diagrams
 
-When working with mermaid diagrams, makes sture that you always start each block with
-
-```mermaid
+When working with mermaid diagrams, make sure that you always start each block with
 
 ## Commit Messages
 - **Format:** Use the following pattern:
@@ -78,11 +76,7 @@ When working with mermaid diagrams, makes sture that you always start each block
 
 For example:
 
-```
-
 feat(auth): add login functionality
-
-```
 
 This format provides clear context and can be easily parsed by tools. The Topic Subtopic Activity specification aims to provide clarity, flexibility and compatibility with automation tools.
 
@@ -113,10 +107,8 @@ This format provides clear context and can be easily parsed by tools. The Topic 
 ## Language Specific Instructions
 
 ### PowerShell
-- End control structures, loops and functions with `#end if,#end for,#end forach, #end while,#end until,#end case, #end FunctionName`.
-- Place each opening bracket '{' on a new line for each scope within a foreach, while, until, for loop or function block. For example:
-```powershell
-foreach ($item in $contents)
+- End control structures, loops and functions with `#end if,#end for,#end foreach, #end while,#end until,#end case, #end FunctionName`.
+- Place each opening bracket '{' on a new line for each scope within a foreach, while, until, for loop or function block. For example:foreach ($item in $contents)
 {
     Write-Host "Name: $($item.Name)"
     Write-Host "Full Name: $($item.FullName)"
@@ -124,8 +116,6 @@ foreach ($item in $contents)
     Write-Host "Last Modified: $($item.LastWriteTime)"
     Write-Host "-----------------------------"
 } # end foreach
-```
-
 - Use PascalCase for variables, functions, and classes.
 - Include comments for any non-trivial logic within scripts.
 
@@ -150,15 +140,13 @@ foreach ($item in $contents)
 
 ### Java
 
-- For Java apps, use maven for build automation, dependency management, project structure standardization, plugins and exstensibility and project information management unless otherwise specified in prompts.
+- For Java apps, use maven for build automation, dependency management, project structure standardization, plugins and extensibility and project information management unless otherwise specified in prompts.
 
 ### C++
 
 - Use the recommended project directory structure
 - Create the project structure using this prompt as a reference:
 _Create a python script at relative path: ...programming\cpp\workspace named cpp_project_setup.py that will create C++ a project workspace directory structure and files based on the guidance provided in the 'MyCppProject' example in copilot-instructions.md. Name the project 'cpp-project-name'._
-
-```C++
 MyCppProject/
 ├── build/                  # Generated build files (by CMake or other build systems)
 ├── cmake/                  # Additional CMake modules or scripts (optional)
@@ -181,11 +169,7 @@ MyCppProject/
 ├── LICENSE                 # Project license file
 └── README.md               # Introduction and project overview
 
-```
-
 - To configure compilers for running C++ projects, use the following sample .vscode\tasks.json to adhere to recommended common practices.
-
-```C++
 // VS Code tasks.json - Configures build tasks for C/C++ development
 // This file defines compilation tasks that can be executed via Terminal > Run Task in VS Code
 {
@@ -323,8 +307,6 @@ MyCppProject/
 		}
 	  ]
 }
-```
-
 ## C
 
 The recommended directory and file structure for a modern, clean, and maintainable **C** project is very similar to the C++ structure, but typically simpler. Here's a well-accepted and standard layout:
@@ -333,8 +315,6 @@ The recommended directory and file structure for a modern, clean, and maintainab
 
 ### Recommended Project Structure for C
 
-
-```
 MyCProject/
 ├── build/                  # Build output (executables, binaries, object files)
 ├── docs/                   # Documentation files
@@ -355,8 +335,6 @@ MyCProject/
 ├── CMakeLists.txt          # Modern build system (recommended)
 ├── LICENSE                 # License information
 └── README.md               # Project overview and build instructions
-```
-
 ---
 
 ### Explanation of directories and files:
@@ -407,8 +385,6 @@ MyCProject/
 ---
 
 ### Minimal Example CMakeLists.txt for C:
-
-```cmake
 cmake_minimum_required(VERSION 3.16)
 
 project(MyCProject VERSION 1.0 LANGUAGES C)
@@ -434,9 +410,7 @@ target_link_libraries(${PROJECT_NAME}_example PRIVATE ${PROJECT_NAME})
 # Enable tests
 enable_testing()
 add_subdirectory(tests)
-```
-
----
+	---
 
 ### Best Practices for C Projects:
 
@@ -491,3 +465,71 @@ https://github.com/microsoft/vscode-copilot-release/issues/10496
 ### Resolution Summary
 
 Reduce the number of tools included in the request to stay within the limit.
+
+## Product Requirements Document (PRD) Format and Example
+
+### Purpose
+
+A Product Requirements Document (PRD) clearly defines the purpose, scope, features, and success criteria for a product or feature. It serves as a single source of truth for developers, designers, and stakeholders, ensuring alignment and clarity throughout the development process.
+
+---
+
+### PRD Format Outline
+
+1. **Document Information**
+   - Version
+   - Author(s)
+   - Date
+   - Status
+
+2. **Executive Summary**
+   - Brief overview of the product/feature and its business value
+
+3. **Problem Statement**
+   - The problem or opportunity being addressed
+
+4. **Goals and Objectives**
+   - What the product/feature aims to achieve
+
+5. **Scope**
+   - In Scope: Features and functionality to be delivered
+   - Out of Scope: Explicitly excluded items
+
+6. **User Stories / Use Cases**
+   - List of user stories or scenarios
+
+7. **Functional Requirements**
+   - Detailed requirements, often in bullet or table form
+
+8. **Non-Functional Requirements**
+   - Performance, security, compliance, scalability, etc.
+
+9. **Assumptions and Dependencies**
+   - External factors, integrations, or prerequisites
+
+10. **Success Criteria / KPIs**
+    - How success will be measured
+
+11. **Milestones & Timeline**
+    - Key dates and deliverables
+
+12. **Appendix A: Demonstration Sequence
+
+13. **Key Takaways**
+	- Summary of the most important points
+	
+14. **Questions or Feedback from Attendees**
+	- Frequently Asked Questions or common concerns
+
+15. **Questions for Attendees**
+
+16. **Call to Action**
+	- Next steps for stakeholders or team members
+
+17. **References**
+    - Supporting documents, diagrams, or links
+
+---
+
+### Example: Product Requirements Document
+

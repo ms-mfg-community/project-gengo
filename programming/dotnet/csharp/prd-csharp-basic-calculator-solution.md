@@ -1,149 +1,210 @@
-# .NET Calculator with xUnit Testing
+# Product Requirements Document: .NET Calculator with xUnit Testing
 
-## Solution Setup
+## 1. Document Information
 
-- [ ] 1. Create a PowerShell script named `Set-DotnetSlnForCalculator.ps1` in the `C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace` directory of this repository
-- [ ] 2. Add content to the script that performs the following steps to set up a .NET 8 solution with a console app and an xUnit test project.
-   Use each of these numbered steps below as comments.
-   1. Create a new folder for the solution named `calculator-xunit-testing`.
-   2. Change into the newly created solution directory.
-   3. Create a new solution named `calculator-xunit-testing`.
-   4. Create a .NET 8 console application project named `calculator` without an explicit Main method and change the `Program.cs` filename to `Calculator.cs`
-   5. Add the calculator project to the solution.
-   6. Create a new xUnit test project named `calculator.tests`, targeting .NET 8 and change the default cs name from `UnitTest1.cs` to `CalculatorTest.cs`
-   7. Add a project reference from `calculator.tests` to `calculator`.
-   8. Add the `calculator.tests` project to the solution.
-   9. Make sure the script uses `dotnet new sln`, `dotnet new console`, `dotnet sln add`, and `dotnet add reference` commands in the correct order.
+- **Version:** 1.0
+- **Author:** [Your Name]
+- **Date:** [YYYY-MM-DD]
+- **Status:** Draft
 
-## Prepare
+## 2. Executive Summary
 
-- [x] 1. Execute the `Set-DotnetSolutionForUnitTesting.ps1` script to setup the solution, main project and test project
+This document describes the requirements for a basic .NET 8 console calculator application with xUnit-based unit testing. The calculator will support basic arithmetic operations and provide a simple user interface for repeated calculations.
 
-## Generate
+## 3. Problem Statement
 
-- [ ] 1. In the Calculator.cs file create a simple calculator program using top-level statements with the following arithmetic operations +,-,*,/. This program should prompt the user for the first number as an operand, then the second operand and finally the operator.
-      The calculator will then display the result and ask the user if they want to perform another calculation. For this prompt, they can either say yes or no.
-      If they say yes, the program will repeat the process, however, if the user states 'no', the program will terminate with a friendly message.
-- [ ] Build and run the calculator project to ensure it works as expected.
-- [ ] 
-- [ ] a. ```bash
-      cd ./calculator
-      ```
-- [ ] b. ```bash
-      dotnet build calculator.csproj
-      ```
-- [ ] c. ```bash
-      dotnet run caclulator
-      ```
-- [ ] d. **Error:** `Calculator.cs(22,24): warning CS8600: Converting null literal or possible null value to non-nullable type.`
-- [ ] e. **Error:** `Calculator.cs(52,23): warning CS8602: Dereference of a possibly null reference.`
-- [ ] f. **Explanation:**
-  
-  The warning CS8600: Converting null literal or possible null value to non-nullable type occurs when you try to assign a value that could be null to a variable that is not nullable.
-  
-  To fix this, you need to ensure that the value being assigned is not null or handle the possibility of null appropriately.
-  
-  In your Calculator.cs file, the warning is likely occurring when reading user input with Console.ReadLine(), which can return null.
-  
-  You can fix this by using the null-coalescing operator (??) to provide a default value if Console.ReadLine() returns null.
-  
-- [ ] g. ```bash
-      dotnet build calculator.csproj
-      ```
-- [ ] h. ```bash
-      dotnet run caclulator
-      ```
+There is a need for a simple, interactive calculator application that demonstrates .NET 8 console programming and test-driven development using xUnit. The solution should be easy to set up, run, and extend.
 
-## Refactor
+## 4. Goals and Objectives
 
-- [ ] Please refactor this code to convert each operation into its own independent method so it can be more easily tested with unit testing.
+- Provide a .NET 8 console calculator supporting +, -, *, / operations.
+- Enable repeated calculations in a user-friendly loop.
+- Ensure code is testable with xUnit and follows best practices.
+- Demonstrate solution setup, build, run, and test workflows.
 
-## Iterate
+## 5. Scope
 
-1. [ ] Please clear the screen when the program starts or when a user responds to the prompt with 'yes' or 'no' after each calculation. If the user responds with 'no', first clear the screen, then display the thank you message.
-2. [ ] Make the methods in `calculator\Program.cs` public so they can be tested by an xunit console project.
-3. [ ] Add the operations for modulo and exponent
+**In Scope:**
+- .NET 8 console application project (`calculator`)
+- xUnit test project (`calculator.tests`)
+- Arithmetic operations: addition, subtraction, multiplication, division
+- User prompt and loop for repeated calculations
+- Refactoring for testability
 
-## Fix
+**Out of Scope:**
+- Advanced math functions (beyond +, -, *, /)
+- GUI or web interface
+- Persistence or external data storage
 
-1. [ ] Fix: `string userResponse = Console.ReadLine().ToLower();` // To prevent a NullReferenceException, add nullable types
+## 6. User Stories / Use Cases
 
-## Build Solution
+- As a user, I want to perform basic arithmetic calculations interactively.
+- As a developer, I want to run unit tests to verify calculator operations.
+- As a user, I want to repeat calculations until I choose to exit.
 
-1. [ ] ```bash
-    dotnet build .\calculator-xunit-testing.sln --verbosity diagnostic
-    ```
+## 7. Functional Requirements
 
-## Restore Project
+- The calculator shall prompt for two operands and an operator (+, -, *, /).
+- The calculator shall display the result of the operation.
+- The calculator shall ask the user if they want to perform another calculation.
+- The calculator shall terminate with a friendly message if the user chooses not to continue.
+- Each arithmetic operation shall be implemented as a separate method for testability.
 
-1. [ ] ```bash
-    cd .\calculator
-    ```
-2. [ ] ```bash
-    dotnet restore .\Calculator.csproj
-    ```
+## 8. Non-Functional Requirements
 
-## Build Project
+- The application must run on .NET 8.
+- The code must be organized for clarity and maintainability.
+- Unit tests must cover all arithmetic operations and edge cases (e.g., division by zero).
+- The solution must be buildable and runnable via standard .NET CLI commands.
 
-1. [ ] ```bash
-    dotnet build .\Calculator.csproj
-    ```
+## 9. Assumptions and Dependencies
 
-## Run Program
+- .NET 8 SDK is installed.
+- xUnit is used for unit testing.
+- The solution is managed via the .NET CLI and compatible with Visual Studio 2022.
 
-1. [ ] ```bash
-    dotnet run .\Calculator.csproj
-    ```
+## 10. Success Criteria / KPIs
 
-## Write Unit Tests
+- All calculator operations are correct and covered by passing unit tests.
+- The application runs without errors or unhandled exceptions.
+- The user experience is clear and repeatable.
+- The solution can be set up and built using the provided scripts and instructions.
 
-1. [ ] How can I add xUnit framework tests for the calculator operations in my test project?
+## 11. Milestones & Timeline
 
-## Run Test
+- Solution and project setup script: [Date]
+- Initial calculator implementation: [Date]
+- Unit test implementation: [Date]
+- Refactoring and documentation: [Date]
+- Final review and acceptance: [Date]
 
-1. [ ] ```bash
-    dotnet test .\calculator.test.csproj
-    ```
+## 12. Appendix A: Demonstration Sequence
 
-## Build Solution Again
+### 12.1 Solution Setup
 
-1. [ ] ```bash
-    cd ..
-    ```
-2. [ ] ```bash
-    dotnet build .\calculator-xunit-testing.sln --verbosity diagnostic
-    ```
+1. Create a PowerShell script named `Set-DotnetSlnForCalculator.ps1` in the `C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace` directory.
+2. Add content to the script to perform the following steps (each as a comment in the script):
+   - Create a new folder for the solution named `calculator-xunit-testing`.
+   - Change into the newly created solution directory.
+   - Create a new solution named `calculator-xunit-testing`.
+   - Create a .NET 8 console application project named `calculator` (without an explicit Main method) and rename `Program.cs` to `Calculator.cs`.
+   - Add the calculator project to the solution.
+   - Create a new xUnit test project named `calculator.tests`, targeting .NET 8, and rename `UnitTest1.cs` to `CalculatorTest.cs`.
+   - Add a project reference from `calculator.tests` to `calculator`.
+   - Add the `calculator.tests` project to the solution.
+   - Use `dotnet new sln`, `dotnet new console`, `dotnet sln add`, and `dotnet add reference` commands in the correct order.
 
-## Select Solution File
+### 12.2 Prepare
 
-1. [ ] Select TestExplorer tab
-2. [ ] Run solution tests
-3. [ ] Add tests for modulo and exponent also
-4. [ ] ```bash
-    dotnet test calculator.tests.csproj
-    ```
-5. [ ] Select and build solution in solution explorer
-6. [ ] Run tests from solution using solution explorer
+- Execute the `Set-DotnetSolutionForUnitTesting.ps1` script to set up the solution, main project, and test project.
 
-## Continuous Improvement
+### 12.3 Generate
 
-1. [ ] Add a theory and three inline data set cases for each method. The third inline data set array should simulate a failing case.
-2. [ ] Update the failing cases with values that will make those test cases pass.
-3. [ ] Document the code in `Calculator.cs` and `CalculatorTest.cs`
+1. In `Calculator.cs`, create a simple calculator program using top-level statements with the following arithmetic operations: +, -, *, /.
+2. The program should:
+   - Prompt the user for the first operand, second operand, and the operator.
+   - Display the result.
+   - Ask the user if they want to perform another calculation (yes/no).
+   - Repeat the process if 'yes'; terminate with a friendly message if 'no'.
 
-## Translate to Python
+#### Build and Run
 
-1. [ ] Translate the code at `Calculator.cs` to python
-2. [ ] Continue to p15. @ reference: `C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\python\prompts.txt`
+cd ./calculator
 
-## Reverse Prompting
+dotnet build calculator.csproj
 
-1. [ ] Given the code in `calculator\Program.cs`, write a corresponding prompt to generate it.
+dotnet run calculator
 
-## Cleanup Script
+#### Common Errors and Fixes
 
-- [ ] Create the content for a powershell script named `Remove-DotnetSlnForCalculator.ps1` to reset the calculator-xunit-testing exercise. Add each step below as comments.
-   1. Get the repository root path
-   2. Append to this root path, the relative root path of `\programming\dotnet\csharp\workspace\src` and assign this string value to the variable `$targetPath`
-   3. Set the current path to `$targetPath`
-   4. Remove the `calculator-xunit-testing` folder from the `$targetPath`
+- **Error:** `Calculator.cs(22,24): warning CS8600: Converting null literal or possible null value to non-nullable type.`
+- **Error:** `Calculator.cs(52,23): warning CS8602: Dereference of a possibly null reference.`
+
+**Explanation:**
+- These warnings occur when assigning or dereferencing a value that could be null (e.g., from `Console.ReadLine()`).
+- Use the null-coalescing operator (`??`) to provide a default value if `Console.ReadLine()` returns null.
+
+### 12.4 Refactor
+
+- Refactor the code so each operation is implemented as its own independent method for easier unit testing.
+
+### 12.5 Iterate
+
+- Clear the screen at program start and after each calculation.
+- If the user responds 'no', clear the screen before displaying the thank you message.
+- Make methods in `Calculator.cs` public for xUnit testing.
+- Add modulo and exponent operations.
+
+### 12.6 Fix
+
+- Fix: `string userResponse = Console.ReadLine()?.ToLower() ?? "";` to prevent `NullReferenceException`.
+
+### 12.7 Build, Restore, and Run
+
+Build the solution
+
+```bash
+cd ..
+dotnet build .\calculator-xunit-testing.sln --verbosity diagnostic
+```
+
+Restore and build the project
+
+```bash
+cd .\calculator
+dotnet restore .\Calculator.csproj
+dotnet build .\Calculator.csproj
+dotnet run .\Calculator.csproj
+```
+
+### 12.8 Write and Run Unit Tests
+
+- Add xUnit tests for all calculator operations in the test project.
+- Example:
+
+```bash
+dotnet test .\calculator.tests.csproj
+```
+
+### 12.9 Continuous Improvement
+
+- Add `[Theory]` and `[InlineData]` for each method, including at least one failing case.
+- Update failing cases to pass.
+- Document code in `Calculator.cs` and `CalculatorTest.cs`.
+
+### 12.10 Translate to Python
+
+- Translate the code in `Calculator.cs` to Python.
+- Reference: `C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\python\prompts.txt`
+
+### 12.11 Reverse Prompting
+
+- Write a prompt that would generate the code in `calculator\Program.cs`.
+
+### 12.12 Cleanup Script
+
+- Create a PowerShell script named `Remove-DotnetSlnForCalculator.ps1` to reset the exercise:
+   1. Get the repository root path.
+   2. Append the relative path `\programming\dotnet\csharp\workspace\src` to the root and assign to `$targetPath`.
+   3. Set the current path to `$targetPath`.
+   4. Remove the `calculator-xunit-testing` folder from `$targetPath`.
+
+## 13. **Key Takaways**
+	- Summary of the most important points
+	
+## 14. **Questions or Feedback from Attendees**
+	- Frequently Asked Questions or common concerns
+
+## 15. **Questions for Attendees**
+
+## 16. **Call to Action**
+	- Next steps for stakeholders or team members
+
+## 17. **References**
+    - Supporting documents, diagrams, or links
+
+## 18. **References**	
+
+- [.NET Calculator with xUnit Testing Setup Instructions](#)
+- [Microsoft .NET Documentation](https://docs.microsoft.com/en-us/dotnet/)
+- [xUnit Documentation](https://xunit.net/) 
