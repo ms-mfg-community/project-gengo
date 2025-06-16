@@ -166,8 +166,6 @@ dotnet run .\Calculator.csproj
 - Example:
 
 ```bash
-
-```bash
 cd ..
 dotnet build .\calculator-xunit-testing.sln --verbosity diagnostic
 dotnet restore .\Calculator.csproj
