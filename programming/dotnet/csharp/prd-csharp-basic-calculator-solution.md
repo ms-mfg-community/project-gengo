@@ -127,6 +127,7 @@ dotnet run calculator
 ### 12.4 Refactor
 
 - Refactor the code so each operation is implemented as its own independent method for easier unit testing.
+- Perform another build and run for regression testing to ensure the refactoring did not introduce errors.
 
 ### 12.5 Iterate
 
