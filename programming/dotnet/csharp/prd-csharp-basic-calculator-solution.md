@@ -98,6 +98,8 @@ There is a need for a simple, interactive calculator application that demonstrat
 
 - Execute the `Set-DotnetSolutionForUnitTesting.ps1` script to set up the solution, main project, and test project.
 - Change directory to ./calculator/ and open the `Calculator.cs` file in your editor.
+- Remove any unnecessary code, as we will use top-level statements in C# 8.
+
 
 ### 12.3 Generate
 
@@ -162,13 +164,14 @@ dotnet run .\Calculator.csproj
 
 ### 12.8 Write and Run Unit Tests
 
+- Open the CalculatorTest.cs file in the `calculator.tests` project.
 - Add xUnit tests for all calculator operations in the test project.
 - Example:
 
 ```bash
 cd ..
 dotnet build .\calculator-xunit-testing.sln --verbosity diagnostic
-dotnet restore .\Calculator.csproj
+dotnet restore .\Calculator.csproj # restore is optional since build and run will restore automatically
 dotnet build .\Calculator.csproj
 dotnet run .\Calculator.csproj
 cd ..\calculator.tests
@@ -195,12 +198,12 @@ dotnet test .\calculator.tests.csproj
 ### 12.12 Cleanup Script
 
 - Create a PowerShell script named `Remove-DotnetSlnForCalculator.ps1` in the `...\programming\dotnet\csharp\workspace` directory to reset the exercise.
-   1. Get the repository root path.
-   2. Append the relative path `\programming\dotnet\csharp\workspace` to the root and assign to `$targetPath`.
+   1. Get the repository root path using the git command.
+   2. Append the relative path `\programming\dotnet\csharp\workspace` to the repository root and assign to `$targetPath`.
    3. Set the current path to `$targetPath`.
    4. Remove the `calculator-xunit-testing` folder from `$targetPath`.
 
-## 13. **Key Takaways**
+## 13. **Key Takeaways**
 	- Summary of the most important points
 	
 ## 14. **Questions or Feedback from Attendees**
