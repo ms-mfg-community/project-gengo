@@ -182,7 +182,8 @@ dotnet test .\calculator.tests.csproj
 
 ### 12.11 Reverse Prompting
 
-- Write a prompt that would generate the code in `calculator\Program.cs`.
+- Create a new product requirements document based on the code for this solution.
+- Ensure the document includes detailed descriptions of functionalities, expected outcomes, and usage instructions for the calculator.
 
 ### 12.12 Cleanup Script
 
