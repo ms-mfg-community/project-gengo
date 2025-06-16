@@ -182,7 +182,7 @@ dotnet test .\calculator.tests.csproj
 
 ### 12.11 Reverse Prompting
 
-- Create a new product requirements document based on the code for this solution named prd-calculator-from-reverse-prompting.md.
+- Create a new product requirements document based on the code for this solution named prd-calculator-from-reverse-prompting.md in the solution directory.
 - Ensure the document includes detailed descriptions of functionalities, expected outcomes, and usage instructions for the calculator.
 
 ### 12.12 Cleanup Script
