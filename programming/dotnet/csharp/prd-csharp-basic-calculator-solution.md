@@ -177,8 +177,7 @@ dotnet test .\calculator.tests.csproj
 
 ### 12.10 Translate to Python
 
-- Translate the code in `Calculator.cs` to Python.
-- Reference: `C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\python\prompts.txt`
+- Translate the code in `Calculator.cs` to Python and save it in a file named `calculator.py` in the solution directory.
 
 ### 12.11 Reverse Prompting
 
