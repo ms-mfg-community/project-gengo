@@ -1,24 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@svr-asi-01.database.windows.net" uuid="5aba357a-8795-4046-bf90-c86414d60f55">
+    <data-source source="LOCAL" name="svr-ghc-01.database.windows.net" uuid="51adb3ec-ba52-445c-a38d-58177756439e">
       <driver-ref>azure.ms</driver-ref>
       <synchronize>true</synchronize>
-      <imported>true</imported>
+      <remarks>svr-ghc-01</remarks>
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
-      <jdbc-url>jdbc:sqlserver://svr-asi-01.database.windows.net:1433;encrypt=true;trustServerCertificate=false;loginTimeout=30;</jdbc-url>
-      <jdbc-additional-properties>
-        <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
-        <property name="AZURE_SQL_DB_SERVER" value="/subscriptions/976c53b8-965c-4f97-ab51-993195a8623c/resourceGroups/sql-rgp-01/providers/Microsoft.Sql/servers/svr-asi-01" />
-        <property name="com.intellij.clouds.kubernetes.db.resource.type" value="Deployment" />
-      </jdbc-additional-properties>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="pfs-sql-01" uuid="3d5910e4-acf7-483c-9cd3-df2b7abbb88d">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://pfs-sql-01.postgres.database.azure.com:5432/ghc_prompts</jdbc-url>
+      <jdbc-url>jdbc:sqlserver://svr-ghc-01.database.windows.net:1433;database=demos</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

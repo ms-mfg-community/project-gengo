@@ -180,13 +180,14 @@ This section provides example prompts that can be given to GitHub Copilot during
 
 #### Prompt 1: "Show me the top 10 demos in the database with their categories and languages."
 
-#### Prompt 2: "Find all C# programming demos with confidence over 60% sorted by highest confidence"
+#### Prompt 2: "Find all csharp programming demos with confidence over 60% sorted by highest confidence"
 
 #### 
 
 ### 7.2 CREATE Operation Prompts
 
-#### Prompt 1: "Write code to add a new demo for a TypeScript web application workshop"
+#### Prompt 1: "Write code to add a new demo for a TypeScript web application workshop." 
+"Calculate and automatically increment the ID for the new demo, set the category to 'web development', language to 'typescript', and confidence_percent to 80."
 
 #### Prompt 2: "Write code to select and display the new Typescript web application workshop record that was just created"
 
@@ -200,11 +201,15 @@ This section provides example prompts that can be given to GitHub Copilot during
 
 #### Prompt 2: "Update the demo ID 5 to use the following values; confidence_percent = 70, notes = 'update notes for id 5' and points = 40"
 
-#### Prompt 3: "Write a query to increase all database demo confidence scores by 5% if they're below 80%"
+#### Prompt 3: "Reset the confidence score by removing the notes and reducing the confidence_percent by 5 for demo ID 5"
+
+#### Prompt 4: "Write a query to increase all database demo confidence scores by 5% if they're below 80%"
+
+#### Prompt 5: "Write a query to decrease (reset) all database demo confidence scores by 5% if they're below 80%"
 
 ### 7.4 DELETE Operation Prompts
 
-#### Prompt 1: "Create a safe way to delete demo ID 5 with verification"
+#### Prompt 1: (Ask mode prompt) "Create a safe way to delete demo ID 5 with verification"
 
 #### Prompt 2: (Ask mode prompt) "How can I remove all demos with confidence below 30% and save their IDs"
 
