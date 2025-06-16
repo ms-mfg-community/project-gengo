@@ -135,7 +135,7 @@ dotnet run calculator
 
 - Clear the screen at program start and after each calculation.
 - If the user responds 'no', clear the screen before displaying the thank you message.
-- Make methods in `Calculator.cs` public for xUnit testing.
+- Verify that methods in `Calculator.cs` are public for xUnit testing.
 - Add modulo and exponent operations.
 
 ### 12.6 Fix
