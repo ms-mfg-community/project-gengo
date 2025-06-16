@@ -178,6 +178,7 @@ dotnet test .\calculator.tests.csproj
 ### 12.10 Translate to Python
 
 - Translate the code in `Calculator.cs` to Python and save it in a file named `calculator.py` in the solution directory.
+- Manually test the Python code to ensure it behaves similarly to the C# version.
 
 ### 12.11 Reverse Prompting
 
