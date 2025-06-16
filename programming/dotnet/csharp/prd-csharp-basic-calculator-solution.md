@@ -143,7 +143,7 @@ dotnet run calculator
 
 - Fix: `string userResponse = Console.ReadLine()?.ToLower() ?? "";` to prevent `NullReferenceException`.
 
-### 12.7 Build, Restore, and Run
+### 12.7 Build and Run
 
 Build the solution
 
@@ -156,7 +156,6 @@ Restore and build the project
 
 ```bash
 cd .\calculator
-dotnet restore .\Calculator.csproj
 dotnet build .\Calculator.csproj
 dotnet run .\Calculator.csproj
 ```
@@ -167,6 +166,14 @@ dotnet run .\Calculator.csproj
 - Example:
 
 ```bash
+
+```bash
+cd ..
+dotnet build .\calculator-xunit-testing.sln --verbosity diagnostic
+dotnet restore .\Calculator.csproj
+dotnet build .\Calculator.csproj
+dotnet run .\Calculator.csproj
+cd ..\calculator.tests
 dotnet test .\calculator.tests.csproj
 ```
 
