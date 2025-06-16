@@ -187,9 +187,9 @@ dotnet test .\calculator.tests.csproj
 
 ### 12.12 Cleanup Script
 
-- Create a PowerShell script named `Remove-DotnetSlnForCalculator.ps1` to reset the exercise:
+- Create a PowerShell script named `Remove-DotnetSlnForCalculator.ps1` in the `workspace` directory to reset the exercise.
    1. Get the repository root path.
-   2. Append the relative path `\programming\dotnet\csharp\workspace\src` to the root and assign to `$targetPath`.
+   2. Append the relative path `\programming\dotnet\csharp\workspace` to the root and assign to `$targetPath`.
    3. Set the current path to `$targetPath`.
    4. Remove the `calculator-xunit-testing` folder from `$targetPath`.
 
