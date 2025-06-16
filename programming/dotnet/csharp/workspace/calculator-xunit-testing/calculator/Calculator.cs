@@ -1,5 +1,8 @@
 ﻿// Simple calculator program using top-level statements
 
+// Clear screen at start
+Console.Clear();
+
 // Main program logic
 bool continueCalculating = true;
 
@@ -29,7 +32,7 @@ while (continueCalculating)
     }
     
     // Get operator
-    Console.Write("Enter operator (+, -, *, /): ");
+    Console.Write("Enter operator (+, -, *, /, %, ^): ");
     string? operatorInput = Console.ReadLine();
     
     // Calculate result based on operator
@@ -52,8 +55,14 @@ while (continueCalculating)
             case "/":
                 result = CalculatorOperations.Divide(firstNumber, secondNumber);
                 break;
+            case "%":
+                result = CalculatorOperations.Modulo(firstNumber, secondNumber);
+                break;
+            case "^":
+                result = CalculatorOperations.Power(firstNumber, secondNumber);
+                break;
             default:
-                Console.WriteLine("Invalid operator. Please use +, -, *, or /.");
+                Console.WriteLine("Invalid operator. Please use +, -, *, /, %, or ^.");
                 validOperation = false;
                 break;
         }
@@ -68,12 +77,29 @@ while (continueCalculating)
     {
         Console.WriteLine("Error: Cannot divide by zero.");
     }
+    catch (ArgumentException ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+    }
     
     // Ask if user wants to perform another calculation
     Console.Write("Do you want to perform another calculation? (yes/no): ");
-    string? userResponse = Console.ReadLine()?.ToLower();
+    string? userResponse = Console.ReadLine()?.ToLower() ?? "";
     
     continueCalculating = (userResponse == "yes" || userResponse == "y");
+    
+    if (continueCalculating)
+    {
+        // Clear screen for next calculation
+        Console.Clear();
+        Console.WriteLine("Simple Calculator");
+        Console.WriteLine("----------------");
+    }
+    else
+    {
+        // Clear screen before displaying goodbye message
+        Console.Clear();
+    }
 }
 
 Console.WriteLine("Thank you for using the calculator. Goodbye!");
@@ -94,5 +120,19 @@ public class CalculatorOperations
             throw new DivideByZeroException("Cannot divide by zero.");
         }
         return a / b;
+    }
+    
+    public static double Modulo(double a, double b)
+    {
+        if (b == 0)
+        {
+            throw new DivideByZeroException("Cannot find modulo with zero divisor.");
+        }
+        return a % b;
+    }
+    
+    public static double Power(double a, double b)
+    {
+        return Math.Pow(a, b);
     }
 }

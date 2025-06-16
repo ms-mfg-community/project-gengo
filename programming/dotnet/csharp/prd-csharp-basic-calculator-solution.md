@@ -173,7 +173,7 @@ dotnet test .\calculator.tests.csproj
 
 - Add `[Theory]` and `[InlineData]` for each method, including at least one failing case.
 - Update failing cases to pass.
-- Document code in `Calculator.cs` and `CalculatorTest.cs`.
+- Add more comments for the code in `Calculator.cs` and `CalculatorTest.cs`, accounting for edge cases, potential exceptions and to explain the logic behind each operation.
 
 ### 12.10 Translate to Python
 
