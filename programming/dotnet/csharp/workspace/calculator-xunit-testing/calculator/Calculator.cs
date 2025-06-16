@@ -1,22 +1,23 @@
-﻿// Simple calculator program using top-level statements
-
-// Define calculator methods that are accessible for testing
-public static double Add(double a, double b) => a + b;
-
-public static double Subtract(double a, double b) => a - b;
-
-public static double Multiply(double a, double b) => a * b;
-
-public static double Divide(double a, double b)
+﻿// Define a class for calculator operations that can be tested
+public class CalculatorOperations
 {
-    if (b == 0)
+    public static double Add(double a, double b) => a + b;
+
+    public static double Subtract(double a, double b) => a - b;
+
+    public static double Multiply(double a, double b) => a * b;
+
+    public static double Divide(double a, double b)
     {
-        throw new DivideByZeroException("Cannot divide by zero.");
+        if (b == 0)
+        {
+            throw new DivideByZeroException("Cannot divide by zero.");
+        }
+        return a / b;
     }
-    return a / b;
 }
 
-// Main program logic
+// Main program using top-level statements
 bool continueCalculating = true;
 
 Console.WriteLine("Simple Calculator");
@@ -57,16 +58,16 @@ while (continueCalculating)
         switch (operatorInput)
         {
             case "+":
-                result = Add(firstNumber, secondNumber);
+                result = CalculatorOperations.Add(firstNumber, secondNumber);
                 break;
             case "-":
-                result = Subtract(firstNumber, secondNumber);
+                result = CalculatorOperations.Subtract(firstNumber, secondNumber);
                 break;
             case "*":
-                result = Multiply(firstNumber, secondNumber);
+                result = CalculatorOperations.Multiply(firstNumber, secondNumber);
                 break;
             case "/":
-                result = Divide(firstNumber, secondNumber);
+                result = CalculatorOperations.Divide(firstNumber, secondNumber);
                 break;
             default:
                 Console.WriteLine("Invalid operator. Please use +, -, *, or /.");
