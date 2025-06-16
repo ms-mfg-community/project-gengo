@@ -128,6 +128,7 @@ dotnet run calculator
 
 - Refactor the code so each operation is implemented as its own independent method for easier unit testing.
 - Since we are using top-level statements, we will need to create a `CalculatorOperations` class with methods for each operation.
+- Keep in mind that the top-level statements need to come before any class declarations in C#.
 - Perform another build and run for regression testing to ensure the refactoring did not introduce errors.
 
 ### 12.5 Iterate
