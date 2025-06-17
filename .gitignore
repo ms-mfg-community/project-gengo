@@ -3,6 +3,7 @@ node_modules/
 
 # Ignore subset of Visual Studio automatically generated content
 .vs/
+.vscode/build/
 
 # Ignore NuGet packages
 *.nupkg
@@ -22,3 +23,6 @@ obj/
 
 # Ignore any .env that might be in any folder of this repo
 **/.env
+build/.cmake/api/v1/reply/index-2025-06-17T14-10-04-0764.json
+build/.cmake/api/v1/reply/index-2025-06-16T23-16-54-0755.json
+build/.cmake/api/v1/reply/index-2025-06-16T23-16-54-0755.json
