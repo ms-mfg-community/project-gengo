@@ -299,6 +299,7 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 6. Use the file and folder structure provided above in **section 1.12.3, step 1**, at the path `$(git rev-parse --show-toplevel)/gitops/workspace` to organize the Bicep files and parameters:
 7. For the deploy job, if the stackAction is `deploy` deploy the resources using the Bicep files and parameters defined in the previous steps. Ensure that the deployment stack name uses the value: `deploymentStackName`.
 8. If the stackAction is `rollback`, rollback the deployment stack using the `deploymentStackName` parameter.
+9. Populate the `validate-bicep.ps1` script to validate the Bicep files before deployment. This script should use the Azure CLI command `az bicep build` to ensure the Bicep files are valid and can be deployed.
 
 ### 1.12.5 Cleanup Procedures
 

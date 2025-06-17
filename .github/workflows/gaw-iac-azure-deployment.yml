@@ -1,0 +1,195 @@
+name: gaw-iac-azure-deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      resourceGroupName:
+        description: 'The name of the Azure resource group to deploy'
+        required: true
+        default: 'gaw-iac-azure-deployment'
+        type: string
+      location:
+        description: 'The Azure region for the resource group'
+        required: true
+        default: 'eastus2'
+        type: string
+      randomResourceSuffix:
+        description: 'Random suffix for resource names'
+        required: true
+        default: 'dd4aca64'
+        type: string
+      storageAccountName:
+        description: 'The name of the Azure storage account'
+        required: true
+        default: '1stadd4aca64'
+        type: string
+      containerRegistryName:
+        description: 'The name of the Azure container registry'
+        required: true
+        default: 'acrdd4aca64'
+        type: string
+      bicepFile:
+        description: 'Path to the Bicep file'
+        required: true
+        default: 'gitops/workspace/infra/main.bicep'
+        type: string
+      bicepParametersFile:
+        description: 'Path to the Bicep parameters file'
+        required: true
+        default: 'gitops/workspace/infra/main.bicepparam'
+        type: string
+      workflowMode:
+        description: 'Workflow execution mode'
+        required: true
+        default: 'plan-only'
+        type: choice
+        options:
+          - plan-only
+          - plan-and-deploy
+          - deploy-only
+      stackAction:
+        description: 'Deployment stack action'
+        required: true
+        default: 'deploy'
+        type: choice
+        options:
+          - deploy
+          - rollback
+      deploymentStackName:
+        description: 'Name of the deployment stack'
+        required: true
+        default: 'gaw-iac-azure-deployment'
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  plan:
+    name: Plan Infrastructure Changes
+    runs-on: ubuntu-latest
+    environment: dev
+    if: ${{ inputs.workflowMode == 'plan-only' || inputs.workflowMode == 'plan-and-deploy' }}
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+    
+    - name: Setup Azure CLI
+      run: |
+        echo "Installing Bicep extension..."
+        az bicep install
+        az bicep version
+
+    - name: Azure Login (OIDC)
+      uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    - name: Display Deployment Plan
+      shell: bash
+      run: |
+        echo "=== Deployment Plan (What-If Analysis) ==="
+        echo "Resource Group: ${{ inputs.resourceGroupName }}"
+        echo "Location: ${{ inputs.location }}"
+        echo "Storage Account: ${{ inputs.storageAccountName }}"
+        echo "Container Registry: ${{ inputs.containerRegistryName }}"
+        echo "Deployment Stack: ${{ inputs.deploymentStackName }}"
+        echo ""
+        
+        az deployment sub what-if \
+          --template-file "${{ inputs.bicepFile }}" \
+          --location "${{ inputs.location }}" \
+          --parameters resourceGroupName="${{ inputs.resourceGroupName }}" \
+                      location="${{ inputs.location }}" \
+                      storageAccountName="${{ inputs.storageAccountName }}" \
+                      containerRegistryName="${{ inputs.containerRegistryName }}" \
+          --output table
+
+  deploy:
+    name: Deploy Infrastructure
+    runs-on: ubuntu-latest
+    environment: prd
+    needs: plan
+    if: ${{ always() && (inputs.workflowMode == 'plan-and-deploy' || inputs.workflowMode == 'deploy-only') }}
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+    
+    - name: Setup Azure CLI
+      run: |
+        echo "Installing Bicep extension..."
+        az bicep install
+        az bicep version
+
+    - name: Azure Login (OIDC)
+      uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    - name: Deploy Infrastructure
+      if: ${{ inputs.stackAction == 'deploy' }}
+      shell: bash
+      run: |
+        echo "=== Deploying Infrastructure Using Deployment Stacks ==="
+        echo "Stack Name: ${{ inputs.deploymentStackName }}"
+        echo "Resource Group: ${{ inputs.resourceGroupName }}"
+        echo "Location: ${{ inputs.location }}"
+        echo ""
+        
+        # Create or update deployment stack
+        az stack sub create \
+          --name "${{ inputs.deploymentStackName }}" \
+          --location "${{ inputs.location }}" \
+          --template-file "${{ inputs.bicepFile }}" \
+          --parameters resourceGroupName="${{ inputs.resourceGroupName }}" \
+                      location="${{ inputs.location }}" \
+                      storageAccountName="${{ inputs.storageAccountName }}" \
+                      containerRegistryName="${{ inputs.containerRegistryName }}" \
+          --deny-settings-mode none \
+          --action-on-unmanage deleteResources \
+          --output table
+
+    - name: Rollback Infrastructure
+      if: ${{ inputs.stackAction == 'rollback' }}
+      shell: bash
+      run: |
+        echo "=== Rolling Back Infrastructure Using Deployment Stacks ==="
+        echo "Stack Name: ${{ inputs.deploymentStackName }}"
+        echo ""
+        
+        # Check if stack exists before attempting rollback
+        if az stack sub show --name "${{ inputs.deploymentStackName }}" --output none 2>/dev/null; then
+          echo "Rolling back deployment stack..."
+          az stack sub delete \
+            --name "${{ inputs.deploymentStackName }}" \
+            --action-on-unmanage deleteAll \
+            --yes \
+            --output table
+          echo "✓ Rollback completed successfully"
+        else
+          echo "⚠️  Deployment stack '${{ inputs.deploymentStackName }}' not found. Nothing to rollback."
+        fi
+
+    - name: Display Deployment Results
+      if: ${{ inputs.stackAction == 'deploy' }}
+      shell: bash
+      run: |
+        echo "=== Deployment Results ==="
+        echo ""
+        echo "Deployment stack details:"
+        az stack sub show \
+          --name "${{ inputs.deploymentStackName }}" \
+          --output table
+        
+        echo ""
+        echo "Resource group contents:"
+        az resource list \
+          --resource-group "${{ inputs.resourceGroupName }}" \
+          --output table
