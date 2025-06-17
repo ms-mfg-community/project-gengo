@@ -303,7 +303,8 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 ### 1.12.5 Cleanup Procedures
 
 1. (Optional for resources cleanup) Remove the resources created by the Bicep deployment, you can use the Azure CLI command `az group delete --name $resourceGroupName --yes --no-wait` to delete the resource group and all its resources.
-2. (Optional for files and folders cleanup) Remove the files and folders created in the `$(git rev-parse --show-toplevel)/gitops/workspace` directory, including the `infra` folder. You can use the PowerShell command `Remove-Item -Path $(git rev-parse --show-toplevel)/gitops/workspace -Recurse -Force` to delete the entire workspace directory. IMPORTANT: Do not remove any other existing files or folders than what was specified above in **section 1.12.4, step 1**.
+2. (Optional for files and folders cleanup) Remove the files and folders created in the `$(git rev-parse --show-toplevel)/gitops/workspace` directory, including the `infra` folder. You can use the PowerShell command `Remove-Item -Path $(git rev-parse --show-toplevel)/gitops/workspace/infra -Recurse -Force` to delete the entire workspace directory. Then delete the `Remove-Item -Path $(git rev-parse --show-toplevel)/gitops/workspace/infra` folder afterwards.
+3. (Optional for workflow cleanup) Finally, remove the `gaw-iac-azure-deployment.yml` workflow file from the `.github/workflows` directory to reset this exercise.
 
 ## 1.13 Key Takeaways
 
