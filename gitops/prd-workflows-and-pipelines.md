@@ -174,6 +174,7 @@ Manual steps are error-prone, do not scale for modern DevOps practices, and lack
    - `AZURE_TENANT_ID`: The Tenant ID from the Azure app registration.
    - `AZURE_CLIENT_SECRET`: The Client Secret from the Azure app registration.
 
+
 ### 1.12.2 Basic Workflow Setup
 
 1. Ensure the repository has a `.github/workflows` directory.
@@ -191,43 +192,15 @@ Manual steps are error-prone, do not scale for modern DevOps practices, and lack
 13. The workflow downloads the previously uploaded artifact and displays its contents using PowerShell.
 14. Copy the `01-level-workflow.yml` file to a new file named `01-level-pipeline.yml` in the directory `$(git rev-parse --show-toplevel)/.azureworkspace`.
 15. Convert the new `01-level-pipeline.yml` file to an Azure DevOps pipeline format by replacing GitHub Actions syntax with Azure DevOps YAML syntax.
-16. Manually copy and past the contents of the `01-level-pipeline.yml` file into a new Azure DevOps pipeline for the project in the Azure DevOps organization and project at: [ado-project](https://dev.azure.com/autocloudarc-mcaps/ado-pipeline-demos).
+16. Manually copy and past the contents of the `01-level-pipeline.yml` file into a new Azure DevOps pipeline for the project in the Azure DevOps organization and project at:
+    [ado-project](https://dev.azure.com/autocloudarc-mcaps/ado-pipeline-demos).
 17. Manually run the Azure DevOps pipeline to verify it works as expected.
 18. (Cleanup pipeline) Remove the `01-level-pipeline.yml` file from the repository root level `.azure-pipelines` directory to reset this exercise.
 19. (Cleanup workflow) Remove the `01-level-workflow.yml` file from the `.github/workflows` directory to reset this exercise.
 
 ### 1.12.3 Azure Deployment Workflow
 
-1. Ensure the repository has a `.github/workflows` directory.
-2. Create a new GitHub Actions workflow file in the `.github/workflows` directory.
-3. Name the workflow file `gaw-iac-azure-deployment.yml` and name the workflow `gaw-iac-azure-deployment`.
-4. Use a manual trigger for the workflow using the `workflow_dispatch` event.
-5. The workflow runs on an Ubuntu GitHub-hosted runner.
-6. In the parameters section, define the following parameters:
-   - `resourceGroupName`: The name of the Azure resource group to deploy as `gaw-iac-azure-deployment`.
-   - `location`: The Azure region for the resource group, e.g., `eastus2`.
-   - `randomResourceSuffix`: A random suffix for resource names, e.g., (New-Guid).ToString().Substring(0,8).
-   - `storageAccountName`: The name of the Azure storage account to create using the powershell command for the name as '1sta' + randomResourceSuffix.
-   - `containerRegistryName`: The name of the Azure container registry to create as 'acr' + randomResourceSuffix.
-   - `bicepFile`: The path to the Bicep file for the deployment.
-   - `bicepParametersFile`: The path to the Bicep parameters file.
-   - `workflowMode`: The mode of the workflow (`plan-only`, `plan-and-deploy`, `deploy-only`).
-   - `stackAction`: The action to perform on the deployment stack (`deploy`, `rollback`).
-   - `deploymentStackName`: The name of the deployment stack to use.
-
-7. Configure the workflow with two jobs 'plan' and 'deploy'.
-8. In the first job - 'plan', associate it with the `dev` environment and authenticate Azure using OIDC.
-9. The first action will be to check out the repository code.
-10. Then next action will be to set up Azure CLI with the Bicep extension.
-11. After the bicep extension is set up, the workflow authenticates to Azure using the OIDC token and the Azure CLI.
-12. The workflow uses the what-if parameter to display a plan for deploying Azure resource group, storage account and a container registry using the Azure CLI with a bicep configuration.
-13. The next job 'deploy' is associated with the `prd` environment and deploys the Azure resources using the Azure CLI with the bicep configuration using deployment stacks feature and includes a rollback option as a separate action.
-14. The same action sequences for repository checkout and authentication to Azure are used in the 'deploy' job as well.
-
-### 1.12.4 Bicep Configuration
-
 1. In the repository path `$(git rev-parse --show-toplevel)/gitops/workspace`, create the following directory and file structure using PowerShell:
-
    NOTE: Only create the directory structure exactly as it appears below. If it does not already exist. If the files already exist, do not overwrite them.
 
    ```powershell
@@ -238,50 +211,83 @@ Manual steps are error-prone, do not scale for modern DevOps practices, and lack
        \---modules
                acr.bicep
                sta.bicep
+       \---scripts
+           |   setup-github-secrets.ps1
+           |   validate-bicep.ps1
    ```
 
-2. Run: `$randomResourceSuffix = (New-Guid).ToString().Substring(0,8)` to generate a random resource suffix for resource names.
+2. The powershell script with the name `setup-github-secrets.ps1` in step 1 above:
+   - Will be used to set up the required GitHub secrets and variables for the Azure deployment workflow.
+   - Will use the `gh` CLI command to set the secrets and variables interactively.
+3. Add the following GitHub Actions workflow secrets to the repository using the gh CLI command using a powershell script named `setup-github-secrets.ps1`. I will authenticate interactivly when prompted.
+   - `AZURE_SUBSCRIPTION_ID`: The Azure subscription ID where resources will be deployed.
+   - `AZURE_CLIENT_ID`: The Client ID from the Azure app registration.
+   - `AZURE_TENANT_ID`: The Tenant ID from the Azure app registration.
+4. Run: `$randomResourceSuffix = (New-Guid).ToString().Substring(0,8)` to generate a random resource suffix for resource names.
+5. Add the following GitHub Actions variables to the `setup-github-secrets.ps1` script:
+   - `resourceGroupName`: Set to `gaw-iac-azure-deployment`.
+   - `location`: Set to `eastus2`.
+   - `randomResourceSuffix`: The value generated using the PowerShell command in step 2.
+   - `storageAccountName`: Set to `1sta-$(randomResourceSuffix)`.
+   - `containerRegistryName`: Set to `acr-$(randomResourceSuffix)`.
+6. Ensure the repository has a `.github/workflows` directory.
+7. Create a new GitHub Actions workflow file in the `.github/workflows` directory.
+8. Name the workflow file `gaw-iac-azure-deployment.yml` and name the workflow `gaw-iac-azure-deployment`.
+9. Use a manual trigger event for the workflow.
+10. Assign an Ubuntu GitHub-hosted runner for the workflow.
 
-3. Add the code in main.bicep to perform a subscription scoped deployment of the Azure resource group with the name `gaw-iac-azure-deployment` in the `eastus2` region.
+#### 1.12.3.1 Workflow Inputs
+
+1. In the `gaw-iac-azure-deployment.yml` workflow file, define the inputs for the workflow using the `workflow_dispatch` event.
+2. The inputs will be used to configure the Azure deployment parameters dynamically.
+3. In the workflow_dispatch section, define the following inputs:
+
+- `resourceGroupName`: The name of the Azure resource group to deploy as `gaw-iac-azure-deployment`.
+- `location`: The Azure region for the resource group, e.g., `vars.location`.
+- `randomResourceSuffix`: The value generated using the PowerShell command in step 2.
+- `storageAccountName`: The name of the Azure storage account to create using the PowerShell command for the name as '1sta' + $randomResourceSuffix. `vars.storageAccountName`.
+- `containerRegistryName`: The name of the Azure container registry to create as 'acr' + $randomResourceSuffix. `vars.containerRegistryName`.
+- `bicepFile`: The path to the Bicep file for the deployment, specified as `gitops/workspace/infra/main.bicep`.
+- `bicepParametersFile`: The path to the Bicep parameters file as `gitops/workspace/infra/main.bicepparam`.
+- `workflowMode`: The mode of the workflow with allowed values of (`plan-only`, `plan-and-deploy`, `deploy-only`). Use `plan-only` as the default value.
+- `stackAction`: The action to perform on the deployment stack (`deploy`, `rollback`) with a default value of `deploy`.
+- `deploymentStackName`: The name of the deployment stack to use which will be set to the name of this workflow.
+
+#### 1.12.3.2 Jobs
+
+1. In the `gaw-iac-azure-deployment.yml` workflow file, define two jobs: `plan` and `deploy`.
+2. The `plan` job will be associated with the `dev` environment and will perform the planning phase of the deployment.
+3. The `deploy` job will be associated with the `prd` environment and will perform the actual deployment of the Azure resources.
+4. In the first job - `plan`, associate it with the `dev` environment and authenticate Azure using OIDC.
+5. The first action will be to check out the repository code.
+6. Then next action will be to set up Azure CLI with the Bicep extension.
+7. After the bicep extension is set up, the workflow authenticates to Azure using the OIDC token and the Azure CLI.
+8. The workflow Azure CLI bicep deployment command will use the what-if parameter to display a plan for deploying Azure resource group, storage account and a container registry using the Azure CLI with a bicep configuration.
+9. Reference any required parameters from the workflow inputs defined in step 8, such as `resourceGroupName`, `location`, `storageAccountName`, `containerRegistryName`, `bicepFile`, `bicepParametersFile`, `workflowMode`, and `deploymentStackName`.
+10. The next job `deploy` will be associated with the `prd` environment and deploys the Azure resources using the Azure CLI with the bicep configuration using deployment stacks feature and includes a rollback option as a separate action.
+11. Continue to reference the same inputs defined for this workflow as in the `plan` job as required.
+12. The same action sequences for repository checkout and authentication to Azure are used in the `deploy` job as well.
+
+### 1.12.4 Bicep Configuration
+
+1. In the repository path `$(git rev-parse --show-toplevel)/gitops/workspace`, create the following directory and file structure using PowerShell:
+   NOTE: Only create the directory structure exactly as it appears in **section 1.12.3, step 1**. If it does not already exist. If the files already exist, do not overwrite them.
+
+2. Add the code in `main.bicep` to perform a subscription scoped deployment of the Azure resource group with the name `gaw-iac-azure-deployment` in the `eastus2` region.
    - The resource group should include the `Microsoft.Storage/storageAccounts` and `Microsoft.ContainerRegistry/registries` resources.
    - Use the `sta.bicep` module for the storage account and the `acr.bicep` module for the container registry.
    - Ensure that the storage account is named `1sta-$(randomResourceSuffix)` and the container registry is named `acr-$(randomResourceSuffix)`.
+3. Add the code in `main.bicep` to deploy a storage account named `1sta-$(randomResourceSuffix)` with the `sta.bicep` module, and the container registry named `acr-$(randomResourceSuffix)` using the `acr.bicep` module. The code should include parameters for resource names, locations, and other configurations.
+4. Add the code in `main.bicepparam` to define parameters for the Bicep deployment, including resource group name, location, storage account name, and container registry name.
+5. If the workflowMode is either `plan-only` or `plan-and-deploy`, add the azure cli code for the deployment in the plan job and use the `--what-if` parameter to display a plan for deploying the Azure resources.
+6. Use the file and folder structure provided above in **section 1.12.3, step 1**, at the path `$(git rev-parse --show-toplevel)/gitops/workspace` to organize the Bicep files and parameters:
+7. For the deploy job, if the stackAction is `deploy` deploy the resources using the Bicep files and parameters defined in the previous steps. Ensure that the deployment stack name uses the value: `deploymentStackName`.
+8. If the stackAction is `rollback`, rollback the deployment stack using the `deploymentStackName` parameter.
 
-4. Add the code in main.bicep to deploy a storage account named `1sta-$(randomResourceSuffix)` with the `sta.bicep` module, and the container registry named `acr-$(randomResourceSuffix)` using the `acr.bicep` module. The code should include parameters for resource names, locations, and other configurations.
+### 1.12.5 Cleanup Procedures
 
-5. Add the code in main.bicepparam to define parameters for the Bicep deployment, including resource group name, location, storage account name, and container registry name.
-
-6. If the workflowMode is either `plan-only` or `plan-and-deploy`, add the azure cli code for the deployment in the plan job and use the `--what-if` parameter to display a plan for deploying the Azure resources.
-
-7. Use the file and folder structure below at the path `$(git rev-parse --show-toplevel)/gitops/workspace` to organize the Bicep files and parameters:
-
-   ```powershell
-   \---infra
-       |   main.bicep
-       |   main.bicepparam
-       |
-       \---modules
-               acr.bicep
-               sta.bicep
-   ```
-
-8. For the deploy job, if the stackAction is `deploy` use the Azure CLI command `az deployment stack create` to deploy the resources using the Bicep files and parameters defined in the previous steps. Ensure that the deployment stack name uses the value: `deploymentStackName`.
-
-9. If the stackAction is `rollback`, rollback the deployment stack using the `deploymentStackName` parameter.
-
-10. (Optional for resources cleanup) Remove the resources created by the Bicep deployment, you can use the Azure CLI command `az group delete --name rg-$(randomResourceSuffix) --yes --no-wait` to delete the resource group and all its resources.
-
-11. (Optional for files and folders cleanup) Remove the files and folders created in the `$(git rev-parse --show-toplevel)/gitops/workspace` directory, including the `infra` folder. You can use the PowerShell command `Remove-Item -Path $(git rev-parse --show-toplevel)/gitops/workspace -Recurse -Force` to delete the entire workspace directory. IMPORTANT: Do not remove any other existing files or folders than these below:
-
-   ```powershell
-   \---infra
-       |   main.bicep
-       |   main.bicepparam
-       |
-       \---modules
-               acr.bicep
-               sta.bicep
-   ```
+1. (Optional for resources cleanup) Remove the resources created by the Bicep deployment, you can use the Azure CLI command `az group delete --name $resourceGroupName --yes --no-wait` to delete the resource group and all its resources.
+2. (Optional for files and folders cleanup) Remove the files and folders created in the `$(git rev-parse --show-toplevel)/gitops/workspace` directory, including the `infra` folder. You can use the PowerShell command `Remove-Item -Path $(git rev-parse --show-toplevel)/gitops/workspace -Recurse -Force` to delete the entire workspace directory. IMPORTANT: Do not remove any other existing files or folders than what was specified above in **section 1.12.4, step 1**.
 
 ## 1.13 Key Takeaways
 

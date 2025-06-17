@@ -1,14 +1,11 @@
 using 'main.bicep'
 
-// Resource group parameters
-param resourceGroupName = 'rg-f7b3cc7e'
+param resourceGroupName = 'gaw-iac-azure-deployment'
 param location = 'eastus2'
+param storageAccountName = '1staplaceholder'
+param containerRegistryName = 'acrplaceholder'
+param storageAccountSku = 'Standard_LRS'
+param containerRegistrySku = 'Basic'
 
-// Storage account parameters
-param storageAccountName = '1sta'
-
-// Container registry parameters
-param containerRegistryName = 'acr'
-
-// Random suffix for resources
-param randomResourceSuffix = 'f7b3cc7e'
+// Note: storageAccountName and containerRegistryName will be overridden at deployment time 
+// via GitHub Actions variables with the format '1sta${randomResourceSuffix}' and 'acr${randomResourceSuffix}'

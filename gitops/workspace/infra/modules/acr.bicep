@@ -1,56 +1,86 @@
 @description('The name of the container registry')
 param containerRegistryName string
 
-@description('The location for the container registry')
+@description('The location/region where the container registry should be created')
 param location string = resourceGroup().location
 
-@description('Random suffix for resource names')
-param randomResourceSuffix string
-
-@description('Container registry SKU')
+@description('Tier of your Azure Container Registry')
+@allowed([
+  'Basic'
+  'Standard'
+  'Premium'
+])
 param skuName string = 'Basic'
 
 @description('Enable admin user for the registry')
-param adminUserEnabled bool = true
+param adminUserEnabled bool = false
 
-// Container registry resource
+@description('Whether to allow public network access')
+@allowed([
+  'Enabled'
+  'Disabled'
+])
+param publicNetworkAccess string = 'Enabled'
+
+@description('Whether to allow trusted Microsoft services to access the registry')
+param networkRuleBypassOptions string = 'AzureServices'
+
+@description('Tags to apply to the container registry')
+param tags object = {}
+
+// Container Registry Resource
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2023-11-01-preview' = {
-  name: '${containerRegistryName}${randomResourceSuffix}'
+  name: containerRegistryName
   location: location
+  tags: tags
   sku: {
     name: skuName
   }
   properties: {
     adminUserEnabled: adminUserEnabled
-    publicNetworkAccess: 'Enabled'
-    zoneRedundancy: 'Disabled'
     policies: {
       quarantinePolicy: {
-        status: 'Disabled'
+        status: 'disabled'
       }
       trustPolicy: {
         type: 'Notary'
-        status: 'Disabled'
+        status: 'disabled'
       }
       retentionPolicy: {
         days: 7
-        status: 'Disabled'
+        status: 'disabled'
+      }
+      exportPolicy: {
+        status: 'enabled'
+      }
+      azureADAuthenticationAsArmPolicy: {
+        status: 'enabled'
+      }
+      softDeletePolicy: {
+        retentionDays: 7
+        status: 'disabled'
       }
     }
     encryption: {
-      status: 'Disabled'
+      status: 'disabled'
     }
     dataEndpointEnabled: false
-    networkRuleBypassOptions: 'AzureServices'
-  }
-  tags: {
-    Environment: 'Development'
-    Project: 'GitOps-Workflows'
-    CreatedBy: 'Bicep'
+    publicNetworkAccess: publicNetworkAccess
+    networkRuleBypassOptions: networkRuleBypassOptions
+    zoneRedundancy: 'Disabled'
+    anonymousPullEnabled: false
   }
 }
 
 // Outputs
-output containerRegistryName string = containerRegistry.name
+@description('The resource ID of the container registry')
 output containerRegistryId string = containerRegistry.id
+
+@description('The name of the container registry')
+output containerRegistryName string = containerRegistry.name
+
+@description('The login server of the container registry')
 output loginServer string = containerRegistry.properties.loginServer
+
+@description('The location of the container registry')
+output location string = containerRegistry.location
