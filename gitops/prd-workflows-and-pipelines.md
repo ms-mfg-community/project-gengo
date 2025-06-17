@@ -164,11 +164,11 @@ Manual steps are error-prone, do not scale for modern DevOps practices, and lack
    - **Client ID**
    - **Tenant ID**
    - **Client Secret**
-4. Configure the Azure app registration with federated credentials for GitHub Actions as the identity provider:
+4. Configure the Azure app registration with two federated credentials for GitHub Actions as the identity provider (`id39-dev` and `id39-prd`):
    - For the GitHub organization use: `ms-mfg-community`.
    - Specify the repository name as `project-gengo`.
    - Set the audience to `api://AzureADTokenExchange`.
-   - Use the `branch` for the entity type based on selection `main`.
+   - Use the `environment` for the entity type based on selection `dev`|`prd`.
 5. Add the following secrets to the repository:
    - `AZURE_CLIENT_ID`: The Client ID from the Azure app registration.
    - `AZURE_TENANT_ID`: The Tenant ID from the Azure app registration.
