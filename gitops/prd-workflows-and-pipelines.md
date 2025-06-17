@@ -173,7 +173,9 @@ Manual steps are error-prone, do not scale for modern DevOps practices, and lack
    - `AZURE_CLIENT_ID`: The Client ID from the Azure app registration.
    - `AZURE_TENANT_ID`: The Tenant ID from the Azure app registration.
    - `AZURE_CLIENT_SECRET`: The Client Secret from the Azure app registration.
-
+6. At the end of the GitHub Copilot summary, add a next step recommendation to manually update these secret values.
+7. Also remind the user as a next step to set permissions for the Azure app registration to the deployment scope of the Azure subscription where resources will be deployed, (i.e.) az role assignment create --assignee-object-id `object-id` --assignee-principal-type ServicePrincipal --role Contributor --scope /subscriptions/`subscription-id` --verbose
+8. Finally, add as a next step that the following error may be encountered during deployment: "ERROR: the following arguments are required: --action-on-unmanage/--aou. Use this as a demonstration opportunity for creating and assigning an issue to github copilot to fix the issue in the workflow file using a pull request."
 
 ### 1.12.2 Basic Workflow Setup
 
