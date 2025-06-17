@@ -152,6 +152,7 @@ jobs:
                       storageAccountName="${{ inputs.storageAccountName }}" \
                       containerRegistryName="${{ inputs.containerRegistryName }}" \
           --deny-settings-mode none \
+          --action-on-unmanage deleteResources \
           --output table
 
     - name: Rollback Infrastructure
@@ -167,8 +168,7 @@ jobs:
           echo "Rolling back deployment stack..."
           az stack sub delete \
             --name "${{ inputs.deploymentStackName }}" \
-            --delete-resources \
-            --delete-resource-groups \
+            --action-on-unmanage deleteAll \
             --yes \
             --output table
           echo "✓ Rollback completed successfully"
