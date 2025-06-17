@@ -152,6 +152,7 @@ jobs:
                       storageAccountName="${{ inputs.storageAccountName }}" \
                       containerRegistryName="${{ inputs.containerRegistryName }}" \
           --deny-settings-mode none \
+          --action-on-unmanage deleteResources \
           --output table
 
     - name: Rollback Infrastructure
