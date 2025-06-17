@@ -242,7 +242,7 @@ Manual steps are error-prone, do not scale for modern DevOps practices, and lack
 
 2. Run: `$randomResourceSuffix = (New-Guid).ToString().Substring(0,8)` to generate a random resource suffix for resource names.
 
-3. Add the code in main.bicep to perform a subscription scoped deployment of the Azure resource group with the name `rg-$(randomResourceSuffix)` in the `eastus2` region.
+3. Add the code in main.bicep to perform a subscription scoped deployment of the Azure resource group with the name `gaw-iac-azure-deployment` in the `eastus2` region.
    - The resource group should include the `Microsoft.Storage/storageAccounts` and `Microsoft.ContainerRegistry/registries` resources.
    - Use the `sta.bicep` module for the storage account and the `acr.bicep` module for the container registry.
    - Ensure that the storage account is named `1sta-$(randomResourceSuffix)` and the container registry is named `acr-$(randomResourceSuffix)`.
@@ -251,7 +251,7 @@ Manual steps are error-prone, do not scale for modern DevOps practices, and lack
 
 5. Add the code in main.bicepparam to define parameters for the Bicep deployment, including resource group name, location, storage account name, and container registry name.
 
-6. When performing the deployment, use the `--what-if` parameter to display a plan for deploying the Azure resources.
+6. If the workflowMode is either `plan-only` or `plan-and-deploy`, add the azure cli code for the deployment in the plan job and use the `--what-if` parameter to display a plan for deploying the Azure resources.
 
 7. Use the file and folder structure below at the path `$(git rev-parse --show-toplevel)/gitops/workspace` to organize the Bicep files and parameters:
 
@@ -265,9 +265,13 @@ Manual steps are error-prone, do not scale for modern DevOps practices, and lack
                sta.bicep
    ```
 
-8. (Optional for resources cleanup) Remove the resources created by the Bicep deployment, you can use the Azure CLI command `az group delete --name rg-$(randomResourceSuffix) --yes --no-wait` to delete the resource group and all its resources.
+8. For the deploy job, if the stackAction is `deploy` use the Azure CLI command `az deployment stack create` to deploy the resources using the Bicep files and parameters defined in the previous steps. Ensure that the deployment stack name uses the value: `deploymentStackName`.
 
-9. (Optional for files and folders cleanup) Remove the files and folders created in the `$(git rev-parse --show-toplevel)/gitops/workspace` directory, including the `infra` folder. You can use the PowerShell command `Remove-Item -Path $(git rev-parse --show-toplevel)/gitops/workspace -Recurse -Force` to delete the entire workspace directory. IMPORTANT: Do not remove any other existing files or folders than these below:
+9. If the stackAction is `rollback`, rollback the deployment stack using the `deploymentStackName` parameter.
+
+10. (Optional for resources cleanup) Remove the resources created by the Bicep deployment, you can use the Azure CLI command `az group delete --name rg-$(randomResourceSuffix) --yes --no-wait` to delete the resource group and all its resources.
+
+11. (Optional for files and folders cleanup) Remove the files and folders created in the `$(git rev-parse --show-toplevel)/gitops/workspace` directory, including the `infra` folder. You can use the PowerShell command `Remove-Item -Path $(git rev-parse --show-toplevel)/gitops/workspace -Recurse -Force` to delete the entire workspace directory. IMPORTANT: Do not remove any other existing files or folders than these below:
 
    ```powershell
    \---infra
