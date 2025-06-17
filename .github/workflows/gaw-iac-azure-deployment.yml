@@ -6,27 +6,27 @@ on:
       resourceGroupName:
         description: 'The name of the Azure resource group to deploy'
         required: true
-        default: '${{ vars.RESOURCE_GROUP_NAME }}'
+        default: 'gaw-iac-azure-deployment'
         type: string
       location:
         description: 'The Azure region for the resource group'
         required: true
-        default: '${{ vars.LOCATION }}'
+        default: 'eastus2'
         type: string
       randomResourceSuffix:
         description: 'Random suffix for resource names'
         required: true
-        default: '${{ vars.RANDOM_RESOURCE_SUFFIX }}'
+        default: 'dd4aca64'
         type: string
       storageAccountName:
         description: 'The name of the Azure storage account'
         required: true
-        default: '${{ vars.STORAGE_ACCOUNT_NAME }}'
+        default: '1stadd4aca64'
         type: string
       containerRegistryName:
         description: 'The name of the Azure container registry'
         required: true
-        default: '${{ vars.CONTAINER_REGISTRY_NAME }}'
+        default: 'acrdd4aca64'
         type: string
       bicepFile:
         description: 'Path to the Bicep file'
