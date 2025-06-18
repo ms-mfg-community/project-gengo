@@ -135,8 +135,176 @@ This format provides clear context and can be easily parsed by tools. The Topic 
 ### Python
 
 - Follow the PEP 8 style guide.
-- Use virtual environments to manage dependencies.
+- **Always use virtual environments to manage dependencies** - this is mandatory for all Python projects.
 - Include comprehensive docstrings for functions and classes.
+
+#### Virtual Environment Management with venv
+
+**Preference:** Use Python's built-in `venv` module for creating and managing virtual environments. This is the preferred approach over alternatives like `virtualenv`, `conda`, or `pipenv` unless specifically required by the project.
+
+**Setup and Best Practices:**
+
+1. **Create a virtual environment:**
+   ```bash
+   # Create virtual environment in project root
+   python -m venv dev
+   
+   # Alternative naming for specific Python versions
+   python3.11 -m venv dev-3.11
+   ```
+
+2. **Activate the virtual environment:**
+   ```bash
+   # Windows (PowerShell/Command Prompt)
+   dev\Scripts\activate
+
+   # Windows (Git Bash)
+   source venv/Scripts/activate
+   
+   # macOS/Linux
+   source venv/bin/activate
+   ```
+
+3. **Verify activation:**
+   ```bash
+   # Check that pip points to virtual environment
+   which pip  # macOS/Linux
+   where pip  # Windows
+   
+   # Should show path containing your venv directory
+   pip --version
+   ```
+
+4. **Install dependencies:**
+   ```bash
+   # Upgrade pip first
+   python -m pip install --upgrade pip
+   
+   # Install from requirements file
+   pip install -r requirements.txt
+   
+   # Install development dependencies
+   pip install -r requirements-dev.txt
+   ```
+
+5. **Generate requirements files:**
+   ```bash
+   # Generate requirements.txt
+   pip freeze > requirements.txt
+   
+   # Better approach: use pipreqs for project-specific dependencies
+   pip install pipreqs
+   pipreqs . --force
+   ```
+
+6. **Deactivate when done:**
+   ```bash
+   deactivate
+   ```
+
+**Directory Structure:**
+```
+project-root/
+├── venv/                    # Virtual environment (add to .gitignore)
+├── src/                     # Source code
+├── tests/                   # Test files
+├── requirements.txt         # Production dependencies
+├── requirements-dev.txt     # Development dependencies (optional)
+├── .gitignore              # Include venv/ entry
+├── .env                    # Environment variables (add to .gitignore)
+└── README.md               # Include venv setup instructions
+```
+
+**Requirements Files Best Practices:**
+
+- **requirements.txt**: Production dependencies only, pinned versions
+  ```
+  requests==2.31.0
+  flask==2.3.3
+  python-dotenv==1.0.0
+  ```
+
+- **requirements-dev.txt**: Development dependencies, can include requirements.txt
+  ```
+  -r requirements.txt
+  pytest==7.4.2
+  black==23.7.0
+  flake8==6.0.0
+  mypy==1.5.1
+  ```
+
+**VS Code Integration:**
+
+1. **Select Python interpreter:**
+   - Press `Ctrl+Shift+P`
+   - Type "Python: Select Interpreter"
+   - Choose the interpreter from your venv folder
+
+2. **Workspace settings (.vscode/settings.json):**
+   ```json
+   {
+     "python.pythonPath": "./venv/Scripts/python.exe",
+     "python.terminal.activateEnvironment": true,
+     "python.linting.enabled": true,
+     "python.linting.pylintEnabled": true,
+     "python.formatting.provider": "black"
+   }
+   ```
+
+**Git Integration (.gitignore entries):**
+```gitignore
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/settings.json  # If containing sensitive info
+.idea/
+```
+
+**Common Commands Reference:**
+```bash
+# Quick setup for new project
+python -m venv dev
+dev\Scripts\activate  # Windows
+source dev/bin/activate  # macOS/Linux
+python -m pip install --upgrade pip
+
+# Package management
+pip list                          # List installed packages
+pip show package_name            # Show package details
+pip install package_name==1.0.0  # Install specific version
+pip uninstall package_name       # Uninstall package
+
+# Requirements management
+pip freeze > requirements.txt     # Save current state
+pip install -r requirements.txt   # Install from requirements
+pip list --outdated              # Check for updates
+```
+
+**Troubleshooting:**
+
+- **Permission errors**: Use `python -m pip` instead of `pip` directly
+- **Path issues**: Ensure virtual environment is activated before installing packages
+- **Module not found**: Verify correct interpreter is selected in VS Code
+- **Stale cache**: Use `pip install --no-cache-dir package_name`
+
+**Environment Variables:**
+- Use `.env` files with `python-dotenv` for environment-specific configuration
+- Never commit `.env` files to version control
+- Provide `.env.example` with placeholder values
+- Store sensitive information (API keys, passwords) in environment variables
 
 ### Java
 
