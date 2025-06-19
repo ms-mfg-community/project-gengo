@@ -16,7 +16,7 @@
         "env": {
           "AZURE_DEVOPS_ORG_URL": "https://dev.azure.com/autocloudarc-mcaps",
           "AZURE_DEVOPS_AUTH_METHOD": "pat",
-          "AZURE_DEVOPS_PAT": "AKxIHOgbnVSAY8htGRn7lbSp1LqysmNDwdBAbOmyzhTzuAu8ENIXJQQJ99BFACAAAAAlPKxMAAASAZDO14Gk",
+          "AZURE_DEVOPS_PAT": "1F9rmFSneJx5r3ixFoRCjduXlJkZMoOzjqYiYHnLv3Mw11w7gpPuJQQJ99BFACAAAAAlPKxMAAASAZDO3zUD",
           "AZURE_DEVOPS_DEFAULT_PROJECT": "ado-pipeline-demos"
         }
       }

@@ -1,0 +1,177 @@
+name: 01-level-workflow
+
+# Trigger the workflow manually from the main branch using workflow_dispatch
+on:
+  workflow_dispatch:
+
+# Set permissions for the workflow
+permissions:
+  contents: read
+
+jobs:
+  # First job: List repository contents and create artifacts
+  list-repository-contents:
+    name: List Repository Contents
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Display the event and branch name
+      - name: Display Event and Branch Information
+        run: |
+          echo "🚀 Workflow Event: ${{ github.event_name }}"
+          echo "🌿 Branch: ${{ github.ref_name }}"
+          echo "📦 Repository: ${{ github.repository }}"
+          echo "👤 Actor: ${{ github.actor }}"
+      
+      # Check out the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      # Create artifacts directory
+      - name: Create Artifacts Directory
+        run: |
+          mkdir -p artifacts
+          echo "📁 Created artifacts directory"
+        # PowerShell script to list repository contents
+      - name: List Repository Contents with PowerShell
+        shell: pwsh
+        run: |
+          Write-Host "🔍 Starting PowerShell directory listing..."
+          
+          # Function to recursively list directory contents
+          function Get-DirectoryContents {
+              param([string]$Path, [string]$OutputFile)
+              
+              $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss UTC"
+              
+              # Write header information
+              "Repository Directory Contents (PowerShell)" | Out-File -FilePath $OutputFile -Encoding UTF8
+              "Generated on: $timestamp" | Out-File -FilePath $OutputFile -Append -Encoding UTF8
+              "Root path: $Path" | Out-File -FilePath $OutputFile -Append -Encoding UTF8
+              "=" * 80 | Out-File -FilePath $OutputFile -Append -Encoding UTF8
+              "" | Out-File -FilePath $OutputFile -Append -Encoding UTF8
+              
+              Get-ChildItem -Path $Path -Recurse -Force | 
+                  Where-Object { $_.FullName -notlike "*/.git/*" -and $_.Name -ne ".git" } |
+                  Sort-Object FullName |
+                  ForEach-Object {
+                      $relativePath = $_.FullName.Replace($Path, "").TrimStart("/", "\")
+                      if ($_.PSIsContainer) {
+                          "[DIR]  $relativePath/" | Out-File -FilePath $OutputFile -Append -Encoding UTF8
+                      } else {
+                          $size = if ($_.Length) { $_.Length } else { 0 }
+                          "[FILE] $relativePath ($size bytes)" | Out-File -FilePath $OutputFile -Append -Encoding UTF8
+                      }
+                  }
+          }
+          
+          # List repository contents and save to artifacts
+          $outputFile = "artifacts/powershell-directory-contents.txt"
+          Get-DirectoryContents -Path $PWD -OutputFile $outputFile
+          
+          Write-Host "✅ PowerShell directory listing completed"
+          Write-Host "📄 Output saved to: $outputFile"
+      
+      # Run Python script to list repository contents
+      - name: List Repository Contents with Python
+        run: |
+          echo "🐍 Running Python directory listing script..."
+          python .github/workflows/src/getDirectoryContents.py
+          echo "✅ Python directory listing completed"
+      
+      # Upload both outputs as build artifacts
+      - name: Upload Directory Contents Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: repository-contents
+          path: artifacts/
+          retention-days: 30
+          if-no-files-found: error
+      
+      # Display artifact information
+      - name: Display Artifact Summary
+        run: |
+          echo "📦 Artifacts created:"
+          ls -la artifacts/
+          echo ""
+          echo "🔢 File sizes:"
+          du -h artifacts/*
+
+  # Second job: Retrieve workflow metadata and download artifacts
+  retrieve-metadata-and-artifacts:
+    name: Retrieve Metadata and Download Artifacts  
+    runs-on: ubuntu-latest
+    needs: list-repository-contents
+    
+    steps:
+      # Display workflow metadata
+      - name: Display Workflow Metadata
+        run: |
+          echo "📊 WORKFLOW METADATA"
+          echo "===================="
+          echo "🌿 Branch: ${{ github.ref_name }}"
+          echo "🔗 Job ID: ${{ github.job }}"
+          echo "🏃 Run ID: ${{ github.run_id }}"
+          echo "🔢 Run Number: ${{ github.run_number }}"
+          echo "🎯 Run Attempt: ${{ github.run_attempt }}"
+          echo "📅 Workflow Run Started: ${{ github.event.repository.updated_at }}"
+          echo "👤 Triggered by: ${{ github.actor }}"
+          echo "📦 Repository: ${{ github.repository }}"
+          echo "🔧 Event: ${{ github.event_name }}"
+          echo "💻 Runner OS: ${{ runner.os }}"
+          echo "🏗️ Runner Architecture: ${{ runner.arch }}"
+      
+      # Create downloads folder if needed
+      - name: Create Downloads Directory
+        run: |
+          mkdir -p downloads
+          echo "📁 Created downloads directory"
+          ls -la
+      
+      # Download the previously uploaded artifact
+      - name: Download Repository Contents Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: repository-contents
+          path: downloads/
+      
+      # Display downloaded artifact contents using PowerShell
+      - name: Display Downloaded Artifact Contents
+        shell: pwsh
+        run: |
+          Write-Host "📥 DOWNLOADED ARTIFACT CONTENTS"
+          Write-Host "==============================="
+          
+          # List files in downloads directory
+          Write-Host "📁 Files in downloads directory:"
+          Get-ChildItem -Path "downloads/" -Recurse | ForEach-Object {
+              $size = if ($_.PSIsContainer) { "[DIR]" } else { "$($_.Length) bytes" }
+              Write-Host "  $($_.Name) - $size"
+          }
+          
+          Write-Host ""
+          Write-Host "📄 PowerShell Output Contents:"
+          Write-Host "------------------------------"
+          if (Test-Path "downloads/powershell-directory-contents.txt") {
+              Get-Content "downloads/powershell-directory-contents.txt" | Select-Object -First 20
+              $lineCount = (Get-Content "downloads/powershell-directory-contents.txt").Count
+              Write-Host "... (showing first 20 lines of $lineCount total lines)"
+          } else {
+              Write-Host "❌ PowerShell output file not found"
+          }
+          
+          Write-Host ""
+          Write-Host "🐍 Python Output Contents:"
+          Write-Host "---------------------------"
+          if (Test-Path "downloads/python-directory-contents.txt") {
+              Get-Content "downloads/python-directory-contents.txt" | Select-Object -First 20  
+              $lineCount = (Get-Content "downloads/python-directory-contents.txt").Count
+              Write-Host "... (showing first 20 lines of $lineCount total lines)"
+          } else {
+              Write-Host "❌ Python output file not found"
+          }
+          
+          Write-Host ""
+          Write-Host "✅ Artifact download and display completed successfully!"
