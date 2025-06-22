@@ -206,13 +206,15 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 11. A new job retrieves workflow metadata (branch, job ID) and displays it.
 12. The workflow creates a downloads folder if needed.
 13. The workflow downloads the previously uploaded artifact and displays its contents using PowerShell.
-14. Copy the `01-level-workflow.yml` file to a new file named `01-level-pipeline.yml` in the directory `$(git rev-parse --show-toplevel)/.azureworkspace`.
+14. Copy the `01-level-workflow.yml` file to a new file named `01-level-pipeline.yml` in the directory `$(git rev-parse --show-toplevel)/.azure-pipelines`.
 15. Convert the new `01-level-pipeline.yml` file to an Azure DevOps pipeline format by replacing GitHub Actions syntax with Azure DevOps YAML syntax.
-16. Manually copy and past the contents of the `01-level-pipeline.yml` file into a new Azure DevOps pipeline for the project in the Azure DevOps organization and project at:
-    [ado-project](https://dev.azure.com/autocloudarc-mcaps/ado-pipeline-demos).
-17. Manually run the Azure DevOps pipeline to verify it works as expected.
-18. (Cleanup pipeline) Remove the `01-level-pipeline.yml` file from the repository root level `.azure-pipelines` directory to reset this exercise.
-19. (Cleanup workflow) Remove the `01-level-workflow.yml` file from the `.github/workflows` directory to reset this exercise.
+16. Do not include the `$(Build.StartTime)` in any of the output for this pipeline since this information will already be set in the Azure DevOps Pipeline UI anyway.
+17. Manually import the GitHub repository: `https://github.com/ms-mfg-community/project-gengo.git` into the ADO project: `ado-pipeline-demos` using the ADO repository name of `project-gengo-ci` and select the `01-level-pipeline.yml` file into a new Azure DevOps pipeline, also named `project-gengo-ci` for the project.
+18. Manually run the Azure DevOps pipeline to verify it works as expected.
+19. (Cleanup pipeline) Remove the `01-level-pipeline.yml` file from the repository root level `$(git rev-parse --show-toplevel)/.azure-pipelines` directory to reset this exercise.
+20. (Cleanup workflow) Remove the `01-level-workflow.yml` file from the `$(git rev-parse --show-toplevel)/.github/workflows` directory to reset this exercise.
+21. (Cleanup ADO pipeline) Remove the Azure DevOps pipeline created in step 17 from the Azure DevOps project to reset this exercise.
+22. (Cleanup ADO repo) Remove the Azure DevOps repository created in step 17 from the Azure DevOps project to reset this exercise.
 
 ### 1.12.3 Azure Deployment Workflow
 
