@@ -204,21 +204,25 @@ dotnet test .\calculator.tests.csproj
    4. Remove the `calculator-xunit-testing` folder from `$targetPath`.
 
 ## 13. **Key Takeaways**
-	- Summary of the most important points
+
+- Summary of the most important points
 	
 ## 14. **Questions or Feedback from Attendees**
-	- Frequently Asked Questions or common concerns
+
+- Frequently Asked Questions or common concerns
 
 ## 15. **Questions for Attendees**
 
 ## 16. **Call to Action**
-	- Next steps for stakeholders or team members
+
+- Next steps for stakeholders or team members
 
 ## 17. **References**
-    - Supporting documents, diagrams, or links
 
-## 18. **References**	
+- Supporting documents, diagrams, or links
 
-- [.NET Calculator with xUnit Testing Setup Instructions](#)
+## 18. **References**
+
+- [.NET Calculator with xUnit Testing Setup Instructions](https://docs.microsoft.com/en-us/dotnet/core/tutorials/with-xunit)
 - [Microsoft .NET Documentation](https://docs.microsoft.com/en-us/dotnet/)
 - [xUnit Documentation](https://xunit.net/) 
