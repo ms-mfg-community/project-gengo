@@ -1,0 +1,237 @@
+name: gaw-iac-azure-deployment
+
+# Manual trigger with comprehensive input parameters
+on:
+  workflow_dispatch:
+    inputs:
+      resourceGroupName:
+        description: 'Azure resource group name'
+        required: true
+        default: 'gaw-iac-azure-deployment'
+        type: string
+      location:
+        description: 'Azure region for resources'
+        required: true
+        default: 'eastus2'
+        type: choice
+        options:
+          - eastus2
+          - westus2
+          - centralus
+          - eastus
+          - westus
+      randomResourceSuffix:
+        description: 'Random suffix for resource names'
+        required: true
+        default: 'auto-generate'
+        type: string
+      storageAccountName:
+        description: 'Storage account name (without suffix)'
+        required: true
+        default: '1sta'
+        type: string
+      containerRegistryName:
+        description: 'Container registry name (without suffix)'
+        required: true
+        default: 'acr'
+        type: string
+      bicepFile:
+        description: 'Path to Bicep template file'
+        required: true
+        default: 'gitops/workspace/infra/main.bicep'
+        type: string
+      bicepParametersFile:
+        description: 'Path to Bicep parameters file'
+        required: true
+        default: 'gitops/workspace/infra/main.bicepparam'
+        type: string
+      workflowMode:
+        description: 'Workflow execution mode'
+        required: true
+        default: 'plan-only'
+        type: choice
+        options:
+          - plan-only
+          - plan-and-deploy
+          - deploy-only
+      stackAction:
+        description: 'Deployment stack action'
+        required: true
+        default: 'deploy'
+        type: choice
+        options:
+          - deploy
+          - rollback
+      deploymentStackName:
+        description: 'Deployment stack name'
+        required: true
+        default: 'gaw-iac-azure-deployment'
+        type: string
+
+# Set permissions for OIDC token
+permissions:
+  id-token: write
+  contents: read
+
+# Environment variables (Secrets need to be configured in GitHub repository settings)
+env:
+  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+jobs:
+  plan:
+    name: Plan Deployment
+    runs-on: ubuntu-latest
+    environment: dev
+    if: ${{ github.event.inputs.workflowMode == 'plan-only' || github.event.inputs.workflowMode == 'plan-and-deploy' }}
+
+    permissions:
+      id-token: write
+      contents: read
+    
+    env:
+      RANDOM_RESOURCE_SUFFIX: ${{ github.event.inputs.randomResourceSuffix }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Azure Login with OIDC
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      
+      - name: Set up Azure CLI with Bicep Extension
+        run: |
+          az --version
+          az bicep version
+          az bicep install
+          az bicep version
+      
+      - name: Validate Bicep Files
+        run: |
+          pwsh -File ${{ github.workspace }}/gitops/workspace/infra/scripts/validate-bicep.ps1
+      
+      - name: Prepare Deployment Parameters
+        id: prepare-params
+        run: |
+          echo "RANDOM_RESOURCE_SUFFIX=${{ github.event.inputs.randomResourceSuffix }}" >> $GITHUB_ENV
+          echo "timestamp=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+
+      - name: What-If Deployment Analysis
+        run: |
+          echo "Running what-if analysis for subscription-scoped deployment..."
+          
+          az deployment sub what-if \
+            --name "gaw-deployment-${{ steps.prepare-params.outputs.timestamp }}" \
+            --location "${{ github.event.inputs.location }}" \
+            --template-file "${{ github.event.inputs.bicepFile }}" \
+            --parameters "${{ github.event.inputs.bicepParametersFile }}" \
+            --parameters resourceGroupName="${{ github.event.inputs.resourceGroupName }}" \
+                         location="${{ github.event.inputs.location }}" \
+                         randomResourceSuffix="${{ github.event.inputs.randomResourceSuffix }}" \
+                         storageAccountName="${{ github.event.inputs.storageAccountName }}" \
+                         containerRegistryName="${{ github.event.inputs.containerRegistryName }}"
+      
+      - name: Display Plan Summary
+        run: |
+          echo "Planning completed successfully. Review the what-if output above to understand the changes that will be made."
+          echo "Planned resources:"
+          echo "  - Resource group: ${{ github.event.inputs.resourceGroupName }}"
+          echo "  - Storage account: ${{ github.event.inputs.storageAccountName }}"
+          echo "  - Container registry: ${{ github.event.inputs.containerRegistryName }}"
+          echo "  - App Service Plan: asp-${{ github.event.inputs.randomResourceSuffix }}"
+          echo "  - App Service: app-${{ github.event.inputs.randomResourceSuffix }}"
+          echo "  - Key Vault: kvt-${{ github.event.inputs.randomResourceSuffix }}"
+  
+  deploy:
+    name: Deploy Resources
+    runs-on: ubuntu-latest
+    environment: prd
+    needs: [plan]
+    if: ${{ success() && (github.event.inputs.workflowMode == 'plan-and-deploy' || github.event.inputs.workflowMode == 'deploy-only') }}
+
+    permissions:
+      id-token: write
+      contents: read
+    
+    env:
+      RANDOM_RESOURCE_SUFFIX: ${{ github.event.inputs.randomResourceSuffix }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Azure Login with OIDC
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      
+      - name: Set up Azure CLI with Bicep Extension
+        run: |
+          az --version
+          az bicep version
+          az bicep install
+          az bicep version
+      
+      - name: Validate Bicep Files
+        run: |
+          pwsh -File ${{ github.workspace }}/gitops/workspace/infra/scripts/validate-bicep.ps1
+
+      - name: Prepare Deployment Parameters
+        id: prepare-params
+        run: |
+          echo "RANDOM_RESOURCE_SUFFIX=${{ github.event.inputs.randomResourceSuffix }}" >> $GITHUB_ENV
+          echo "timestamp=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+      
+      - name: Deploy Resources (Deploy Action)
+        if: ${{ github.event.inputs.stackAction == 'deploy' }}
+        run: |
+          echo "Deploying resources to Azure..."
+          
+          az deployment sub create \
+            --name "${{ github.event.inputs.deploymentStackName }}-${{ steps.prepare-params.outputs.timestamp }}" \
+            --location "${{ github.event.inputs.location }}" \
+            --template-file "${{ github.event.inputs.bicepFile }}" \
+            --parameters "${{ github.event.inputs.bicepParametersFile }}" \
+            --parameters resourceGroupName="${{ github.event.inputs.resourceGroupName }}" \
+                         location="${{ github.event.inputs.location }}" \
+                         randomResourceSuffix="${{ github.event.inputs.randomResourceSuffix }}" \
+                         storageAccountName="${{ github.event.inputs.storageAccountName }}" \
+                         containerRegistryName="${{ github.event.inputs.containerRegistryName }}"
+      
+      - name: Rollback Resources (Rollback Action)
+        if: ${{ github.event.inputs.stackAction == 'rollback' }}
+        run: |
+          echo "Rolling back deployment..."
+          echo "Note: Azure subscription deployments don't support direct rollback."
+          echo "To rollback, you would need to deploy a previous version of the template."
+          echo "Consider using deployment stacks for better rollback capabilities."
+          
+          # List recent deployments for reference
+          echo "Recent deployments:"
+          az deployment sub list --query "[?contains(name, '${{ github.event.inputs.deploymentStackName }}')].{Name:name, State:properties.provisioningState, Timestamp:properties.timestamp}" --output table
+      
+      - name: Display Deployment Results
+        run: |
+          echo "Deployment operation completed."
+          
+          if [ "${{ github.event.inputs.stackAction }}" == "deploy" ]; then
+            echo "Deployed resources:"
+            echo "  - Resource group: ${{ github.event.inputs.resourceGroupName }}"
+            echo "  - Storage account: ${{ github.event.inputs.storageAccountName }}-${{ github.event.inputs.randomResourceSuffix }}"
+            echo "  - Container registry: ${{ github.event.inputs.containerRegistryName }}${{ github.event.inputs.randomResourceSuffix }}"
+            echo "  - App Service Plan: asp-${{ github.event.inputs.randomResourceSuffix }}"
+            echo "  - App Service: app-${{ github.event.inputs.randomResourceSuffix }}"
+            echo "  - Key Vault: kvt-${{ github.event.inputs.randomResourceSuffix }}"
+            
+            echo "Listing deployed resources:"
+            az resource list --resource-group "${{ github.event.inputs.resourceGroupName }}" --output table || echo "Resource group not found or no resources deployed."
+          else
+            echo "Rollback information displayed above."
+          fi
