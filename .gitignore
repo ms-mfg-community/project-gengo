@@ -24,6 +24,9 @@ obj/
 
 # Ignore any .env that might be in any folder of this repo
 **/.env
+
+# Ignore compiled Bicep templates (JSON files generated from .bicep files)
+**/*.json
 build/.cmake/api/v1/reply/index-2025-06-17T14-10-04-0764.json
 build/.cmake/api/v1/reply/index-2025-06-16T23-16-54-0755.json
 build/.cmake/api/v1/reply/index-2025-06-16T23-16-54-0755.json

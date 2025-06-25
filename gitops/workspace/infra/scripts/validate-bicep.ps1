@@ -61,6 +61,11 @@ try {
     } # end if
     Write-Host "✅ Bicep extension is available" -ForegroundColor Green
     
+    # Change to the parent directory (infra directory) to ensure relative paths work correctly
+    $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+    $infraDir = Split-Path -Parent $scriptDir
+    Set-Location $infraDir
+    
     # Get current directory for context
     $currentDir = Get-Location
     Write-Host "📂 Working directory: $currentDir" -ForegroundColor Gray
