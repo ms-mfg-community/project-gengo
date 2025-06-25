@@ -78,7 +78,7 @@ env:
   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  api-version: '2025-04-28' # Update to the latest API version as needed
+  apiVersion: '2025-04-28' # Update to the latest API version as needed
 
 jobs:
   plan:
@@ -137,7 +137,7 @@ jobs:
                          randomResourceSuffix="${{ github.event.inputs.randomResourceSuffix }}" \
                          storageAccountName="${{ github.event.inputs.storageAccountName }}" \
                          containerRegistryName="${{ github.event.inputs.containerRegistryName }}" \
-                         api-version="${{ env.api-version }}" 
+                         apiVersion="${{ env.apiVersion }}" 
       
       - name: Display Plan Summary
         run: |
@@ -207,7 +207,7 @@ jobs:
                          randomResourceSuffix="${{ github.event.inputs.randomResourceSuffix }}" \
                          storageAccountName="${{ github.event.inputs.storageAccountName }}" \
                          containerRegistryName="${{ github.event.inputs.containerRegistryName }}" \
-                         api-version="${{ env.api-version }}"
+                         apiVersion="${{ env.apiVersion }}"
 
       - name: Rollback Resources (Rollback Action)
         if: ${{ github.event.inputs.stackAction == 'rollback' }}
@@ -219,7 +219,7 @@ jobs:
           
           # List recent deployments for reference
           echo "Recent deployments:"
-          az deployment sub list --query "[?contains(name, '${{ github.event.inputs.deploymentStackName }}')].{Name:name, State:properties.provisioningState, Timestamp:properties.timestamp}" --api-version ${{ env.api-version }} --output table
+          az deployment sub list --query "[?contains(name, '${{ github.event.inputs.deploymentStackName }}')].{Name:name, State:properties.provisioningState, Timestamp:properties.timestamp}" --output table
 
       - name: Display Deployment Results
         run: |
