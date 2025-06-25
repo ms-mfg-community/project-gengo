@@ -317,6 +317,15 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 3. For the deploy job, if the stackAction is `deploy` deploy the resources using the Bicep files and parameters defined in the previous steps. Ensure that the deployment stack name uses the value: `deploymentStackName`.
 4. If the stackAction is `rollback`, rollback the deployment stack using the `deploymentStackName` parameter.
 5. Populate the `validate-bicep.ps1` script to validate the Bicep files before deployment. This script should use the Azure CLI command `az bicep build` to ensure the Bicep files are valid and can be deployed.
+6. In the `validate-bicep.ps1` script, add the following code to change the working directory before validating the Bicep files:
+  
+```powershell
+# Change to the parent directory (infra directory) to ensure relative paths work correctly
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$infraDir = Split-Path -Parent $scriptDir
+Set-Location $infraDir
+# Validate Bicep files
+```
 
 ### 1.12.5 Cleanup Procedures
 
