@@ -297,17 +297,17 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 1. In the repository path `$(git rev-parse --show-toplevel)/gitops/workspace`, create the following directory and file structure using PowerShell:
    NOTE: Only create the directory structure exactly as it appears in **section 1.12.3, step 1**. If it does not already exist. If the files already exist, do not overwrite them.
 
-2. Add the code in `main.bicep` to perform a subscription scoped deployment of the Azure resource group with the name `gaw-iac-$(randomResourceSuffix)` in the `eastus2` region.
+2. Add the code in `main.bicep` to perform a subscription scoped deployment of the Azure resource group with the parameter name in the `main.bicepparam` file as `gaw-iac-#{RANDOM_RESOURCE_SUFFIX}#` for the `eastus2` region.
    - For these Azure resources, reference the [Azure Verified Modules](https://azure.github.io/Azure-Verified-Modules/indexes/bicep/bicep-resource-modules/).
-   - The resource group should include the `Microsoft.Storage/storageAccounts` resource type and assign the name `1sta-$(randomResourceSuffix)`.
-   - Use the `sta.bicep` module for the storage account based on the `Microsoft.Storage/storageAccounts` resource type and assign the name `1sta-$(randomResourceSuffix)`.
-   - Use the `acr.bicep` module for the container registry based on the `Microsoft.ContainerRegistry/registries` resource type and assign the name `acr-$(randomResourceSuffix)`.
-   - Use the `asp.bicep` module for the Azure App Service Plan based on the `Microsoft.Web/serverfarms` resource type and assign the name `asp-$(randomResourceSuffix)`.
-   - Use the `app.bicep` module for the Azure App Service based on the `Microsoft.Web/sites` resource type and assign the name `app-$(randomResourceSuffix)`.
-   - Use the `kvt.bicep` module for the Azure Key Vault based on the `Microsoft.KeyVault/vaults` resource type and assign the name `kvt-$(randomResourceSuffix)`. Since the key vault `diagnosticSettings` property for a defined logging sink configuration depends on the storage account, please enforce this dependency so that the key vault diagnostic settings can reference the `storageAccountId` output from the `sta.bicep` module.
+   - The resource group should include the `Microsoft.Storage/storageAccounts` resource type and assign the name from the `main.bicepparam` file as `'1sta#{RANDOM_RESOURCE_SUFFIX}#'`.
+   - Use the `sta.bicep` module for the storage account based on the `Microsoft.Storage/storageAccounts` resource type and assign the `main.bicepparam` parameter name `'1sta-#{RANDOM_RESOURCE_SUFFIX}#'`.
+   - Use the `acr.bicep` module for the container registry based on the `Microsoft.ContainerRegistry/registries` resource type and assign the parameter name `'acr-#{RANDOM_RESOURCE_SUFFIX}#'`.
+   - Use the `asp.bicep` module for the Azure App Service Plan based on the `Microsoft.Web/serverfarms` resource type and assign the parameter name `'asp-#{RANDOM_RESOURCE_SUFFIX}#'`.
+   - Use the `app.bicep` module for the Azure App Service based on the `Microsoft.Web/sites` resource type and assign the name `'app-#{RANDOM_RESOURCE_SUFFIX}#'`.
+   - Use the `kvt.bicep` module for the Azure Key Vault based on the `Microsoft.KeyVault/vaults` resource type and assign the parameter name `'kvt-#{RANDOM_RESOURCE_SUFFIX}#'`. Since the key vault `diagnosticSettings` property for a defined logging sink configuration depends on the storage account, please enforce this dependency so that the key vault diagnostic settings can reference the `storageAccountId` output from the `sta.bicep` module.
 
-3. Add the code in `main.bicep` to deploy a storage account named `1sta-$(randomResourceSuffix)` with the `sta.bicep` module.
-4. Add the container registry named `acr-$(randomResourceSuffix)` using the `acr.bicep` module. The code should include parameters for resource names, locations, and other configurations.
+3. Add the code in `main.bicep` to deploy a storage account named `'1sta#{RANDOM_RESOURCE_SUFFIX}#'` with the `sta.bicep` module.
+4. Add the container registry with the parameter name `'acr-#{RANDOM_RESOURCE_SUFFIX}#'` using the `acr.bicep` module. The code should include parameters for resource names, locations, and other configurations.
 5. Add the code in `main.bicepparam` to define the appropriate parameters based on sensible defaults and recommendations of Azure Verified Modules referenced in step 2. above.
 
 #### 1.12.4.1 Bicep Deployment Modes
@@ -331,7 +331,7 @@ Set-Location $infraDir
 
 1. (Optional for resources cleanup) Remove the resources created by the Bicep deployment, you can use the Azure CLI command `az group delete --name $resourceGroupName --yes --no-wait` to delete the resource group and all its resources.
 2. (Optional for files and folders cleanup) Remove the files and folders created in the `$(git rev-parse --show-toplevel)/gitops/workspace` directory, including the `infra` folder. You can use the PowerShell command `Remove-Item -Path $(git rev-parse --show-toplevel)/gitops/workspace/infra -Recurse -Force` to delete the entire workspace directory. Then delete the `Remove-Item -Path $(git rev-parse --show-toplevel)/gitops/workspace/infra` folder afterwards.
-3. (Optional for workflow cleanup) Finally, remove the `gaw-iac-$(randomResourceSuffix).yml` workflow file from the `.github/workflows` directory to reset this exercise.
+3. (Optional for workflow cleanup) Finally, remove the `gaw-iac-azure-deployment.yml` workflow file from the `.github/workflows` directory to reset this exercise.
 
 ## 1.13 Key Takeaways
 

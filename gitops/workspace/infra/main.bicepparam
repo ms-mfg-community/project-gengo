@@ -12,19 +12,19 @@ param location = 'eastus2'
 param randomResourceSuffix = readEnvironmentVariable('RANDOM_RESOURCE_SUFFIX', 'default01')
 
 // Storage Account Configuration
-param storageAccountName = '1sta${randomResourceSuffix}'
+param storageAccountName = '1sta#{RANDOM_RESOURCE_SUFFIX}#'
 
 // Container Registry Configuration  
-param containerRegistryName = 'acr${randomResourceSuffix}'
+param containerRegistryName = 'acr#{RANDOM_RESOURCE_SUFFIX}#'
 
 // App Service Plan Configuration
-param appServicePlanName = 'asp-${randomResourceSuffix}'
+param appServicePlanName = 'asp-#{RANDOM_RESOURCE_SUFFIX}#'
 
 // App Service Configuration
-param appServiceName = 'app-${randomResourceSuffix}'
+param appServiceName = 'app-#{RANDOM_RESOURCE_SUFFIX}#'
 
 // Key Vault Configuration
-param keyVaultName = 'kvt-${randomResourceSuffix}'
+param keyVaultName = 'kvt-#{RANDOM_RESOURCE_SUFFIX}#'
 
 // Resource Tags
 param tags = {
