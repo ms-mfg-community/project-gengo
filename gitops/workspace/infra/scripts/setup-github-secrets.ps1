@@ -48,7 +48,7 @@ try {
     }
     
     $variables = @{
-        'RESOURCE_GROUP_NAME' = 'gaw-iac-azure-deployment'
+        'RESOURCE_GROUP_NAME' = "gaw-iac-$randomResourceSuffix"
         'LOCATION' = 'eastus2'
         'RANDOM_RESOURCE_SUFFIX' = $randomResourceSuffix
         'STORAGE_ACCOUNT_NAME' = "1sta$randomResourceSuffix"

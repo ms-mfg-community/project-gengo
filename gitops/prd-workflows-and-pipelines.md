@@ -40,7 +40,7 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 
 ### 1.5.1 In Scope
 
-- GitHub Actions workflow for Azure infrastructure deployment (`gaw-iac-azure-deployment.yml`)
+- GitHub Actions workflow for Azure infrastructure deployment (`gaw-iac-$(randomResourceSuffix).yml`)
 - Bicep Infrastructure as Code templates for Azure resource provisioning
 - OIDC authentication for secure Azure access without long-lived secrets
 - Multi-environment deployment workflows with dev/prd environment segregation
@@ -249,24 +249,24 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
    - `AZURE_TENANT_ID`: The Tenant ID from the Azure app registration.
 4. Run: `$randomResourceSuffix = (New-Guid).ToString().Substring(0,8)` to generate a random resource suffix for resource names.
 5. Add the following GitHub Actions variables to the `setup-github-secrets.ps1` script:
-   - `resourceGroupName`: Set to `gaw-iac-azure-deployment`.
+   - `resourceGroupName`: Set to `gaw-iac-$(randomResourceSuffix)`.
    - `location`: Set to `eastus2`.
    - `randomResourceSuffix`: The value generated using the PowerShell command in step 2.
    - `storageAccountName`: Set to `1sta-$(randomResourceSuffix)`.
    - `containerRegistryName`: Set to `acr-$(randomResourceSuffix)`.
 6. Ensure the repository has a `.github/workflows` directory.
 7. Create a new GitHub Actions workflow file in the `.github/workflows` directory.
-8. Name the workflow file `gaw-iac-azure-deployment.yml` and name the workflow `gaw-iac-azure-deployment`.
+8. Name the workflow file `gaw-iac-$(randomResourceSuffix).yml` and name the workflow `gaw-iac-$(randomResourceSuffix)`.
 9. Use a manual trigger event for the workflow.
 10. Assign an Ubuntu GitHub-hosted runner for the workflow.
 
 #### 1.12.3.1 Workflow Inputs
 
-1. In the `gaw-iac-azure-deployment.yml` workflow file, define the inputs for the workflow using the `workflow_dispatch` event.
+1. In the `gaw-iac-$(randomResourceSuffix).yml` workflow file, define the inputs for the workflow using the `workflow_dispatch` event.
 2. The inputs will be used to configure the Azure deployment parameters dynamically.
 3. In the workflow_dispatch section, define the following inputs:
 
-- `resourceGroupName`: The name of the Azure resource group to deploy as `gaw-iac-azure-deployment`.
+- `resourceGroupName`: The name of the Azure resource group to deploy as `gaw-iac-$(randomResourceSuffix)`.
 - `location`: The Azure region for the resource group, e.g., `vars.location`.
 - `randomResourceSuffix`: The value generated using the PowerShell command in step 2.
 - `storageAccountName`: The name of the Azure storage account to create using the PowerShell command for the name as '1sta' + $randomResourceSuffix. `vars.storageAccountName`.
@@ -279,7 +279,7 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 
 #### 1.12.3.2 Jobs
 
-1. In the `gaw-iac-azure-deployment.yml` workflow file, define two jobs: `plan` and `deploy`.
+1. In the `gaw-iac-$(randomResourceSuffix).yml` workflow file, define two jobs: `plan` and `deploy`.
 2. The `plan` job will be associated with the `dev` environment and will perform the planning phase of the deployment.
 3. The `deploy` job will be associated with the `prd` environment and will perform the actual deployment of the Azure resources.
 4. In the first job - `plan`, associate it with the `dev` environment and authenticate Azure using OIDC.
@@ -297,7 +297,7 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 1. In the repository path `$(git rev-parse --show-toplevel)/gitops/workspace`, create the following directory and file structure using PowerShell:
    NOTE: Only create the directory structure exactly as it appears in **section 1.12.3, step 1**. If it does not already exist. If the files already exist, do not overwrite them.
 
-2. Add the code in `main.bicep` to perform a subscription scoped deployment of the Azure resource group with the name `gaw-iac-azure-deployment` in the `eastus2` region.
+2. Add the code in `main.bicep` to perform a subscription scoped deployment of the Azure resource group with the name `gaw-iac-$(randomResourceSuffix)` in the `eastus2` region.
    - For these Azure resources, reference the [Azure Verified Modules](https://azure.github.io/Azure-Verified-Modules/indexes/bicep/bicep-resource-modules/).
    - The resource group should include the `Microsoft.Storage/storageAccounts` resource type and assign the name `1sta-$(randomResourceSuffix)`.
    - Use the `sta.bicep` module for the storage account based on the `Microsoft.Storage/storageAccounts` resource type and assign the name `1sta-$(randomResourceSuffix)`.
@@ -331,7 +331,7 @@ Set-Location $infraDir
 
 1. (Optional for resources cleanup) Remove the resources created by the Bicep deployment, you can use the Azure CLI command `az group delete --name $resourceGroupName --yes --no-wait` to delete the resource group and all its resources.
 2. (Optional for files and folders cleanup) Remove the files and folders created in the `$(git rev-parse --show-toplevel)/gitops/workspace` directory, including the `infra` folder. You can use the PowerShell command `Remove-Item -Path $(git rev-parse --show-toplevel)/gitops/workspace/infra -Recurse -Force` to delete the entire workspace directory. Then delete the `Remove-Item -Path $(git rev-parse --show-toplevel)/gitops/workspace/infra` folder afterwards.
-3. (Optional for workflow cleanup) Finally, remove the `gaw-iac-azure-deployment.yml` workflow file from the `.github/workflows` directory to reset this exercise.
+3. (Optional for workflow cleanup) Finally, remove the `gaw-iac-$(randomResourceSuffix).yml` workflow file from the `.github/workflows` directory to reset this exercise.
 
 ## 1.13 Key Takeaways
 
