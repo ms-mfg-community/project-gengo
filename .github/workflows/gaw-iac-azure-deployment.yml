@@ -110,6 +110,7 @@ jobs:
           az bicep version
           az bicep install
           az bicep version
+          az bicep upgrade
       
       - name: Validate Bicep Files
         run: |
