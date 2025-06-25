@@ -67,11 +67,6 @@ on:
         required: true
         default: 'gaw-iac-azure-deployment'
         type: string
-      apiVersion:
-        description: 'API version for Azure resources'
-        required: true
-        default: '2024-04-28'
-        type: string
 
 # Set permissions for OIDC token
 permissions:
@@ -83,6 +78,7 @@ env:
   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  api-version: '2025-04-28' # Update to the latest API version as needed
 
 jobs:
   plan:
@@ -141,7 +137,7 @@ jobs:
                          randomResourceSuffix="${{ github.event.inputs.randomResourceSuffix }}" \
                          storageAccountName="${{ github.event.inputs.storageAccountName }}" \
                          containerRegistryName="${{ github.event.inputs.containerRegistryName }}" \
-                         api-version="${{ github.event.inputs.apiVersion }}" 
+                         api-version="${{ env.api-version }}" 
       
       - name: Display Plan Summary
         run: |
@@ -211,8 +207,8 @@ jobs:
                          randomResourceSuffix="${{ github.event.inputs.randomResourceSuffix }}" \
                          storageAccountName="${{ github.event.inputs.storageAccountName }}" \
                          containerRegistryName="${{ github.event.inputs.containerRegistryName }}" \
-                         api-version="${{ github.event.inputs.apiVersion }}"
-      
+                         api-version="${{ env.api-version }}"
+
       - name: Rollback Resources (Rollback Action)
         if: ${{ github.event.inputs.stackAction == 'rollback' }}
         run: |
@@ -223,7 +219,7 @@ jobs:
           
           # List recent deployments for reference
           echo "Recent deployments:"
-          az deployment sub list --query "[?contains(name, '${{ github.event.inputs.deploymentStackName }}')].{Name:name, State:properties.provisioningState, Timestamp:properties.timestamp}" --api-version ${{ github.event.inputs.apiVersion }} --output table
+          az deployment sub list --query "[?contains(name, '${{ github.event.inputs.deploymentStackName }}')].{Name:name, State:properties.provisioningState, Timestamp:properties.timestamp}" --api-version ${{ env.api-version }} --output table
 
       - name: Display Deployment Results
         run: |
