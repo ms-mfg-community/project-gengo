@@ -304,7 +304,7 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
    - Use the `acr.bicep` module for the container registry based on the `Microsoft.ContainerRegistry/registries` resource type and assign the name `acr-$(randomResourceSuffix)`.
    - Use the `asp.bicep` module for the Azure App Service Plan based on the `Microsoft.Web/serverfarms` resource type and assign the name `asp-$(randomResourceSuffix)`.
    - Use the `app.bicep` module for the Azure App Service based on the `Microsoft.Web/sites` resource type and assign the name `app-$(randomResourceSuffix)`.
-   - Use the `kvt.bicep` module for the Azure Key Vault based on the `Microsoft.KeyVault/vaults` resource type and assign the name `kvt-$(randomResourceSuffix)`.
+   - Use the `kvt.bicep` module for the Azure Key Vault based on the `Microsoft.KeyVault/vaults` resource type and assign the name `kvt-$(randomResourceSuffix)`. Since the key vault `diagnosticSettings` property for a defined logging sink configuration depends on the storage account, please enforce this dependency so that the key vault diagnostic settings can reference the `storageAccountId` output from the `sta.bicep` module.
 
 3. Add the code in `main.bicep` to deploy a storage account named `1sta-$(randomResourceSuffix)` with the `sta.bicep` module.
 4. Add the container registry named `acr-$(randomResourceSuffix)` using the `acr.bicep` module. The code should include parameters for resource names, locations, and other configurations.

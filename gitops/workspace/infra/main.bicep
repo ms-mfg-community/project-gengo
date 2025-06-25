@@ -98,6 +98,7 @@ module keyVault 'modules/kvt.bicep' = {
   params: {
     keyVaultName: keyVaultName
     location: location
+    storageAccountId: storageAccount.outputs.storageAccountId
     tags: tags
   }
 }

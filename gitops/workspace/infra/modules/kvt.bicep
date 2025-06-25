@@ -51,6 +51,9 @@ param publicNetworkAccess string = 'Enabled'
 @description('Tags to apply to the Key Vault')
 param tags object = {}
 
+@description('Storage account resource ID for diagnostic settings (optional)')
+param storageAccountId string = ''
+
 // Key Vault Resource
 resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = {
   name: keyVaultName
@@ -81,7 +84,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = {
 }
 
 // Diagnostic settings (optional)
-resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
+resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = if (!empty(storageAccountId)) {
   name: '${keyVaultName}-diagnostics'
   scope: keyVault
   properties: {
@@ -95,6 +98,7 @@ resource diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-pr
         }
       }
     ]
+    storageAccountId: storageAccountId
     metrics: [
       {
         category: 'AllMetrics'
