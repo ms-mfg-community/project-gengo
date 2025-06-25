@@ -67,6 +67,11 @@ on:
         required: true
         default: 'gaw-iac-azure-deployment'
         type: string
+      apiVersion:
+        description: 'API version for Azure resources'
+        required: true
+        default: '2024-04-28'
+        type: string
 
 # Set permissions for OIDC token
 permissions:
@@ -135,7 +140,8 @@ jobs:
                          location="${{ github.event.inputs.location }}" \
                          randomResourceSuffix="${{ github.event.inputs.randomResourceSuffix }}" \
                          storageAccountName="${{ github.event.inputs.storageAccountName }}" \
-                         containerRegistryName="${{ github.event.inputs.containerRegistryName }}"
+                         containerRegistryName="${{ github.event.inputs.containerRegistryName }}" \
+                         api-version="${{ github.event.inputs.apiVersion }}" 
       
       - name: Display Plan Summary
         run: |
@@ -204,7 +210,8 @@ jobs:
                          location="${{ github.event.inputs.location }}" \
                          randomResourceSuffix="${{ github.event.inputs.randomResourceSuffix }}" \
                          storageAccountName="${{ github.event.inputs.storageAccountName }}" \
-                         containerRegistryName="${{ github.event.inputs.containerRegistryName }}"
+                         containerRegistryName="${{ github.event.inputs.containerRegistryName }}" \
+                         api-version="${{ github.event.inputs.apiVersion }}"
       
       - name: Rollback Resources (Rollback Action)
         if: ${{ github.event.inputs.stackAction == 'rollback' }}
@@ -216,8 +223,8 @@ jobs:
           
           # List recent deployments for reference
           echo "Recent deployments:"
-          az deployment sub list --query "[?contains(name, '${{ github.event.inputs.deploymentStackName }}')].{Name:name, State:properties.provisioningState, Timestamp:properties.timestamp}" --output table
-      
+          az deployment sub list --query "[?contains(name, '${{ github.event.inputs.deploymentStackName }}')].{Name:name, State:properties.provisioningState, Timestamp:properties.timestamp}" --api-version ${{ github.event.inputs.apiVersion }} --output table
+
       - name: Display Deployment Results
         run: |
           echo "Deployment operation completed."
