@@ -113,7 +113,7 @@ jobs:
       
       - name: Validate Bicep Files
         run: |
-          pwsh -File ${{ github.workspace }}/gitops/workspace/infra/scripts/validate-bicep.ps1
+          pwsh -File ./gitops/workspace/infra/scripts/validate-bicep.ps1
       
       - name: Prepare Deployment Parameters
         id: prepare-params
@@ -181,7 +181,7 @@ jobs:
       
       - name: Validate Bicep Files
         run: |
-          pwsh -File ${{ github.workspace }}/gitops/workspace/infra/scripts/validate-bicep.ps1
+          pwsh -File ./gitops/workspace/infra/scripts/validate-bicep.ps1
 
       - name: Prepare Deployment Parameters
         id: prepare-params
