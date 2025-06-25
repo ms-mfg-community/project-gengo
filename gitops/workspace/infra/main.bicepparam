@@ -26,6 +26,9 @@ param appServiceName = 'app-#{RANDOM_RESOURCE_SUFFIX}#'
 // Key Vault Configuration
 param keyVaultName = 'kvt-#{RANDOM_RESOURCE_SUFFIX}#'
 
+// API Version
+param apiVersion = '2025-04-28'
+
 // Resource Tags
 param tags = {
   Environment: 'Development'
