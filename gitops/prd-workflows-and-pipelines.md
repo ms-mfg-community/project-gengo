@@ -353,18 +353,17 @@ az stack sub create \
 ```yaml
 - name: Set up Azure CLI with Bicep Extension
   run: |
-    echo "Setting up Azure CLI and Bicep extension..."
-    # Upgrade Azure CLI to latest stable version
-    curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+    - name: Set up Azure CLI with Bicep Extension
+      echo "Setting up Azure CLI and Bicep extension..."
+      az upgrade --yes
+      # Install and setup Bicep extension
+      az bicep install
     
-    # Install and setup Bicep extension
-    az bicep install
-    
-    # Verify installation  
-    echo "Azure CLI version:"
-    az --version
-    echo "Bicep version:"
-    az bicep version
+      # Verify installation  
+      echo "Azure CLI version:"
+      az --version
+      echo "Bicep version:"
+      az bicep version
 ```
 
 ### 1.12.4 Bicep Configuration

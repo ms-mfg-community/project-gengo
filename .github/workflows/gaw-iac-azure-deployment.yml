@@ -97,9 +97,7 @@ jobs:
       - name: Set up Azure CLI with Bicep Extension
         run: |
           echo "Setting up Azure CLI and Bicep extension..."
-          # Upgrade Azure CLI to latest stable version
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          
+          az upgrade --yes
           # Install and setup Bicep extension
           az bicep install
           
