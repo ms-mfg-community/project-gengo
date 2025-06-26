@@ -33,7 +33,6 @@ on:
         options:
           - plan-only
           - plan-and-deploy
-          - deploy-only
       stackAction:
         description: 'Deployment stack action'
         required: true
@@ -70,7 +69,6 @@ jobs:
     name: Plan Deployment
     runs-on: ubuntu-latest
     environment: dev
-    if: ${{ github.event.inputs.workflowMode == 'plan-only' || github.event.inputs.workflowMode == 'plan-and-deploy' }}
 
     permissions:
       id-token: write
@@ -144,7 +142,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: prd
     needs: [plan]
-    if: ${{ success() && (github.event.inputs.workflowMode == 'plan-and-deploy' || github.event.inputs.workflowMode == 'deploy-only') }}
+    if: ${{ success() && (github.event.inputs.workflowMode == 'plan-and-deploy') }}
 
     permissions:
       id-token: write
@@ -212,8 +210,21 @@ jobs:
         run: |
           echo "Rolling back deployment..."
           # Rollback using Azure Deployment Stacks (preview)
+            # Get the most recent deployment stack
+            RECENT_STACK=$(az stack sub list \
+            --query "[?contains(name, '${{ github.event.inputs.deploymentStackPrefix }}')].{name:name, timestamp:systemData.createdAt} | sort_by(@, &timestamp) | [-1].name" \
+            --output tsv)
+            
+            if [ -z "$RECENT_STACK" ]; then
+            echo "No deployment stacks found with prefix '${{ github.event.inputs.deploymentStackPrefix }}'"
+            exit 1
+            fi
+            
+            echo "Most recent deployment stack found: $RECENT_STACK"
+            echo "Rolling back deployment stack: $RECENT_STACK"
+            
           az stack sub delete \
-            --name "${{ github.event.inputs.deploymentStackPrefix }}-${{ env.deployRndSuffix }}" \
+            --name $RECENT_STACK \
             --yes \
             --no-wait \
             --verbose
