@@ -122,7 +122,7 @@ jobs:
             --parameters resourceGroupName="${{ env.rgprefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          location="${{ github.event.inputs.location }}" \
                          storageAccountName="${{ env.storagePrefix }}${{ steps.rnd.outputs.rndSuffix }}" \
-                         containerRegistryName="${{ env.containerRegistryPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
+                         containerRegistryName="${{ env.containerRegistryPrefix }}${{ steps.rnd.outputs.rndSuffix }}" \
                          appServicePlanName="${{ env.appServicePlanPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          appServiceName="${{ env.appServicePrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          keyVaultName="${{ env.keyVaultPrefix }}-${{ steps.rnd.outputs.rndSuffix }}"      
@@ -194,7 +194,7 @@ jobs:
             --parameters resourceGroupName="${{ env.rgprefix }}-${{ env.deployRndSuffix }}" \
                    location="${{ github.event.inputs.location }}" \
                    storageAccountName="${{ env.storagePrefix }}${{ env.deployRndSuffix }}" \
-                   containerRegistryName="${{ env.containerRegistryPrefix }}-${{ env.deployRndSuffix }}" \
+                   containerRegistryName="${{ env.containerRegistryPrefix }}${{ env.deployRndSuffix }}" \
                    appServicePlanName="${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }}" \
                    appServiceName="${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}" \
                    keyVaultName="${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}" \

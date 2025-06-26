@@ -355,7 +355,8 @@ az deployment sub create \
 1. In the repository path `$(git rev-parse --show-toplevel)/gitops/workspace`, create the following directory and file structure using PowerShell:
    NOTE: Only create the directory structure exactly as it appears in **section 1.12.3, step 1** if it does not already exist. If the files already exist, do not overwrite them.
 
-1. Add the code in `main.bicep` to perform a subscription scoped deployment of the Azure resource group with the parameter name in the `main.bicepparam` file as `rgp-{rndSuffix}` for the `eastus2` region.
+2. Add the code in `main.bicep` to perform a subscription scoped deployment. All parameter values in the `main.bicepparam` will be set to either an empty string or object, because the parameters will be dynamically set in the workflow inputs defined in **section 1.12.3, step 1**.
+   
    - For these Azure resources, reference the [Azure Verified Modules](https://azure.github.io/Azure-Verified-Modules/indexes/bicep/bicep-resource-modules/).
    - The resource group should include Azure resources based on the modules defined below.
    - Use the `sta.bicep` module for the storage account based on the `Microsoft.Storage/storageAccounts` resource type.
@@ -364,10 +365,10 @@ az deployment sub create \
    - Use the `app.bicep` module for the Azure App Service based on the `Microsoft.Web/sites` resource type.
    - Use the `kvt.bicep` module for the Azure Key Vault based on the `Microsoft.KeyVault/vaults` resource type. Since the key vault `diagnosticSettings` property for a defined logging sink configuration depends on the storage account, please enforce this dependency so that the key vault diagnostic settings can reference the `storageAccountId` output from the `sta.bicep` module.
 
-1. Add the code in `main.bicep` to deploy a storage account using the `sta.bicep` module.
-1. Add the container registry using the `acr.bicep` module. The code should include parameters for resource names, locations, and other configurations.
-1. Add the code in `main.bicepparam` to define the appropriate parameters based on sensible defaults and recommendations of Azure Verified Modules referenced in step 2 above.
-1. Ensure that all resources will use their appropriate stable API versions as hardcoded values.
+3. Add the code in `main.bicep` to deploy a storage account using the `sta.bicep` module.
+4. Add the container registry using the `acr.bicep` module. The code should include parameters for resource names, locations, and other configurations.
+5. Add the code in `main.bicepparam` to define the appropriate parameters based on sensible defaults and recommendations of Azure Verified Modules referenced in step 2 above.
+6. Ensure that all resources will use their appropriate stable API versions as hardcoded values.
 
 #### 1.12.4.1 Bicep Deployment Modes
 
@@ -394,6 +395,10 @@ if ($LASTEXITCODE -eq 0) {
     exit 1
 }
 ```
+
+_NOTE: The storageAccountName and the containerRegistryName parameters will not contain dashes, i.e. `-` to comply with the required naming conventions for Azure resources. Only lowercase numbers and letters are allowed in the storage account and container registry names. The resource names will be suffixed with a random string to avoid conflicts in shared environments._
+
+```bicep
 
 ### 1.12.5 Cleanup Procedures
 
