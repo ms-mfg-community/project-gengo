@@ -61,7 +61,7 @@ param reserved bool = (kind == 'Linux')
 param tags object = {}
 
 // App Service Plan Resource
-resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
+resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: appServicePlanName
   location: location
   tags: tags

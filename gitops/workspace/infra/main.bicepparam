@@ -9,22 +9,22 @@ param resourceGroupName = 'gaw-iac-azure-deployment'
 param location = 'eastus2'
 
 // Resource Naming with Random Suffix (to be provided at deployment time)
-param randomResourceSuffix = readEnvironmentVariable('RANDOM_RESOURCE_SUFFIX', 'default01')
+param randomResourceSuffix = 'default01'
 
 // Storage Account Configuration
-param storageAccountName = '1sta#{RANDOM_RESOURCE_SUFFIX}#'
+param storageAccountName = '1sta'
 
 // Container Registry Configuration  
-param containerRegistryName = 'acr#{RANDOM_RESOURCE_SUFFIX}#'
+param containerRegistryName = 'acr'
 
 // App Service Plan Configuration
-param appServicePlanName = 'asp-#{RANDOM_RESOURCE_SUFFIX}#'
+param appServicePlanName = 'asp'
 
 // App Service Configuration
-param appServiceName = 'app-#{RANDOM_RESOURCE_SUFFIX}#'
+param appServiceName = 'app'
 
 // Key Vault Configuration
-param keyVaultName = 'kvt-#{RANDOM_RESOURCE_SUFFIX}#'
+param keyVaultName = 'kvt'
 
 // Resource Tags
 param tags = {

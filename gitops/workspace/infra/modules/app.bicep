@@ -30,7 +30,7 @@ param appSettings array = []
 param tags object = {}
 
 // App Service Resource
-resource appService 'Microsoft.Web/sites@2023-01-01' = {
+resource appService 'Microsoft.Web/sites@2023-12-01' = {
   name: appServiceName
   location: location
   tags: tags
@@ -68,7 +68,7 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
 }
 
 // App Settings for Application Insights
-resource appServiceConfig 'Microsoft.Web/sites/config@2023-01-01' = {
+resource appServiceConfig 'Microsoft.Web/sites/config@2023-12-01' = {
   parent: appService
   name: 'appsettings'
   properties: {
