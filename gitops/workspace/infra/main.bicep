@@ -119,6 +119,19 @@ module logAnalyticsWorkspace 'modules/law.bicep' = {
   }
 }
 
+// Deploy Application Insights using module
+module applicationInsights 'modules/ais.bicep' = {
+  name: 'applicationInsightsDeployment'
+  scope: resourceGroup
+  params: {
+    appInsightsName: appInsightsName
+    location: location
+    tags: tags
+    workspaceId: logAnalyticsWorkspace.outputs.workspaceId
+    storageAccountId: storageAccount.outputs.storageAccountId
+  }
+}
+
 
 // Outputs
 output resourceGroupName string = resourceGroup.name
