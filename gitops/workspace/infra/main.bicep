@@ -112,7 +112,7 @@ module logAnalyticsWorkspace 'modules/law.bicep' = {
   name: 'logAnalyticsWorkspaceDeployment'
   scope: resourceGroup
   params: {
-    workspaceName: lawName
+    lawName: lawName
     location: location
     tags: tags
     storageAccountId: storageAccount.outputs.storageAccountId
