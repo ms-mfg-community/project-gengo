@@ -42,10 +42,10 @@ on:
         options:
           - deploy
           - rollback
-      deploymentStackName:
-        description: 'Deployment stack name'
+      deploymentStackPrefix:
+        description: 'Deployment stack prefix'
         required: true
-        default: 'gaw-iac-azure-deployment'
+        default: 'stack'
         type: string
 
 # Set permissions for OIDC token
@@ -185,31 +185,41 @@ jobs:
         run: |
           echo "Deploying resources to Azure..."
           
-          az deployment sub create \
-            --name "${{ github.event.inputs.deploymentStackName }}-${{ env.deployRndSuffix }}" \
+            # Deploy using Azure Deployment Stacks (preview)
+            echo "Deploying resources using Azure Deployment Stacks..."
+
+            az stack sub create \
+            --name "${{ github.event.inputs.deploymentStackPrefix }}-${{ env.deployRndSuffix }}" \
             --location "${{ github.event.inputs.location }}" \
             --template-file "${{ github.event.inputs.bicepFile }}" \
             --parameters "${{ github.event.inputs.bicepParametersFile }}" \
             --parameters resourceGroupName="${{ env.rgprefix }}-${{ env.deployRndSuffix }}" \
-                         location="${{ github.event.inputs.location }}" \
-                         storageAccountName="${{ env.storagePrefix }}${{ env.deployRndSuffix }}" \
-                         containerRegistryName="${{ env.containerRegistryPrefix }}-${{ env.deployRndSuffix }}" \
-                         appServicePlanName="${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }}" \
-                         appServiceName="${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}" \
-                         keyVaultName="${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}" 
+                   location="${{ github.event.inputs.location }}" \
+                   storageAccountName="${{ env.storagePrefix }}${{ env.deployRndSuffix }}" \
+                   containerRegistryName="${{ env.containerRegistryPrefix }}-${{ env.deployRndSuffix }}" \
+                   appServicePlanName="${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }}" \
+                   appServiceName="${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}" \
+                   keyVaultName="${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}" \
+            --deny-settings-mode none \
+            --yes
+
+            echo "Deployment Stack operation completed."
 
 
       - name: Rollback Resources (Rollback Action)
         if: ${{ github.event.inputs.stackAction == 'rollback' }}
         run: |
           echo "Rolling back deployment..."
-          echo "Note: Azure subscription deployments don't support direct rollback."
-          echo "To rollback, you would need to deploy a previous version of the template."
-          echo "Consider using deployment stacks for better rollback capabilities."
+          # Rollback using Azure Deployment Stacks (preview)
+          az stack sub delete \
+            --name "${{ github.event.inputs.deploymentStackPrefix }}-${{ env.deployRndSuffix }}" \
+            --yes \
+            --no-wait \
+            --verbose
           
           # List recent deployments for reference
           echo "Recent deployments:"
-          az deployment sub list --query "[?contains(name, '${{ github.event.inputs.deploymentStackName }}')].{Name:name, State:properties.provisioningState, Timestamp:properties.timestamp}" --output table
+          az deployment sub list --query "[?contains(name, '${{ github.event.inputs.deploymentStackPrefix }}')].{Name:name, State:properties.provisioningState, Timestamp:properties.timestamp}" --output table
 
       - name: Display Deployment Results
         run: |

@@ -266,7 +266,7 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 - `bicepParametersFile`: The path to the Bicep parameters file as `gitops/workspace/infra/main.bicepparam`.
 - `workflowMode`: The mode of the workflow with allowed values of (`plan-only`, `plan-and-deploy`, `deploy-only`). Use `plan-only` as the default value.
 - `stackAction`: The action to perform on the deployment stack (`deploy`, `rollback`) with a default value of `deploy`.
-- `deploymentStackName`: The name of the deployment stack to use which will be set to the name of this workflow.
+- `deploymentStackPrefix`: The name of the deployment stack to use which will be set to `stack` in the workflow inputs.
 
 #### 1.12.3.2 Resource Naming Strategy
 
