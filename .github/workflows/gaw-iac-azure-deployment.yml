@@ -107,16 +107,17 @@ jobs:
       - name: Set up Azure CLI with Bicep Extension
         run: |
           echo "Setting up Azure CLI and Bicep extension..."
-          sudo apt-get update
-          # Install Azure CLI and Bicep extension
+          # Upgrade Azure CLI to latest stable version
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          az extension add --name bicep || echo "Bicep extension already installed"      
-          # Verify installation  
-          az --version
-          az bicep version
+          
+          # Install and setup Bicep extension
           az bicep install
+          
+          # Verify installation  
+          echo "Azure CLI version:"
+          az --version
+          echo "Bicep version:"
           az bicep version
-          az bicep upgrade
       - name: Validate Bicep Files
         run: |
           pwsh -File ./gitops/workspace/infra/scripts/validate-bicep.ps1
@@ -180,9 +181,14 @@ jobs:
       
       - name: Set up Azure CLI with Bicep Extension
         run: |
-          az --version
-          az bicep version
+          echo "Setting up Azure CLI and Bicep extension..."
+          # Install Bicep extension if not already present
           az bicep install
+          
+          # Verify installation  
+          echo "Azure CLI version:"
+          az --version
+          echo "Bicep version:"
           az bicep version
       
       - name: Validate Bicep Files
