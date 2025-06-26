@@ -7,28 +7,25 @@ targetScope = 'subscription'
 
 // Parameters
 @description('The name of the resource group to create')
-param resourceGroupName string = 'gaw-iac-azure-deployment'
+param resourceGroupName string
 
 @description('The location for the resource group and resources')
 param location string = 'eastus2'
 
-@description('Random suffix for resource names to ensure uniqueness')
-param randomResourceSuffix string
-
 @description('The name of the storage account')
-param storageAccountName string = '1sta${randomResourceSuffix}'
+param storageAccountName string
 
 @description('The name of the container registry')
-param containerRegistryName string = 'acr${randomResourceSuffix}'
+param containerRegistryName string
 
 @description('The name of the App Service Plan')
-param appServicePlanName string = 'asp-${randomResourceSuffix}'
+param appServicePlanName string
 
 @description('The name of the App Service')
-param appServiceName string = 'app-${randomResourceSuffix}'
+param appServiceName string 
 
 @description('The name of the Key Vault')
-param keyVaultName string = 'kvt-${randomResourceSuffix}'
+param keyVaultName string
 
 @description('Tags to apply to all resources')
 param tags object = {
@@ -38,6 +35,7 @@ param tags object = {
   DeployedBy: 'GitHub-Actions'
   CreatedDate: utcNow('yyyy-MM-dd')
 }
+
 
 // Create Resource Group
 resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {

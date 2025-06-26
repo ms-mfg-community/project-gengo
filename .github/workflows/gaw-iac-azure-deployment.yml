@@ -4,11 +4,6 @@ name: gaw-iac-azure-deployment
 on:
   workflow_dispatch:
     inputs:
-      resourceGroupName:
-        description: 'Azure resource group name'
-        required: true
-        default: 'gaw-iac-azure-deployment'
-        type: string
       location:
         description: 'Azure region for resources'
         required: true
@@ -20,21 +15,6 @@ on:
           - centralus
           - eastus
           - westus
-      randomResourceSuffix:
-        description: 'Random suffix for resource names'
-        required: true
-        default: 'auto-generate'
-        type: string
-      storageAccountName:
-        description: 'Storage account name (without suffix)'
-        required: true
-        default: '1sta'
-        type: string
-      containerRegistryName:
-        description: 'Container registry name (without suffix)'
-        required: true
-        default: 'acr'
-        type: string
       bicepFile:
         description: 'Path to Bicep template file'
         required: true
@@ -78,6 +58,12 @@ env:
   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  rgprefix: 'gaw-iac'
+  storagePrefix: '1sta'
+  containerRegistryPrefix: 'acr'
+  appServicePlanPrefix: 'asp'
+  appServicePrefix: 'app'
+  keyVaultPrefix: 'kvt'
 
 jobs:
   plan:
@@ -89,11 +75,15 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    
-    env:
-      RANDOM_RESOURCE_SUFFIX: ${{ github.event.inputs.randomResourceSuffix }}
 
+    outputs:
+      rndSuffix: ${{ steps.rnd.outputs.rndSuffix }}
     steps:
+      - name: Set Output Variables
+        id: rnd
+        run: |
+          echo "rndSuffix=$(echo $RANDOM | md5sum | head -c 8)" >> $GITHUB_OUTPUT
+
       - name: Checkout Repository
         uses: actions/checkout@v4
       
@@ -121,39 +111,34 @@ jobs:
       - name: Validate Bicep Files
         run: |
           pwsh -File ./gitops/workspace/infra/scripts/validate-bicep.ps1
-      
-      - name: Prepare Deployment Parameters
-        id: prepare-params
-        run: |
-          echo "RANDOM_RESOURCE_SUFFIX=${{ github.event.inputs.randomResourceSuffix }}" >> $GITHUB_ENV
-          echo "timestamp=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
 
       - name: What-If Deployment Analysis
         run: |
           echo "Running what-if analysis for subscription-scoped deployment..."
           
           az deployment sub what-if \
-            --name "gaw-deployment-${{ steps.prepare-params.outputs.timestamp }}" \
+            --name "gaw-deployment-${{ steps.rnd.outputs.randomResourceSuffix }}" \
             --location "${{ github.event.inputs.location }}" \
             --template-file "${{ github.event.inputs.bicepFile }}" \
             --parameters "${{ github.event.inputs.bicepParametersFile }}" \
-            --parameters resourceGroupName="${{ github.event.inputs.resourceGroupName }}" \
+            --parameters resourceGroupName="${{ env.rgprefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          location="${{ github.event.inputs.location }}" \
-                         randomResourceSuffix="${{ github.event.inputs.randomResourceSuffix }}" \
-                         storageAccountName="${{ github.event.inputs.storageAccountName }}" \
-                         containerRegistryName="${{ github.event.inputs.containerRegistryName }}" 
-      
+                         storageAccountName="${{ env.storagePrefix }}${{ steps.rnd.outputs.rndSuffix }}" \
+                         containerRegistryName="${{ env.containerRegistryPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
+                         appServicePlanName="${{ env.appServicePlanPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
+                         appServiceName="${{ env.appServicePrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
+                         keyVaultName="${{ env.keyVaultPrefix }}-${{ steps.rnd.outputs.rndSuffix }}"      
       - name: Display Plan Summary
         run: |
           echo "Planning completed successfully. Review the what-if output above to understand the changes that will be made."
           echo "Planned resources:"
-          echo "  - Resource group: ${{ github.event.inputs.resourceGroupName }}"
-          echo "  - Storage account: ${{ github.event.inputs.storageAccountName }}"
-          echo "  - Container registry: ${{ github.event.inputs.containerRegistryName }}"
-          echo "  - App Service Plan: asp-${{ github.event.inputs.randomResourceSuffix }}"
-          echo "  - App Service: app-${{ github.event.inputs.randomResourceSuffix }}"
-          echo "  - Key Vault: kvt-${{ github.event.inputs.randomResourceSuffix }}"
-  
+          echo "  - Resource group: ${{ env.rgprefix }}-${{ steps.rnd.outputs.rndSuffix }}"
+          echo "  - Storage account: ${{ env.storagePrefix }}${{ steps.rnd.outputs.rndSuffix }}"
+          echo "  - Container registry: ${{ env.containerRegistryPrefix }}-${{ steps.rnd.outputs.rndSuffix }}"
+          echo "  - App Service Plan: ${env.appServicePlanPrefix}-${{ steps.rnd.outputs.rndSuffix }}"
+          echo "  - App Service: ${env.appServicePrefix}-${{ steps.rnd.outputs.rndSuffix }}"
+          echo "  - Key Vault: ${env.keyVaultPrefix}-${{ steps.rnd.outputs.rndSuffix }}"
+          echo "Use the 'Deploy' job to apply these changes if everything looks good."
   deploy:
     name: Deploy Resources
     runs-on: ubuntu-latest
@@ -166,7 +151,7 @@ jobs:
       contents: read
     
     env:
-      RANDOM_RESOURCE_SUFFIX: ${{ github.event.inputs.randomResourceSuffix }}
+      deployRndSuffix: ${{ needs.plan.outputs.rndSuffix }}
 
     steps:
       - name: Checkout Repository
@@ -195,27 +180,24 @@ jobs:
         run: |
           pwsh -File ./gitops/workspace/infra/scripts/validate-bicep.ps1
 
-      - name: Prepare Deployment Parameters
-        id: prepare-params
-        run: |
-          echo "RANDOM_RESOURCE_SUFFIX=${{ github.event.inputs.randomResourceSuffix }}" >> $GITHUB_ENV
-          echo "timestamp=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
-      
       - name: Deploy Resources (Deploy Action)
         if: ${{ github.event.inputs.stackAction == 'deploy' }}
         run: |
           echo "Deploying resources to Azure..."
           
           az deployment sub create \
-            --name "${{ github.event.inputs.deploymentStackName }}-${{ steps.prepare-params.outputs.timestamp }}" \
+            --name "${{ github.event.inputs.deploymentStackName }}-${{ env.deployRndSuffix }}" \
             --location "${{ github.event.inputs.location }}" \
             --template-file "${{ github.event.inputs.bicepFile }}" \
             --parameters "${{ github.event.inputs.bicepParametersFile }}" \
-            --parameters resourceGroupName="${{ github.event.inputs.resourceGroupName }}" \
+            --parameters resourceGroupName="${{ env.rgprefix }}-${{ env.deployRndSuffix }}" \
                          location="${{ github.event.inputs.location }}" \
-                         randomResourceSuffix="${{ github.event.inputs.randomResourceSuffix }}" \
-                         storageAccountName="${{ github.event.inputs.storageAccountName }}" \
-                         containerRegistryName="${{ github.event.inputs.containerRegistryName }}"
+                         storageAccountName="${{ env.storagePrefix }}${{ env.deployRndSuffix }}" \
+                         containerRegistryName="${{ env.containerRegistryPrefix }}-${{ env.deployRndSuffix }}" \
+                         appServicePlanName="${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }}" \
+                         appServiceName="${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}" \
+                         keyVaultName="${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}" 
+
 
       - name: Rollback Resources (Rollback Action)
         if: ${{ github.event.inputs.stackAction == 'rollback' }}
@@ -235,15 +217,16 @@ jobs:
           
           if [ "${{ github.event.inputs.stackAction }}" == "deploy" ]; then
             echo "Deployed resources:"
-            echo "  - Resource group: ${{ github.event.inputs.resourceGroupName }}"
-            echo "  - Storage account: ${{ github.event.inputs.storageAccountName }}-${{ github.event.inputs.randomResourceSuffix }}"
-            echo "  - Container registry: ${{ github.event.inputs.containerRegistryName }}${{ github.event.inputs.randomResourceSuffix }}"
-            echo "  - App Service Plan: asp-${{ github.event.inputs.randomResourceSuffix }}"
-            echo "  - App Service: app-${{ github.event.inputs.randomResourceSuffix }}"
-            echo "  - Key Vault: kvt-${{ github.event.inputs.randomResourceSuffix }}"
-            
+            echo "  - Resource group: ${{ env.rgprefix }}-${{ env.deployRndSuffix }}"
+            echo "  - Storage account: ${{ env.storagePrefix }}${{ env.deployRndSuffix }}"
+            echo "  - Container registry: ${{ env.containerRegistryPrefix }}-${{ env.deployRndSuffix }}"
+            echo "  - App Service Plan: ${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }}"
+            echo "  - App Service: ${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}"
+            echo "  - Key Vault: ${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}"
+            echo "Deployment completed successfully. Review the output above for details."
+            echo "You can also check the Azure portal for more details."
             echo "Listing deployed resources:"
-            az resource list --resource-group "${{ github.event.inputs.resourceGroupName }}" --output table || echo "Resource group not found or no resources deployed."
+            az resource list --resource-group "${{ env.rgprefix }}-${{ env.deployRndSuffix }}" --output table || echo "Resource group not found or no resources deployed."
           else
             echo "Rollback information displayed above."
           fi
