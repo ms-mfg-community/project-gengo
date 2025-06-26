@@ -291,6 +291,16 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 10. The next job `deploy` will be associated with the `prd` environment and deploys the Azure resources using the Azure CLI with the bicep configuration using deployment stacks feature and includes a rollback option as a separate action.
 11. Continue to reference the same inputs defined for this workflow as in the `plan` job as required.
 12. The same action sequences for repository checkout and authentication to Azure are used in the `deploy` job as well.
+13. After the checkout action in the workflow, use the following upgrade sequence for the azure cli and bicep extension:
+
+```yaml
+- name: Upgrade Azure CLI
+  run: |
+    curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+- name: Upgrade Bicep CLI
+  run: |
+    az bicep upgrade
+```
 
 ### 1.12.4 Bicep Configuration
 
