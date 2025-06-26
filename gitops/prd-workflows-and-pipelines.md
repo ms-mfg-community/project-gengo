@@ -283,25 +283,25 @@ env:
 
 ```yaml
 outputs:
-  randomResourceSuffix: ${{ steps.rnd.outputs.randomResourceSuffix }}
+  rndSuffix: ${{ steps.rnd.outputs.rndSuffix }}
 steps:
   - name: Set Output Variables
     id: rnd
     run: |
-      echo "randomResourceSuffix=$(echo $RANDOM | md5sum | head -c 8)" >> $GITHUB_OUTPUT
+      echo "rndSuffix=$(echo $RANDOM | md5sum | head -c 8)" >> $GITHUB_OUTPUT
 ```
 
 1. The full resource names will be constructed dynamically within the plan job using the generated suffix:
 
 ```yaml
 az deployment sub what-if \
-  --name "gaw-deployment-${{ steps.rnd.outputs.randomResourceSuffix }}" \
+  --name "gaw-deployment-${{ steps.rnd.outputs.rndSuffix }}" \
   --location "${{ github.event.inputs.location }}" \
   --template-file "${{ github.event.inputs.bicepFile }}" \
   --parameters "${{ github.event.inputs.bicepParametersFile }}" \
   --parameters resourceGroupName="${{ github.event.inputs.resourceGroupName }}" \
                location="${{ github.event.inputs.location }}" \
-               randomResourceSuffix="${{ steps.rnd.outputs.randomResourceSuffix }}"
+               rndSuffix="${{ steps.rnd.outputs.rndSuffix }}"
 ```
 
 1. And in the deploy job, the same pattern is used with job output references:
@@ -314,7 +314,7 @@ az deployment sub create \
   --parameters "${{ github.event.inputs.bicepParametersFile }}" \
   --parameters resourceGroupName="${{ github.event.inputs.resourceGroupName }}" \
                location="${{ github.event.inputs.location }}" \
-               randomResourceSuffix="${{ github.event.inputs.randomResourceSuffix }}"
+               deployRndSuffix="${{ github.event.inputs.rndSuffix }}"
 ```
 
 #### 1.12.3.3 Jobs
@@ -355,7 +355,7 @@ az deployment sub create \
 1. In the repository path `$(git rev-parse --show-toplevel)/gitops/workspace`, create the following directory and file structure using PowerShell:
    NOTE: Only create the directory structure exactly as it appears in **section 1.12.3, step 1** if it does not already exist. If the files already exist, do not overwrite them.
 
-1. Add the code in `main.bicep` to perform a subscription scoped deployment of the Azure resource group with the parameter name in the `main.bicepparam` file as `gaw-iac-{randomResourceSuffix}` for the `eastus2` region.
+1. Add the code in `main.bicep` to perform a subscription scoped deployment of the Azure resource group with the parameter name in the `main.bicepparam` file as `rgp-{rndSuffix}` for the `eastus2` region.
    - For these Azure resources, reference the [Azure Verified Modules](https://azure.github.io/Azure-Verified-Modules/indexes/bicep/bicep-resource-modules/).
    - The resource group should include Azure resources based on the modules defined below.
    - Use the `sta.bicep` module for the storage account based on the `Microsoft.Storage/storageAccounts` resource type.

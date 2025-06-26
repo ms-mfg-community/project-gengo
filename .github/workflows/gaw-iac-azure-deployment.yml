@@ -58,7 +58,7 @@ env:
   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  rgprefix: 'gaw-iac'
+  rgprefix: 'rgp'
   storagePrefix: '1sta'
   containerRegistryPrefix: 'acr'
   appServicePlanPrefix: 'asp'
@@ -135,9 +135,9 @@ jobs:
           echo "  - Resource group: ${{ env.rgprefix }}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "  - Storage account: ${{ env.storagePrefix }}${{ steps.rnd.outputs.rndSuffix }}"
           echo "  - Container registry: ${{ env.containerRegistryPrefix }}-${{ steps.rnd.outputs.rndSuffix }}"
-          echo "  - App Service Plan: ${env.appServicePlanPrefix}-${{ steps.rnd.outputs.rndSuffix }}"
-          echo "  - App Service: ${env.appServicePrefix}-${{ steps.rnd.outputs.rndSuffix }}"
-          echo "  - Key Vault: ${env.keyVaultPrefix}-${{ steps.rnd.outputs.rndSuffix }}"
+          echo "  - App Service Plan: ${{env.appServicePlanPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
+          echo "  - App Service: ${{env.appServicePrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
+          echo "  - Key Vault: ${{env.keyVaultPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "Use the 'Deploy' job to apply these changes if everything looks good."
   deploy:
     name: Deploy Resources
