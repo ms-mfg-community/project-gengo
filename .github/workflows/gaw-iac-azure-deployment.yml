@@ -195,7 +195,7 @@ jobs:
                    containerRegistryName="${{ env.containerRegistryPrefix }}${{ env.deployRndSuffix }}" \
                    appServicePlanName="${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }}" \
                    appServiceName="${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}" \
-                   keyVaultName="${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}"
+                   keyVaultName="${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}" \
             --deny-settings-mode none \
             --action-on-unmanage deleteAll \
             --yes
