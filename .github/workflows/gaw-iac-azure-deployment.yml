@@ -201,6 +201,7 @@ jobs:
                    appServiceName="${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}" \
                    keyVaultName="${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}" \
             --deny-settings-mode none \
+            --action-on-unmanage deleteAll \
             --yes
 
             echo "Deployment Stack operation completed."
