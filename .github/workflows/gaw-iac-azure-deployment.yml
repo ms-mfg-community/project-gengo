@@ -78,7 +78,6 @@ env:
   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  apiVersion: '2025-04-28' # Update to the latest API version as needed
 
 jobs:
   plan:
@@ -136,8 +135,7 @@ jobs:
                          location="${{ github.event.inputs.location }}" \
                          randomResourceSuffix="${{ github.event.inputs.randomResourceSuffix }}" \
                          storageAccountName="${{ github.event.inputs.storageAccountName }}" \
-                         containerRegistryName="${{ github.event.inputs.containerRegistryName }}" \
-                         apiVersion="${{ env.apiVersion }}" 
+                         containerRegistryName="${{ github.event.inputs.containerRegistryName }}" 
       
       - name: Display Plan Summary
         run: |
@@ -206,8 +204,7 @@ jobs:
                          location="${{ github.event.inputs.location }}" \
                          randomResourceSuffix="${{ github.event.inputs.randomResourceSuffix }}" \
                          storageAccountName="${{ github.event.inputs.storageAccountName }}" \
-                         containerRegistryName="${{ github.event.inputs.containerRegistryName }}" \
-                         apiVersion="${{ env.apiVersion }}"
+                         containerRegistryName="${{ github.event.inputs.containerRegistryName }}"
 
       - name: Rollback Resources (Rollback Action)
         if: ${{ github.event.inputs.stackAction == 'rollback' }}

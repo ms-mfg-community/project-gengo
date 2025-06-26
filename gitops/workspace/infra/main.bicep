@@ -30,9 +30,6 @@ param appServiceName string = 'app-${randomResourceSuffix}'
 @description('The name of the Key Vault')
 param keyVaultName string = 'kvt-${randomResourceSuffix}'
 
-@description('apiVersion for the modules')
-param apiVersion string
-
 @description('Tags to apply to all resources')
 param tags object = {
   Environment: 'Development'
