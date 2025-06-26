@@ -234,7 +234,9 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
                sta.bicep # Azure Storage Account module
                asp.bicep # Azure App Service Plan module
                app.bicep # Azure App Service module
+               ais.bicep # Azure Application Insights module
                kvt.bicep # Azure Key Vault module
+               law.bicep # Azure Log Analytics Workspace module
        \---scripts
            |   setup-github-secrets-and-vars.ps1
            |   validate-bicep.ps1
@@ -291,30 +293,45 @@ steps:
       echo "rndSuffix=$(echo $RANDOM | md5sum | head -c 8)" >> $GITHUB_OUTPUT
 ```
 
-1. The full resource names will be constructed dynamically within the plan job using the generated suffix:
+1. The full resource names will be constructed dynamically within the plan job using the generated suffix. Example:
 
 ```yaml
 az deployment sub what-if \
-  --name "gaw-deployment-${{ steps.rnd.outputs.rndSuffix }}" \
+  --name "gaw-deployment-${{ steps.rnd.outputs.randomResourceSuffix }}" \
   --location "${{ github.event.inputs.location }}" \
   --template-file "${{ github.event.inputs.bicepFile }}" \
   --parameters "${{ github.event.inputs.bicepParametersFile }}" \
-  --parameters resourceGroupName="${{ github.event.inputs.resourceGroupName }}" \
-               location="${{ github.event.inputs.location }}" \
-               rndSuffix="${{ steps.rnd.outputs.rndSuffix }}"
+  --parameters resourceGroupName="${{ env.rgprefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
+                location="${{ github.event.inputs.location }}" \
+                storageAccountName="${{ env.storagePrefix }}${{ steps.rnd.outputs.rndSuffix }}" \
+                containerRegistryName="${{ env.containerRegistryPrefix }}${{ steps.rnd.outputs.rndSuffix }}" \
+                appServicePlanName="${{ env.appServicePlanPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
+                appServiceName="${{ env.appServicePrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
+                appInsightsPrefix="${{ env.appInsightsPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
+                keyVaultName="${{ env.keyVaultPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
+                lawName="${{ env.lawPrefix }}-${{ steps.rnd.outputs.rndSuffix }}"
 ```
 
-1. And in the deploy job, the same pattern is used with job output references:
+1. And in the deploy job, the same pattern is used with job output references, 
 
 ```yaml
-az deployment sub create \
-  --name "${{ github.event.inputs.deploymentStackName }}-${{ steps.prepare-params.outputs.timestamp }}" \
-  --location "${{ github.event.inputs.location }}" \
-  --template-file "${{ github.event.inputs.bicepFile }}" \
-  --parameters "${{ github.event.inputs.bicepParametersFile }}" \
-  --parameters resourceGroupName="${{ github.event.inputs.resourceGroupName }}" \
-               location="${{ github.event.inputs.location }}" \
-               deployRndSuffix="${{ github.event.inputs.rndSuffix }}"
+az stack sub create \
+--name "${{ github.event.inputs.deploymentStackPrefix }}-${{ env.deployRndSuffix }}" \
+--location "${{ github.event.inputs.location }}" \
+--template-file "${{ github.event.inputs.bicepFile }}" \
+--parameters "${{ github.event.inputs.bicepParametersFile }}" \
+--parameters resourceGroupName="${{ env.rgprefix }}-${{ env.deployRndSuffix }}" \
+        location="${{ github.event.inputs.location }}" \
+        storageAccountName="${{ env.storagePrefix }}${{ env.deployRndSuffix }}" \
+        containerRegistryName="${{ env.containerRegistryPrefix }}${{ env.deployRndSuffix }}" \
+        appServicePlanName="${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }}" \
+        appServiceName="${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}" \
+        appInsightsPrefix="${{ env.appInsightsPrefix }}-${{ env.deployRndSuffix }}" \
+        keyVaultName="${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}" \
+        lawName="${{ env.lawPrefix }}-${{ env.deployRndSuffix }}" \
+--deny-settings-mode none \
+--action-on-unmanage deleteAll \
+--yes
 ```
 
 #### 1.12.3.3 Jobs
@@ -356,14 +373,16 @@ az deployment sub create \
    NOTE: Only create the directory structure exactly as it appears in **section 1.12.3, step 1** if it does not already exist. If the files already exist, do not overwrite them.
 
 2. Add the code in `main.bicep` to perform a subscription scoped deployment. All parameter values in the `main.bicepparam` will be set to either an empty string or object, because the parameters will be dynamically set in the workflow inputs defined in **section 1.12.3, step 1**.
-   
-   - For these Azure resources, reference the [Azure Verified Modules](https://azure.github.io/Azure-Verified-Modules/indexes/bicep/bicep-resource-modules/).
+
+_NOTE: For these Azure resources, reference the `WAF-aligned` examples of [Azure Verified Modules](https://azure.github.io/Azure-Verified-Modules/indexes/bicep/bicep-resource-modules/) and include sensible defaults and enforce any implicit dependencies, for example; storage account logging or app service monitoring. Also include the latest known stable semantic version at this site, i.e. 0.11.2 used in the azure verified modules version format for each resource_
+
    - The resource group should include Azure resources based on the modules defined below.
    - Use the `sta.bicep` module for the storage account based on the `Microsoft.Storage/storageAccounts` resource type.
    - Use the `acr.bicep` module for the container registry based on the `Microsoft.ContainerRegistry/registries` resource type.
    - Use the `asp.bicep` module for the Azure App Service Plan based on the `Microsoft.Web/serverfarms` resource type.
    - Use the `app.bicep` module for the Azure App Service based on the `Microsoft.Web/sites` resource type.
-   - Use the `kvt.bicep` module for the Azure Key Vault based on the `Microsoft.KeyVault/vaults` resource type. Since the key vault `diagnosticSettings` property for a defined logging sink configuration depends on the storage account, please enforce this dependency so that the key vault diagnostic settings can reference the `storageAccountId` output from the `sta.bicep` module.
+   - Use the `kvt.bicep` module for the Azure Key Vault based on the `Microsoft.KeyVault/vaults` resource type. Since the key vault `diagnosticSettings`
+   - Use the `law.bicep` module for the Log Analytics workspace based on the `Microsoft.OperationalInsights/workspaces` resource type. Eforce any dependencies for the Log Analytics workspace to ensure it is created before the Key Vault, App Service Plan and App Service so it's resource id can be referenced in the Key Vault, App Service Plan and App Service modules as necessary.
 
 3. Add the code in `main.bicep` to deploy a storage account using the `sta.bicep` module.
 4. Add the container registry using the `acr.bicep` module. The code should include parameters for resource names, locations, and other configurations.
