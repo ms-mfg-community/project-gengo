@@ -309,6 +309,7 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 3. Add the code in `main.bicep` to deploy a storage account named `'1sta#{RANDOM_RESOURCE_SUFFIX}#'` with the `sta.bicep` module.
 4. Add the container registry with the parameter name `'acr-#{RANDOM_RESOURCE_SUFFIX}#'` using the `acr.bicep` module. The code should include parameters for resource names, locations, and other configurations.
 5. Add the code in `main.bicepparam` to define the appropriate parameters based on sensible defaults and recommendations of Azure Verified Modules referenced in step 2. above.
+6. Ensure that all resources will use their appropriate stable API versions as hardcoded values.
 
 #### 1.12.4.1 Bicep Deployment Modes
 
@@ -317,9 +318,7 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 3. For the deploy job, if the stackAction is `deploy` deploy the resources using the Bicep files and parameters defined in the previous steps. Ensure that the deployment stack name uses the value: `deploymentStackName`.
 4. If the stackAction is `rollback`, rollback the deployment stack using the `deploymentStackName` parameter.
 5. Populate the `validate-bicep.ps1` script to validate the Bicep files before deployment. This script should use the Azure CLI command `az bicep build` to ensure the Bicep files are valid and can be deployed.
-6. Use the --api-version as a github actions env: variable to specify the current Bicep API version for all az deployment or what-if commands, e.g., `--api-version` and specify this value in the `main.bicepparam` file as `apiVersion`.
-7. In the `validate-bicep.ps1` script, add the following code to change the working directory before validating the Bicep files:
-  
+
 ```powershell
 # Change to the parent directory (infra directory) to ensure relative paths work correctly
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
