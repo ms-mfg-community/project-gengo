@@ -10,5 +10,7 @@ param storageAccountName = ''
 param containerRegistryName = ''
 param appServicePlanName = ''
 param appServiceName = ''
+param appInsightsName = ''
 param keyVaultName = ''
+param lawName = ''
 param tags = {}

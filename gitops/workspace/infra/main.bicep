@@ -24,8 +24,8 @@ param appServicePlanName string
 @description('The name of the App Service')
 param appServiceName string 
 
-@description('The name prefix for the Application Insights resource')
-param appInsightsPrefix string
+@description('The name of the Application Insights resource')
+param appInsightsName string
 
 @description('The name of the Key Vault')
 param keyVaultName string
@@ -124,7 +124,7 @@ module applicationInsights 'modules/ais.bicep' = {
   name: 'appInsightsDeployment'
   scope: resourceGroup
   params: {
-    appInsightsName: '${appInsightsPrefix}-${resourceGroupName}'
+    appInsightsName: appInsightsName
     workspaceResourceId: logAnalyticsWorkspace.outputs.workspaceId
     storageAccountId: storageAccount.outputs.storageAccountId
     workspaceId: logAnalyticsWorkspace.outputs.workspaceId
