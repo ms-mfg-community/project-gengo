@@ -24,14 +24,8 @@ param appServicePlanName string
 @description('The name of the App Service')
 param appServiceName string 
 
-@description('The name of the Application Insights resource')
-param appInsightsName string
-
 @description('The name of the Key Vault')
 param keyVaultName string
-
-@description('The name of the Log Analytics Workspace')
-param lawName string
 
 @description('Tags to apply to all resources')
 param tags object = {
@@ -107,31 +101,6 @@ module keyVault 'modules/kvt.bicep' = {
   }
 }
 
-// Deploy Log Analytics Workspace using module
-module logAnalyticsWorkspace 'modules/law.bicep' = {
-  name: 'lawDeployment'
-  scope: resourceGroup
-  params: {
-    lawName: lawName
-    location: location
-    storageAccountId: storageAccount.outputs.storageAccountId
-    tags: tags
-  }
-}
-
-// Deploy Application Insights using module
-module applicationInsights 'modules/ais.bicep' = {
-  name: 'appInsightsDeployment'
-  scope: resourceGroup
-  params: {
-    appInsightsName: appInsightsName
-    workspaceResourceId: logAnalyticsWorkspace.outputs.workspaceId
-    storageAccountId: storageAccount.outputs.storageAccountId
-    workspaceId: logAnalyticsWorkspace.outputs.workspaceId
-    location: location
-    tags: tags
-  }
-}
 
 // Outputs
 output resourceGroupName string = resourceGroup.name
@@ -149,10 +118,3 @@ output appServiceDefaultHostName string = appService.outputs.defaultHostName
 output keyVaultName string = keyVault.outputs.keyVaultName
 output keyVaultId string = keyVault.outputs.keyVaultId
 output keyVaultUri string = keyVault.outputs.vaultUri
-output lawName string = logAnalyticsWorkspace.outputs.workspaceName
-output lawId string = logAnalyticsWorkspace.outputs.workspaceId
-output lawCustomerId string = logAnalyticsWorkspace.outputs.customerId
-output appInsightsName string = applicationInsights.outputs.componentName
-output appInsightsId string = applicationInsights.outputs.componentId
-output appInsightsInstrumentationKey string = applicationInsights.outputs.instrumentationKey
-output appInsightsConnectionString string = applicationInsights.outputs.connectionString
