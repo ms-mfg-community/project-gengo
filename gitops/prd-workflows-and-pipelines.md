@@ -376,7 +376,7 @@ az deployment sub create \
 1. For the deploy job, if the stackAction is `deploy` deploy the resources using the Bicep files and parameters defined in the previous steps. Ensure that the deployment uses the value: `deploymentStackName` and leverage the `az stack sub create` command, with the `--deny-settings-mode` parameter set to `deny` to ensure that the deployment stack is created with the appropriate deny settings for the resources being deployed and the `--action-on-unmanage` parameter set to `deleteAll` to ensure that unmanaged resources are deleted if they are not part of the deployment stack.
 
 ```bash
-1. If the stackAction is `rollback`, rollback the deployment using the `deploymentStackName` parameter.
+1. If the stackAction is `rollback`, rollback the deployment using the most recent `deploymentStackName` parameter.
 1. Populate the `validate-bicep.ps1` script to validate the Bicep files before deployment. This script should use the Azure CLI command `az bicep build` to ensure the Bicep files are valid and can be deployed.
 
 ```powershell
