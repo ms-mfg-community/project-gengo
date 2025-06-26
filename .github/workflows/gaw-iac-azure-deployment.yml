@@ -63,6 +63,8 @@ env:
   appServicePlanPrefix: 'asp'
   appServicePrefix: 'app'
   keyVaultPrefix: 'kvt'
+  lawPrefix: 'law'
+  appInsightsPrefix: 'ais'
 
 jobs:
   plan:
@@ -116,14 +118,15 @@ jobs:
             --name "gaw-deployment-${{ steps.rnd.outputs.randomResourceSuffix }}" \
             --location "${{ github.event.inputs.location }}" \
             --template-file "${{ github.event.inputs.bicepFile }}" \
-            --parameters "${{ github.event.inputs.bicepParametersFile }}" \
             --parameters resourceGroupName="${{ env.rgprefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          location="${{ github.event.inputs.location }}" \
                          storageAccountName="${{ env.storagePrefix }}${{ steps.rnd.outputs.rndSuffix }}" \
                          containerRegistryName="${{ env.containerRegistryPrefix }}${{ steps.rnd.outputs.rndSuffix }}" \
                          appServicePlanName="${{ env.appServicePlanPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          appServiceName="${{ env.appServicePrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
-                         keyVaultName="${{ env.keyVaultPrefix }}-${{ steps.rnd.outputs.rndSuffix }}"
+                         appInsightsName="${{ env.appInsightsPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
+                         keyVaultName="${{ env.keyVaultPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
+                         lawName="${{ env.lawPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
       - name: Display Plan Summary
         run: |
           echo "Planning completed successfully. Review the what-if output above to understand the changes that will be made."
@@ -133,7 +136,9 @@ jobs:
           echo "  - Container registry: ${{ env.containerRegistryPrefix }}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "  - App Service Plan: ${{env.appServicePlanPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "  - App Service: ${{env.appServicePrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
+          echo "  - Application Insights: ${{env.appInsightsPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "  - Key Vault: ${{env.keyVaultPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
+          echo "  - Log Analytics Workspace: ${{env.lawPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "Use the 'Deploy' job to apply these changes if everything looks good."
   deploy:
     name: Deploy Resources
@@ -188,14 +193,15 @@ jobs:
             --name "${{ github.event.inputs.deploymentStackPrefix }}-${{ env.deployRndSuffix }}" \
             --location "${{ github.event.inputs.location }}" \
             --template-file "${{ github.event.inputs.bicepFile }}" \
-            --parameters "${{ github.event.inputs.bicepParametersFile }}" \
             --parameters resourceGroupName="${{ env.rgprefix }}-${{ env.deployRndSuffix }}" \
                    location="${{ github.event.inputs.location }}" \
                    storageAccountName="${{ env.storagePrefix }}${{ env.deployRndSuffix }}" \
                    containerRegistryName="${{ env.containerRegistryPrefix }}${{ env.deployRndSuffix }}" \
                    appServicePlanName="${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }}" \
+                   appInsightsName="${{ env.appInsightsPrefix }}-${{ env.deployRndSuffix }}" \
                    appServiceName="${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}" \
                    keyVaultName="${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}" \
+                   lawName="${{ env.lawPrefix }}-${{ env.deployRndSuffix }}" 
             --deny-settings-mode none \
             --action-on-unmanage deleteAll \
             --yes
@@ -242,7 +248,9 @@ jobs:
             echo "  - Container registry: ${{ env.containerRegistryPrefix }}-${{ env.deployRndSuffix }}"
             echo "  - App Service Plan: ${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }}"
             echo "  - App Service: ${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}"
+            echo "  - Application Insights: ${{ env.appInsightsPrefix }}-${{ env.deployRndSuffix }}"
             echo "  - Key Vault: ${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}"
+            echo "  - Log Analytics Workspace: ${{ env.lawPrefix }}-${{ env.deployRndSuffix }}"
             echo "Deployment completed successfully. Review the output above for details."
             echo "You can also check the Azure portal for more details."
             echo "Listing deployed resources:"

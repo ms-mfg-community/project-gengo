@@ -53,6 +53,9 @@ resource appService 'Microsoft.Web/sites@2023-12-01' = {
       ]
     }
   }
+  dependsOn: [
+    appInsights
+  ]
 }
 
 // Application Insights (optional)

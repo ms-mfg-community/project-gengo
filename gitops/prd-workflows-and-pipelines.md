@@ -300,7 +300,6 @@ az deployment sub what-if \
   --name "gaw-deployment-${{ steps.rnd.outputs.randomResourceSuffix }}" \
   --location "${{ github.event.inputs.location }}" \
   --template-file "${{ github.event.inputs.bicepFile }}" \
-  --parameters "${{ github.event.inputs.bicepParametersFile }}" \
   --parameters resourceGroupName="${{ env.rgprefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                 location="${{ github.event.inputs.location }}" \
                 storageAccountName="${{ env.storagePrefix }}${{ steps.rnd.outputs.rndSuffix }}" \
@@ -319,7 +318,6 @@ az stack sub create \
 --name "${{ github.event.inputs.deploymentStackPrefix }}-${{ env.deployRndSuffix }}" \
 --location "${{ github.event.inputs.location }}" \
 --template-file "${{ github.event.inputs.bicepFile }}" \
---parameters "${{ github.event.inputs.bicepParametersFile }}" \
 --parameters resourceGroupName="${{ env.rgprefix }}-${{ env.deployRndSuffix }}" \
         location="${{ github.event.inputs.location }}" \
         storageAccountName="${{ env.storagePrefix }}${{ env.deployRndSuffix }}" \

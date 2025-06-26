@@ -27,6 +27,12 @@ param appServiceName string
 @description('The name of the Key Vault')
 param keyVaultName string
 
+@description('The name of the Log Analytics Workspace')
+param lawName string
+
+@description('The name of the Application Insights component')
+param appInsightsName string
+
 @description('Tags to apply to all resources')
 param tags object = {
   Environment: 'Development'
@@ -98,6 +104,18 @@ module keyVault 'modules/kvt.bicep' = {
     location: location
     storageAccountId: storageAccount.outputs.storageAccountId
     tags: tags
+  }
+}
+
+// Deploy Log Analytics Workspace using module
+module logAnalyticsWorkspace 'modules/law.bicep' = {
+  name: 'logAnalyticsWorkspaceDeployment'
+  scope: resourceGroup
+  params: {
+    workspaceName: lawName
+    location: location
+    tags: tags
+    storageAccountId: storageAccount.outputs.storageAccountId
   }
 }
 
