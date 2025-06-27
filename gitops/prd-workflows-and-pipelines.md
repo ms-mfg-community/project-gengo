@@ -100,6 +100,16 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 | FR-18 | The workflow shall handle errors gracefully with clear error messages |
 | FR-19 | The workflow shall support subscription-scoped deployments |
 | FR-20 | The workflow shall tag all resources with deployment metadata |
+| FR-21 | The workflow shall deploy Azure Key Vault for secure secrets management |
+| FR-22 | The workflow shall deploy Log Analytics Workspace for centralized logging |
+| FR-23 | The workflow shall deploy Application Insights for application monitoring |
+| FR-24 | The workflow shall support imperative App Service deployment to avoid auto-created resources |
+| FR-25 | The workflow shall implement hybrid deployment approach (declarative + imperative) |
+| FR-26 | The workflow shall perform explicit cleanup of imperatively deployed resources during rollback |
+| FR-27 | The workflow shall support modular Bicep architecture with dedicated modules for each service |
+| FR-28 | The workflow shall generate unique random suffixes for resource naming to prevent conflicts |
+| FR-29 | The workflow shall support Azure CLI and Bicep extension setup automation |
+| FR-30 | The workflow shall provide comprehensive audit trails for all deployment operations |
 
 ## 1.8 Non-Functional Requirements
 
