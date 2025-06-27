@@ -113,7 +113,9 @@ jobs:
       - name: What-If Deployment Analysis
         run: |
           echo "Running what-if analysis for subscription-scoped deployment..."
-          
+          echo "IMPORTANT"
+          echo "This what-if analysis will not include the App Service Plan and App Service resources."
+          echo "They are deployed imperatively in the 'deploy' job."
           az deployment sub what-if \
             --name "gaw-deployment-${{ steps.rnd.outputs.randomResourceSuffix }}" \
             --location "${{ github.event.inputs.location }}" \
