@@ -90,6 +90,7 @@ module appService 'modules/app.bicep' = {
   params: {
     appServiceName: appServiceName
     appServicePlanId: appServicePlan.outputs.appServicePlanId
+    componentId: applicationInsights.outputs.componentId
     location: location
     tags: tags
   }
@@ -144,6 +145,7 @@ output containerRegistryLoginServer string = containerRegistry.outputs.loginServ
 output appServicePlanName string = appServicePlan.outputs.appServicePlanName
 output appServicePlanId string = appServicePlan.outputs.appServicePlanId
 output appServiceName string = appService.outputs.appServiceName
+output componentId string = applicationInsights.outputs.componentId
 output appServiceId string = appService.outputs.appServiceId
 output appServiceDefaultHostName string = appService.outputs.defaultHostName
 output keyVaultName string = keyVault.outputs.keyVaultName

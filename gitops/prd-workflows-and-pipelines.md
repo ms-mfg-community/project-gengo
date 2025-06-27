@@ -385,6 +385,14 @@ _NOTE: For these Azure resources, reference the `WAF-aligned` examples of [Azure
 4. Add the container registry using the `acr.bicep` module. The code should include parameters for resource names, locations, and other configurations.
 5. Add the code in `main.bicepparam` to define the appropriate parameters based on sensible defaults and recommendations of Azure Verified Modules referenced in step 2 above.
 6. Ensure that all resources will use their appropriate stable API versions as hardcoded values.
+7. The application insights resource should be linked to the log analytics workspace.
+8. Use the `tags` property to link the app service to the application insights resource. This will allow the app service to send telemetry data to the application insights resource, which is represented by it's resource id as `componentId` as this snippet shows:
+
+```bicep
+tags: {
+    'hidden-link:${componentId}': 'Resource'
+  }
+```
 
 #### 1.12.4.1 Bicep Deployment Modes
 

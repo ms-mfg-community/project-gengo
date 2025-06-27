@@ -26,6 +26,9 @@ param alwaysOn bool = false
 @description('Application settings')
 param appSettings array = []
 
+@description('The resource ID of the Application Insights component')
+param componentId string
+
 @description('Tags to apply to the App Service')
 param tags object = {}
 
@@ -33,7 +36,9 @@ param tags object = {}
 resource appService 'Microsoft.Web/sites@2023-12-01' = {
   name: appServiceName
   location: location
-  tags: tags
+  tags: {
+    'hidden-link:${componentId}': 'Resource'
+  }
   kind: 'app'
   properties: {
     serverFarmId: appServicePlanId
