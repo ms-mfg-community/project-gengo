@@ -35,19 +35,43 @@
 - High availability options documentation
 - Output descriptions for Docker operations
 
-## Remaining Files to Document
-
 ### 5. Key Vault Module (`modules/kvt.bicep`)
+✅ **COMPLETED** - Added comprehensive comments including:
 - Secret and key management capabilities
-- Access policy configuration
-- Network security settings
-- Diagnostic configuration
+- Access policy configuration explanations
+- Network security settings documentation
+- Diagnostic configuration details
+- RBAC and compliance features
 
 ### 6. Log Analytics Workspace Module (`modules/law.bicep`)
-- Monitoring and logging capabilities
-- Data retention policies
-- Integration with other services
-- Cost optimization settings
+✅ **COMPLETED** - Added detailed comments including:
+- Monitoring and logging capabilities overview
+- Data retention policies and cost optimization
+- Integration with other Azure services
+- Custom data sources configuration
+- AVM pattern implementation details
+
+### 7. Application Insights Module (`modules/ais.bicep`)
+✅ **COMPLETED** - Added comprehensive comments including:
+- Application performance monitoring features
+- Telemetry configuration and collection
+- Integration with Log Analytics workspace
+- Custom metrics and business KPI tracking
+- AVM pattern implementation
+
+### 8. Supporting Scripts
+✅ **COMPLETED** - All scripts already have comprehensive documentation:
+- `scripts/validate-bicep.ps1` - Template validation with error handling
+- `scripts/setup-github-secrets.ps1` - GitHub secrets automation with security guidance
+- Both scripts include proper PowerShell help documentation and examples
+
+### 9. Product Requirements Document (PRD)
+✅ **COMPLETED** - Updated sections 1.12.3 and 1.12.4 to reflect:
+- Current workflow implementation with detailed job architecture
+- Actual resource naming strategy and environment setup
+- Complete Bicep module documentation and dependencies
+- Security implementation with OIDC and environment protection
+- Deployment modes and validation procedures
 
 ### 7. Application Insights Module (`modules/ais.bicep`)
 - Application performance monitoring

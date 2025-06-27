@@ -1,14 +1,58 @@
-@description('The name of the Log Analytics Workspace')
+// ====================================================================================================
+// AZURE LOG ANALYTICS WORKSPACE MODULE
+// ====================================================================================================
+//
+// PURPOSE:
+//   This module deploys an Azure Log Analytics Workspace for centralized logging, monitoring,
+//   and analytics across Azure resources. It serves as the foundation for observability and
+//   provides comprehensive data collection and analysis capabilities.
+//
+// FEATURES:
+//   - Centralized log collection from multiple Azure services
+//   - KQL (Kusto Query Language) for advanced log analysis
+//   - Integration with Azure Monitor and Application Insights
+//   - Data export capabilities to Azure Storage
+//   - Custom data sources and performance counters
+//   - Security and compliance logging for audit trails
+//
+// MONITORING CAPABILITIES:
+//   - Application performance and error tracking
+//   - Infrastructure health and performance metrics
+//   - Security event monitoring and alerting
+//   - Custom business metrics and KPIs
+//   - Real-time dashboards and reports
+//
+// COST OPTIMIZATION:
+//   - Pay-per-GB ingestion model with PerGB2018 SKU
+//   - Configurable daily quota to control costs
+//   - Data retention policies for compliance and cost management
+//   - Efficient querying with performance optimization
+//
+// BASED ON: Azure Verified Modules (AVM) pattern for enterprise-grade deployment
+// RESOURCE TYPE: Microsoft.OperationalInsights/workspaces
+// AVM VERSION: 0.11.2 (latest stable version)
+// ====================================================================================================
+
+// ====================================================================================================
+// PARAMETERS SECTION
+// ====================================================================================================
+
+@description('The name of the Log Analytics Workspace - must be unique within the resource group')
 param lawName string
 
-@description('The location where the Log Analytics Workspace will be deployed')
+@description('The Azure region where the Log Analytics Workspace will be deployed')
 param location string
 
-@description('The resource ID of the storage account to link to the Log Analytics Workspace')
+@description('The resource ID of the storage account for data export and long-term retention')
 param storageAccountId string
 
-@description('Tags to apply to the Log Analytics Workspace')
+@description('Tags to apply to the Log Analytics Workspace for governance and cost tracking')
 param tags object
+
+// ====================================================================================================
+// LOG ANALYTICS WORKSPACE DEPLOYMENT
+// ====================================================================================================
+// Deploy using Azure Verified Module for enterprise-grade configuration and best practices
 
 module workspace 'br/public:avm/res/operational-insights/workspace:0.11.2' = {
   name: 'workspaceDeployment'
