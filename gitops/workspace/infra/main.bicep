@@ -18,12 +18,6 @@ param storageAccountName string
 @description('The name of the container registry')
 param containerRegistryName string
 
-@description('The name of the App Service Plan')
-param appServicePlanName string
-
-@description('The name of the App Service')
-param appServiceName string 
-
 @description('The name of the Key Vault')
 param keyVaultName string
 
@@ -67,30 +61,6 @@ module containerRegistry 'modules/acr.bicep' = {
   scope: resourceGroup
   params: {
     containerRegistryName: containerRegistryName
-    location: location
-    tags: tags
-  }
-}
-
-// Deploy App Service Plan using module
-module appServicePlan 'modules/asp.bicep' = {
-  name: 'appServicePlanDeployment'
-  scope: resourceGroup
-  params: {
-    appServicePlanName: appServicePlanName
-    location: location
-    tags: tags
-  }
-}
-
-// Deploy App Service using module
-module appService 'modules/app.bicep' = {
-  name: 'appServiceDeployment'
-  scope: resourceGroup
-  params: {
-    appServiceName: appServiceName
-    appServicePlanId: appServicePlan.outputs.appServicePlanId
-    componentId: applicationInsights.outputs.componentId
     location: location
     tags: tags
   }

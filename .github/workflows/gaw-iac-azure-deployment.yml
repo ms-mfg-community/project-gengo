@@ -122,8 +122,6 @@ jobs:
                          location="${{ github.event.inputs.location }}" \
                          storageAccountName="${{ env.storagePrefix }}${{ steps.rnd.outputs.rndSuffix }}" \
                          containerRegistryName="${{ env.containerRegistryPrefix }}${{ steps.rnd.outputs.rndSuffix }}" \
-                         appServicePlanName="${{ env.appServicePlanPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
-                         appServiceName="${{ env.appServicePrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          appInsightsName="${{ env.appInsightsPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          keyVaultName="${{ env.keyVaultPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          lawName="${{ env.lawPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
@@ -134,8 +132,6 @@ jobs:
           echo "  - Resource group: ${{ env.rgprefix }}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "  - Storage account: ${{ env.storagePrefix }}${{ steps.rnd.outputs.rndSuffix }}"
           echo "  - Container registry: ${{ env.containerRegistryPrefix }}-${{ steps.rnd.outputs.rndSuffix }}"
-          echo "  - App Service Plan: ${{env.appServicePlanPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
-          echo "  - App Service: ${{env.appServicePrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "  - Application Insights: ${{env.appInsightsPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "  - Key Vault: ${{env.keyVaultPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "  - Log Analytics Workspace: ${{env.lawPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
@@ -205,122 +201,70 @@ jobs:
             --deny-settings-mode none \
             --action-on-unmanage deleteAll \
             --yes
-
-            echo "Deployment Stack operation completed."
-
-      - name: Cleanup Application Insights Resource
-        if: ${{ github.event.inputs.stackAction == 'deploy' || github.event.inputs.stackAction == 'plan-and-deploy' }}
+      - name: Deploy App Service Plan and App Service (Imperative Deployment)
+        if: ${{ github.event.inputs.stackAction == 'deploy' && github.event.inputs.workflowMode == 'plan-and-deploy' }}
         run: |
-          echo "Searching for Application Insights resource to cleanup..."
+          echo "Deploying App Service Plan and App Service imperatively with az cli..."
           
-          # Get the App Service resource and check its tags
-          APP_SERVICE_NAME="${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}"
-          RESOURCE_GROUP="${{ env.rgprefix }}-${{ env.deployRndSuffix }}"
+          # Define variables consistently for this step
+          rgpName="${{ env.rgprefix }}-${{ env.deployRndSuffix }}"
+          aspName="${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }}"
+          appName="${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}"
+          appInsightsName="${{ env.appInsightsPrefix }}-${{ env.deployRndSuffix }}"
+          aspSku="B1"
           
-          echo "Looking for App Service: $APP_SERVICE_NAME in Resource Group: $RESOURCE_GROUP"
+          echo "Resource Group: $rgpName"
+          echo "App Service Plan: $aspName"
+          echo "App Service: $appName"
+          echo "Application Insights: $aiName"
+
+          # Create App Service Plan
+          echo "Creating App Service Plan: $aspName"
+          az appservice plan create \
+            --name "$aspName" \
+            --resource-group "$rgpName" \
+            --sku "$aspSku" \
+            --verbose
+
+          # Create App Service
+          echo "Creating App Service: $appName"
+          az webapp create \
+            --name "$appName" \
+            --resource-group "$rgpName" \
+            --plan "$aspName" \
+            --verbose
+
+          # Get Application Insights Connection String
+          echo "Waiting for Application Insights to be fully provisioned..."
+          sleep 180
           
-          # Get App Service tags
-          APP_SERVICE_TAGS=$(az webapp show \
-            --name "$APP_SERVICE_NAME" \
-            --resource-group "$RESOURCE_GROUP" \
-            --query "tags" \
-            --output json 2>/dev/null || echo "{}")
+          echo "Retrieving Application Insights connection string for: $appInsightsName"
+          AI_CONN_STR=$(az monitor app-insights component show \
+            --app "$appInsightsName" \
+            --resource-group "$rgpName" \
+            --query "connectionString" \
+            --output tsv 2>/dev/null || echo "")
           
-          echo "App Service tags: $APP_SERVICE_TAGS"
-          
-          # Search for appInsightsName + '-insights' in tags
-          TARGET_INSIGHTS_NAME="${{ env.appInsightsPrefix }}-${{ env.deployRndSuffix }}-insights"
-          echo "Searching for Application Insights resource: $TARGET_INSIGHTS_NAME"
-          
-          # Check if the target insights name exists in any of the tag values
-          INSIGHTS_FOUND=$(echo "$APP_SERVICE_TAGS" | jq -r --arg target "$TARGET_INSIGHTS_NAME" 'to_entries[] | select(.value == $target) | .key' 2>/dev/null || echo "")
-          
-          if [ -n "$INSIGHTS_FOUND" ]; then
-            echo "Found Application Insights reference in App Service tags: $INSIGHTS_FOUND = $TARGET_INSIGHTS_NAME"
+          if [ -n "$AI_CONN_STR" ]; then
+            echo "Successfully retrieved Application Insights connection string"
             
-            # Search for the Application Insights resource
-            INSIGHTS_RESOURCE_ID=$(az resource list \
-              --resource-group "$RESOURCE_GROUP" \
-              --resource-type "Microsoft.Insights/components" \
-              --query "[?name=='$TARGET_INSIGHTS_NAME'].id" \
-              --output tsv 2>/dev/null || echo "")
-            
-            if [ -n "$INSIGHTS_RESOURCE_ID" ]; then
-              echo "Found Application Insights resource: $INSIGHTS_RESOURCE_ID"
-              echo "Deleting Application Insights resource: $TARGET_INSIGHTS_NAME"
+            # Set App Settings for Application Insights
+            echo "Configuring App Service with Application Insights connection..."
+            az webapp config appsettings set \
+              --name "$appName" \
+              --resource-group "$rgpName" \
+              --settings \
+                APPLICATIONINSIGHTS_CONNECTION_STRING="$AI_CONN_STR" \
+                ApplicationInsightsAgent_EXTENSION_VERSION="~3" \
+              --verbose
               
-              az resource delete \
-                --ids "$INSIGHTS_RESOURCE_ID" \
-                --verbose
-              
-              echo "Application Insights resource deleted successfully."
-              
-              # Remove ONLY the specific tag from App Service that referenced the deleted Application Insights resource
-              # This preserves all other tags, including tags for correct Application Insights resources
-              echo "Removing ONLY the specific tag '$INSIGHTS_FOUND' from App Service: $APP_SERVICE_NAME"
-              echo "All other tags will be preserved."
-              
-              # Get current tags before removal for verification
-              CURRENT_TAGS=$(az webapp show \
-                --name "$APP_SERVICE_NAME" \
-                --resource-group "$RESOURCE_GROUP" \
-                --query "tags" \
-                --output json 2>/dev/null || echo "{}")
-              echo "Current tags before removal: $CURRENT_TAGS"
-              
-              # Method 1: Try removing via appsettings (for app settings-based references)
-              APP_SETTINGS_RESULT=$(az webapp config appsettings delete \
-                --name "$APP_SERVICE_NAME" \
-                --resource-group "$RESOURCE_GROUP" \
-                --setting-names "$INSIGHTS_FOUND" \
-                --output json 2>/dev/null || echo "null")
-              
-              if [ "$APP_SETTINGS_RESULT" != "null" ]; then
-                echo "Successfully removed app setting '$INSIGHTS_FOUND'"
-              else
-                echo "Tag '$INSIGHTS_FOUND' not found in app settings, trying direct tag removal..."
-                
-                # Method 2: Remove the specific tag directly using resource update
-                # This only removes the specific tag while preserving all others
-                TAG_REMOVAL_RESULT=$(az resource update \
-                  --resource-group "$RESOURCE_GROUP" \
-                  --name "$APP_SERVICE_NAME" \
-                  --resource-type "Microsoft.Web/sites" \
-                  --remove tags."$INSIGHTS_FOUND" \
-                  --output json 2>/dev/null || echo "null")
-                
-                if [ "$TAG_REMOVAL_RESULT" != "null" ]; then
-                  echo "Successfully removed tag '$INSIGHTS_FOUND' from resource tags"
-                else
-                  echo "Tag '$INSIGHTS_FOUND' not found in resource tags or removal failed"
-                fi
-              fi
-              
-              # Verify tags after removal to confirm only the specific tag was removed
-              UPDATED_TAGS=$(az webapp show \
-                --name "$APP_SERVICE_NAME" \
-                --resource-group "$RESOURCE_GROUP" \
-                --query "tags" \
-                --output json 2>/dev/null || echo "{}")
-              echo "Tags after selective removal: $UPDATED_TAGS"
-              
-              # Verify the specific tag was removed while others remain
-              TAG_STILL_EXISTS=$(echo "$UPDATED_TAGS" | jq -r --arg target "$TARGET_INSIGHTS_NAME" 'to_entries[] | select(.value == $target) | .key' 2>/dev/null || echo "")
-              if [ -z "$TAG_STILL_EXISTS" ]; then
-                echo "✓ Confirmed: Tag referencing '$TARGET_INSIGHTS_NAME' has been successfully removed"
-                echo "✓ All other tags have been preserved"
-              else
-                echo "⚠ Warning: Tag referencing '$TARGET_INSIGHTS_NAME' may still exist"
-              fi
-              
-              echo "Selective tag cleanup completed."
-            else
-              echo "Application Insights resource '$TARGET_INSIGHTS_NAME' not found in resource group."
-            fi
+            echo "Application Insights configuration completed successfully."
           else
-            echo "No Application Insights reference found in App Service tags matching: $TARGET_INSIGHTS_NAME"
+            echo "⚠ Warning: Could not retrieve Application Insights connection string for: $appInsightsName"
+            echo "App Service will be created without Application Insights integration."
           fi
 
+          echo "App Service Plan and App Service deployment completed."
       - name: Rollback Resources (Rollback Action)
         if: ${{ github.event.inputs.stackAction == 'rollback' }}
         run: |
