@@ -380,6 +380,17 @@ jobs:
             --yes \
             --no-wait \
             --verbose
+
+          # Cleanup both the App Service and App Service Plan resources separately here since they are not part of the stack
+          echo "Cleaning up App Service and App Service Plan resources..."
+          # First, delete the App Service
+          echo "Deleting App Service: ${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}"
+          az webapp delete --name ${{ env.appServicePrefix }}-${{ env.deployRndSuffix }} --resource-group ${{ env.rgprefix }}-${{ env.deployRndSuffix }}
+
+          # Then delete the App Service Plan
+          echo "Deleting App Service Plan: ${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }}"
+          az appservice plan delete --name ${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }} --resource-group ${{ env.rgprefix }}-${{ env.deployRndSuffix }}
+          echo "Rollback completed successfully. Resources have been deleted."
           
           # List recent deployments for reference
           echo "Recent deployments:"

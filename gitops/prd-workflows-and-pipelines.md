@@ -781,7 +781,34 @@ Configure deployment modes to support different execution patterns:
 
 Implement comprehensive cleanup procedures for complete environment reset and resource management:
 
-#### 1.12.5.1 Azure Resource Cleanup
+#### 1.12.5.1 Imperative Resource Cleanup
+
+**App Service and App Service Plan Cleanup** (Required for rollback operations):
+
+Since App Service Plan and App Service resources are deployed imperatively using Azure CLI commands (not through the Bicep deployment stack), they require explicit cleanup during rollback operations. Create a cleanup procedure that removes these compute resources separately:
+
+**Implementation Instructions:**
+
+1. **Status Output**: Display informational message "Cleaning up App Service and App Service Plan resources..." for audit trail and troubleshooting
+2. **App Service Deletion**:
+   - Output deletion message with specific resource name using the pattern "Deleting App Service: ${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}"
+   - Implement Azure CLI webapp deletion command that targets the App Service by name and resource group using the established environment variable naming pattern
+3. **App Service Plan Deletion**:
+   - Output deletion message with specific resource name using the pattern "Deleting App Service Plan: ${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }}"
+   - Implement Azure CLI App Service Plan deletion command that targets the plan by name and resource group using the established environment variable naming pattern
+4. **Completion Confirmation**: Display success message "Rollback completed successfully. Resources have been deleted." for operation verification
+
+**Critical Implementation Notes:**
+
+- **Deletion Order**: Always delete App Service before App Service Plan to avoid dependency conflicts
+- **Resource Independence**: These resources must be deleted separately since they exist outside the deployment stack lifecycle
+- **Error Handling**: Include appropriate error handling for cases where resources may not exist or deletion fails
+- **Naming Consistency**: Use the same environment variable pattern for resource names as used during deployment
+- **Audit Trail**: Provide clear logging for each deletion step to support troubleshooting and compliance requirements
+
+This cleanup procedure ensures complete removal of imperative resources during rollback operations while maintaining consistency with the overall deployment naming strategy.
+
+#### 1.12.5.2 Azure Resource Cleanup
 
 **Resource Group Deletion** (Optional for complete infrastructure reset):
 
@@ -792,7 +819,7 @@ Create a cleanup procedure that removes all Azure resources deployed by the Bice
 3. **Asynchronous Execution**: Use `--no-wait` flag to avoid blocking the cleanup process on resource deletion completion
 4. **Validation**: Optionally verify resource group deletion using `az group exists --name $resourceGroupName` command
 
-#### 1.12.5.2 File and Directory Cleanup
+#### 1.12.5.3 File and Directory Cleanup
 
 **Infrastructure Directory Removal** (Optional for workspace reset):
 
@@ -803,7 +830,7 @@ Create a PowerShell-based cleanup procedure for local development environment re
 3. **Recursive Deletion**: Include `-Recurse` parameter to remove all subdirectories and files
 4. **Force Override**: Include `-Force` parameter to override read-only attributes and confirmation prompts
 
-#### 1.12.5.3 Workflow File Cleanup
+#### 1.12.5.4 Workflow File Cleanup
 
 **GitHub Actions Workflow Removal** (Final cleanup step):
 
@@ -814,7 +841,7 @@ Implement workflow file cleanup for complete exercise reset:
 3. **Repository Reset**: Ensure the repository returns to its original state before the exercise
 4. **Verification**: Confirm workflow removal by checking the GitHub Actions tab for absence of the removed workflow
 
-#### 1.12.5.4 Security Cleanup
+#### 1.12.5.5 Security Cleanup
 
 **GitHub Secrets Management** (Optional for security reset):
 
