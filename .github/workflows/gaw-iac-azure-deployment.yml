@@ -1,92 +1,148 @@
 name: gaw-iac-azure-deployment
 
-# Manual trigger with comprehensive input parameters
+# ====================================================================================================
+# GitHub Actions Workflow: Azure Infrastructure Deployment with Bicep
+# ====================================================================================================
+# 
+# PURPOSE:
+# This workflow automates Azure infrastructure deployment using Bicep templates and Azure 
+# Deployment Stacks. It implements a two-stage approach: planning (what-if analysis) and 
+# deployment with proper resource cleanup and validation.
+#
+# FEATURES:
+# - Manual trigger with comprehensive input validation
+# - Plan-only mode for preview without deployment
+# - Plan-and-deploy mode for full infrastructure provisioning
+# - Azure Deployment Stacks for managed resource lifecycle
+# - Post-deployment cleanup of orphaned Application Insights resources
+# - Imperative App Service deployment to avoid auto-created resources
+# - Rollback capabilities using deployment stack history
+#
+# SECURITY:
+# - Uses OpenID Connect (OIDC) for secure Azure authentication
+# - Requires environment-specific approvals (dev/prd environments)
+# - Implements least-privilege access with specific permissions
+#
+# ====================================================================================================
+
+# Manual trigger with comprehensive input parameters for flexible deployment control
 on:
   workflow_dispatch:
     inputs:
       location:
-        description: 'Azure region for resources'
+        description: 'Azure region for resources (affects latency, compliance, and cost)'
         required: true
         default: 'eastus2'
         type: choice
         options:
-          - eastus2
-          - westus2
-          - centralus
-          - eastus
-          - westus
+          - eastus2    # US East 2 - Primary choice for most workloads
+          - westus2    # US West 2 - West coast alternative
+          - centralus  # US Central - Central location option
+          - eastus     # US East - Original east coast region
+          - westus     # US West - Original west coast region
       bicepFile:
-        description: 'Path to Bicep template file'
+        description: 'Path to Bicep template file (main infrastructure definition)'
         required: true
         default: 'gitops/workspace/infra/main.bicep'
         type: string
       bicepParametersFile:
-        description: 'Path to Bicep parameters file'
+        description: 'Path to Bicep parameters file (environment-specific values)'
         required: true
         default: 'gitops/workspace/infra/main.bicepparam'
         type: string
       workflowMode:
-        description: 'Workflow execution mode'
+        description: 'Workflow execution mode (plan-only for preview, plan-and-deploy for execution)'
         required: true
         default: 'plan-only'
         type: choice
         options:
-          - plan-only
-          - plan-and-deploy
+          - plan-only      # Safe mode: only shows what would be deployed
+          - plan-and-deploy # Full mode: deploys infrastructure after planning
       stackAction:
-        description: 'Deployment stack action'
+        description: 'Deployment stack action (deploy for new resources, rollback for reverting)'
         required: true
         default: 'deploy'
         type: choice
         options:
-          - deploy
-          - rollback
+          - deploy   # Create or update infrastructure
+          - rollback # Revert to previous deployment state
       deploymentStackPrefix:
-        description: 'Deployment stack prefix'
+        description: 'Deployment stack prefix (used for stack naming and identification)'
         required: true
         default: 'stack'
         type: string
 
-# Set permissions for OIDC token
+# ====================================================================================================
+# PERMISSIONS AND SECURITY CONFIGURATION
+# ====================================================================================================
+
+# Set permissions for OIDC token (OpenID Connect for secure Azure authentication)
 permissions:
-  id-token: write
-  contents: read
+  id-token: write   # Required for OIDC token generation
+  contents: read    # Required for repository code access
+
+# ====================================================================================================
+# ENVIRONMENT VARIABLES AND CONFIGURATION
+# ====================================================================================================
 
 # Environment variables (Secrets need to be configured in GitHub repository settings)
+# These provide secure access to Azure resources and define naming conventions
 env:
-  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  rgprefix: 'rgp'
-  storagePrefix: '1sta'
-  containerRegistryPrefix: 'acr'
-  appServicePlanPrefix: 'asp'
-  appServicePrefix: 'app'
-  keyVaultPrefix: 'kvt'
-  lawPrefix: 'law'
-  appInsightsPrefix: 'ais'
+  # Azure Authentication (configured as repository secrets)
+  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}  # Target Azure subscription
+  AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}              # Service principal client ID
+  AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}              # Azure AD tenant ID
+  
+  # Resource Naming Prefixes (ensures consistent naming across all resources)
+  rgprefix: 'rgp'                    # Resource Group prefix
+  storagePrefix: '1sta'              # Storage Account prefix (must start with letter)
+  containerRegistryPrefix: 'acr'     # Azure Container Registry prefix
+  appServicePlanPrefix: 'asp'        # App Service Plan prefix
+  appServicePrefix: 'app'            # App Service prefix
+  keyVaultPrefix: 'kvt'              # Key Vault prefix
+  lawPrefix: 'law'                   # Log Analytics Workspace prefix
+  appInsightsPrefix: 'ais'           # Application Insights prefix
+
+# ====================================================================================================
+# JOBS DEFINITION
+# ====================================================================================================
 
 jobs:
+  # =====================================
+  # PLANNING JOB
+  # =====================================
+  # This job performs infrastructure planning and validation without making changes
+  # - Runs on development environment for safe validation
+  # - Generates unique resource suffixes for consistent naming
+  # - Performs Bicep validation and what-if analysis
+  # - Outputs random suffix for use in deployment job
   plan:
     name: Plan Deployment
-    runs-on: ubuntu-latest
-    environment: dev
+    runs-on: ubuntu-latest    # Use GitHub-hosted Ubuntu runner
+    environment: dev          # Requires dev environment approval/protection rules
 
     permissions:
-      id-token: write
-      contents: read
+      id-token: write         # Required for Azure OIDC authentication: Uses app registration: ghc-scenario-id-39
+      contents: read          # Required for repository access
 
+    # Job outputs available to dependent jobs
     outputs:
-      rndSuffix: ${{ steps.rnd.outputs.rndSuffix }}
+      rndSuffix: ${{ steps.rnd.outputs.rndSuffix }}  # Unique suffix for resource naming
+
     steps:
+      # Generate unique random suffix for resource naming consistency
+      # This ensures each deployment has unique resource names to avoid conflicts
       - name: Set Output Variables
         id: rnd
         run: |
           echo "rndSuffix=$(echo $RANDOM | md5sum | head -c 8)" >> $GITHUB_OUTPUT
 
+      # Download repository code for Bicep template access
       - name: Checkout Repository
         uses: actions/checkout@v4
       
+      # Authenticate with Azure using OpenID Connect (OIDC)
+      # This provides secure, keyless authentication without storing credentials
       - name: Azure Login with OIDC
         uses: azure/login@v1
         with:
@@ -94,22 +150,29 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       
+      # Install and configure Azure CLI with Bicep extension
+      # Ensures latest versions for reliable infrastructure deployment
       - name: Set up Azure CLI with Bicep Extension
         run: |
           echo "Setting up Azure CLI and Bicep extension..."
-          az upgrade --yes
+          az upgrade --yes          # Upgrade Azure CLI to latest version
           # Install and setup Bicep extension
-          az bicep install
+          az bicep install         # Install Bicep CLI extension
           
-          # Verify installation  
+          # Verify installation for troubleshooting
           echo "Azure CLI version:"
           az --version
           echo "Bicep version:"
           az bicep version
+          
+      # Validate Bicep templates before deployment
+      # Custom PowerShell script performs comprehensive validation
       - name: Validate Bicep Files
         run: |
           pwsh -File ./gitops/workspace/infra/scripts/validate-bicep.ps1
 
+      # Perform what-if analysis to preview infrastructure changes
+      # Shows exactly what resources will be created, modified, or deleted
       - name: What-If Deployment Analysis
         run: |
           echo "Running what-if analysis for subscription-scoped deployment..."
@@ -127,6 +190,9 @@ jobs:
                          appInsightsName="${{ env.appInsightsPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          keyVaultName="${{ env.keyVaultPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          lawName="${{ env.lawPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
+                         
+      # Display comprehensive summary of planned resources
+      # Provides clear overview of what will be deployed
       - name: Display Plan Summary
         run: |
           echo "Planning completed successfully. Review the what-if output above to understand the changes that will be made."
@@ -138,24 +204,35 @@ jobs:
           echo "  - Key Vault: ${{env.keyVaultPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "  - Log Analytics Workspace: ${{env.lawPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "Use the 'Deploy' job to apply these changes if everything looks good."
+  # =====================================
+  # DEPLOYMENT JOB
+  # =====================================
+  # This job performs actual infrastructure deployment to Azure
+  # - Runs only in production environment with approval gates
+  # - Executes only when plan job succeeds and plan-and-deploy mode is selected
+  # - Uses Azure Deployment Stacks for managed resource lifecycle
+  # - Includes post-deployment cleanup and validation
   deploy:
     name: Deploy Resources
-    runs-on: ubuntu-latest
-    environment: prd
-    needs: [plan]
+    runs-on: ubuntu-latest    # Use GitHub-hosted Ubuntu runner
+    environment: prd          # Requires production environment approval/protection rules
+    needs: [plan]            # Depends on successful completion of plan job
     if: ${{ success() && (github.event.inputs.workflowMode == 'plan-and-deploy') }}
 
     permissions:
-      id-token: write
-      contents: read
+      id-token: write         # Required for Azure OIDC authentication
+      contents: read          # Required for repository access
     
+    # Environment variable carrying random suffix from plan job
     env:
       deployRndSuffix: ${{ needs.plan.outputs.rndSuffix }}
 
     steps:
+      # Download repository code for Bicep template access
       - name: Checkout Repository
         uses: actions/checkout@v4
       
+      # Authenticate with Azure using OpenID Connect (OIDC)
       - name: Azure Login with OIDC
         uses: azure/login@v1
         with:
@@ -163,31 +240,39 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       
+      # Install and configure Azure CLI with Bicep extension
       - name: Set up Azure CLI with Bicep Extension
         run: |
           echo "Setting up Azure CLI and Bicep extension..."
           # Install Bicep extension if not already present
           az bicep install
           
-          # Verify installation  
+          # Verify installation for troubleshooting
           echo "Azure CLI version:"
           az --version
           echo "Bicep version:"
           az bicep version
       
+      # Re-validate Bicep templates before deployment (safety check)
       - name: Validate Bicep Files
         run: |
           pwsh -File ./gitops/workspace/infra/scripts/validate-bicep.ps1
 
+      # =====================================
+      # MAIN INFRASTRUCTURE DEPLOYMENT
+      # =====================================
+      # Deploy core infrastructure using Azure Deployment Stacks
+      # Deployment stacks provide managed lifecycle for infrastructure resources
       - name: Deploy Resources (Deploy Action)
         if: ${{ github.event.inputs.stackAction == 'deploy' }}
         run: |
           echo "Deploying resources to Azure..."
           
-            # Deploy using Azure Deployment Stacks (preview)
-            echo "Deploying resources using Azure Deployment Stacks..."
+          # Deploy using Azure Deployment Stacks (preview feature)
+          # Deployment stacks track resources and enable managed cleanup
+          echo "Deploying resources using Azure Deployment Stacks..."
 
-            az stack sub create \
+          az stack sub create \
             --name "${{ github.event.inputs.deploymentStackPrefix }}-${{ env.deployRndSuffix }}" \
             --location "${{ github.event.inputs.location }}" \
             --template-file "${{ github.event.inputs.bicepFile }}" \
@@ -198,9 +283,16 @@ jobs:
                    appInsightsName="${{ env.appInsightsPrefix }}-${{ env.deployRndSuffix }}" \
                    keyVaultName="${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}" \
                    lawName="${{ env.lawPrefix }}-${{ env.deployRndSuffix }}" \
-            --deny-settings-mode none \
-            --action-on-unmanage deleteAll \
-            --yes
+            --deny-settings-mode none \      # Allow external modifications to resources
+            --action-on-unmanage deleteAll \ # Delete resources not in template
+            --yes                            # Skip confirmation prompts
+
+      # =====================================
+      # IMPERATIVE APP SERVICE DEPLOYMENT
+      # =====================================
+      # Deploy App Service Plan and App Service using Azure CLI (imperative approach)
+      # This prevents Azure from auto-creating managed Log Analytics workspace
+      # which would conflict with our explicit workspace deployment
       - name: Deploy App Service Plan and App Service (Imperative Deployment)
         if: ${{ github.event.inputs.stackAction == 'deploy' && github.event.inputs.workflowMode == 'plan-and-deploy' }}
         run: |
