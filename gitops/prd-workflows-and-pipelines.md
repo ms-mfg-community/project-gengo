@@ -2,9 +2,9 @@
 
 ## 1.1 Document Information
 
-- **Version:** 2.2
-- **Author(s):** GitHub Copilot
-- **Date:** January 10, 2025
+- **Version:** 2.3
+- **Author(s):** Preston K. Parsard
+- **Date:** June 27, 2025
 - **Status:** Complete
 
 ## 1.2 Executive Summary
