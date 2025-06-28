@@ -378,9 +378,7 @@ jobs:
           az stack sub delete \
             --name $RECENT_STACK \
             --action-on-unmanage deleteAll \
-            --yes \
-            --no-wait \
-            --verbose
+            --yes
 
           # Cleanup both the App Service and App Service Plan resources separately here since they are not part of the stack
           echo "Cleaning up App Service and App Service Plan resources..."
