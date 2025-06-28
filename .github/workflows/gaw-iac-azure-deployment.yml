@@ -283,9 +283,9 @@ jobs:
                    appInsightsName="${{ env.appInsightsPrefix }}-${{ env.deployRndSuffix }}" \
                    keyVaultName="${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}" \
                    lawName="${{ env.lawPrefix }}-${{ env.deployRndSuffix }}" \
-            --deny-settings-mode none \      # Allow external modifications to resources
-            --action-on-unmanage deleteAll \ # Delete resources not in template
-            --yes                            # Skip confirmation prompts
+            --deny-settings-mode none \
+            --action-on-unmanage deleteAll \
+            --yes
 
       # =====================================
       # IMPERATIVE APP SERVICE DEPLOYMENT
