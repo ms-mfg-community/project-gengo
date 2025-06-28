@@ -759,6 +759,8 @@ Create a `main.bicepparam` file that provides environment-specific values follow
 - Set storageAccountName parameter as empty string (will be set dynamically with unique suffix)
 - Set containerRegistryName parameter as empty string (will be set dynamically with unique suffix)
 - Follow same pattern for all additional parameters (keyVaultName, lawName, appInsightsName)
+  
+_NOTE: For this implementation, the bicepparam file is being used as a placeholder since it is bypassed by the required parameters in the github actions az cli deployment commands. However, it's placed here as a convenience for when it is needed, though it may be argued that this violates the YAGNI principle: YAGNI = You Ain't Gonna Need It._
 
 #### 1.12.4.7 Security and Compliance Features
 
@@ -785,7 +787,7 @@ Configure deployment modes to support different execution patterns:
 
 - **Plan-Only Mode**: Implement using `--what-if` parameter for preview without making changes
 - **Plan-and-Deploy Mode**: Execute full deployment after completing the planning phase  
-- **Rollback Mode**: Implement reversion to previous deployment using deployment stack history
+- **Rollback Mode**: Implement reversion to previous deployment using deployment stack history. This mode must be used in conjunction with the plan-and-deploy mode to ensure the deployment stack exists for rollback operations.
 
 ### 1.12.5 Cleanup Procedures
 
@@ -812,7 +814,22 @@ Since App Service Plan and App Service resources are deployed imperatively using
 
 - **Deletion Order**: Always delete App Service before App Service Plan to avoid dependency conflicts
 - **Resource Independence**: These resources must be deleted separately since they exist outside the deployment stack lifecycle
-- **Error Handling**: Include appropriate error handling for cases where resources may not exist or deletion fails
+- **Error Handling**: Include appropriate error handling for cases where resources may not exist or deletion fails. The following ERROR may appear during a rollback operation and can be safely ignored as a false-positive, where the deployment may have to be manually deleted from the portal:
+
+```bash
+Run echo "Rolling back deployment..."
+##[debug]/usr/bin/bash -e /home/runner/work/_temp/a820ff60-fe13-4d5e-9365-dbe19bd7aafc.sh
+Rolling back deployment...
+Most recent deployment stack found: stack-6a78b0f0
+Rolling back deployment stack: stack-6a78b0f0
+ERROR: (DeploymentStackDeleteResourcesFailed) One or more resources could not be deleted. Correlation id: '<guid>'.
+Code: DeploymentStackDeleteResourcesFailed
+Message: One or more resources could not be deleted. Correlation id: '<guid>'.
+Exception Details:(DeploymentStackDeleteResourcesFailed) An error occurred while deleting resources. These resources are still present in the stack but can be deleted manually. Please see the FailedResources property for specific error information. Deletion failures that are known limitations are documented here: https://aka.ms/DeploymentStacksKnownLimitations
+Code: DeploymentStackDeleteResourcesFailed
+Message: An error occurred while deleting resources. These resources are still present in the stack but can be deleted manually. Please see the FailedResources property for specific error information. Deletion failures that are known limitations are documented here: https://aka.ms/DeploymentStacksKnownLimitations
+```
+
 - **Naming Consistency**: Use the same environment variable pattern for resource names as used during deployment
 - **Audit Trail**: Provide clear logging for each deletion step to support troubleshooting and compliance requirements
 
