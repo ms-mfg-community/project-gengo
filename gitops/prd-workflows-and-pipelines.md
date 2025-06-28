@@ -623,7 +623,7 @@ The solution implements a subscription-scoped deployment that creates a complete
 4. **Key Vault**: Secure storage for secrets, keys, and certificates (`modules/kvt.bicep`)
 5. **Log Analytics Workspace**: Centralized logging and monitoring (`modules/law.bicep`)
 6. **Application Insights**: Application performance monitoring (`modules/ais.bicep`)
-7. **App Service Plan & App Service**: Web application hosting (deployed imperatively via Azure CLI to prevent auto-created monitoring resources)
+7. **App Service Plan & App Service**: Web application hosting with Linux OS and Node.js 22 LTS runtime (deployed imperatively via Azure CLI to prevent auto-created monitoring resources)
 
 #### 1.12.4.2 Directory Structure
 
@@ -705,6 +705,13 @@ Key features:
 **App Service Deployment Strategy**:
 
 App Service resources (App Service Plan and App Service) are intentionally deployed using imperative Azure CLI commands rather than declarative Bicep modules. This approach prevents Azure's automatic provisioning of monitoring resources that conflict with the managed infrastructure design.
+
+**App Service Configuration Specifications:**
+
+- **App Service Plan**: Configured with Linux operating system (`--is-linux` flag) for modern container and runtime support
+- **App Service Runtime**: Uses Node.js latest LTS version (`NODE:22-lts`) for optimal performance and security updates
+- **Integration**: Explicit linking to existing Application Insights and Log Analytics Workspace instances
+- **Deployment Method**: Azure CLI commands (`az appservice plan create` and `az webapp create`) for precise control
 
 When App Service is deployed declaratively through Bicep templates, Azure automatically creates:
 

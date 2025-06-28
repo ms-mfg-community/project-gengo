@@ -4,6 +4,7 @@
 
 ### 1. GitHub Actions Workflow (`gaw-iac-azure-deployment.yml`)
 ✅ **COMPLETED** - Added comprehensive comments including:
+
 - Purpose and features overview
 - Security configuration details
 - Parameter descriptions with business context
@@ -12,6 +13,7 @@
 - Environment and permission requirements
 
 ### 2. Main Bicep Template (`main.bicep`)
+
 ✅ **COMPLETED** - Added detailed comments including:
 - Architecture overview and deployment scope
 - Parameter descriptions with naming constraints

@@ -314,6 +314,7 @@ jobs:
           echo "Creating App Service Plan: $aspName"
           az appservice plan create \
             --name "$aspName" \
+            --is-linux \
             --resource-group "$rgpName" \
             --sku "$aspSku" \
             --verbose
@@ -324,6 +325,7 @@ jobs:
             --name "$appName" \
             --resource-group "$rgpName" \
             --plan "$aspName" \
+            --runtime "NODE:22-lts" \
             --verbose
 
           # Get Application Insights Connection String
