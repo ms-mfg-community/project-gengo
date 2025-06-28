@@ -377,6 +377,7 @@ jobs:
             
           az stack sub delete \
             --name $RECENT_STACK \
+            --action-on-unmanage deleteAll \
             --yes \
             --no-wait \
             --verbose
