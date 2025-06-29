@@ -231,7 +231,7 @@ jobs:
     # Environment variable carrying random suffix from plan job
     env:
       deployRndSuffix: ${{ needs.plan.outputs.rndSuffix }}
-      spnRole: "User Access Administrator" # Role for the Service Principal to assign roles
+      spnRole: 'User Access Administrator' # Role for the Service Principal to assign roles
 
     steps:
       # Download repository code for Bicep template access
