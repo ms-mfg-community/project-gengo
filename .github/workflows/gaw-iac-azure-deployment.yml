@@ -88,6 +88,7 @@ permissions:
 
 # Environment variables (Secrets need to be configured in GitHub repository settings)
 # These provide secure access to Azure resources and define naming conventions
+# Required repository secrets: AZURE_SUBSCRIPTION_ID, AZURE_CLIENT_ID, AZURE_TENANT_ID, SPN_OBJECT_ID
 env:
   # Azure Authentication (configured as repository secrets)
   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}  # Target Azure subscription
@@ -350,13 +351,23 @@ jobs:
           echo "Waiting for User Assigned Managed Identity to be assigned..."
           sleep 10  # Wait for Managed Identity assignment to complete
 
+          echo "Granting the 'User Access Administrator' role to the app registration at the subscription scope so it can assign the AcrPull role to the User Assigned Managed Identity."
+          # This approach uses the principle of least privilege by assigning the role at the subscription scope for role assignment capabilities
+          acrName="${{ env.containerRegistryPrefix }}${{ env.deployRndSuffix }}"
+          az role assignment create \
+            --assignee-object-id ${{ secrets.SPN_OBJECT_ID }} \
+            --assignee-principal-type ServicePrincipal \
+            --role "User Access Administrator" \
+            --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
+            --verbose
+
           # Assign AcrPull role to the User Assigned Managed Identity at ACR scope (least privilege)
           echo "Assigning AcrPull role to User Assigned Managed Identity: $umiName"
           az role assignment create \
             --assignee-object-id $(az identity show --name "$umiName" --resource-group "$rgpName" --query principalId --output tsv) \
             --assignee-principal-type ServicePrincipal \
             --role "AcrPull" \
-            --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName/providers/Microsoft.ContainerRegistry/registries/$acrName" \
+            --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
             --verbose
 
           echo "AcrPull role assignment completed."
