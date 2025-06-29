@@ -62,7 +62,7 @@ param deploymentId string
 // Deploy using Azure Verified Module for enterprise-grade configuration and monitoring capabilities
 
 module component 'br/public:avm/res/insights/component:0.6.0' = {
-  name: 'componentDeployment-${deploymentId}'
+  name: 'avm-aisDeployment-${deploymentId}'
   params: {
     // Required parameters
     name: appInsightsName

@@ -94,7 +94,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
 
 // Deploy Storage Account using dedicated module
 module storageAccount 'modules/sta.bicep' = {
-  name: 'storageAccountDeployment-${deploymentId}'
+  name: 'nvm-staDeployment-${deploymentId}'
   scope: resourceGroup
   params: {
     storageAccountName: storageAccountName  // Unique storage account name
@@ -106,7 +106,7 @@ module storageAccount 'modules/sta.bicep' = {
 // Deploy Container Registry using dedicated module
 // Azure Container Registry provides private Docker image storage and management
 module containerRegistry 'modules/acr.bicep' = {
-  name: 'containerRegistryDeployment-${deploymentId}'
+  name: 'nvm-acrDeployment-${deploymentId}'
   scope: resourceGroup
   params: {
     containerRegistryName: containerRegistryName  // Unique registry name
@@ -118,7 +118,7 @@ module containerRegistry 'modules/acr.bicep' = {
 // Deploy Key Vault using dedicated module
 // Azure Key Vault provides secure storage for secrets, keys, and certificates
 module keyVault 'modules/kvt.bicep' = {
-  name: 'keyVaultDeployment-${deploymentId}'
+  name: 'nvm-kvtDeployment-${deploymentId}'
   scope: resourceGroup
   params: {
     keyVaultName: keyVaultName                    // Unique Key Vault name
@@ -131,7 +131,7 @@ module keyVault 'modules/kvt.bicep' = {
 // Deploy Log Analytics Workspace using dedicated module
 // Provides centralized logging and monitoring capabilities for all Azure resources
 module logAnalyticsWorkspace 'modules/law.bicep' = {
-  name: 'logAnalyticsWorkspaceDeployment-${deploymentId}'
+  name: 'nvm-lawDeployment-${deploymentId}'
   scope: resourceGroup
   params: {
     lawName: lawName                              // Unique workspace name
@@ -145,7 +145,7 @@ module logAnalyticsWorkspace 'modules/law.bicep' = {
 // Deploy Application Insights using dedicated module
 // Provides application performance monitoring and analytics capabilities
 module applicationInsights 'modules/ais.bicep' = {
-  name: 'applicationInsightsDeployment-${deploymentId}'
+  name: 'nvm-aisDeployment-${deploymentId}'
   scope: resourceGroup
   params: {
     appInsightsName: appInsightsName             // Unique Application Insights name
@@ -160,7 +160,7 @@ module applicationInsights 'modules/ais.bicep' = {
 // Deploy User Assigned Managed Identity using dedicated module
 // Provides an identity for Azure resources to use when authenticating to Azure services
 module userAssignedIdentity 'modules/umi.bicep' = {
-  name: 'userAssignedIdentityDeployment-${deploymentId}'
+  name: 'nvm-umiDeployment-${deploymentId}'
   scope: resourceGroup
   params: {
     umiName: umiName        // Name based on resource group for consistency

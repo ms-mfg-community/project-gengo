@@ -125,6 +125,27 @@ This format provides clear context and can be easily parsed by tools. The Topic 
 - For bicep, use the Azure Cloud Shell or az cli for bicep commands with az bicep instead of the standalone bicep executable.
 - Use *.bicepparam parameter files instead of *.json parameter files
 
+#### Azure Bicep Module Naming Convention
+
+When working with Bicep modules, use specific prefixes in deployment names to clearly distinguish between Azure Verified Modules (AVM) and non-verified modules:
+
+**Non-Verified Module Naming (main.bicep level):**
+- Use the prefix `nvm-` in deployment names when calling custom or non-verified modules from the main.bicep file
+- Example: `name: 'nvm-storageDeployment-${deploymentId}'`
+- This indicates the module is a custom implementation or non-verified module
+
+**Azure Verified Module Naming (within modules):**
+- Use the prefix `avm-` in deployment names when calling Azure Verified Modules that have the signature `br/public:avm/res/`
+- Example: `name: 'avm-lawDeployment-${deploymentId}'` for `br/public:avm/res/operational-insights/workspace:0.11.2`
+- This indicates the final-level module is an official Azure Verified Module
+
+**Convention Benefits:**
+- **Clarity**: Immediately identifies the source and verification status of modules
+- **Traceability**: Easy to distinguish between custom implementations and official AVM modules in deployment logs
+- **Governance**: Supports compliance and auditing by clearly marking verified vs. custom infrastructure components
+- **Debugging**: Simplifies troubleshooting by identifying which modules are officially supported
+- **Deployment Safety**: Avoids conflicts between main.bicep module deployment names and called module Azure Verified Module deployment names, preventing deployment failures
+
 ### JavaScript / TypeScript
 
 - Enable strict mode and use linting (e.g., ESLint).

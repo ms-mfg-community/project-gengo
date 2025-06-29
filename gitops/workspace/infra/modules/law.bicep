@@ -58,7 +58,7 @@ param deploymentId string
 // Deploy using Azure Verified Module for enterprise-grade configuration and best practices
 
 module workspace 'br/public:avm/res/operational-insights/workspace:0.11.2' = {
-  name: 'workspaceDeployment-${deploymentId}'
+  name: 'avm-lawDeployment-${deploymentId}'
   params: {
     // Required parameters
     name: lawName
