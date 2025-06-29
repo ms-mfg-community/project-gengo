@@ -356,7 +356,7 @@ jobs:
             --assignee-object-id ${{ secrets.SPN_OBJECT_ID }} \
             --assignee-principal-type ServicePrincipal \
             --role "User Account Administrator" \
-            --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName/providers/Microsoft.ContainerRegistry/registries/$acrName" \
+            --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName \
             --verbose
 
           # Assign AcrPull role to the User Assigned Managed Identity at resource group scope
