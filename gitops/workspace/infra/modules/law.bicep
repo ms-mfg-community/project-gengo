@@ -49,13 +49,16 @@ param storageAccountId string
 @description('Tags to apply to the Log Analytics Workspace for governance and cost tracking')
 param tags object
 
+@description('Required. Unique deployment identifier to prevent deployment name conflicts.')
+param deploymentId string
+
 // ====================================================================================================
 // LOG ANALYTICS WORKSPACE DEPLOYMENT
 // ====================================================================================================
 // Deploy using Azure Verified Module for enterprise-grade configuration and best practices
 
 module workspace 'br/public:avm/res/operational-insights/workspace:0.11.2' = {
-  name: 'workspaceDeployment'
+  name: 'workspaceDeployment-${deploymentId}'
   params: {
     // Required parameters
     name: lawName

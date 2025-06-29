@@ -24,8 +24,11 @@ param location string = resourceGroup().location
 @description('Optional. Tags to apply to the User Assigned Managed Identity for governance and cost tracking.')
 param tags object = {}
 
+@description('Required. Unique deployment identifier to prevent deployment name conflicts.')
+param deploymentId string
+
 module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = {
-  name: 'userAssignedIdentityDeployment'
+  name: 'userAssignedIdentityDeployment-${deploymentId}'
   params: {
     // Required parameters
     name: umiName

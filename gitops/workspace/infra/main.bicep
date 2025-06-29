@@ -62,6 +62,9 @@ param appInsightsName string
 @description('The name of the User Assigned Managed Identity - used for secure resource access')
 param umiName string
 
+@description('Unique deployment identifier - used to prevent deployment name conflicts and ensure unique resource deployment names')
+param deploymentId string
+
 @description('Tags to apply to all resources - provides metadata for governance and cost tracking')
 param tags object = {
   Environment: 'Development'                    // Deployment environment (Dev/Test/Prod)
@@ -91,7 +94,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
 
 // Deploy Storage Account using dedicated module
 module storageAccount 'modules/sta.bicep' = {
-  name: 'storageAccountDeployment'
+  name: 'storageAccountDeployment-${deploymentId}'
   scope: resourceGroup
   params: {
     storageAccountName: storageAccountName  // Unique storage account name
@@ -103,7 +106,7 @@ module storageAccount 'modules/sta.bicep' = {
 // Deploy Container Registry using dedicated module
 // Azure Container Registry provides private Docker image storage and management
 module containerRegistry 'modules/acr.bicep' = {
-  name: 'containerRegistryDeployment'
+  name: 'containerRegistryDeployment-${deploymentId}'
   scope: resourceGroup
   params: {
     containerRegistryName: containerRegistryName  // Unique registry name
@@ -115,7 +118,7 @@ module containerRegistry 'modules/acr.bicep' = {
 // Deploy Key Vault using dedicated module
 // Azure Key Vault provides secure storage for secrets, keys, and certificates
 module keyVault 'modules/kvt.bicep' = {
-  name: 'keyVaultDeployment'
+  name: 'keyVaultDeployment-${deploymentId}'
   scope: resourceGroup
   params: {
     keyVaultName: keyVaultName                    // Unique Key Vault name
@@ -128,20 +131,21 @@ module keyVault 'modules/kvt.bicep' = {
 // Deploy Log Analytics Workspace using dedicated module
 // Provides centralized logging and monitoring capabilities for all Azure resources
 module logAnalyticsWorkspace 'modules/law.bicep' = {
-  name: 'logAnalyticsWorkspaceDeployment'
+  name: 'logAnalyticsWorkspaceDeployment-${deploymentId}'
   scope: resourceGroup
   params: {
     lawName: lawName                              // Unique workspace name
     location: location                            // Azure region for deployment
     tags: tags                                   // Resource tags for governance
     storageAccountId: storageAccount.outputs.storageAccountId  // Reference to storage for log export
+    deploymentId: deploymentId                   // Unique deployment identifier
   }
 }
 
 // Deploy Application Insights using dedicated module
 // Provides application performance monitoring and analytics capabilities
 module applicationInsights 'modules/ais.bicep' = {
-  name: 'applicationInsightsDeployment'
+  name: 'applicationInsightsDeployment-${deploymentId}'
   scope: resourceGroup
   params: {
     appInsightsName: appInsightsName             // Unique Application Insights name
@@ -149,18 +153,20 @@ module applicationInsights 'modules/ais.bicep' = {
     tags: tags                                  // Resource tags for governance
     workspaceId: logAnalyticsWorkspace.outputs.workspaceId     // Link to Log Analytics workspace
     storageAccountId: storageAccount.outputs.storageAccountId  // Reference to storage for data export
+    deploymentId: deploymentId                  // Unique deployment identifier
   }
 }
 
 // Deploy User Assigned Managed Identity using dedicated module
 // Provides an identity for Azure resources to use when authenticating to Azure services
 module userAssignedIdentity 'modules/umi.bicep' = {
-  name: 'userAssignedIdentityDeployment'
+  name: 'userAssignedIdentityDeployment-${deploymentId}'
   scope: resourceGroup
   params: {
     umiName: umiName        // Name based on resource group for consistency
     location: location                         // Azure region for deployment
     tags: tags                                // Resource tags for governance
+    deploymentId: deploymentId               // Unique deployment identifier
   }
 }
 

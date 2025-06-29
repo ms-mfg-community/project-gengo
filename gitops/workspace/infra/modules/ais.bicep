@@ -53,13 +53,16 @@ param location string
 @description('Tags to apply to the Application Insights component for governance and cost tracking')
 param tags object
 
+@description('Required. Unique deployment identifier to prevent deployment name conflicts.')
+param deploymentId string
+
 // ====================================================================================================
 // APPLICATION INSIGHTS DEPLOYMENT
 // ====================================================================================================
 // Deploy using Azure Verified Module for enterprise-grade configuration and monitoring capabilities
 
 module component 'br/public:avm/res/insights/component:0.6.0' = {
-  name: 'componentDeployment'
+  name: 'componentDeployment-${deploymentId}'
   params: {
     // Required parameters
     name: appInsightsName
