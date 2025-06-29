@@ -201,7 +201,8 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
    - `AZURE_TENANT_ID`: The Tenant ID from the Azure app registration.
 6. At the end of the GitHub Copilot summary, add a next step recommendation to manually update these secret values.
 7. Also remind the user as a next step to set permissions for the Azure app registration to the deployment scope of the Azure subscription where resources will be deployed, (i.e.) `az role assignment create --assignee-object-id <object-id> --assignee-principal-type ServicePrincipal --role Contributor --scope /subscriptions/<subscription-id> --verbose`
-8. Finally, add as a next step that the following error may be encountered during deployment: "ERROR: the following arguments are required: --action-on-unmanage/--aou". Use this as a demonstration opportunity for creating and assigning an issue to GitHub Copilot to fix the issue in the workflow file using a pull request.
+8. Additionally, assign the `User Access Administrator` role to the enterprise application (service principal) to enable it to assign the AcrPull role to the App Service's User Assigned Managed Identity for container registry access, (i.e.) `az role assignment create --assignee-object-id <object-id> --assignee-principal-type ServicePrincipal --role "User Access Administrator" --scope /subscriptions/<subscription-id> --verbose`
+9. Finally, add as a next step that the following error may be encountered during deployment: "ERROR: the following arguments are required: --action-on-unmanage/--aou". Use this as a demonstration opportunity for creating and assigning an issue to GitHub Copilot to fix the issue in the workflow file using a pull request.on-unmanage/--aou". Use this as a demonstration opportunity for creating and assigning an issue to GitHub Copilot to fix the issue in the workflow file using a pull request.
 
 ### 1.12.2 Basic Workflow Setup
 
