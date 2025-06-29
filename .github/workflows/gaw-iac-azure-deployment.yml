@@ -231,7 +231,6 @@ jobs:
     # Environment variable carrying random suffix from plan job
     env:
       deployRndSuffix: ${{ needs.plan.outputs.rndSuffix }}
-      spnRole: 'User Access Administrator' # Role for the Service Principal to assign roles
 
     steps:
       # Download repository code for Bicep template access
@@ -357,7 +356,7 @@ jobs:
           az role assignment create \
             --assignee-object-id ${{ secrets.SPN_OBJECT_ID }} \
             --assignee-principal-type ServicePrincipal \
-            --role ${{ env.spnRole }} \
+            --role 'User Access Administrator' \
             --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName/providers/Microsoft.ContainerRegistry/registries/$acrName" \
             --verbose
 
