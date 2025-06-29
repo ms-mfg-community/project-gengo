@@ -348,17 +348,7 @@ jobs:
             --verbose
 
           echo "Waiting for User Assigned Managed Identity to be assigned..."
-          sleep 30  # Wait for Managed Identity assignment to complete
-
-          echo "Granting the appropriate role to the app registration at the acr resource scope so it can assign the AcrPull role to the User Assigned Managed Identity."
-          # This approach uses the principle of least privilege by assigning the role only at the ACR resource scope
-          acrName="${{ env.containerRegistryPrefix }}${{ env.deployRndSuffix }}"
-          az role assignment create \
-            --assignee-object-id ${{ secrets.SPN_OBJECT_ID }} \
-            --assignee-principal-type ServicePrincipal \
-            --role 'User Access Administrator' \
-            --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName/providers/Microsoft.ContainerRegistry/registries/$acrName" \
-            --verbose
+          sleep 10  # Wait for Managed Identity assignment to complete
 
           # Assign AcrPull role to the User Assigned Managed Identity at ACR scope (least privilege)
           echo "Assigning AcrPull role to User Assigned Managed Identity: $umiName"

@@ -2,7 +2,7 @@
 
 ## 1.1 Document Information
 
-- **Version:** 2.4
+- **Version:** 2.5
 - **Author(s):** Preston K. Parsard
 - **Date:** June 29, 2025
 - **Status:** Complete
@@ -199,11 +199,10 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
    - `AZURE_SUBSCRIPTION_ID`: The Azure subscription ID where resources will be deployed.
    - `AZURE_CLIENT_ID`: The Client ID from the Azure app registration.
    - `AZURE_TENANT_ID`: The Tenant ID from the Azure app registration.
-   - `SPN_OBJECT_ID`: The Object ID of the Azure app registration (service principal) required for role assignments at Azure Container Registry scope.
 6. At the end of the GitHub Copilot summary, add a next step recommendation to manually update these secret values.
 7. Also remind the user as a next step to set permissions for the Azure app registration to the deployment scope of the Azure subscription where resources will be deployed, (i.e.) `az role assignment create --assignee-object-id <object-id> --assignee-principal-type ServicePrincipal --role Contributor --scope /subscriptions/<subscription-id> --verbose`
-8. Additionally, assign the `User Access Administrator` role to the enterprise application (service principal) to enable it to assign the AcrPull role to the App Service's User Assigned Managed Identity for container registry access, (i.e.) `az role assignment create --assignee-object-id <object-id> --assignee-principal-type ServicePrincipal --role "User Access Administrator" --scope /subscriptions/<subscription-id> --verbose`
-9. Finally, add as a next step that the following error may be encountered during deployment: "ERROR: the following arguments are required: --action-on-unmanage/--aou". Use this as a demonstration opportunity for creating and assigning an issue to GitHub Copilot to fix the issue in the workflow file using a pull request.on-unmanage/--aou". Use this as a demonstration opportunity for creating and assigning an issue to GitHub Copilot to fix the issue in the workflow file using a pull request.
+8. **Note on AcrPull Role Assignment**: The workflow includes automated assignment of the AcrPull role to the User Assigned Managed Identity for Azure Container Registry access. If this automated assignment fails due to insufficient permissions, the role assignment can be performed manually using: `az role assignment create --assignee-object-id <managed-identity-principal-id> --assignee-principal-type ServicePrincipal --role AcrPull --scope /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ContainerRegistry/registries/<acr-name> --verbose`
+9. Finally, add as a next step that the following error may be encountered during deployment: "ERROR: the following arguments are required: --action-on-unmanage/--aou". Use this as a demonstration opportunity for creating and assigning an issue to GitHub Copilot to fix the issue in the workflow file using a pull request.
 
 ### 1.12.2 Basic Workflow Setup
 
@@ -768,18 +767,11 @@ Implement the following steps after App Service creation to enable secure Azure 
 
 2. **Role Assignment Configuration**: Assign AcrPull role to the User Assigned Managed Identity for container registry access
    - Retrieve the principal ID of the User Assigned Managed Identity using Azure CLI identity show command
-   - Execute role assignment creation targeting the resource group scope pattern (`rgp-[randomSuffix]`)
+   - Execute role assignment creation targeting the Azure Container Registry scope using the established naming convention
    - Use AcrPull role for Azure Container Registry pull permissions
    - Specify ServicePrincipal as the assignee principal type for managed identity integration
 
-3. **Service Principal Authorization for Role Assignment**: Grant the service principal User Access Administrator role at Azure Container Registry scope
-   - **Rationale**: The service principal (Azure App Registration) requires elevated permissions to assign roles to other identities
-   - **Least Privilege Principle**: Scope the User Access Administrator role specifically to the Azure Container Registry resource rather than subscription-wide
-   - **Implementation**: Grant User Access Administrator role to the service principal at the Container Registry scope using Azure CLI role assignment
-   - **Timing**: Execute this step before attempting to assign AcrPull role to the User Assigned Managed Identity
-   - **Scope Pattern**: Target the Azure Container Registry resource using the established naming convention (`acr-[randomSuffix]`)
-   - **Principal Type**: Specify ServicePrincipal as the assignee principal type for the App Registration object ID
-   - **Security Justification**: This enables the service principal to delegate container registry access to the User Assigned Managed Identity without granting broader administrative privileges
+**Note on AcrPull Role Assignment**: If the automated role assignment fails due to insufficient permissions, the AcrPull role can be assigned manually by an administrator with appropriate privileges using: `az role assignment create --assignee-object-id <managed-identity-principal-id> --assignee-principal-type ServicePrincipal --role AcrPull --scope /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ContainerRegistry/registries/<acr-name> --verbose`
 
 This hybrid deployment approach ensures that foundational infrastructure is managed declaratively through deployment stacks while compute resources are deployed imperatively to prevent Azure's automatic creation of conflicting monitoring resources.
 
