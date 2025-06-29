@@ -362,6 +362,7 @@ Configure environment variables at the workflow level for consistent resource pr
    - keyVaultPrefix: 'kvt' (Key Vault prefix)
    - lawPrefix: 'law' (Log Analytics Workspace prefix)
    - appInsightsPrefix: 'ais' (Application Insights prefix)
+   - umiPrefix: 'umi' (User Assigned Managed Identity prefix)
 
 **Random Suffix Generation:**
 
@@ -625,7 +626,8 @@ The solution implements a subscription-scoped deployment that creates a complete
 4. **Key Vault**: Secure storage for secrets, keys, and certificates (`modules/kvt.bicep`)
 5. **Log Analytics Workspace**: Centralized logging and monitoring (`modules/law.bicep`)
 6. **Application Insights**: Application performance monitoring (`modules/ais.bicep`)
-7. **App Service Plan & App Service**: Web application hosting with Linux OS and Node.js 22 LTS runtime (deployed imperatively via Azure CLI to prevent auto-created monitoring resources)
+7. **User Assigned Managed Identity**: Secure identity for Azure resource access (`modules/umi.bicep`)
+8. **App Service Plan & App Service**: Web application hosting with Linux OS and Node.js 22 LTS runtime (deployed imperatively via Azure CLI to prevent auto-created monitoring resources)
 
 #### 1.12.4.2 Directory Structure
 
@@ -644,6 +646,7 @@ Create a standardized Bicep configuration structure in the path `gitops/workspac
 - `kvt.bicep`: Key Vault module
 - `law.bicep`: Log Analytics Workspace module
 - `ais.bicep`: Application Insights module
+- `umi.bicep`: User Assigned Managed Identity module
 
 **Scripts Directory (`scripts/`):**
 
@@ -704,6 +707,13 @@ Key features:
 - Configures diagnostic export to Storage Account
 - Outputs: Component ID for application integration
 
+**User Assigned Managed Identity Module (`umi.bicep`)**:
+
+- Creates secure identity for Azure resource authentication
+- Supports federated identity credentials for workload identity scenarios
+- Enables keyless authentication to Azure services
+- Outputs: Principal ID and Client ID for service integration
+
 **App Service Deployment Strategy**:
 
 App Service resources (App Service Plan and App Service) are intentionally deployed using imperative Azure CLI commands rather than declarative Bicep modules. This approach prevents Azure's automatic provisioning of monitoring resources that conflict with the managed infrastructure design.
@@ -736,11 +746,29 @@ The modules are deployed in a specific order to satisfy dependencies:
 3. **Log Analytics Workspace** (Storage Account dependency) - Centralized logging
 4. **Key Vault** (Storage Account dependency) - Secure secret storage
 5. **Application Insights** (Log Analytics + Storage dependencies) - Monitoring integration
+6. **User Assigned Managed Identity** (Independent) - Secure identity for Azure resource access
 
 **Imperative Compute Resources (Azure CLI Commands)**:
 
-1. **App Service Plan** (Resource Group dependency) - Compute hosting foundation
-2. **App Service** (App Service Plan + Application Insights dependencies) - Web application hosting
+1. **App Service Plan** (Resource Group dependency) - Compute hosting foundation with Linux OS
+2. **App Service** (App Service Plan + Application Insights dependencies) - Web application hosting with Node.js 22 LTS runtime
+3. **User Assigned Managed Identity Assignment** (App Service + UMI dependencies) - Secure identity integration for Azure resource access
+4. **AcrPull Role Assignment** (UMI dependency) - Container registry access permissions for the managed identity
+
+**User Assigned Managed Identity Integration Instructions:**
+
+Implement the following steps after App Service creation to enable secure Azure resource access:
+
+1. **Identity Assignment**: Assign the User Assigned Managed Identity to the App Service using Azure CLI webapp identity assignment
+   - Use the User Assigned Managed Identity resource ID constructed with environment variable naming pattern
+   - Target the App Service by name using the established naming convention
+   - Specify the resource group scope for proper resource association
+
+2. **Role Assignment Configuration**: Assign AcrPull role to the User Assigned Managed Identity for container registry access
+   - Retrieve the principal ID of the User Assigned Managed Identity using Azure CLI identity show command
+   - Execute role assignment creation targeting the resource group scope pattern (`rgp-[randomSuffix]`)
+   - Use AcrPull role for Azure Container Registry pull permissions
+   - Specify ServicePrincipal as the assignee principal type for managed identity integration
 
 This hybrid deployment approach ensures that foundational infrastructure is managed declaratively through deployment stacks while compute resources are deployed imperatively to prevent Azure's automatic creation of conflicting monitoring resources.
 

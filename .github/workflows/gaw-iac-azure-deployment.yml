@@ -341,6 +341,17 @@ jobs:
             --identities "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$umiName" \
             --verbose
 
+          # Assign ArcPull role to the User Assigned Managed Identity at resource group scope
+          echo "Assigning ArcPull role to User Assigned Managed Identity: $umiName"
+          az role assignment create \
+            --assignee-object-id $(az identity show --name "$umiName" --resource-group "$rgpName" --query principalId --output tsv) \
+            --assignee-principal-type ServicePrincipal \
+            --role "ArcPull" \
+            --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName" \
+            --verbose
+
+          echo "ArcPull role assignment completed."
+
           # Get Application Insights Connection String
           echo "Waiting for Application Insights to be fully provisioned..."
           sleep 180
