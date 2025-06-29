@@ -231,6 +231,7 @@ jobs:
     # Environment variable carrying random suffix from plan job
     env:
       deployRndSuffix: ${{ needs.plan.outputs.rndSuffix }}
+      spnRole: "User Access Administrator" # Role for the Service Principal to assign roles
 
     steps:
       # Download repository code for Bicep template access
@@ -350,13 +351,13 @@ jobs:
           echo "Waiting for User Assigned Managed Identity to be assigned..."
           sleep 30  # Wait for Managed Identity assignment to complete
 
-          echo "Granting the 'User Account Administrator' role to the app registration at the acr resource scope so it can assign the AcrPull role to the User Assigned Managed Identity."
+          echo "Granting the appropriate role to the app registration at the acr resource scope so it can assign the AcrPull role to the User Assigned Managed Identity."
           # This approach uses the principle of least privilege by assigning the role only at the ACR resource scope
           acrName="${{ env.containerRegistryPrefix }}${{ env.deployRndSuffix }}"
           az role assignment create \
             --assignee-object-id ${{ secrets.SPN_OBJECT_ID }} \
             --assignee-principal-type ServicePrincipal \
-            --role "User Account Administrator" \
+            --role $${{ env.spnRole }} \
             --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName/providers/Microsoft.ContainerRegistry/registries/$acrName" \
             --verbose
 
