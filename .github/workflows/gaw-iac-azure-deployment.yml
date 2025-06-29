@@ -349,16 +349,16 @@ jobs:
           echo "Waiting for User Assigned Managed Identity to be assigned..."
           sleep 60  # Wait for Managed Identity assignment to complete
 
-          # Assign ArcPull role to the User Assigned Managed Identity at resource group scope
-          echo "Assigning ArcPull role to User Assigned Managed Identity: $umiName"
+          # Assign AcrPull role to the User Assigned Managed Identity at resource group scope
+          echo "Assigning AcrPull role to User Assigned Managed Identity: $umiName"
           az role assignment create \
             --assignee-object-id $(az identity show --name "$umiName" --resource-group "$rgpName" --query principalId --output tsv) \
             --assignee-principal-type ServicePrincipal \
-            --role "ArcPull" \
+            --role "AcrPull" \
             --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName" \
             --verbose
 
-          echo "ArcPull role assignment completed."
+          echo "AcrPull role assignment completed."
           
           echo "Retrieving Application Insights connection string for: $appInsightsName"
           AI_CONN_STR=$(az monitor app-insights component show \
