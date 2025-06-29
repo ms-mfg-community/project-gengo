@@ -5,7 +5,7 @@ name: gaw-iac-azure-deployment
 # ====================================================================================================
 # 
 # PURPOSE:
-# This workflow automates Azure infrastructure deployment using Bicep templates and Azure 
+# This workflow automates infrastructure deployment using Bicep templates and Azure 
 # Deployment Stacks. It implements a two-stage approach: planning (what-if analysis) and 
 # deployment with proper resource cleanup and validation.
 #
@@ -352,20 +352,21 @@ jobs:
 
           echo "Granting the 'User Account Administrator' role to the app registration at the acr resource scope so it can assign the AcrPull role to the User Assigned Managed Identity."
           # This approach uses the principle of least privilege by assigning the role only at the ACR resource scope
+          acrName="${{ env.containerRegistryPrefix }}${{ env.deployRndSuffix }}"
           az role assignment create \
             --assignee-object-id ${{ secrets.SPN_OBJECT_ID }} \
             --assignee-principal-type ServicePrincipal \
             --role "User Account Administrator" \
-            --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName \
+            --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName/providers/Microsoft.ContainerRegistry/registries/$acrName" \
             --verbose
 
-          # Assign AcrPull role to the User Assigned Managed Identity at resource group scope
+          # Assign AcrPull role to the User Assigned Managed Identity at ACR scope (least privilege)
           echo "Assigning AcrPull role to User Assigned Managed Identity: $umiName"
           az role assignment create \
             --assignee-object-id $(az identity show --name "$umiName" --resource-group "$rgpName" --query principalId --output tsv) \
             --assignee-principal-type ServicePrincipal \
             --role "AcrPull" \
-            --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName" \
+            --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName/providers/Microsoft.ContainerRegistry/registries/$acrName" \
             --verbose
 
           echo "AcrPull role assignment completed."
