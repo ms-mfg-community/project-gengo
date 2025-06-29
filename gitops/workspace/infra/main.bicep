@@ -59,6 +59,9 @@ param lawName string
 @description('The name of the Application Insights component - for application performance monitoring')
 param appInsightsName string
 
+@description('The name of the User Assigned Managed Identity - used for secure resource access')
+param umiName string
+
 @description('Tags to apply to all resources - provides metadata for governance and cost tracking')
 param tags object = {
   Environment: 'Development'                    // Deployment environment (Dev/Test/Prod)
@@ -146,6 +149,18 @@ module applicationInsights 'modules/ais.bicep' = {
     tags: tags                                  // Resource tags for governance
     workspaceId: logAnalyticsWorkspace.outputs.workspaceId     // Link to Log Analytics workspace
     storageAccountId: storageAccount.outputs.storageAccountId  // Reference to storage for data export
+  }
+}
+
+// Deploy User Assigned Managed Identity using dedicated module
+// Provides an identity for Azure resources to use when authenticating to Azure services
+module userAssignedIdentity 'modules/umi.bicep' = {
+  name: 'userAssignedIdentityDeployment'
+  scope: resourceGroup
+  params: {
+    umiName: umiName        // Name based on resource group for consistency
+    location: location                         // Azure region for deployment
+    tags: tags                                // Resource tags for governance
   }
 }
 

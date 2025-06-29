@@ -184,15 +184,17 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
    - **Wait timer:** 0 minutes
    - **Deployment branches:** main
    - **Deployment protection rules:** None
-3. Create a new Azure app registration with the name of `ghc-scenario-id-39` in the tenant `54d665dd-30f1-45c5-a8d5-d6ffcdb518f9` and retrieve the following details:
+3. Create a new Azure app registration with the name starting with of `ghc-*` in the tenant ending with `*9` and retrieve the following details:
    - **Client ID**
    - **Tenant ID**
    - **Client Secret**
-4. Configure the Azure app registration with two federated credentials for GitHub Actions as the identity provider (`id39-dev` and `id39-prd`):
+4. Configure the Azure app registration with two federated credentials for GitHub Actions as the identity provider (`*-dev` and `*-prd`):
    - For the GitHub organization use: `ms-mfg-community`.
    - Specify the repository name as `project-gengo`.
    - Set the audience to `api://AzureADTokenExchange`.
    - Use the `environment` for the entity type based on selection `dev`|`prd`.
+   - For the application deployment, we will also add another federated credential for the `ghc-workshop-intake` repository of the same organization and specify the `main` branch as the entity type and a credential name that ends with this pattern: `*-gh-workshop-intake`.
+   -_NOTE: To make this demo simpler and quicker we will re-use the same Azure app registration for both the infrastructure deployment environments as well as the application deployment which will originate from a separate GitHub repository which simulates that it it independently developed and managed by a different team. We realize this deviates from best practices but is adequate for demonstration purposes. In practice, you would create separate app registrations for each environment to ensure proper isolation and security._
 5. Add the following secrets to the repository:
    - `AZURE_SUBSCRIPTION_ID`: The Azure subscription ID where resources will be deployed.
    - `AZURE_CLIENT_ID`: The Client ID from the Azure app registration.
@@ -958,6 +960,11 @@ These comprehensive cleanup procedures ensure complete environment reset, securi
   - Infrastructure state backup procedures
   - Disaster recovery testing
   - Point-in-time recovery capabilities
+- **Production Readiness Criteria**: What are the key criteria for production readiness:
+  - Security review and penetration testing
+  - Performance validation under load
+  - Compliance with organizational policies
+  - What else would be required to consider the deployment production-ready in your organization?
 
 ## 1.16 Call to Action
 

@@ -11,4 +11,5 @@ param containerRegistryName = ''
 param keyVaultName = ''
 param appInsightsName = ''
 param lawName = ''
+param umiName = ''
 param tags = {}
