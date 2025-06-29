@@ -331,6 +331,9 @@ jobs:
             --plan "$aspName" \
             --runtime "NODE:22-lts" \
             --verbose
+          
+          echo "Waiting for App Service to be fully provisioned..."
+          sleep 120  # Wait for App Service to be fully provisioned
 
           # Assign User Assigned Managed Identity to App Service
           echo "Assigning User Assigned Managed Identity to App Service: $appName"
@@ -340,6 +343,9 @@ jobs:
             --resource-group "$rgpName" \
             --identities "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$umiName" \
             --verbose
+
+          echo "Waiting for User Assigned Managed Identity to be assigned..."
+          sleep 60  # Wait for Managed Identity assignment to complete
 
           # Assign ArcPull role to the User Assigned Managed Identity at resource group scope
           echo "Assigning ArcPull role to User Assigned Managed Identity: $umiName"
@@ -351,10 +357,6 @@ jobs:
             --verbose
 
           echo "ArcPull role assignment completed."
-
-          # Get Application Insights Connection String
-          echo "Waiting for Application Insights to be fully provisioned..."
-          sleep 180
           
           echo "Retrieving Application Insights connection string for: $appInsightsName"
           AI_CONN_STR=$(az monitor app-insights component show \
