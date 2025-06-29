@@ -2,7 +2,7 @@
 
 ## 1.1 Document Information
 
-- **Version:** 2.6
+- **Version:** 2.7
 - **Author(s):** Preston K. Parsard
 - **Date:** June 29, 2025
 - **Status:** Complete
@@ -199,10 +199,9 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
    - `AZURE_SUBSCRIPTION_ID`: The Azure subscription ID where resources will be deployed.
    - `AZURE_CLIENT_ID`: The Client ID from the Azure app registration.
    - `AZURE_TENANT_ID`: The Tenant ID from the Azure app registration.
-   - `SPN_OBJECT_ID`: The Object ID of the Azure app registration (service principal) required for role assignments at Azure Container Registry scope.
 6. At the end of the GitHub Copilot summary, add a next step recommendation to manually update these secret values.
 7. Also remind the user as a next step to set permissions for the Azure app registration to the deployment scope of the Azure subscription where resources will be deployed, (i.e.) `az role assignment create --assignee-object-id <object-id> --assignee-principal-type ServicePrincipal --role Contributor --scope /subscriptions/<subscription-id> --verbose`
-8. Additionally, assign the `User Access Administrator` role to the enterprise application (service principal) at the subscription scope to enable it to assign the AcrPull role to the App Service's User Assigned Managed Identity for container registry access, (i.e.) `az role assignment create --assignee-object-id <object-id> --assignee-principal-type ServicePrincipal --role "User Access Administrator" --scope /subscriptions/<subscription-id> --verbose`
+8. **Post-Deployment Manual Operation**: After the deployment completes successfully, manually assign the `AcrPull` role to the User Assigned Managed Identity at the Azure Container Registry scope to enable container image pull operations. Use the following command pattern: `az role assignment create --assignee-object-id <managed-identity-principal-id> --assignee-principal-type ServicePrincipal --role AcrPull --scope /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ContainerRegistry/registries/<acr-name> --verbose`
 9. Finally, add as a next step that the following error may be encountered during deployment: "ERROR: the following arguments are required: --action-on-unmanage/--aou". Use this as a demonstration opportunity for creating and assigning an issue to GitHub Copilot to fix the issue in the workflow file using a pull request.
 
 ### 1.12.2 Basic Workflow Setup
@@ -768,17 +767,17 @@ Implement the following steps after App Service creation to enable secure Azure 
 
 2. **Role Assignment Configuration**: Assign AcrPull role to the User Assigned Managed Identity for container registry access
    - Retrieve the principal ID of the User Assigned Managed Identity using Azure CLI identity show command
-   - Execute role assignment creation targeting the Azure Container Registry scope using the established naming convention
-   - Use AcrPull role for Azure Container Registry pull permissions
-   - Specify ServicePrincipal as the assignee principal type for managed identity integration
+   - Execute identity assignment using Azure CLI webapp identity assignment
+   - Target the App Service by name using the established naming convention
+   - Specify the resource group scope for proper resource association
 
-3. **Service Principal Authorization for Role Assignment**: Grant the service principal User Access Administrator role at subscription scope
-   - **Rationale**: The service principal (Azure App Registration) requires elevated permissions to assign roles to other identities
-   - **Security Scope**: Assign the User Access Administrator role at the subscription scope to enable role assignments across all resources
-   - **Implementation**: Grant User Access Administrator role to the service principal at the subscription scope using Azure CLI role assignment
-   - **Timing**: Execute this step before attempting to assign AcrPull role to the User Assigned Managed Identity
-   - **Principal Type**: Specify ServicePrincipal as the assignee principal type for the App Registration object ID
-   - **Security Justification**: This enables the service principal to delegate container registry access to the User Assigned Managed Identity for automated deployments
+3. **Manual Post-Deployment AcrPull Role Assignment**: After deployment completion, manually assign AcrPull role to the User Assigned Managed Identity for container registry access
+   - **Rationale**: The AcrPull role assignment requires administrative privileges and is performed as a post-deployment manual operation
+   - **Scope Strategy**: Target the specific Azure Container Registry resource using the established naming convention for least privilege access
+   - **Manual Operation**: Execute role assignment using Azure CLI after retrieving the User Assigned Managed Identity principal ID
+   - **Command Pattern**: `az role assignment create --assignee-object-id <managed-identity-principal-id> --assignee-principal-type ServicePrincipal --role AcrPull --scope /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ContainerRegistry/registries/<acr-name> --verbose`
+   - **Timing**: Perform this step after the deployment workflow completes successfully
+   - **Security Justification**: This approach eliminates the need for elevated service principal permissions while maintaining secure container registry access
 
 This hybrid deployment approach ensures that foundational infrastructure is managed declaratively through deployment stacks while compute resources are deployed imperatively to prevent Azure's automatic creation of conflicting monitoring resources.
 

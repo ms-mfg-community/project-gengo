@@ -88,7 +88,7 @@ permissions:
 
 # Environment variables (Secrets need to be configured in GitHub repository settings)
 # These provide secure access to Azure resources and define naming conventions
-# Required repository secrets: AZURE_SUBSCRIPTION_ID, AZURE_CLIENT_ID, AZURE_TENANT_ID, SPN_OBJECT_ID
+# Required repository secrets: AZURE_SUBSCRIPTION_ID, AZURE_CLIENT_ID, AZURE_TENANT_ID
 env:
   # Azure Authentication (configured as repository secrets)
   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}  # Target Azure subscription
@@ -351,26 +351,9 @@ jobs:
           echo "Waiting for User Assigned Managed Identity to be assigned..."
           sleep 10  # Wait for Managed Identity assignment to complete
 
-          echo "Granting the 'User Access Administrator' role to the app registration at the subscription scope so it can assign the AcrPull role to the User Assigned Managed Identity."
-          # This approach uses the principle of least privilege by assigning the role at the subscription scope for role assignment capabilities
-          acrName="${{ env.containerRegistryPrefix }}${{ env.deployRndSuffix }}"
-          az role assignment create \
-            --assignee-object-id ${{ secrets.SPN_OBJECT_ID }} \
-            --assignee-principal-type ServicePrincipal \
-            --role "User Access Administrator" \
-            --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
-            --verbose
-
-          # Assign AcrPull role to the User Assigned Managed Identity at ACR scope (least privilege)
-          echo "Assigning AcrPull role to User Assigned Managed Identity: $umiName"
-          az role assignment create \
-            --assignee-object-id $(az identity show --name "$umiName" --resource-group "$rgpName" --query principalId --output tsv) \
-            --assignee-principal-type ServicePrincipal \
-            --role "AcrPull" \
-            --scope "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
-            --verbose
-
-          echo "AcrPull role assignment completed."
+          echo "NOTE: AcrPull role assignment to the User Assigned Managed Identity must be performed manually after deployment."
+          echo "Use the following command pattern after deployment completes:"
+          echo "az role assignment create --assignee-object-id <managed-identity-principal-id> --assignee-principal-type ServicePrincipal --role AcrPull --scope /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName/providers/Microsoft.ContainerRegistry/registries/${{ env.containerRegistryPrefix }}${{ env.deployRndSuffix }} --verbose"
           
           echo "Retrieving Application Insights connection string for: $appInsightsName"
           AI_CONN_STR=$(az monitor app-insights component show \
@@ -454,6 +437,14 @@ jobs:
             echo "  - User Assigned Managed Identity: ${{ env.umiPrefix }}-${{ env.deployRndSuffix }}"
             echo "Deployment completed successfully. Review the output above for details."
             echo "You can also check the Azure portal for more details."
+            echo ""
+            echo "⚠️  MANUAL POST-DEPLOYMENT STEP REQUIRED:"
+            echo "To enable container registry access, manually assign the AcrPull role to the User Assigned Managed Identity:"
+            echo "1. Get the User Assigned Managed Identity Principal ID:"
+            echo "   az identity show --name ${{ env.umiPrefix }}-${{ env.deployRndSuffix }} --resource-group ${{ env.rgprefix }}-${{ env.deployRndSuffix }} --query principalId --output tsv"
+            echo "2. Assign AcrPull role using the Principal ID from step 1:"
+            echo "   az role assignment create --assignee-object-id <principal-id-from-step-1> --assignee-principal-type ServicePrincipal --role AcrPull --scope /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.rgprefix }}-${{ env.deployRndSuffix }}/providers/Microsoft.ContainerRegistry/registries/${{ env.containerRegistryPrefix }}${{ env.deployRndSuffix }} --verbose"
+            echo ""
             echo "Listing deployed resources:"
             az resource list --resource-group "${{ env.rgprefix }}-${{ env.deployRndSuffix }}" --output table || echo "Resource group not found or no resources deployed."
           else
