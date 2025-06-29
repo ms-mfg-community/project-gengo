@@ -181,7 +181,7 @@ jobs:
           echo "This what-if analysis will not include the App Service Plan and App Service resources."
           echo "They are deployed imperatively in the 'deploy' job."
           az deployment sub what-if \
-            --name "gaw-deployment-${{ steps.rnd.outputs.randomResourceSuffix }}" \
+            --name "gaw-deployment-${{ steps.rnd.outputs.rndSuffix }}" \
             --location "${{ github.event.inputs.location }}" \
             --template-file "${{ github.event.inputs.bicepFile }}" \
             --parameters resourceGroupName="${{ env.rgprefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
@@ -191,7 +191,8 @@ jobs:
                          appInsightsName="${{ env.appInsightsPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          keyVaultName="${{ env.keyVaultPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          lawName="${{ env.lawPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
-                         umiName="${{ env.umiPrefix }}-${{ steps.rnd.outputs.rndSuffix }}"
+                         umiName="${{ env.umiPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
+                         deploymentId="${{ steps.rnd.outputs.rndSuffix }}"
                          
       # Display comprehensive summary of planned resources
       # Provides clear overview of what will be deployed
@@ -287,6 +288,7 @@ jobs:
                    keyVaultName="${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}" \
                    lawName="${{ env.lawPrefix }}-${{ env.deployRndSuffix }}" \
                    umiName="${{ env.umiPrefix }}-${{ env.deployRndSuffix }}" \
+                   deploymentId="${{ env.deployRndSuffix }}" \
             --deny-settings-mode none \
             --action-on-unmanage deleteAll \
             --yes
