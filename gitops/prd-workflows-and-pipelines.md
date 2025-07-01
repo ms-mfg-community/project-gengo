@@ -857,7 +857,7 @@ Create a PowerShell-based cleanup procedure for local development environment re
 3. **Recursive Deletion**: Include `-Recurse` parameter to remove all subdirectories and files
 4. **Force Override**: Include `-Force` parameter to override read-only attributes and confirmation prompts
 
-#### 1.12.5.4 Workflow File Cleanup
+#### 1.12.5.4 Workflow and Bicep Configuration Files Cleanup
 
 **GitHub Actions Workflow Removal** (Final cleanup step):
 
