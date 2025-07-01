@@ -2,9 +2,9 @@
 
 ## 1.1 Document Information
 
-- **Version:** 2.7
+- **Version:** 2.3
 - **Author(s):** Preston K. Parsard
-- **Date:** June 29, 2025
+- **Date:** June 27, 2025
 - **Status:** Complete
 
 ## 1.2 Executive Summary
@@ -184,25 +184,22 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
    - **Wait timer:** 0 minutes
    - **Deployment branches:** main
    - **Deployment protection rules:** None
-3. Create a new Azure app registration with the name starting with of `ghc-*` in the tenant ending with `*9` and retrieve the following details:
+3. Create a new Azure app registration with the name of `ghc-scenario-id-39` in the tenant `54d665dd-30f1-45c5-a8d5-d6ffcdb518f9` and retrieve the following details:
    - **Client ID**
    - **Tenant ID**
    - **Client Secret**
-4. Configure the Azure app registration with two federated credentials for GitHub Actions as the identity provider (`*-dev` and `*-prd`):
+4. Configure the Azure app registration with two federated credentials for GitHub Actions as the identity provider (`id39-dev` and `id39-prd`):
    - For the GitHub organization use: `ms-mfg-community`.
    - Specify the repository name as `project-gengo`.
    - Set the audience to `api://AzureADTokenExchange`.
    - Use the `environment` for the entity type based on selection `dev`|`prd`.
-   - For the application deployment, we will also add another federated credential for the `ghc-workshop-intake` repository of the same organization and specify the `main` branch as the entity type and a credential name that ends with this pattern: `*-gh-workshop-intake`.
-   -_NOTE: To make this demo simpler and quicker we will re-use the same Azure app registration for both the infrastructure deployment environments as well as the application deployment which will originate from a separate GitHub repository which simulates that it it independently developed and managed by a different team. We realize this deviates from best practices but is adequate for demonstration purposes. In practice, you would create separate app registrations for each environment to ensure proper isolation and security._
 5. Add the following secrets to the repository:
    - `AZURE_SUBSCRIPTION_ID`: The Azure subscription ID where resources will be deployed.
    - `AZURE_CLIENT_ID`: The Client ID from the Azure app registration.
    - `AZURE_TENANT_ID`: The Tenant ID from the Azure app registration.
 6. At the end of the GitHub Copilot summary, add a next step recommendation to manually update these secret values.
 7. Also remind the user as a next step to set permissions for the Azure app registration to the deployment scope of the Azure subscription where resources will be deployed, (i.e.) `az role assignment create --assignee-object-id <object-id> --assignee-principal-type ServicePrincipal --role Contributor --scope /subscriptions/<subscription-id> --verbose`
-8. **Post-Deployment Manual Operation**: After the deployment completes successfully, manually assign the `AcrPull` role to the User Assigned Managed Identity at the Azure Container Registry scope to enable container image pull operations. Use the following command pattern: `az role assignment create --assignee-object-id <managed-identity-principal-id> --assignee-principal-type ServicePrincipal --role AcrPull --scope /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ContainerRegistry/registries/<acr-name> --verbose`
-9. Finally, add as a next step that the following error may be encountered during deployment: "ERROR: the following arguments are required: --action-on-unmanage/--aou". Use this as a demonstration opportunity for creating and assigning an issue to GitHub Copilot to fix the issue in the workflow file using a pull request.
+8. Finally, add as a next step that the following error may be encountered during deployment: "ERROR: the following arguments are required: --action-on-unmanage/--aou". Use this as a demonstration opportunity for creating and assigning an issue to GitHub Copilot to fix the issue in the workflow file using a pull request.
 
 ### 1.12.2 Basic Workflow Setup
 
@@ -363,7 +360,6 @@ Configure environment variables at the workflow level for consistent resource pr
    - keyVaultPrefix: 'kvt' (Key Vault prefix)
    - lawPrefix: 'law' (Log Analytics Workspace prefix)
    - appInsightsPrefix: 'ais' (Application Insights prefix)
-   - umiPrefix: 'umi' (User Assigned Managed Identity prefix)
 
 **Random Suffix Generation:**
 
@@ -627,8 +623,7 @@ The solution implements a subscription-scoped deployment that creates a complete
 4. **Key Vault**: Secure storage for secrets, keys, and certificates (`modules/kvt.bicep`)
 5. **Log Analytics Workspace**: Centralized logging and monitoring (`modules/law.bicep`)
 6. **Application Insights**: Application performance monitoring (`modules/ais.bicep`)
-7. **User Assigned Managed Identity**: Secure identity for Azure resource access (`modules/umi.bicep`)
-8. **App Service Plan & App Service**: Web application hosting with Linux OS and Node.js 22 LTS runtime (deployed imperatively via Azure CLI to prevent auto-created monitoring resources)
+7. **App Service Plan & App Service**: Web application hosting (deployed imperatively via Azure CLI to prevent auto-created monitoring resources)
 
 #### 1.12.4.2 Directory Structure
 
@@ -647,7 +642,6 @@ Create a standardized Bicep configuration structure in the path `gitops/workspac
 - `kvt.bicep`: Key Vault module
 - `law.bicep`: Log Analytics Workspace module
 - `ais.bicep`: Application Insights module
-- `umi.bicep`: User Assigned Managed Identity module
 
 **Scripts Directory (`scripts/`):**
 
@@ -708,23 +702,9 @@ Key features:
 - Configures diagnostic export to Storage Account
 - Outputs: Component ID for application integration
 
-**User Assigned Managed Identity Module (`umi.bicep`)**:
-
-- Creates secure identity for Azure resource authentication
-- Supports federated identity credentials for workload identity scenarios
-- Enables keyless authentication to Azure services
-- Outputs: Principal ID and Client ID for service integration
-
 **App Service Deployment Strategy**:
 
 App Service resources (App Service Plan and App Service) are intentionally deployed using imperative Azure CLI commands rather than declarative Bicep modules. This approach prevents Azure's automatic provisioning of monitoring resources that conflict with the managed infrastructure design.
-
-**App Service Configuration Specifications:**
-
-- **App Service Plan**: Configured with Linux operating system (`--is-linux` flag) for modern container and runtime support
-- **App Service Runtime**: Uses Node.js latest LTS version (`NODE:22-lts`) for optimal performance and security updates
-- **Integration**: Explicit linking to existing Application Insights and Log Analytics Workspace instances
-- **Deployment Method**: Azure CLI commands (`az appservice plan create` and `az webapp create`) for precise control
 
 When App Service is deployed declaratively through Bicep templates, Azure automatically creates:
 
@@ -747,37 +727,11 @@ The modules are deployed in a specific order to satisfy dependencies:
 3. **Log Analytics Workspace** (Storage Account dependency) - Centralized logging
 4. **Key Vault** (Storage Account dependency) - Secure secret storage
 5. **Application Insights** (Log Analytics + Storage dependencies) - Monitoring integration
-6. **User Assigned Managed Identity** (Independent) - Secure identity for Azure resource access
 
 **Imperative Compute Resources (Azure CLI Commands)**:
 
-1. **App Service Plan** (Resource Group dependency) - Compute hosting foundation with Linux OS
-2. **App Service** (App Service Plan + Application Insights dependencies) - Web application hosting with Node.js 22 LTS runtime
-3. **User Assigned Managed Identity Assignment** (App Service + UMI dependencies) - Secure identity integration for Azure resource access
-4. **AcrPull Role Assignment** (UMI dependency) - Container registry access permissions for the managed identity
-
-**User Assigned Managed Identity Integration Instructions:**
-
-Implement the following steps after App Service creation to enable secure Azure resource access:
-
-1. **Identity Assignment**: Assign the User Assigned Managed Identity to the App Service using Azure CLI webapp identity assignment
-   - Use the User Assigned Managed Identity resource ID constructed with environment variable naming pattern
-   - Target the App Service by name using the established naming convention
-   - Specify the resource group scope for proper resource association
-
-2. **Role Assignment Configuration**: Assign AcrPull role to the User Assigned Managed Identity for container registry access
-   - Retrieve the principal ID of the User Assigned Managed Identity using Azure CLI identity show command
-   - Execute identity assignment using Azure CLI webapp identity assignment
-   - Target the App Service by name using the established naming convention
-   - Specify the resource group scope for proper resource association
-
-3. **Manual Post-Deployment AcrPull Role Assignment**: After deployment completion, manually assign AcrPull role to the User Assigned Managed Identity for container registry access
-   - **Rationale**: The AcrPull role assignment requires administrative privileges and is performed as a post-deployment manual operation
-   - **Scope Strategy**: Target the specific Azure Container Registry resource using the established naming convention for least privilege access
-   - **Manual Operation**: Execute role assignment using Azure CLI after retrieving the User Assigned Managed Identity principal ID
-   - **Command Pattern**: `az role assignment create --assignee-object-id <managed-identity-principal-id> --assignee-principal-type ServicePrincipal --role AcrPull --scope /subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ContainerRegistry/registries/<acr-name> --verbose`
-   - **Timing**: Perform this step after the deployment workflow completes successfully
-   - **Security Justification**: This approach eliminates the need for elevated service principal permissions while maintaining secure container registry access
+1. **App Service Plan** (Resource Group dependency) - Compute hosting foundation
+2. **App Service** (App Service Plan + Application Insights dependencies) - Web application hosting
 
 This hybrid deployment approach ensures that foundational infrastructure is managed declaratively through deployment stacks while compute resources are deployed imperatively to prevent Azure's automatic creation of conflicting monitoring resources.
 
@@ -908,11 +862,14 @@ Create a PowerShell-based cleanup procedure for local development environment re
 **GitHub Actions Workflow Removal** (Final cleanup step):
 
 Implement workflow file cleanup for complete exercise reset:
+_NOTE: To reference the correct path for the operations in this section, always use `$(git rev-parse --show-toplevel)/gitops/workspace/infra` in the PowerShell command. Also, use standard git commands (`git rm` or file system operations) to remove the workflow file_
 
-1. **Workflow File**: Remove the `gaw-iac-azure-deployment.yml` file from the `.github/workflows` directory
-2. **Git Operations**: Use standard git commands (`git rm` or file system operations) to remove the workflow file
-3. **Repository Reset**: Ensure the repository returns to its original state before the exercise
-4. **Verification**: Confirm workflow removal by checking the GitHub Actions tab for absence of the removed workflow
+1. **infra Directory Copy**: Copy the `gitops/workspace/infra` directory to `gitops/completed` directory so the structure of `infra` is preserved beneath the `completed` folder.
+2. **Infra Directory Removal**: After step 1 completes successfully, recursively remove **only** the `gitops/workspace/infra` directory to reset the workspace.
+3. **Workflow File Copy**: To also preserve the workflow file for reference, copy the `gaw-iac-azure-deployment.yml` file from the `.github/workflows` directory to the `gitops/completed/infra` directory as well after step 2 above completes successfully.
+4. **Workflow File Removal**: After step 3 above completes successfully, remove the `gaw-iac-azure-deployment.yml` file from **only** the `.github/workflows` directory.
+5. **Repository Reset**: Ensure the repository returns to its original state before the exercise which means the `gitops/workspace` no longer contains the `infra` directory and the `.github/workflows` directory no longer contains the `gaw-iac-azure-deployment.yml` workflow file. Instead, the `gitops/completed/infra` directory will contain the `gaw-iac-azure-deployment.yml` workflow file as well as the entire `infra` recursive directory structure.
+6. **Manual Verification**: Confirm workflow removal by checking the GitHub Actions tab for absence of the removed workflow
 
 #### 1.12.5.5 Security Cleanup
 
@@ -997,11 +954,6 @@ These comprehensive cleanup procedures ensure complete environment reset, securi
   - Infrastructure state backup procedures
   - Disaster recovery testing
   - Point-in-time recovery capabilities
-- **Production Readiness Criteria**: What are the key criteria for production readiness:
-  - Security review and penetration testing
-  - Performance validation under load
-  - Compliance with organizational policies
-  - What else would be required to consider the deployment production-ready in your organization?
 
 ## 1.16 Call to Action
 

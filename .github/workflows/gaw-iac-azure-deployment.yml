@@ -5,7 +5,7 @@ name: gaw-iac-azure-deployment
 # ====================================================================================================
 # 
 # PURPOSE:
-# This workflow automates infrastructure deployment using Bicep templates and Azure 
+# This workflow automates Azure infrastructure deployment using Bicep templates and Azure 
 # Deployment Stacks. It implements a two-stage approach: planning (what-if analysis) and 
 # deployment with proper resource cleanup and validation.
 #
@@ -71,7 +71,6 @@ on:
         required: true
         default: 'stack'
         type: string
-      
 
 # ====================================================================================================
 # PERMISSIONS AND SECURITY CONFIGURATION
@@ -88,7 +87,6 @@ permissions:
 
 # Environment variables (Secrets need to be configured in GitHub repository settings)
 # These provide secure access to Azure resources and define naming conventions
-# Required repository secrets: AZURE_SUBSCRIPTION_ID, AZURE_CLIENT_ID, AZURE_TENANT_ID
 env:
   # Azure Authentication (configured as repository secrets)
   AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}  # Target Azure subscription
@@ -104,7 +102,6 @@ env:
   keyVaultPrefix: 'kvt'              # Key Vault prefix
   lawPrefix: 'law'                   # Log Analytics Workspace prefix
   appInsightsPrefix: 'ais'           # Application Insights prefix
-  umiPrefix: 'umi'                   # User Assigned Managed Identity prefix
 
 # ====================================================================================================
 # JOBS DEFINITION
@@ -183,7 +180,7 @@ jobs:
           echo "This what-if analysis will not include the App Service Plan and App Service resources."
           echo "They are deployed imperatively in the 'deploy' job."
           az deployment sub what-if \
-            --name "gaw-deployment-${{ steps.rnd.outputs.rndSuffix }}" \
+            --name "gaw-deployment-${{ steps.rnd.outputs.randomResourceSuffix }}" \
             --location "${{ github.event.inputs.location }}" \
             --template-file "${{ github.event.inputs.bicepFile }}" \
             --parameters resourceGroupName="${{ env.rgprefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
@@ -193,8 +190,6 @@ jobs:
                          appInsightsName="${{ env.appInsightsPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          keyVaultName="${{ env.keyVaultPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
                          lawName="${{ env.lawPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
-                         umiName="${{ env.umiPrefix }}-${{ steps.rnd.outputs.rndSuffix }}" \
-                         deploymentId="${{ steps.rnd.outputs.rndSuffix }}"
                          
       # Display comprehensive summary of planned resources
       # Provides clear overview of what will be deployed
@@ -208,7 +203,6 @@ jobs:
           echo "  - Application Insights: ${{env.appInsightsPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "  - Key Vault: ${{env.keyVaultPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "  - Log Analytics Workspace: ${{env.lawPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
-          echo "  - User Assigned Managed Identity: ${{env.umiPrefix}}-${{ steps.rnd.outputs.rndSuffix }}"
           echo "Use the 'Deploy' job to apply these changes if everything looks good."
   # =====================================
   # DEPLOYMENT JOB
@@ -289,8 +283,6 @@ jobs:
                    appInsightsName="${{ env.appInsightsPrefix }}-${{ env.deployRndSuffix }}" \
                    keyVaultName="${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}" \
                    lawName="${{ env.lawPrefix }}-${{ env.deployRndSuffix }}" \
-                   umiName="${{ env.umiPrefix }}-${{ env.deployRndSuffix }}" \
-                   deploymentId="${{ env.deployRndSuffix }}" \
             --deny-settings-mode none \
             --action-on-unmanage deleteAll \
             --yes
@@ -333,27 +325,12 @@ jobs:
             --name "$appName" \
             --resource-group "$rgpName" \
             --plan "$aspName" \
-            --runtime "NODE:22-lts" \
-            --verbose
-          
-          echo "Waiting for App Service to be fully provisioned..."
-          sleep 120  # Wait for App Service to be fully provisioned
-
-          # Assign User Assigned Managed Identity to App Service
-          echo "Assigning User Assigned Managed Identity to App Service: $appName"
-          umiName="${{ env.umiPrefix }}-${{ env.deployRndSuffix }}"
-          az webapp identity assign \
-            --name "$appName" \
-            --resource-group "$rgpName" \
-            --identities "/subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$umiName" \
+            --runtime "node:"
             --verbose
 
-          echo "Waiting for User Assigned Managed Identity to be assigned..."
-          sleep 10  # Wait for Managed Identity assignment to complete
-
-          echo "NOTE: AcrPull role assignment to the User Assigned Managed Identity must be performed manually after deployment."
-          echo "Use the following command pattern after deployment completes:"
-          echo "az role assignment create --assignee-object-id <managed-identity-principal-id> --assignee-principal-type ServicePrincipal --role AcrPull --scope /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/$rgpName/providers/Microsoft.ContainerRegistry/registries/${{ env.containerRegistryPrefix }}${{ env.deployRndSuffix }} --verbose"
+          # Get Application Insights Connection String
+          echo "Waiting for Application Insights to be fully provisioned..."
+          sleep 180
           
           echo "Retrieving Application Insights connection string for: $appInsightsName"
           AI_CONN_STR=$(az monitor app-insights component show \
@@ -434,17 +411,8 @@ jobs:
             echo "  - Application Insights: ${{ env.appInsightsPrefix }}-${{ env.deployRndSuffix }}"
             echo "  - Key Vault: ${{ env.keyVaultPrefix }}-${{ env.deployRndSuffix }}"
             echo "  - Log Analytics Workspace: ${{ env.lawPrefix }}-${{ env.deployRndSuffix }}"
-            echo "  - User Assigned Managed Identity: ${{ env.umiPrefix }}-${{ env.deployRndSuffix }}"
             echo "Deployment completed successfully. Review the output above for details."
             echo "You can also check the Azure portal for more details."
-            echo ""
-            echo "⚠️  MANUAL POST-DEPLOYMENT STEP REQUIRED:"
-            echo "To enable container registry access, manually assign the AcrPull role to the User Assigned Managed Identity:"
-            echo "1. Get the User Assigned Managed Identity Principal ID:"
-            echo "   az identity show --name ${{ env.umiPrefix }}-${{ env.deployRndSuffix }} --resource-group ${{ env.rgprefix }}-${{ env.deployRndSuffix }} --query principalId --output tsv"
-            echo "2. Assign AcrPull role using the Principal ID from step 1:"
-            echo "   az role assignment create --assignee-object-id <principal-id-from-step-1> --assignee-principal-type ServicePrincipal --role AcrPull --scope /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/${{ env.rgprefix }}-${{ env.deployRndSuffix }}/providers/Microsoft.ContainerRegistry/registries/${{ env.containerRegistryPrefix }}${{ env.deployRndSuffix }} --verbose"
-            echo ""
             echo "Listing deployed resources:"
             az resource list --resource-group "${{ env.rgprefix }}-${{ env.deployRndSuffix }}" --output table || echo "Resource group not found or no resources deployed."
           else
