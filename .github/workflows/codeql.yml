@@ -44,11 +44,11 @@ jobs:
       matrix:
         include:
         - language: actions
-          build-mode: none
+          build-mode: autobuild
         # - language: c-cpp
         # build-mode: autobuild
         - language: csharp
-          build-mode: none
+          build-mode: autobuild
         - language: go
           build-mode: autobuild
         - language: java-kotlin
