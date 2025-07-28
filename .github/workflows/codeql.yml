@@ -44,7 +44,7 @@ jobs:
       matrix:
         include:
         - language: actions
-          build-mode: autobuild
+          build-mode: none
         # - language: c-cpp
         # build-mode: autobuild
         - language: csharp
