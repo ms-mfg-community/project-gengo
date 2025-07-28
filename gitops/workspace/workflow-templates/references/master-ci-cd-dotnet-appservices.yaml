@@ -1,0 +1,218 @@
+name: .NET Web App CI/CD Pipeline (Master)
+
+# .NET Web App CI/CD Pipeline (Master)
+#
+# Standardized, resilient, reusable GitHub Actions CI/CD workflow for deploying .NET web applications to Azure.
+# Artifact storage is handled via the central pipeline repo using dedicated credentials and variables.
+# App deployments use developer-provided credentials for scoped Azure access.
+
+on:
+  workflow_call:
+    inputs:
+      app_name:
+        required: true
+        type: string
+      artifact_name:
+        required: false
+        default: web-app-build
+        type: string
+      project_path:
+        required: true
+        type: string
+      publish_path:
+        required: true
+        type: string
+      dotnet_version:
+        required: true
+        type: string
+      runner_label:
+        required: false
+        default: 'ubuntu-latest'
+        type: string
+      selected_environment:
+        required: true
+        type: string
+      storage_account_name:
+        required: true
+        type: string
+    secrets:
+      AZURE_CREDENTIALS:
+        required: true
+      AZURE_STORAGE_ACCOUNT_KEY:
+        required: true
+      FEED_TOKEN:
+        required: false
+      FEED_USERNAME:
+        required: false
+      BLACKBOX_HEALTHCHECK_URL:
+        required: false
+
+jobs:
+  build:
+    name: 🔧 Build and Test .NET App
+    runs-on: ${{ inputs.runner_label }}
+    outputs:
+      artifact-version: ${{ steps.set_version.outputs.version }}
+
+    steps:
+      - name: 🗓️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 💡 Set Build Version
+        id: set_version
+        run: echo "version=prod-${{ github.sha }}" >> $GITHUB_OUTPUT
+
+      - name: 🔧 Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ inputs.dotnet_version }}
+
+      - name: 🔧 Configure NuGet Sources (Optional)
+        run: |
+          if [ -n "${{ secrets.FEED_TOKEN }}" ] && [ -n "${{ secrets.FEED_USERNAME }}" ]; then
+            echo "✅ Configuring NuGet feeds..."
+            dotnet nuget add source "https://nuget.pkg.github.com/YOUR-ORG/index.json" \
+              --name "GitHubFeed" \
+              --username "${{ secrets.FEED_USERNAME }}" \
+              --password "${{ secrets.FEED_TOKEN }}" \
+              --store-password-in-clear-text
+          else
+            echo "⚠️ Skipping NuGet feed configuration; required secrets not provided."
+          fi            --name "${{ vars.VENDOR_FEED_NAME_3 }}" \
+            --username "${{ vars.FEED_USERNAME }}" \
+            --password "${{ secrets.FEED_TOKEN }}" \
+            --store-password-in-clear-text \
+            --configfile '${{ vars.FEED_CONFIG_FILE }}'
+
+      - name: 🔍 Restore Dependencies
+        run: |
+          echo "Restoring packages from config..."
+          dotnet restore '${{ inputs.project_path }}' || echo "NuGet restore failed/skipped. Proceeding."
+
+      - name: 🏋️ Build Application
+        run: dotnet build '${{ inputs.project_path }}' --configuration Release --no-restore
+
+      - name: 🚀 Publish Application
+        run: |
+          dotnet publish '${{ inputs.publish_path }}' \
+            --configuration Release \
+            --output publish \
+            --no-build
+
+      - name: 📁 Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: publish/
+          retention-days: 30
+
+  deploy:
+    name: 🚀 Deploy to Selected Environment
+    needs: build
+    runs-on: ${{ inputs.runner_label }}
+    environment: ${{ inputs.selected_environment }}
+
+    steps:
+      - name: 🔐 Azure Login (Storage Account Credentials)
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: 🗂️ Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: ./deployment
+
+      - name: 📁 Ensure Blob Container Exists
+        run: |
+          az storage container create \
+            --name ${{ inputs.app_name }} \
+            --account-name ${{ inputs.storage_account_name }} \
+            --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
+            --public-access off
+
+      - name: 🔍 Create Blob Backup (Central Storage)
+        run: |
+          tar -czf build-${{ github.sha }}.tar.gz -C deployment .
+          az storage blob upload \
+            --file build-${{ github.sha }}.tar.gz \
+            --container-name ${{ inputs.app_name }} \
+            --name artifacts/build-${{ github.sha }}.tar.gz \
+            --account-name ${{ inputs.storage_account_name }} \
+            --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
+            --overwrite true
+
+      - name: 🔐 Azure Login (App Deployment Credentials)
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: 🚀 Deploy to Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ vars.AZURE_WEBAPP_RESOURCE_NAME }}
+          package: ./deployment
+
+      - name: 🌌 Mark Last Known Good (Only for Prod)
+        if: inputs.selected_environment == 'prod'
+        run: |
+          az storage blob copy start \
+            --source-blob artifacts/build-${{ github.sha }}.tar.gz \
+            --source-container ${{ inputs.app_name }} \
+            --destination-blob artifacts/last-known-good.tar.gz \
+            --destination-container ${{ inputs.app_name }} \
+            --account-name ${{ inputs.storage_account_name }} \
+            --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+
+      - name: 🏥 Health Check
+        continue-on-error: true
+        run: |
+          if [ -n "${{ secrets.BLACKBOX_HEALTHCHECK_URL }}" ]; then
+            echo "Running health check..."
+            curl -f -s -m 30 "${{ secrets.BLACKBOX_HEALTHCHECK_URL }}"
+          else
+            echo "No health check URL configured"
+          fi
+
+  manual-rollback:
+    name: 🔁 Manual Rollback to Last Known Good (Prod Only)
+    runs-on: ${{ inputs.runner_label }}
+    if: github.event.inputs.triggerRollback == 'true' && inputs.selected_environment == 'prod'
+    environment: prod
+
+    steps:
+      - name: 🔐 Azure Login (Storage Account Credentials)
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: 📅 Download Last Known Good Artifact
+        run: |
+          az storage blob download \
+            --name artifacts/last-known-good.tar.gz \
+            --container-name ${{ inputs.app_name }} \
+            --account-name ${{ inputs.storage_account_name }} \
+            --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} \
+            --file rollback.tar.gz
+
+          mkdir rollback-deployment
+          tar -xzf rollback.tar.gz -C rollback-deployment
+
+      - name: 🔐 Azure Login (App Deployment Credentials)
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: 🚀 Redeploy Last Known Good Build
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ vars.AZURE_WEBAPP_RESOURCE_NAME }}
+          package: ./rollback-deployment
+
+      - name: 📊 Post-Rollback Health Check (Optional)
+        run: |
+          if [ -n "${{ secrets.BLACKBOX_HEALTHCHECK_URL }}" ]; then
+            curl -f -s -m 30 "${{ secrets.BLACKBOX_HEALTHCHECK_URL }}" || echo "⚠️ Health check after rollback failed"
+          else
+            echo "ℹ️ No health check URL configured after rollback"

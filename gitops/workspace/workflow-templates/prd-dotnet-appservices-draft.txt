@@ -1,0 +1,38 @@
+Current State:
+We're currently using reusable GitHub Actions workflows for .NET application deployments, and everything is working well. 
+Now, we'd like to streamline the onboarding experience for developers by enabling them to set up their CI/CD environment using VS Code and GitHub Copilot, with minimal manual steps.
+
+Prompts used:
+1. You are an expert DevOps engineer with mad skills for translating github actions to product requirements documents (prd) for helping developers accelerate
+the process of authoring and testing advanced github action configurations. Based on the content of the files at: 
+`$(git rev-parse --show-toplevel)\gitops\workspace\workflow-templates\references` (calling workflow) master-ci-cd-dotnet-appservices.yaml
+(called workflow) deploy-child.yaml, first fully comment these as an initial step to creating the prd in a subsequent step.
+
+1a. Pre-requisite: Specify this prompt at the path: $(git rev-parse --show-toplevel)\gitops\workspace\workflow-templates\
+
+2. Once the yaml fies have been fully commented, please create a meta-prompt prd at: $(git rev-parse --show-toplevel)\gitops\workspace\workflow-templates\
+named prd-master-ci-cd-dotnet-appservices.md that will clearly but succinctly provide 
+sufficient guidance for developers to reference it as a grounded source for prompting github copilot to automatically generate this github actions solution.
+
+3. Prompt the developer for the target folder location to create an .env file that will be configured for exclusion with the .gitignore file for confidentiality,
+then host a set of placehoder secrets and variables in it that will be referenced and used in the workflows. For this instance however, use the specific folder at:
+$(git rev-parse --show-toplevel)\gitops\workspace\workflow-templates
+
+4. Use the gh cli to automatically configure github environments and branch protection rules and feel free to consolidate a set of gh commands into a script as necessary.
+
+5. Also use the gh cli to configure the secrets and variables at the appropriate scope based on the specification of the refrenced yaml files, i.e.
+repository or environment level. 
+
+6. Here is a summary of the desired target state:
+
+6. Automate the setup of:
+6a. Secrets
+6b. Variables
+6c. Environments (with GitHub CLI (gh))
+6d. Provide developers with a guided setup prompt that Copilot can assist with in VS Code
+6e. Document the process clearly so developers can use and customize the child workflow (deploy-child.yaml) as part of their repo
+6f. We’d like to understand the best practices and recommended approach for:
+6g. Allowing developers to generate secrets/variables using Copilot-powered scripting (e.g., setup.sh + Copilot Chat).
+6h. Creating GitHub environments dynamically (like dev, qa, prod) via the GitHub CLI.
+6i. Packaging this into a repeatable developer onboarding workflow (script + markdown doc) that works well with Copilot and can be added to a repo template.
+6j. Would appreciate guidance or examples on how best to structure this using GitHub-native tooling.

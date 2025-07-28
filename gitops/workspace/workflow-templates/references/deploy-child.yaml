@@ -1,0 +1,42 @@
+name: Enterprise .NET Web App CI/CD Trigger
+
+on:
+  workflow_dispatch:
+    inputs:
+      triggerRollback:
+        description: 'Trigger rollback to last known good build'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+      selected_environment:
+        description: 'Choose environment to deploy (dev, qa, preprod, prod)'
+        required: true
+        type: choice
+        options:
+          - dev
+          - qa
+          - preprod
+          - prod
+
+jobs:
+  run-master:
+    uses: ./.github/workflows/master-ci-cd-dotnet-appservices.yaml
+    with:
+      app_name: ${{ vars.APP_NAME }}
+      artifact_name: ${{ vars.ARTIFACT_NAME }}
+      project_path: ${{ vars.AZURE_WEBAPP_PACKAGE_PATH }}
+      publish_path: ${{ vars.AZURE_WEBAPP_PACKAGE_PUBLISH_PATH }}
+      dotnet_version: ${{ vars.DOTNET_VERSION }}
+      runner_label: ubuntu-latest
+      selected_environment: ${{ github.event.inputs.selected_environment }}
+      storage_account_name: ${{ vars.AZURE_STORAGE_ACCOUNT_NAME }}
+      triggerRollback: ${{ github.event.inputs.triggerRollback }}
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+      AZURE_STORAGE_ACCOUNT_KEY: ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }}
+      FEED_TOKEN: ${{ secrets.FEED_TOKEN }}
+      FEED_USERNAME: ${{ secrets.FEED_USERNAME }}
+      BLACKBOX_HEALTHCHECK_URL: ${{ secrets.BLACKBOX_HEALTHCHECK_URL }}

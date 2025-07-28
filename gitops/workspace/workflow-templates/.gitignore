@@ -1,0 +1,97 @@
+# .NET CI/CD Workflow Templates - Git Ignore File
+# This file ensures sensitive configuration and temporary files are not committed
+
+# Environment Configuration Files
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+
+# Temporary Files
+*.tmp
+*.temp
+~*
+.DS_Store
+Thumbs.db
+
+# IDE and Editor Files
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Build and Output Directories
+build/
+dist/
+out/
+bin/
+obj/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime Data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage and Test Results
+coverage/
+.nyc_output/
+test-results/
+*.cover
+.coverage
+.pytest_cache/
+
+# Package Manager
+node_modules/
+.npm
+.yarn-integrity
+package-lock.json
+yarn.lock
+
+# PowerShell
+*.ps1.bak
+
+# Backup Files
+*.bak
+*.backup
+*.old
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Azure and Cloud Configuration (if accidentally copied)
+*.publishsettings
+*.azurePubxml
+*.pubxml
+*.pubxml.user
+
+# Secrets and Keys (extra protection)
+secrets.json
+appsettings.secrets.json
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Local Configuration Override
+local.settings.json
+.local/
+
+# Documentation Build
+docs/_build/
+site/
