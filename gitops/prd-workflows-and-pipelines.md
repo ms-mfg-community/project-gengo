@@ -2,9 +2,9 @@
 
 ## 1.1 Document Information
 
-- **Version:** 2.2
-- **Author(s):** GitHub Copilot
-- **Date:** January 10, 2025
+- **Version:** 2.3
+- **Author(s):** Preston K. Parsard
+- **Date:** June 27, 2025
 - **Status:** Complete
 
 ## 1.2 Executive Summary
@@ -100,6 +100,16 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 | FR-18 | The workflow shall handle errors gracefully with clear error messages |
 | FR-19 | The workflow shall support subscription-scoped deployments |
 | FR-20 | The workflow shall tag all resources with deployment metadata |
+| FR-21 | The workflow shall deploy Azure Key Vault for secure secrets management |
+| FR-22 | The workflow shall deploy Log Analytics Workspace for centralized logging |
+| FR-23 | The workflow shall deploy Application Insights for application monitoring |
+| FR-24 | The workflow shall support imperative App Service deployment to avoid auto-created resources |
+| FR-25 | The workflow shall implement hybrid deployment approach (declarative + imperative) |
+| FR-26 | The workflow shall perform explicit cleanup of imperatively deployed resources during rollback |
+| FR-27 | The workflow shall support modular Bicep architecture with dedicated modules for each service |
+| FR-28 | The workflow shall generate unique random suffixes for resource naming to prevent conflicts |
+| FR-29 | The workflow shall support Azure CLI and Bicep extension setup automation |
+| FR-30 | The workflow shall provide comprehensive audit trails for all deployment operations |
 
 ## 1.8 Non-Functional Requirements
 
@@ -168,7 +178,7 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 
 ### 1.12.1 Prerequisites
 
-1. Create two github environments in the `project-gengo` repository named `dev` and `prd`.
+1. Create two GitHub environments in the `project-gengo` repository named `dev` and `prd`.
 2. Configure the 'prd' environment for manual approval with the following settings:
    - **Required reviewers:** 1
    - **Wait timer:** 0 minutes
@@ -184,130 +194,695 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
    - Set the audience to `api://AzureADTokenExchange`.
    - Use the `environment` for the entity type based on selection `dev`|`prd`.
 5. Add the following secrets to the repository:
-   - `AZURE_CLIENT_ID`: The Client ID from the Azure app registration.
-   - `AZURE_TENANT_ID`: The Tenant ID from the Azure app registration.
-   - `AZURE_CLIENT_SECRET`: The Client Secret from the Azure app registration.
-6. At the end of the GitHub Copilot summary, add a next step recommendation to manually update these secret values.
-7. Also remind the user as a next step to set permissions for the Azure app registration to the deployment scope of the Azure subscription where resources will be deployed, (i.e.) az role assignment create --assignee-object-id `object-id` --assignee-principal-type ServicePrincipal --role Contributor --scope /subscriptions/`subscription-id` --verbose
-8. Finally, add as a next step that the following error may be encountered during deployment: "ERROR: the following arguments are required: --action-on-unmanage/--aou. Use this as a demonstration opportunity for creating and assigning an issue to github copilot to fix the issue in the workflow file using a pull request."
-
-### 1.12.2 Basic Workflow Setup
-
-1. Ensure the repository has a `.github/workflows` directory.
-2. Create a new GitHub Actions workflow file in the `.github/workflows` directory.
-3. Name the workflow file `01-level-workflow.yml`.
-4. Trigger the workflow manually from the main branch using the workflow_dispatch event.
-5. The workflow runs on an Ubuntu GitHub-hosted runner.
-6. The workflow displays the event and branch name.
-7. The repository is checked out.
-8. A PowerShell script lists all repository contents and saves the output to the artifacts folder.
-9. A Python script (getDirectoryContents.py) in the .github/workflows/src folder lists repository contents and saves the output.
-10. Both outputs are uploaded as build artifacts.
-11. A new job retrieves workflow metadata (branch, job ID) and displays it.
-12. The workflow creates a downloads folder if needed.
-13. The workflow downloads the previously uploaded artifact and displays its contents using PowerShell.
-14. Copy the `01-level-workflow.yml` file to a new file named `01-level-pipeline.yml` in the directory `$(git rev-parse --show-toplevel)/.azure-pipelines`.
-15. Convert the new `01-level-pipeline.yml` file to an Azure DevOps pipeline format by replacing GitHub Actions syntax with Azure DevOps YAML syntax.
-16. Do not include the `$(Build.StartTime)` in any of the output for this pipeline since this information will already be set in the Azure DevOps Pipeline UI anyway.
-17. Manually import the GitHub repository: `https://github.com/ms-mfg-community/project-gengo.git` into the ADO project: `ado-pipeline-demos` using the ADO repository name of `project-gengo-ci` and select the `01-level-pipeline.yml` file into a new Azure DevOps pipeline, also named `project-gengo-ci` for the project.
-18. Manually run the Azure DevOps pipeline to verify it works as expected.
-19. (Cleanup pipeline) Remove the `01-level-pipeline.yml` file from the repository root level `$(git rev-parse --show-toplevel)/.azure-pipelines` directory to reset this exercise.
-20. (Cleanup workflow) Remove the `01-level-workflow.yml` file from the `$(git rev-parse --show-toplevel)/.github/workflows` directory to reset this exercise.
-21. (Cleanup ADO pipeline) Remove the Azure DevOps pipeline created in step 17 from the Azure DevOps project to reset this exercise.
-22. (Cleanup ADO repo) Remove the Azure DevOps repository created in step 17 from the Azure DevOps project to reset this exercise.
-
-### 1.12.3 Azure Deployment Workflow
-
-1. In the repository path `$(git rev-parse --show-toplevel)/gitops/workspace`, create the following directory and file structure using PowerShell:
-   NOTE: Only create the directory structure exactly as it appears below. If it does not already exist. If the files already exist, do not overwrite them.
-
-   ```powershell
-   \---infra
-       |   main.bicep
-       |   main.bicepparam
-       |
-       \---modules
-               acr.bicep
-               sta.bicep
-       \---scripts
-           |   setup-github-secrets.ps1
-           |   validate-bicep.ps1
-   ```
-
-2. The powershell script with the name `setup-github-secrets.ps1` in step 1 above:
-   - Will be used to set up the required GitHub secrets and variables for the Azure deployment workflow.
-   - Will use the `gh` CLI command to set the secrets and variables interactively.
-3. Add the following GitHub Actions workflow secrets to the repository using the gh CLI command using a powershell script named `setup-github-secrets.ps1`. I will authenticate interactivly when prompted.
    - `AZURE_SUBSCRIPTION_ID`: The Azure subscription ID where resources will be deployed.
    - `AZURE_CLIENT_ID`: The Client ID from the Azure app registration.
    - `AZURE_TENANT_ID`: The Tenant ID from the Azure app registration.
-4. Run: `$randomResourceSuffix = (New-Guid).ToString().Substring(0,8)` to generate a random resource suffix for resource names.
-5. Add the following GitHub Actions variables to the `setup-github-secrets.ps1` script:
-   - `resourceGroupName`: Set to `gaw-iac-azure-deployment`.
-   - `location`: Set to `eastus2`.
-   - `randomResourceSuffix`: The value generated using the PowerShell command in step 2.
-   - `storageAccountName`: Set to `1sta-$(randomResourceSuffix)`.
-   - `containerRegistryName`: Set to `acr-$(randomResourceSuffix)`.
-6. Ensure the repository has a `.github/workflows` directory.
-7. Create a new GitHub Actions workflow file in the `.github/workflows` directory.
-8. Name the workflow file `gaw-iac-azure-deployment.yml` and name the workflow `gaw-iac-azure-deployment`.
-9. Use a manual trigger event for the workflow.
-10. Assign an Ubuntu GitHub-hosted runner for the workflow.
+6. At the end of the GitHub Copilot summary, add a next step recommendation to manually update these secret values.
+7. Also remind the user as a next step to set permissions for the Azure app registration to the deployment scope of the Azure subscription where resources will be deployed, (i.e.) `az role assignment create --assignee-object-id <object-id> --assignee-principal-type ServicePrincipal --role Contributor --scope /subscriptions/<subscription-id> --verbose`
+8. Finally, add as a next step that the following error may be encountered during deployment: "ERROR: the following arguments are required: --action-on-unmanage/--aou". Use this as a demonstration opportunity for creating and assigning an issue to GitHub Copilot to fix the issue in the workflow file using a pull request.
 
-#### 1.12.3.1 Workflow Inputs
+### 1.12.2 Basic Workflow Setup
 
-1. In the `gaw-iac-azure-deployment.yml` workflow file, define the inputs for the workflow using the `workflow_dispatch` event.
-2. The inputs will be used to configure the Azure deployment parameters dynamically.
-3. In the workflow_dispatch section, define the following inputs:
+Create a foundational GitHub Actions workflow demonstrating repository analysis and artifact management capabilities:
 
-- `resourceGroupName`: The name of the Azure resource group to deploy as `gaw-iac-azure-deployment`.
-- `location`: The Azure region for the resource group, e.g., `vars.location`.
-- `randomResourceSuffix`: The value generated using the PowerShell command in step 2.
-- `storageAccountName`: The name of the Azure storage account to create using the PowerShell command for the name as '1sta' + $randomResourceSuffix. `vars.storageAccountName`.
-- `containerRegistryName`: The name of the Azure container registry to create as 'acr' + $randomResourceSuffix. `vars.containerRegistryName`.
-- `bicepFile`: The path to the Bicep file for the deployment, specified as `gitops/workspace/infra/main.bicep`.
-- `bicepParametersFile`: The path to the Bicep parameters file as `gitops/workspace/infra/main.bicepparam`.
-- `workflowMode`: The mode of the workflow with allowed values of (`plan-only`, `plan-and-deploy`, `deploy-only`). Use `plan-only` as the default value.
-- `stackAction`: The action to perform on the deployment stack (`deploy`, `rollback`) with a default value of `deploy`.
-- `deploymentStackName`: The name of the deployment stack to use which will be set to the name of this workflow.
+#### 1.12.2.1 Workflow File Creation
 
-#### 1.12.3.2 Jobs
+1. **Directory Structure**: Ensure the repository has a `.github/workflows` directory structure
+2. **Workflow File**: Create a new GitHub Actions workflow file named `01-level-workflow.yml` in the `.github/workflows` directory
+3. **Trigger Configuration**: Configure the workflow for manual triggering from the main branch using the `workflow_dispatch` event
+4. **Runner Environment**: Configure the workflow to run on GitHub-hosted Ubuntu runner for consistency
 
-1. In the `gaw-iac-azure-deployment.yml` workflow file, define two jobs: `plan` and `deploy`.
-2. The `plan` job will be associated with the `dev` environment and will perform the planning phase of the deployment.
-3. The `deploy` job will be associated with the `prd` environment and will perform the actual deployment of the Azure resources.
-4. In the first job - `plan`, associate it with the `dev` environment and authenticate Azure using OIDC.
-5. The first action will be to check out the repository code.
-6. Then next action will be to set up Azure CLI with the Bicep extension.
-7. After the bicep extension is set up, the workflow authenticates to Azure using the OIDC token and the Azure CLI.
-8. The workflow Azure CLI bicep deployment command will use the what-if parameter to display a plan for deploying Azure resource group, storage account and a container registry using the Azure CLI with a bicep configuration.
-9. Reference any required parameters from the workflow inputs defined in step 8, such as `resourceGroupName`, `location`, `storageAccountName`, `containerRegistryName`, `bicepFile`, `bicepParametersFile`, `workflowMode`, and `deploymentStackName`.
-10. The next job `deploy` will be associated with the `prd` environment and deploys the Azure resources using the Azure CLI with the bicep configuration using deployment stacks feature and includes a rollback option as a separate action.
-11. Continue to reference the same inputs defined for this workflow as in the `plan` job as required.
-12. The same action sequences for repository checkout and authentication to Azure are used in the `deploy` job as well.
+#### 1.12.2.2 Repository Analysis Implementation
+
+Create workflow steps that implement comprehensive repository content analysis:
+
+1. **Event and Branch Display**: Add a step to display the triggering event and current branch name
+2. **Repository Checkout**: Configure repository checkout using the standard actions/checkout action
+3. **PowerShell Content Analysis**: Implement a PowerShell script that recursively lists all repository contents and saves output to an artifacts folder
+4. **Python Content Analysis**: Create a Python script (name it `getDirectoryContents.py`) in the `.github/workflows/src` folder that lists repository contents and saves the output
+5. **Artifact Upload**: Configure both analysis outputs to be uploaded as build artifacts using actions/upload-artifact
+
+#### 1.12.2.3 Metadata and Artifact Management
+
+Implement advanced workflow capabilities for metadata reporting and artifact handling:
+
+1. **Metadata Job**: Create a separate job that retrieves and displays workflow metadata including branch name and job ID
+2. **Downloads Folder**: Add a step to create a downloads folder if it doesn't already exist
+3. **Artifact Download**: Configure the workflow to download previously uploaded artifacts using actions/download-artifact
+4. **Content Display**: Implement a PowerShell step to display the contents of downloaded artifacts for verification
+
+#### 1.12.2.4 Azure DevOps Pipeline Conversion
+
+Demonstrate cross-platform CI/CD conversion capabilities:
+
+1. **Pipeline Directory**: Create a `.azure-pipelines` directory in the repository root using `$(git rev-parse --show-toplevel)/.azure-pipelines`
+2. **File Duplication**: Copy the `01-level-workflow.yml` file to a new file named `01-level-pipeline.yml` in the Azure DevOps pipeline directory
+3. **Syntax Conversion**: Convert the GitHub Actions syntax to Azure DevOps YAML syntax, replacing:
+   - GitHub Actions specific triggers with Azure DevOps triggers
+   - GitHub-hosted runners with Azure DevOps agent pools
+   - GitHub Actions marketplace actions with Azure DevOps tasks
+   - GitHub environment variables with Azure DevOps variables
+4. **Build Time Exclusion**: Ensure the pipeline doesn't include `$(Build.StartTime)` in outputs since this information is available in the Azure DevOps Pipeline UI
+
+#### 1.12.2.5 Manual Integration and Cleanup Procedures
+
+**Azure DevOps Integration**:
+
+1. **Repository Import**: Manually import the GitHub repository `https://github.com/ms-mfg-community/project-gengo.git` into the Azure DevOps project `ado-pipeline-demos`
+2. **Repository Naming**: Use the ADO repository name `project-gengo-ci` for the imported repository
+3. **Pipeline Creation**: Select the `01-level-pipeline.yml` file to create a new Azure DevOps pipeline named `project-gengo-ci`
+4. **Pipeline Execution**: Manually execute the Azure DevOps pipeline to verify functionality and cross-platform compatibility
+
+**Environment Reset Procedures**:
+
+1. **Pipeline Cleanup**: Remove the `01-level-pipeline.yml` file from the repository root `.azure-pipelines` directory using git commands
+2. **Workflow Cleanup**: Remove the `01-level-workflow.yml` file from the `.github/workflows` directory to reset the exercise
+3. **Azure DevOps Pipeline Cleanup**: Remove the Azure DevOps pipeline created in the integration step from the Azure DevOps project
+4. **Azure DevOps Repository Cleanup**: Remove the Azure DevOps repository created during integration from the Azure DevOps project
+
+These procedures ensure complete environment cleanup and enable repeatable demonstrations of the CI/CD conversion capabilities.
+
+### 1.12.3 Azure Deployment Workflow Architecture
+
+The GitHub Actions workflow (`gaw-iac-azure-deployment.yml`) implements a comprehensive Azure infrastructure deployment solution with the following architectural design:
+
+#### 1.12.3.1 Infrastructure Directory Structure
+
+Create the following enterprise-grade directory structure in `$(git rev-parse --show-toplevel)/gitops/workspace`:
+
+**Infrastructure Root Directory (`infra/`):**
+
+- `main.bicep`: Main subscription-scoped Bicep template
+- `main.bicepparam`: Environment-specific parameter definitions
+- `README.md`: Infrastructure documentation and usage guide
+
+**Modules Subdirectory (`modules/`):**
+
+- `acr.bicep`: Azure Container Registry with security configurations
+- `ais.bicep`: Application Insights with Log Analytics integration
+- `kvt.bicep`: Key Vault with access policies and diagnostics
+- `law.bicep`: Log Analytics Workspace with retention policies
+- `sta.bicep`: Storage Account with security and encryption
+
+**Scripts Subdirectory (`scripts/`):**
+
+- `setup-github-secrets.ps1`: GitHub secrets configuration automation
+- `validate-bicep.ps1`: Bicep template validation and linting
+
+**NOTE**: This structure follows Azure Verified Modules patterns and enterprise infrastructure best practices. Only create files if they don't already exist to preserve existing configurations.
+
+#### 1.12.3.2 Workflow Security and Authentication Architecture
+
+The workflow implements enterprise-grade security with the following components:
+
+**OIDC Authentication Configuration:**
+
+- **Purpose**: Eliminates long-lived secrets in repositories using federated identity
+- **Implementation**: Azure App Registration with GitHub federated credentials
+- **Scope**: Environment-specific credentials (dev/prd) for secure multi-environment deployment
+- **Permissions**: Subscription-level Contributor role for infrastructure deployment
+
+**Environment Protection Strategy:**
+
+- **Development Environment (`dev`)**: Planning and validation with automatic approval
+- **Production Environment (`prd`)**: Deployment with mandatory manual approval gates
+- **Security Model**: Least-privilege access with role-based permissions
+- **Audit Trail**: Complete approval and deployment history for compliance
+
+#### 1.12.3.3 Workflow Input Parameters and Configuration
+
+Create a `workflow_dispatch` trigger with comprehensive input validation for flexible deployment scenarios. Include the following inputs with appropriate types, descriptions, and default values:
+
+1. **location**: Choice input for Azure region selection
+   - Include options: eastus2, westus2, centralus, eastus, westus
+   - Set default to 'eastus2'
+   - Add description explaining impact on latency, compliance, and cost
+
+2. **bicepFile**: String input for Bicep template path
+   - Set default to 'gitops/workspace/infra/main.bicep'
+   - Description should indicate this is the main infrastructure definition
+
+3. **bicepParametersFile**: String input for parameters file path
+   - Set default to 'gitops/workspace/infra/main.bicepparam'
+   - Description should indicate environment-specific values
+
+4. **workflowMode**: Choice input for execution mode
+   - Include options: plan-only, plan-and-deploy
+   - Set default to 'plan-only'
+   - Description should explain plan-only for preview, plan-and-deploy for execution
+
+5. **stackAction**: Choice input for deployment action
+   - Include options: deploy, rollback
+   - Set default to 'deploy'
+   - Description should explain deploy for new resources, rollback for reverting
+
+6. **deploymentStackPrefix**: String input for stack naming
+   - Set default to 'stack'
+   - Description should explain use for stack naming and identification
+
+#### 1.12.3.4 Resource Naming Strategy and Conflict Prevention
+
+**Dynamic Resource Naming Architecture:**
+
+Configure environment variables at the workflow level for consistent resource prefixes:
+
+1. **Azure Authentication Variables** (configured as repository secrets):
+   - AZURE_SUBSCRIPTION_ID: Target Azure subscription
+   - AZURE_CLIENT_ID: Service principal client ID
+   - AZURE_TENANT_ID: Azure AD tenant ID
+
+2. **Resource Naming Prefixes** (ensures consistent naming across all resources):
+   - rgprefix: 'rgp' (Resource Group prefix)
+   - storagePrefix: '1sta' (Storage Account prefix - must start with letter)
+   - containerRegistryPrefix: 'acr' (Azure Container Registry prefix)
+   - appServicePlanPrefix: 'asp' (App Service Plan prefix)
+   - appServicePrefix: 'app' (App Service prefix)
+   - keyVaultPrefix: 'kvt' (Key Vault prefix)
+   - lawPrefix: 'law' (Log Analytics Workspace prefix)
+   - appInsightsPrefix: 'ais' (Application Insights prefix)
+
+**Random Suffix Generation:**
+
+In the plan job, create a step that generates a unique random suffix for resource naming:
+
+- Use job outputs to make the suffix available to other jobs
+- Generate 8-character alphanumeric string using: `echo $RANDOM | md5sum | head -c 8`
+- Store the result in GitHub outputs using the variable name 'rndSuffix'
+
+**Resource Name Construction:**
+
+For the what-if analysis in the plan job, construct Azure CLI deployment command with dynamic parameters:
+
+- Use `az deployment sub what-if` command
+- Include deployment name with random suffix
+- Pass Bicep file and parameters file from workflow inputs
+- Dynamically construct resource names using environment prefixes and random suffix
+- Include all resource parameters: resourceGroupName, location, storageAccountName, containerRegistryName, appInsightsName, keyVaultName, lawName
+
+For the deployment in the deploy job, use similar pattern with Azure Deployment Stacks:
+
+- Use `az stack sub create` command
+- Include stack name with deployment prefix and random suffix
+- Use same parameter construction pattern as plan job
+- Add deployment stack specific parameters: --deny-settings-mode none, --action-on-unmanage deleteAll, --yes
+
+#### 1.12.3.5 Two-Stage Job Architecture
+
+**Planning Job (`plan`):**
+
+- **Environment**: Development (`dev`) with automatic approval
+- **Purpose**: Infrastructure validation and what-if analysis
+- **Capabilities**:
+  - Repository checkout and Azure CLI setup with Bicep extension
+  - OIDC authentication for secure Azure access
+  - Bicep template validation using custom PowerShell scripts
+  - Comprehensive what-if analysis showing planned changes
+  - Resource naming strategy implementation
+  - Deployment summary and resource inventory
+
+**Deployment Job (`deploy`):**
+
+- **Environment**: Production (`prd`) with manual approval gates
+- **Dependencies**: Successful completion of planning job
+- **Execution Conditions**: Only when `workflowMode` is `plan-and-deploy`
+- **Capabilities**:
+  - Azure Deployment Stack creation and management
+  - Declarative infrastructure deployment using Bicep templates
+  - Imperative App Service deployment to prevent auto-created resources
+  - Post-deployment cleanup of orphaned Application Insights resources
+  - Rollback capabilities using deployment stack history
+  - Comprehensive deployment results and resource validation
+
+#### 1.12.3.6 GitHub Secrets and Variables Configuration
+
+Use the automated PowerShell script `setup-github-secrets.ps1` for secure configuration. The script should configure the following repository-level secrets for OIDC authentication:
+
+1. **AZURE_SUBSCRIPTION_ID**: Target Azure subscription for resource deployment
+2. **AZURE_CLIENT_ID**: Service principal client ID from App Registration  
+3. **AZURE_TENANT_ID**: Azure AD tenant ID for authentication context
+
+Additionally, configure optional debugging variables:
+
+- **ACTIONS_STEP_DEBUG**: Enable detailed logging for GitHub Actions troubleshooting
+
+#### 1.12.3.7 Azure CLI and Bicep Extension Setup
+
+The workflow ensures consistent tooling across all job executions through standardized setup procedures:
+
+**Azure CLI and Bicep Extension Configuration:**
+
+Create a workflow step that implements comprehensive Azure CLI and Bicep setup with the following requirements:
+
+1. **Output Status Message**: Display "Setting up Azure CLI and Bicep extension..." for audit trail
+2. **Azure CLI Upgrade**: Execute `az upgrade --yes` to ensure latest version for reliability
+3. **Bicep Extension Installation**: Execute `az bicep install` for template compilation capabilities
+4. **Version Verification**: Display Azure CLI version using `az --version` for troubleshooting
+5. **Bicep Version Verification**: Display Bicep version using `az bicep version` for compatibility validation
+
+This standardized setup ensures compatibility, security, and reliability across all deployment operations while providing clear audit trails for troubleshooting and compliance requirements.
+
+#### 1.12.3.1 Workflow Input Configuration
+
+**Workflow Dispatch Trigger Setup:**
+
+Create a comprehensive workflow dispatch configuration in the `gaw-iac-azure-deployment.yml` workflow file with dynamic input parameters for flexible deployment scenarios:
+
+**Required Input Parameters:**
+
+Configure the following inputs with appropriate data types, validation, and descriptive help text:
+
+- **resourceGroupName**: String input with default value `gaw-iac-azure-deployment` for Azure resource group naming
+- **location**: Choice input with Azure region options (eastus2, westus2, centralus, eastus, westus) and default value `eastus2` for deployment location selection
+- **bicepFile**: String input with default path `gitops/workspace/infra/main.bicep` for Bicep template specification
+- **bicepParametersFile**: String input with default path `gitops/workspace/infra/main.bicepparam` for environment-specific parameter values
+- **workflowMode**: Choice input with options (plan-only, plan-and-deploy, deploy-only) and default value `plan-only` for execution mode control
+- **stackAction**: Choice input with options (deploy, rollback) and default value `deploy` for deployment action specification
+- **deploymentStackPrefix**: String input with default value `stack` for deployment stack naming and identification
+
+Each input should include comprehensive descriptions explaining the purpose, impact, and expected values to guide users in making appropriate selections.
+
+#### 1.12.3.2 Resource Naming Strategy
+
+**Workflow Environment Variables Configuration:**
+
+Configure environment variables at the workflow level to ensure consistent resource prefixes across all deployment operations:
+
+**Azure Authentication Variables** (configured as repository secrets):
+
+- AZURE_SUBSCRIPTION_ID referencing the target Azure subscription
+- AZURE_CLIENT_ID referencing the service principal client ID  
+- AZURE_TENANT_ID referencing the Azure AD tenant ID
+
+**Resource Naming Prefixes** (ensures consistent naming across all resources):
+
+- rgprefix: 'rgp' for Resource Group prefix
+- storagePrefix: '1sta' for Storage Account prefix (must start with letter)
+- containerRegistryPrefix: 'acr' for Azure Container Registry prefix
+- appServicePlanPrefix: 'asp' for App Service Plan prefix
+- appServicePrefix: 'app' for App Service prefix
+- keyVaultPrefix: 'kvt' for Key Vault prefix
+- lawPrefix: 'law' for Log Analytics Workspace prefix
+- appInsightsPrefix: 'ais' for Application Insights prefix
+
+**Random Suffix Generation Strategy:**
+
+Create a plan job output variable that generates unique resource identifiers:
+
+Create a job output named 'rndSuffix' and implement a step with ID 'rnd' that:
+
+- Generates an 8-character random string using: echo $RANDOM | md5sum | head -c 8
+- Outputs the result to GitHub outputs using the rndSuffix variable name
+
+**Dynamic Resource Name Construction:**
+
+Implement resource name construction within the plan job using the generated suffix through Bicep parameter integration:
+
+Implement an Azure CLI what-if deployment command that:
+
+- Uses `az deployment sub what-if` with deployment name including the random suffix
+- References the location from workflow inputs
+- Uses the bicepFile and bicepParametersFile from workflow inputs
+- Constructs all resource name parameters dynamically using environment prefixes and random suffix
+- Includes parameters for: resourceGroupName, location, storageAccountName, containerRegistryName, appInsightsName, keyVaultName, lawName
+
+**Deployment Job Resource Naming:**
+
+Implement the same naming pattern in the deploy job using job output references for Azure Deployment Stacks:
+
+Implement an Azure CLI deployment stack command that:
+
+- Uses `az stack sub create` with stack name including deployment prefix and random suffix
+- References location and template files from workflow inputs
+- Uses the same parameter construction pattern as the plan job
+- Includes deployment stack parameters: --deny-settings-mode none, --action-on-unmanage deleteAll, --yes
+
+#### 1.12.3.3 Jobs Architecture and Workflow Security
+
+The workflow implements a two-job architecture with environment-based security controls:
+
+##### 1.12.3.3.1 Plan Job (Development Environment)
+
+1. **Environment**: Associated with the `dev` environment for safe validation
+2. **Runner**: Uses GitHub-hosted Ubuntu runner (`ubuntu-latest`)
+3. **Permissions**:
+   - `id-token: write` for Azure OIDC authentication
+   - `contents: read` for repository access
+4. **Purpose**: Performs infrastructure planning and validation without making changes
+
+**Key Steps**:
+
+- Generate unique random suffix for resource naming consistency
+- Checkout repository code for Bicep template access
+- Authenticate with Azure using OpenID Connect (OIDC) for secure, keyless authentication
+- Set up Azure CLI with Bicep extension for infrastructure management
+- Perform Bicep template validation using `az bicep build`
+- Execute what-if analysis using `az deployment sub what-if` for change preview
+- Output random suffix for use in subsequent deployment job
+
+##### 1.12.3.3.2 Deploy Job (Production Environment)
+
+1. **Environment**: Associated with the `prd` environment with manual approval requirements
+2. **Dependency**: Requires successful completion of the plan job
+3. **Conditional Execution**: Only runs when `workflowMode` is `plan-and-deploy`
+4. **Runner**: Uses GitHub-hosted Ubuntu runner (`ubuntu-latest`)
+
+**Key Steps**:
+
+- Retrieve random suffix from plan job outputs for resource naming consistency
+- Checkout repository code and authenticate with Azure using OIDC
+- Set up Azure CLI with Bicep extension
+- Execute deployment using Azure Deployment Stacks (`az stack sub create`)
+- Implement cleanup procedures for orphaned Application Insights resources
+- Deploy App Service using imperative approach to avoid auto-created resources and unwanted resource dependencies
+
+**Imperative App Service Deployment Rationale**:
+
+Azure App Service creation through declarative infrastructure as code (Bicep/ARM templates) automatically provisions additional monitoring resources that can conflict with existing infrastructure design. When App Service is deployed declaratively through Bicep templates, Azure automatically creates:
+
+1. **Default Application Insights Instance**: Named `<app-service-name>-insights` with auto-generated configuration
+2. **Additional Resource Group**: May create a separate monitoring resource group with a specific naming pattern that includes the Application Insights resource name and systematic prefix/suffix conventions
+3. **Default Log Analytics Workspace**: Provisions a workspace if none is explicitly linked
+
+These auto-created resources pose several architectural challenges:
+
+- **Resource Naming Conflicts**: The auto-generated `<app-service-name>-insights` naming pattern may conflict with existing Application Insights instances
+- **Unmanaged Dependencies**: Auto-created resources exist outside the managed deployment stack, complicating lifecycle management
+- **Cost Management Issues**: Additional resource groups and workspaces can lead to unexpected charges and billing complexity
+- **Governance Violations**: Auto-created resources may not comply with organizational naming conventions and tagging policies
+
+The imperative deployment approach using Azure CLI commands (`az appservice plan create` and `az webapp create`) provides precise control over resource creation and dependencies. This method allows explicit linking to existing Application Insights and Log Analytics Workspace instances while preventing unwanted auto-provisioning.
+
+**Reference**: Based on Azure App Service monitoring architecture patterns documented in [Azure App Service documentation](https://docs.microsoft.com/en-us/azure/app-service/overview-monitoring) and [Application Insights integration patterns](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview).
+
+##### 1.12.3.5.3 Azure CLI and Bicep Extension Setup
+
+Configure both jobs with standardized Azure CLI and Bicep extension setup:
+
+Create a step that:
+
+1. Outputs a status message: "Setting up Azure CLI and Bicep extension..."
+2. Upgrades Azure CLI to latest version using: `az upgrade --yes`
+3. Installs Bicep CLI extension using: `az bicep install`
+4. Verifies installation by displaying Azure CLI version: `az --version`
+5. Verifies installation by displaying Bicep version: `az bicep version`
+
+##### 1.12.3.3.4 Security Implementation
+
+**OpenID Connect (OIDC) Authentication**:
+
+- Uses app registration: `ghc-scenario-id-39`
+- Eliminates long-lived secrets through federated identity
+- Requires specific Azure permissions for subscription-level deployments
+
+**Environment Protection Rules**:
+
+- **dev environment**: Allows immediate execution for planning operations
+- **prd environment**: Requires manual approval with the following settings:
+  - Required reviewers: 1
+  - Wait timer: 0 minutes
+  - Deployment branches: main
+  - Deployment protection rules: None
+
+**Deployment Stack Security**:
+
+- Uses `--deny-settings-mode none` for flexible resource management
+- Implements `--action-on-unmanage deleteAll` for comprehensive cleanup
+- Provides rollback capabilities through deployment stack history
 
 ### 1.12.4 Bicep Configuration
 
-1. In the repository path `$(git rev-parse --show-toplevel)/gitops/workspace`, create the following directory and file structure using PowerShell:
-   NOTE: Only create the directory structure exactly as it appears in **section 1.12.3, step 1**. If it does not already exist. If the files already exist, do not overwrite them.
+The Bicep infrastructure configuration is designed with a modular, secure, and maintainable approach using Azure verified modules patterns and enterprise-grade commenting.
 
-2. Add the code in `main.bicep` to perform a subscription scoped deployment of the Azure resource group with the name `gaw-iac-azure-deployment` in the `eastus2` region.
-   - The resource group should include the `Microsoft.Storage/storageAccounts` and `Microsoft.ContainerRegistry/registries` resources.
-   - Use the `sta.bicep` module for the storage account and the `acr.bicep` module for the container registry.
-   - Ensure that the storage account is named `1sta-$(randomResourceSuffix)` and the container registry is named `acr-$(randomResourceSuffix)`.
-3. Add the code in `main.bicep` to deploy a storage account named `1sta-$(randomResourceSuffix)` with the `sta.bicep` module, and the container registry named `acr-$(randomResourceSuffix)` using the `acr.bicep` module. The code should include parameters for resource names, locations, and other configurations.
-4. Add the code in `main.bicepparam` to define parameters for the Bicep deployment, including resource group name, location, storage account name, and container registry name.
-5. If the workflowMode is either `plan-only` or `plan-and-deploy`, add the azure cli code for the deployment in the plan job and use the `--what-if` parameter to display a plan for deploying the Azure resources.
-6. Use the file and folder structure provided above in **section 1.12.3, step 1**, at the path `$(git rev-parse --show-toplevel)/gitops/workspace` to organize the Bicep files and parameters:
-7. For the deploy job, if the stackAction is `deploy` deploy the resources using the Bicep files and parameters defined in the previous steps. Ensure that the deployment stack name uses the value: `deploymentStackName`.
-8. If the stackAction is `rollback`, rollback the deployment stack using the `deploymentStackName` parameter.
-9. Populate the `validate-bicep.ps1` script to validate the Bicep files before deployment. This script should use the Azure CLI command `az bicep build` to ensure the Bicep files are valid and can be deployed.
+#### 1.12.4.1 Infrastructure Architecture
+
+The solution implements a subscription-scoped deployment that creates a complete Azure infrastructure stack with the following components:
+
+1. **Resource Group**: Container for all infrastructure resources
+2. **Storage Account**: General-purpose storage for applications and data (`modules/sta.bicep`)
+3. **Container Registry**: Private Docker image registry (`modules/acr.bicep`)
+4. **Key Vault**: Secure storage for secrets, keys, and certificates (`modules/kvt.bicep`)
+5. **Log Analytics Workspace**: Centralized logging and monitoring (`modules/law.bicep`)
+6. **Application Insights**: Application performance monitoring (`modules/ais.bicep`)
+7. **App Service Plan & App Service**: Web application hosting (deployed imperatively via Azure CLI to prevent auto-created monitoring resources)
+
+#### 1.12.4.2 Directory Structure
+
+Create a standardized Bicep configuration structure in the path `gitops/workspace/infra/` with the following organization:
+
+**Root Level Files:**
+
+- `main.bicep`: Main subscription-scoped template
+- `main.bicepparam`: Parameter file for environment values  
+- `README.md`: Infrastructure documentation
+
+**Modules Directory (`modules/`):**
+
+- `sta.bicep`: Storage Account module
+- `acr.bicep`: Azure Container Registry module
+- `kvt.bicep`: Key Vault module
+- `law.bicep`: Log Analytics Workspace module
+- `ais.bicep`: Application Insights module
+
+**Scripts Directory (`scripts/`):**
+
+- `validate-bicep.ps1`: Bicep template validation
+- `setup-github-secrets.ps1`: GitHub secrets configuration
+
+#### 1.12.4.3 Main Template Configuration
+
+The `main.bicep` template serves as the orchestrator for all infrastructure components:
+
+**Target Scope**: Subscription level to enable resource group creation
+**Parameters**: All resource names, location, and tagging strategy
+**Modules**: Deploys each Azure service using dedicated modules
+**Outputs**: Returns resource IDs and connection strings for application integration
+
+Key features:
+
+- Subscription-scoped deployment for resource group management
+- Modular architecture promoting reusability and maintainability
+- Comprehensive parameter validation and documentation
+- Resource dependency management through proper module ordering
+- Standardized tagging strategy for governance and cost tracking
+
+#### 1.12.4.4 Module Architecture and Dependencies
+
+**Storage Account Module (`sta.bicep`)**:
+
+- Implements secure blob storage with encryption at rest
+- Configures network access rules and threat protection
+- Provides diagnostic settings for monitoring and auditing
+- Outputs: Storage account ID, name, and endpoints
+
+**Container Registry Module (`acr.bicep`)**:
+
+- Deploys private Docker image registry with admin access
+- Implements zone redundancy for high availability
+- Configures security policies and network access
+- Outputs: Registry ID, name, and login server URL
+
+**Key Vault Module (`kvt.bicep`)**:
+
+- Creates secure storage for secrets, keys, and certificates
+- Implements RBAC-based access policies
+- Configures diagnostic settings with Storage Account dependency
+- Outputs: Key Vault ID, name, and URI
+
+**Log Analytics Workspace Module (`law.bicep`)**:
+
+- Establishes centralized logging and monitoring capabilities
+- Configures data retention policies and pricing tier
+- Provides foundation for other monitoring services
+- Outputs: Workspace ID and name for service integration
+
+**Application Insights Module (`ais.bicep`)**:
+
+- Implements application performance monitoring
+- Links to Log Analytics Workspace for data correlation
+- Configures diagnostic export to Storage Account
+- Outputs: Component ID for application integration
+
+**App Service Deployment Strategy**:
+
+App Service resources (App Service Plan and App Service) are intentionally deployed using imperative Azure CLI commands rather than declarative Bicep modules. This approach prevents Azure's automatic provisioning of monitoring resources that conflict with the managed infrastructure design.
+
+When App Service is deployed declaratively through Bicep templates, Azure automatically creates:
+
+- Application Insights instance with auto-generated naming (`<app-service-name>-insights`)
+- Default Log Analytics Workspace if none is explicitly specified
+- Additional monitoring resource group (`DefaultResourceGroup-<region>`) in some scenarios
+
+These auto-created resources create management challenges including naming conflicts, unmanaged resource dependencies, and governance policy violations. The imperative deployment approach using `az appservice plan create` and `az webapp create` commands provides explicit control over resource creation and allows proper integration with the existing Application Insights and Log Analytics Workspace instances defined in the Bicep modules.
+
+This hybrid approach (declarative for infrastructure foundation, imperative for compute resources) ensures clean resource lifecycle management while maintaining the benefits of Infrastructure as Code for the core platform services.
+
+#### 1.12.4.5 Resource Dependencies and Deployment Order
+
+The modules are deployed in a specific order to satisfy dependencies:
+
+**Declarative Infrastructure (Bicep Deployment Stack)**:
+
+1. **Storage Account** (Independent) - Foundation for diagnostic data
+2. **Container Registry** (Independent) - For containerized applications
+3. **Log Analytics Workspace** (Storage Account dependency) - Centralized logging
+4. **Key Vault** (Storage Account dependency) - Secure secret storage
+5. **Application Insights** (Log Analytics + Storage dependencies) - Monitoring integration
+
+**Imperative Compute Resources (Azure CLI Commands)**:
+
+1. **App Service Plan** (Resource Group dependency) - Compute hosting foundation
+2. **App Service** (App Service Plan + Application Insights dependencies) - Web application hosting
+
+This hybrid deployment approach ensures that foundational infrastructure is managed declaratively through deployment stacks while compute resources are deployed imperatively to prevent Azure's automatic creation of conflicting monitoring resources.
+
+#### 1.12.4.6 Parameter Strategy
+
+**Dynamic Parameters** (set by workflow):
+
+- Resource names with unique suffixes
+- Location for regional deployment
+- Environment-specific configurations
+
+**Static Parameters** (defined in template):
+
+- API versions for stability
+- Default configurations following Azure best practices
+- Security settings and policies
+
+**Parameter File Usage:**
+
+Create a `main.bicepparam` file that provides environment-specific values following this pattern:
+
+- Use the 'using' declaration to reference 'main.bicep'
+- Set resourceGroupName parameter as empty string (will be set dynamically by workflow)
+- Set location parameter with default region 'eastus2'  
+- Set storageAccountName parameter as empty string (will be set dynamically with unique suffix)
+- Set containerRegistryName parameter as empty string (will be set dynamically with unique suffix)
+- Follow same pattern for all additional parameters (keyVaultName, lawName, appInsightsName)
+  
+_NOTE: For this implementation, the bicepparam file is being used as a placeholder since it is bypassed by the required parameters in the github actions az cli deployment commands. However, it's placed here as a convenience for when it is needed, though it may be argued that this violates the YAGNI principle: YAGNI = You Ain't Gonna Need It._
+
+#### 1.12.4.7 Security and Compliance Features
+
+- **Encryption**: All resources use encryption at rest and in transit
+- **Network Security**: Configurable network access rules and private endpoints
+- **Access Control**: RBAC-based permissions and managed identities
+- **Monitoring**: Comprehensive diagnostic settings for all resources
+- **Compliance**: Azure Policy-ready configurations and audit trails
+
+#### 1.12.4.8 Validation and Testing
+
+**Bicep Validation Script Implementation:**
+
+Create a PowerShell script (`validate-bicep.ps1`) that validates Bicep templates before deployment:
+
+- Use the Azure CLI command `az bicep build --file main.bicep` to validate templates
+- Check the exit code ($LASTEXITCODE) to determine success or failure
+- Display "Bicep validation successful!" message in Green color for success
+- Display "Bicep validation failed!" message in Red color and exit with code 1 for failure
+
+**Deployment Mode Instructions:**
+
+Configure deployment modes to support different execution patterns:
+
+- **Plan-Only Mode**: Implement using `--what-if` parameter for preview without making changes
+- **Plan-and-Deploy Mode**: Execute full deployment after completing the planning phase  
+- **Rollback Mode**: Implement reversion to previous deployment using deployment stack history. This mode must be used in conjunction with the plan-and-deploy mode to ensure the deployment stack exists for rollback operations.
 
 ### 1.12.5 Cleanup Procedures
 
-1. (Optional for resources cleanup) Remove the resources created by the Bicep deployment, you can use the Azure CLI command `az group delete --name $resourceGroupName --yes --no-wait` to delete the resource group and all its resources.
-2. (Optional for files and folders cleanup) Remove the files and folders created in the `$(git rev-parse --show-toplevel)/gitops/workspace` directory, including the `infra` folder. You can use the PowerShell command `Remove-Item -Path $(git rev-parse --show-toplevel)/gitops/workspace/infra -Recurse -Force` to delete the entire workspace directory. Then delete the `Remove-Item -Path $(git rev-parse --show-toplevel)/gitops/workspace/infra` folder afterwards.
-3. (Optional for workflow cleanup) Finally, remove the `gaw-iac-azure-deployment.yml` workflow file from the `.github/workflows` directory to reset this exercise.
+Implement comprehensive cleanup procedures for complete environment reset and resource management:
+
+#### 1.12.5.1 Imperative Resource Cleanup
+
+**App Service and App Service Plan Cleanup** (Required for rollback operations):
+
+Since App Service Plan and App Service resources are deployed imperatively using Azure CLI commands (not through the Bicep deployment stack), they require explicit cleanup during rollback operations. Create a cleanup procedure that removes these compute resources separately:
+
+**Implementation Instructions:**
+
+1. **Status Output**: Display informational message "Cleaning up App Service and App Service Plan resources..." for audit trail and troubleshooting
+2. **App Service Deletion**:
+   - Output deletion message with specific resource name using the pattern "Deleting App Service: ${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}"
+   - Implement Azure CLI webapp deletion command that targets the App Service by name and resource group using the established environment variable naming pattern
+3. **App Service Plan Deletion**:
+   - Output deletion message with specific resource name using the pattern "Deleting App Service Plan: ${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }}"
+   - Implement Azure CLI App Service Plan deletion command that targets the plan by name and resource group using the established environment variable naming pattern
+4. **Completion Confirmation**: Display success message "Rollback completed successfully. Resources have been deleted." for operation verification
+
+**Critical Implementation Notes:**
+
+- **Deletion Order**: Always delete App Service before App Service Plan to avoid dependency conflicts
+- **Resource Independence**: These resources must be deleted separately since they exist outside the deployment stack lifecycle
+- **Error Handling**: Include appropriate error handling for cases where resources may not exist or deletion fails. The following ERROR may appear during a rollback operation and can be safely ignored as a false-positive, where the deployment may have to be manually deleted from the portal:
+
+```bash
+Run echo "Rolling back deployment..."
+##[debug]/usr/bin/bash -e /home/runner/work/_temp/a820ff60-fe13-4d5e-9365-dbe19bd7aafc.sh
+Rolling back deployment...
+Most recent deployment stack found: stack-6a78b0f0
+Rolling back deployment stack: stack-6a78b0f0
+ERROR: (DeploymentStackDeleteResourcesFailed) One or more resources could not be deleted. Correlation id: '<guid>'.
+Code: DeploymentStackDeleteResourcesFailed
+Message: One or more resources could not be deleted. Correlation id: '<guid>'.
+Exception Details:(DeploymentStackDeleteResourcesFailed) An error occurred while deleting resources. These resources are still present in the stack but can be deleted manually. Please see the FailedResources property for specific error information. Deletion failures that are known limitations are documented here: https://aka.ms/DeploymentStacksKnownLimitations
+Code: DeploymentStackDeleteResourcesFailed
+Message: An error occurred while deleting resources. These resources are still present in the stack but can be deleted manually. Please see the FailedResources property for specific error information. Deletion failures that are known limitations are documented here: https://aka.ms/DeploymentStacksKnownLimitations
+```
+
+- **Naming Consistency**: Use the same environment variable pattern for resource names as used during deployment
+- **Audit Trail**: Provide clear logging for each deletion step to support troubleshooting and compliance requirements
+
+This cleanup procedure ensures complete removal of imperative resources during rollback operations while maintaining consistency with the overall deployment naming strategy.
+
+#### 1.12.5.2 Azure Resource Cleanup
+
+**Resource Group Deletion** (Optional for complete infrastructure reset):
+
+Create a cleanup procedure that removes all Azure resources deployed by the Bicep templates:
+
+1. **Azure CLI Command**: Use `az group delete --name $resourceGroupName --yes --no-wait` to delete the resource group and all contained resources
+2. **Confirmation**: Include the `--yes` flag for unattended execution without confirmation prompts
+3. **Asynchronous Execution**: Use `--no-wait` flag to avoid blocking the cleanup process on resource deletion completion
+4. **Validation**: Optionally verify resource group deletion using `az group exists --name $resourceGroupName` command
+
+#### 1.12.5.3 File and Directory Cleanup
+
+**Infrastructure Directory Removal** (Optional for workspace reset):
+
+Create a PowerShell-based cleanup procedure for local development environment reset:
+
+1. **Directory Path**: Target the `$(git rev-parse --show-toplevel)/gitops/workspace/infra` directory for complete removal
+2. **PowerShell Command**: Use `Remove-Item -Path "$(git rev-parse --show-toplevel)/gitops/workspace/infra" -Recurse -Force` for comprehensive directory deletion
+3. **Recursive Deletion**: Include `-Recurse` parameter to remove all subdirectories and files
+4. **Force Override**: Include `-Force` parameter to override read-only attributes and confirmation prompts
+
+#### 1.12.5.4 Workflow and Bicep Configuration Files Cleanup
+
+**GitHub Actions Workflow Removal** (Final cleanup step):
+
+Implement workflow file cleanup for complete exercise reset:
+_NOTE: To reference the correct path for the operations in this section, always use `$(git rev-parse --show-toplevel)/gitops/workspace/infra` in the PowerShell command. Also, use standard git commands (`git rm` or file system operations) to remove the workflow file_
+
+1. **infra Directory Copy**: Copy the `gitops/workspace/infra` directory to `gitops/completed` directory so the structure of `infra` is preserved beneath the `completed` folder.
+2. **Infra Directory Removal**: After step 1 completes successfully, recursively remove **only** the `gitops/workspace/infra` directory to reset the workspace.
+3. **Workflow File Copy**: To also preserve the workflow file for reference, copy the `gaw-iac-azure-deployment.yml` file from the `.github/workflows` directory to the `gitops/completed/infra` directory as well after step 2 above completes successfully.
+4. **Workflow File Removal**: After step 3 above completes successfully, remove the `gaw-iac-azure-deployment.yml` file from **only** the `.github/workflows` directory.
+5. **Repository Reset**: Ensure the repository returns to its original state before the exercise which means the `gitops/workspace` no longer contains the `infra` directory and the `.github/workflows` directory no longer contains the `gaw-iac-azure-deployment.yml` workflow file. Instead, the `gitops/completed/infra` directory will contain the `gaw-iac-azure-deployment.yml` workflow file as well as the entire `infra` recursive directory structure.
+6. **Manual Verification**: Confirm workflow removal by checking the GitHub Actions tab for absence of the removed workflow
+
+#### 1.12.5.5 Security Cleanup
+
+**GitHub Secrets Management** (Optional for security reset):
+
+Consider cleanup of configured GitHub secrets if environment reset is required:
+
+1. **Repository Secrets**: Review and optionally remove Azure authentication secrets (AZURE_SUBSCRIPTION_ID, AZURE_CLIENT_ID, AZURE_TENANT_ID)
+2. **Environment Variables**: Clear any debugging variables like ACTIONS_STEP_DEBUG if configured
+3. **Access Permissions**: Review and revoke Azure App Registration permissions if no longer needed
+4. **Federated Credentials**: Consider removing GitHub federated credentials from Azure App Registration for complete security cleanup
+
+These comprehensive cleanup procedures ensure complete environment reset, security hygiene, and preparation for repeated demonstrations or exercises.
 
 ## 1.13 Key Takeaways
 
@@ -385,7 +960,7 @@ Manual infrastructure deployment processes are error-prone, lack consistency, do
 ### Immediate Actions
 
 - **Review and Test**: Execute the complete workflow sequence to validate functionality
-- **Security Configuration**: Configure Azure App Registration with federated credentials for OIDC authentication  
+- **Security Configuration**: Configure Azure App Registration with federated credentials for OIDC authentication
 - **Environment Setup**: Create GitHub environments (dev/prd) with appropriate protection rules
 - **Permission Configuration**: Assign Azure permissions to the App Registration service principal for deployment scope
 - **Validation Testing**: Run what-if analysis to validate Bicep templates and deployment plans

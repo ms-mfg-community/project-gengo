@@ -58,7 +58,8 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 
 - **README:** Keep the README.md updated with usage instructions and examples.
 - **API Docs:** Maintain inline documentation and generated API docs.
-- **Style:** Use Markdown for all documentation, ensuring consistency in headings and formatting.
+- **Style:** Use Markdown for all documentation, ensuring consistency in headings and formatting using the [markdownlint](https://github.com/DavidAnson/markdownlint "Markdown Linting Rules") rules.
+
 
 ## Diagrams
 
