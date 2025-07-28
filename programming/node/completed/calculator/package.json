@@ -13,7 +13,7 @@
     "test:calculator": "node --experimental-modules src/scripts/runCalculatorTests.mjs"
   },
   "dependencies": {
-    "compression": "^1.8.0",
+    "compression": "^1.8.1",
     "csv-parser": "^3.2.0",
     "dotenv": "^16.4.7",
     "express": "^5.0.1",
