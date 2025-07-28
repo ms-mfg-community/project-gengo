@@ -598,6 +598,20 @@ const initializeApp = async () => {
           });
         }
         
+        // Define an allowlist of trusted Azure OpenAI endpoints
+        const trustedEndpoints = [
+          "https://example1.openai.azure.com",
+          "https://example2.openai.azure.com"
+        ];
+        
+        // Validate the azureEndpoint against the allowlist
+        if (!trustedEndpoints.includes(azureEndpoint)) {
+          return res.status(400).json({ 
+            valid: false,
+            message: 'Invalid Azure OpenAI endpoint' 
+          });
+        }
+        
         console.log(`Validating deployment: ${deploymentName} at ${azureEndpoint}`);
         
         // For embedding models, we'll test with a simple embedding request
