@@ -60,7 +60,7 @@ To generate the required PowerShell script, use the following prompts:
 
 ```
 Create a PowerShell script named New-CodeQLAnalysisForPython.ps1 that will use the CodeQL CLI to analyze Python code for security vulnerabilities. Include a reference comment linking to GitHub's documentation about the CodeQL CLI.
-Place the script in the current repository at the path: "$(git rev-parse --show-toplevel)/gitops/workspace"
+Place the script in the current repository at the path: "$(git rev-parse --show-toplevel)/ghas/workspace"
 ```
 
 ### Prompt 2: Showing Available Languages

@@ -3,6 +3,7 @@ node_modules/
 
 # Ignore subset of Visual Studio automatically generated content
 .vs/
+.vscode
 .vscode/build/
 
 # Ignore NuGet packages
