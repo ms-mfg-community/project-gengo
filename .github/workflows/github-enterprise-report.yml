@@ -22,7 +22,7 @@ on:
     - cron: '0 2 * * 0'
 
 env:
-  ORGANIZATION: ${{ github.event.inputs.organization || 'your-org-name' }}
+  ORGANIZATION: ${{ github.event.inputs.organization || 'ms-mfg-community' }}
   INCLUDE_PRIVATE: ${{ github.event.inputs.include_private_repos || 'true' }}
   INCLUDE_SECURITY: ${{ github.event.inputs.include_security_alerts || 'true' }}
 
