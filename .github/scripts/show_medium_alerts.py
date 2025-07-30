@@ -13,6 +13,20 @@ HEADERS = {
 def get_code_scanning_alerts():
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/code-scanning/alerts"
     resp = requests.get(url, headers=HEADERS)
+    
+    if resp.status_code == 403:
+        print("❌ Error: Access denied (403)")
+        print("This usually means:")
+        print("1. The repository doesn't have code scanning enabled, OR")
+        print("2. The GitHub token doesn't have sufficient permissions")
+        print("3. For code scanning alerts, you may need a personal access token with 'security_events' scope")
+        print(f"Response: {resp.json()}")
+        return []
+    elif resp.status_code != 200:
+        print(f"❌ Error: HTTP {resp.status_code}")
+        print(f"Response: {resp.json()}")
+        return []
+    
     data = resp.json()
     if isinstance(data, list):
         return data
@@ -47,6 +61,17 @@ def display_alert_details(alert):
     print()  # Empty line for readability
 
 print("Fetching CodeQL code scanning alerts...")
+print(f"Repository: {OWNER}/{REPO}")
+print(f"Token configured: {'Yes' if TOKEN else 'No'}")
+
+if not OWNER or not REPO:
+    print("❌ Error: GH_OWNER or GH_REPO environment variables not set")
+    exit(1)
+
+if not TOKEN:
+    print("❌ Error: GH_TOKEN environment variable not set")
+    exit(1)
+
 alerts = get_code_scanning_alerts()
 
 if not alerts:
