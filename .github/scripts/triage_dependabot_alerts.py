@@ -5,13 +5,19 @@ OWNER = "ms-mfg-community"
 REPO = "project-gengo"
 
 HEADERS = {
-    "Authorization": f"Bearer ${{secret.PERSONAL_ACCESS_TOKEN}}",
+    "Authorization": f"Bearer ${{secrets.GH_TOKEN}}",
     "Accept": "application/vnd.github+json"
 }
 
 def get_alerts():
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/dependabot/alerts"
-    return requests.get(url, headers=HEADERS).json()
+    resp = requests.get(url, headers=HEADERS)
+    data = resp.json()
+    if isinstance(data, list):
+        return data
+    else:
+        print("Unexpected response:", data)
+        return []
 
 def dismiss_alert(alert_id, reason="tolerable_risk"):
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/dependabot/alerts/{alert_id}"
@@ -23,6 +29,5 @@ def dismiss_alert(alert_id, reason="tolerable_risk"):
     requests.patch(url, headers=HEADERS, json=data)
 
 for alert in get_alerts():
-    # if alert["severity"] == "low" and "test" in alert["manifest_path"]:
-    if alert["severity"] == "low":
+    if isinstance(alert, dict) and alert.get("severity") == "low":
         dismiss_alert(alert["number"])
