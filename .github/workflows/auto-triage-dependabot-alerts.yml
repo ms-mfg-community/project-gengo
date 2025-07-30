@@ -4,6 +4,9 @@ on:
     - cron: '0 1 * * *'  # Daily at 1:00 AM UTC
   workflow_dispatch:
 
+env:
+  GH_TOKEN: ${{secrets.GITHUB_TOKEN }}
+
 jobs:
   triage:
     runs-on: ubuntu-latest

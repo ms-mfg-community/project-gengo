@@ -3,9 +3,10 @@ import requests
 
 OWNER = "ms-mfg-community"
 REPO = "project-gengo"
+TOKEN = os.getenv("GH_TOKEN")
 
 HEADERS = {
-    "Authorization": f"Bearer $GITHUB_TOKEN",
+    "Authorization": f"Bearer {TOKEN}",
     "Accept": "application/vnd.github+json"
 }
 
