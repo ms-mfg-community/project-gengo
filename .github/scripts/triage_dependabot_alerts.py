@@ -31,5 +31,6 @@ def dismiss_alert(alert_id, reason="tolerable_risk"):
 
 for alert in get_alerts():
     print(f"Alert #{alert.get('number', 'N/A')}: {alert.get('security_advisory', {}).get('summary', 'No summary')} - Severity: {alert.get('security_advisory', {}).get('severity', 'Unknown')}")
-    if isinstance(alert, dict) and alert.get("severity") == "low":
+    if isinstance(alert, dict) and alert.get('security_advisory', {}).get('severity') == "low":
+        print(f"  -> Low severity alert found: #{alert.get('number', 'N/A')} - Auto-dismissing")
         dismiss_alert(alert["number"])
