@@ -1,0 +1,52 @@
+# === JavaScript ===
+# Minified JS files
+*.min.js linguist-generated=true
+# Build outputs (e.g., Webpack, Vite)
+dist/** linguist-generated=true
+build/** linguist-generated=true
+
+# === CSS ===
+*.min.css linguist-generated=true
+
+# === Vendor and Dependencies ===
+node_modules/** linguist-generated=true
+vendor/** linguist-generated=true
+packages/**/vendor/** linguist-generated=true
+
+# === Generated Documentation ===
+docs/generated/** linguist-generated=true
+*.html linguist-generated=true
+
+# === Binary or Compressed Files ===
+*.zip linguist-generated=true
+*.gz linguist-generated=true
+*.tar.gz linguist-generated=true
+*.exe linguist-generated=true
+*.dll linguist-generated=true
+*.pdf linguist-generated=true
+
+# === Certificates or Keys (if safely generated) ===
+certs/*.pem linguist-generated=true -diff
+certs/*.crt linguist-generated=true -diff
+
+# === Test Fixtures or Mocks ===
+tests/fixtures/** linguist-generated=true -diff
+tests/mocks/** linguist-generated=true -diff
+
+# === Localization Files ===
+*.po linguist-generated=true
+*.mo linguist-generated=true
+
+# === Codegen and Swagger/OpenAPI outputs ===
+swagger/** linguist-generated=true
+openapi/** linguist-generated=true
+*.swagger.json linguist-generated=true
+
+# === Misc Configurations ===
+*.lock linguist-generated=true -diff
+*.log linguist-generated=true -diff
+.DS_Store linguist-generated=true
+
+# === Secret Scanning Exclusions ===
+secrets-exclusion/** linguist-generated=true -diff
+
