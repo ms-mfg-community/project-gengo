@@ -5,7 +5,7 @@ OWNER = "ms-mfg-community"
 REPO = "project-gengo"
 
 HEADERS = {
-    "Authorization": f"Bearer ${{secrets.GH_TOKEN}}",
+    "Authorization": f"Bearer $GITHUB_TOKEN",
     "Accept": "application/vnd.github+json"
 }
 
