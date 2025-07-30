@@ -1,8 +1,8 @@
 import os
 import requests
 
-OWNER = "ms-mfg-community"
-REPO = "project-gengo"
+OWNER = os.getenv("GH_OWNER")
+REPO = os.getenv("GH_REPO")
 TOKEN = os.getenv("GH_TOKEN")
 
 HEADERS = {
