@@ -6,7 +6,7 @@ This script is used in GitHub Actions workflow to capture repository structure.
 
 import os
 import sys
-from pathlib import Path
+
 from datetime import datetime
 
 def list_directory_contents(root_path, output_file):
