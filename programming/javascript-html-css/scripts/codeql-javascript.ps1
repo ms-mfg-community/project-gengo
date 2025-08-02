@@ -5,7 +5,9 @@ param(
     [string]$language = "javascript",                                                                                     # Programming language to analyze
     [string]$desiredQuerySuite = "javascript-security-and-quality.qls",                                                  # Query suite file to use for analysis
     [string]$qlsPath = "$env:USERPROFILE\.codeql",                                                                        # Path to search for CodeQL query suites
-    [string]$sarifCategory = "javascript-analysis"                                                                        # Category tag for the SARIF output
+    [string]$sarifCategory = "javascript-analysis",                                                                         # Category tag for the SARIF output
+    [ValidateSet("sarif-latest", "csv", "json", "table")]
+    [string]$format = "sarif-latest",                                                                                     # Output format for CodeQL results
 )
 
 # create the codeql database
@@ -22,8 +24,42 @@ if ($queryFile) {
     codeql pack download codeql/javascript-queries
 }
 
+# Prompt user to select output format
+Write-Host "`n=== Select Output Format ===" -ForegroundColor Cyan
+Write-Host "1. SARIF Latest (recommended)" -ForegroundColor White
+Write-Host "2. CSV" -ForegroundColor White
+Write-Host "3. JSON" -ForegroundColor White
+Write-Host "4. Table" -ForegroundColor White
+
+do {
+    $choice = Read-Host "`nEnter your choice (1-4)"
+    switch ($choice) {
+        "1" { $format = "sarif-latest"; $validChoice = $true }
+        "2" { $format = "csv"; $validChoice = $true }
+        "3" { $format = "json"; $validChoice = $true }
+        "4" { $format = "table"; $validChoice = $true }
+        default { 
+            Write-Host "Invalid choice. Please enter 1, 2, 3, or 4." -ForegroundColor Red
+            $validChoice = $false
+        }
+    }
+} while (-not $validChoice)
+
+Write-Host "Selected format: $format" -ForegroundColor Green
+
+# Update output file extension based on format
+$outputExtension = switch ($format) {
+    "sarif-latest" { ".sarif" }
+    "csv" { ".csv" }
+    "json" { ".json" }
+    "table" { ".txt" }
+}
+$outputPath = $outputPath -replace '\.[^.]+$', $outputExtension
+Write-Host "Output will be saved to: $outputPath" -ForegroundColor Yellow
+
+
 # run codeql analysis
-codeql database analyze $databasePath $fullQlsPath --format=sarif-latest --output=$outputPath --sarif-category=$sarifCategory --verbose
+codeql database analyze $databasePath $fullQlsPath --format=$format --output=$outputPath --sarif-category=$sarifCategory --verbose
 
 # remove database directory to cleanup
 Remove-Item -Path $databasePath -Recurse -Force -ErrorAction SilentlyContinue
