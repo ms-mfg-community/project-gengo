@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript Calculator</title>
+    <link rel="stylesheet" href="calculator.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <h1>TypeScript Calculator</h1>
+        <div class="language-info">
+            <p>Multi-language Calculator | Mehrsprachiger Rechner | बहुभाषी कैलकुलेटर | 多言語電卓</p>
+        </div>
+        
+        <div class="calculator">
+            <div class="display">
+                <input type="text" id="display" readonly placeholder="0">
+            </div>
+            
+            <div class="keypad">
+                <!-- First row: Clear and operations -->
+                <button class="btn operation" onclick="clearDisplay()">C</button>
+                <button class="btn operation" onclick="clearEntry()">CE</button>
+                <button class="btn operation" onclick="deleteLast()">⌫</button>
+                <button class="btn operation" onclick="appendToDisplay('/')">/</button>
+                
+                <!-- Second row -->
+                <button class="btn number" onclick="appendToDisplay('7')">7</button>
+                <button class="btn number" onclick="appendToDisplay('8')">8</button>
+                <button class="btn number" onclick="appendToDisplay('9')">9</button>
+                <button class="btn operation" onclick="appendToDisplay('*')">×</button>
+                
+                <!-- Third row -->
+                <button class="btn number" onclick="appendToDisplay('4')">4</button>
+                <button class="btn number" onclick="appendToDisplay('5')">5</button>
+                <button class="btn number" onclick="appendToDisplay('6')">6</button>
+                <button class="btn operation" onclick="appendToDisplay('-')">-</button>
+                
+                <!-- Fourth row -->
+                <button class="btn number" onclick="appendToDisplay('1')">1</button>
+                <button class="btn number" onclick="appendToDisplay('2')">2</button>
+                <button class="btn number" onclick="appendToDisplay('3')">3</button>
+                <button class="btn operation" onclick="appendToDisplay('+')">+</button>
+                
+                <!-- Fifth row -->
+                <button class="btn advanced" onclick="appendToDisplay('**')">^</button>
+                <button class="btn number" onclick="appendToDisplay('0')">0</button>
+                <button class="btn operation" onclick="appendToDisplay('.')">.</button>
+                <button class="btn advanced" onclick="appendToDisplay('%')">%</button>
+                
+                <!-- Equals button spans full width -->
+                <button class="btn equals" onclick="calculate()">=</button>
+            </div>
+        </div>
+        
+        <div class="info-panel">
+            <h3>Supported Operations | Unterstützte Operationen | समर्थित संचालन | サポートされる操作</h3>
+            <ul>
+                <li>Addition (+) | Addition | जोड़ | 加算</li>
+                <li>Subtraction (-) | Subtraktion | घटाव | 減算</li>
+                <li>Multiplication (×) | Multiplikation | गुणा | 乗算</li>
+                <li>Division (/) | Division | भाग | 除算</li>
+                <li>Modulo (%) | Modulo | मॉड्यूलो | 剰余</li>
+                <li>Exponentiation (^) | Potenzierung | घातांक | べき乗</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="calculator-browser.js"></script>
+</body>
+</html>

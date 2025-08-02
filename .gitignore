@@ -25,6 +25,9 @@ obj/
 # Ignore any .env that might be in any folder of this repo
 **/.env
 
+# Ignore and js-db folder for codeql operations
+**/js-db
+
 # Ignore archive folder (temporary storage, deployment artifacts)
 archive/
 
