@@ -1,28 +1,29 @@
 param(
-    [string]$sourcePath = "$(git rev-parse --show-toplevel)\programming\javascript-html-css\workspace\calculator",
-    [string]$databasePath = "$(git rev-parse --show-toplevel)\programming\javascript-html-css\scripts\js-db",
-    [string]$outputPath = ".\codeql-results.sarif",
-    [string]$language = "javascript",
-    [string]$desiredQuerySuite = "javascript-security-and-quality.qls",
-    [string]$codeqlQLSPath = "$env:USERPROFILE\.codeql"
+    [string]$sourcePath = "$(git rev-parse --show-toplevel)\programming\javascript-html-css\workspace\calculator",        # Path to the JavaScript source code to analyze
+    [string]$databasePath = "$(git rev-parse --show-toplevel)\programming\javascript-html-css\scripts\js-db",            # Path where the CodeQL database will be created (temporary)
+    [string]$outputPath = ".\codeql-results.sarif",                                                                       # Output file path for SARIF results
+    [string]$language = "javascript",                                                                                     # Programming language to analyze
+    [string]$desiredQuerySuite = "javascript-security-and-quality.qls",                                                  # Query suite file to use for analysis
+    [string]$qlsPath = "$env:USERPROFILE\.codeql",                                                                        # Path to search for CodeQL query suites
+    [string]$sarifCategory = "javascript-analysis"                                                                        # Category tag for the SARIF output
 )
 
 # create the codeql database
 codeql database create $databasePath --language=$language --source-root=$sourcePath --overwrite --verbose
 
-# return the path of the $desiredQuerySuite
-$queryFile = Get-ChildItem -Path "$codeqlQLSPath" -Recurse -Filter $desiredQuerySuite -ErrorAction SilentlyContinue | Select-Object -First 1
+# return the path of the $fullQlsPath
+$queryFile = Get-ChildItem -Path "$qlsPath" -Recurse -Filter $desiredQuerySuite -ErrorAction SilentlyContinue | Select-Object -First 1
 if ($queryFile) {
-    $desiredQuerySuitePath = $queryFile.FullName
-    Write-Host "Found query suite at: $desiredQuerySuitePath"
+    $fullQlsPath = $queryFile.FullName
+    Write-Host "Found query suite at: $fullQlsPath"
 } else {
-    Write-Error "Query suite '$desiredQuerySuite' not found in CodeQL packages at path: $codeqlQLSPath"
+    Write-Error "Query suite '$desiredQuerySuite' not found in CodeQL packages at path: $qlsPath"
     # download javascript query suites
     codeql pack download codeql/javascript-queries
 }
 
 # run codeql analysis
-codeql database analyze $databasePath $desiredQuerySuitePath --format=sarif-latest --output=$outputPath --sarif-category="javascript-analysis" --verbose
+codeql database analyze $databasePath $fullQlsPath --format=sarif-latest --output=$outputPath --sarif-category=$sarifCategory --verbose
 
 # remove database directory to cleanup
 Remove-Item -Path $databasePath -Recurse -Force -ErrorAction SilentlyContinue
