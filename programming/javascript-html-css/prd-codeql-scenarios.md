@@ -58,23 +58,23 @@ While CodeQL provides comprehensive out-of-the-box security analysis with 200+ s
 
 ```ql
 /**
- * @name Potential XSS vulnerability
- * @description Finds direct DOM manipulation that could lead to XSS
- * @kind problem
- * @problem.severity warning
- * @security-severity 6.0
- * @precision medium
- * @id js/custom-xss-check
- * @tags security
- *       external/cwe/cwe-79
+ * @name Potential XSS vulnerability                    // Human-readable name for the query
+ * @description Finds direct DOM manipulation that could lead to XSS  // Brief description of what the query detects
+ * @kind problem                                         // Query type: 'problem' reports issues at specific locations
+ * @problem.severity warning                             // Severity level: error, warning, note, or recommendation
+ * @security-severity 6.0                               // CVSS-style security severity score (0.0-10.0)
+ * @precision medium                                     // Confidence level: high, medium, low
+ * @id js/custom-xss-check                              // Unique identifier for this query
+ * @tags security                                        // Categories for filtering and organization
+ *       external/cwe/cwe-79                            // Links to CWE-79 (Cross-site Scripting)
  */
 
-import javascript
+import javascript                                        // Import the JavaScript CodeQL library for web analysis
 
-from DOM::Element element, DataFlow::Node source
-where element.getChild(_).getStringValue() = source.getStringValue()
-  and source.getEnclosingExpr() instanceof VarAccess
-select element, "Direct DOM content assignment from variable $@.", source, source.toString()
+from DOM::Element element, DataFlow::Node source        // Declare variables: DOM element and data source node
+where element.getChild(_).getStringValue() = source.getStringValue()  // Find DOM elements with string content matching source
+  and source.getEnclosingExpr() instanceof VarAccess    // Ensure the source comes from a variable access (not literal)
+select element, "Direct DOM content assignment from variable $@.", source, source.toString()  // Report the finding with message and source reference
 ```
 
 1. **Modify PowerShell Script Integration**
@@ -111,18 +111,18 @@ select element, "Direct DOM content assignment from variable $@.", source, sourc
 
 ```yaml
 # workshop-security-suite.qls
-- description: "GHAS Workshop Security Suite"
-- include:
-    kind: problem
-    tags contain: security
-- include:
-    kind: path-problem  
-    tags contain: security
-- include: custom-xss-check.ql
-- include: hardcoded-secrets.ql
-- include: console-log-production.ql
-- exclude:
-    id: js/unused-local-variable  # Exclude noise for workshop
+- description: "GHAS Workshop Security Suite"           # Human-readable description of this query suite
+- include:                                              # Include queries that match these criteria
+    kind: problem                                       # Include all 'problem' type queries (report specific issues)
+    tags contain: security                              # Only include queries tagged with 'security'
+- include:                                              # Additional include rule for path-problem queries
+    kind: path-problem                                  # Include 'path-problem' queries (show data flow paths)
+    tags contain: security                              # Only security-related path-problem queries
+- include: custom-xss-check.ql                          # Explicitly include our custom XSS detection query
+- include: hardcoded-secrets.ql                         # Explicitly include hardcoded secrets detection query
+- include: console-log-production.ql                    # Explicitly include console.log detection query
+- exclude:                                              # Exclude specific queries to reduce noise
+    id: js/unused-local-variable                        # Exclude unused variable warnings (not security-focused)
 ```
 
 1. **Script Integration**
@@ -191,23 +191,23 @@ if ($CustomQueries.Count -gt 0) {
 
 ```ql
 /**
- * @name Unsafe eval() usage in calculator
- * @description Detects eval() calls that could lead to code injection
- * @kind problem
- * @problem.severity error
- * @security-severity 9.0
- * @precision high
- * @id js/workshop-unsafe-eval
- * @tags security
- *       external/cwe/cwe-94
+ * @name Unsafe eval() usage in calculator                // Human-readable name specific to calculator context
+ * @description Detects eval() calls that could lead to code injection  // Description of security risk
+ * @kind problem                                           // Query type: reports specific problem locations
+ * @problem.severity error                                 // High severity: eval() is dangerous
+ * @security-severity 9.0                                  // Very high security score (code injection risk)
+ * @precision high                                         // High confidence in findings
+ * @id js/workshop-unsafe-eval                            // Unique workshop-specific identifier
+ * @tags security                                          // Security category tag
+ *       external/cwe/cwe-94                              // Links to CWE-94 (Code Injection)
  */
 
-import javascript
+import javascript                                          // Import JavaScript analysis library
 
-from CallExpr call
-where call.getCallee().(GlobalVarAccess).getName() = "eval"
-  and call.getParent*() instanceof Function
-select call, "Unsafe eval() usage detected. Consider using safer alternatives like Function constructor with validation."
+from CallExpr call                                         // Declare variable for function call expressions
+where call.getCallee().(GlobalVarAccess).getName() = "eval"  // Find calls where callee is global 'eval' function
+  and call.getParent*() instanceof Function               // Ensure eval call is within a function (not global scope)
+select call, "Unsafe eval() usage detected. Consider using safer alternatives like Function constructor with validation."  // Report with remediation advice
 ```
 
 **Expected Finding:** Will detect the `eval(display.innerText)` in `calculateResult()` function
@@ -224,24 +224,24 @@ select call, "Unsafe eval() usage detected. Consider using safer alternatives li
 
 ```ql
 /**
- * @name Hardcoded API keys and secrets
- * @description Finds potential hardcoded credentials in JavaScript
- * @kind problem
- * @problem.severity error
- * @security-severity 8.0
- * @precision medium
- * @id js/workshop-hardcoded-secrets
- * @tags security
- *       external/cwe/cwe-798
+ * @name Hardcoded API keys and secrets                   // Human-readable name for credential detection
+ * @description Finds potential hardcoded credentials in JavaScript  // Description of what we're looking for
+ * @kind problem                                           // Query type: reports specific issues
+ * @problem.severity error                                 // High severity: credentials are critical security issue
+ * @security-severity 8.0                                  // High security score for credential exposure
+ * @precision medium                                       // Medium precision due to regex-based detection
+ * @id js/workshop-hardcoded-secrets                      // Unique workshop identifier
+ * @tags security                                          // Security category
+ *       external/cwe/cwe-798                              // Links to CWE-798 (Use of Hard-coded Credentials)
  */
 
-import javascript
+import javascript                                          // Import JavaScript analysis library
 
-from StringLiteral s
-where s.getValue().regexpMatch("(?i).*(api[_-]?key|token|secret|password|auth[_-]?key).*")
-  and s.getValue().length() > 8
-  and not s.getParent*() instanceof Comment
-select s, "Potential hardcoded credential: " + s.getValue()
+from StringLiteral s                                       // Declare variable for string literal expressions
+where s.getValue().regexpMatch("(?i).*(api[_-]?key|token|secret|password|auth[_-]?key).*")  // Case-insensitive regex for credential patterns
+  and s.getValue().length() > 8                           // Filter out short strings (likely not real credentials)
+  and not s.getParent*() instanceof Comment               // Exclude strings that are within comments
+select s, "Potential hardcoded credential: " + s.getValue()  // Report the finding with the actual string value
 ```
 
 **Workshop Exercise:** Add intentional hardcoded values to calculator for detection
@@ -252,22 +252,22 @@ select s, "Potential hardcoded credential: " + s.getValue()
 
 ```ql
 /**
- * @name Console statements in production code
- * @description Finds console.log statements that should be removed for production
- * @kind problem
- * @problem.severity note
- * @precision high
- * @id js/workshop-console-statements
- * @tags maintainability
- *       best-practice
+ * @name Console statements in production code             // Human-readable name for console detection
+ * @description Finds console.log statements that should be removed for production  // What this query finds
+ * @kind problem                                           // Query type: reports maintenance issues
+ * @problem.severity note                                  // Low severity: maintenance issue, not security
+ * @precision high                                         // High precision: specific method call pattern
+ * @id js/workshop-console-statements                     // Unique workshop identifier
+ * @tags maintainability                                   // Categorized as code maintainability issue
+ *       best-practice                                     // Also tagged as best practice violation
  */
 
-import javascript
+import javascript                                          // Import JavaScript analysis library
 
-from CallExpr call
-where call.getCallee().(PropAccess).getPropertyName() = "log"
-  and call.getCallee().(PropAccess).getBase().(GlobalVarAccess).getName() = "console"
-select call, "Console.log statement found - consider removing for production deployment."
+from CallExpr call                                         // Declare variable for function call expressions
+where call.getCallee().(PropAccess).getPropertyName() = "log"  // Find property access where property name is "log"
+  and call.getCallee().(PropAccess).getBase().(GlobalVarAccess).getName() = "console"  // Ensure base object is global "console"
+select call, "Console.log statement found - consider removing for production deployment."  // Report with remediation advice
 ```
 
 ### Scenario 4: DOM Manipulation Security
@@ -276,24 +276,24 @@ select call, "Console.log statement found - consider removing for production dep
 
 ```ql
 /**
- * @name Unsafe DOM manipulation
- * @description Detects potentially unsafe DOM content assignments
- * @kind problem
- * @problem.severity warning
- * @security-severity 6.0
- * @precision medium
- * @id js/workshop-dom-security
- * @tags security
- *       external/cwe/cwe-79
+ * @name Unsafe DOM manipulation                          // Human-readable name for DOM security check
+ * @description Detects potentially unsafe DOM content assignments  // Description of security concern
+ * @kind problem                                           // Query type: reports security problems
+ * @problem.severity warning                               // Medium severity: potential XSS vector
+ * @security-severity 6.0                                  // Medium-high security score for XSS risk
+ * @precision medium                                       // Medium precision: may have false positives
+ * @id js/workshop-dom-security                           // Unique workshop identifier
+ * @tags security                                          // Security category
+ *       external/cwe/cwe-79                              // Links to CWE-79 (Cross-site Scripting)
  */
 
-import javascript
+import javascript                                          // Import JavaScript analysis library
 
-from CallExpr call, MemberExpr member
-where member.getPropertyName() = "innerHTML"
-  and call.getCallee() = member
-  and not call.getArgument(0) instanceof StringLiteral
-select call, "Dynamic innerHTML assignment detected. Verify input sanitization."
+from CallExpr call, MemberExpr member                     // Declare variables for call expression and member access
+where member.getPropertyName() = "innerHTML"              // Find member access to 'innerHTML' property
+  and call.getCallee() = member                           // Ensure the member access is the function being called
+  and not call.getArgument(0) instanceof StringLiteral    // Flag calls where argument is NOT a string literal (dynamic content)
+select call, "Dynamic innerHTML assignment detected. Verify input sanitization."  // Report with security advice
 ```
 
 ## Workshop Exercise Structure
