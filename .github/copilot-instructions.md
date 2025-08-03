@@ -125,6 +125,99 @@ This format provides clear context and can be easily parsed by tools. The Topic 
 - Use PascalCase for variables, functions, and classes.
 - Include comments for any non-trivial logic within scripts.
 
+#### PowerShell Script Header Template
+
+All PowerShell scripts that do not already contain a header should include comprehensive comment-based help. Use this template as a starting point:
+
+```powershell
+<#
+.SYNOPSIS
+    Brief description of what the script does.
+
+.DESCRIPTION
+    Detailed description of the script's functionality, purpose, and any important
+    implementation details. Explain the business context and use cases.
+
+.PARAMETER parameterName
+    Description of the parameter, including default values, valid options,
+    and examples of typical usage.
+
+.PARAMETER anotherParameter
+    Description for additional parameters. Include type information,
+    constraints, and relationship to other parameters.
+
+.PARAMETER switchParameter
+    Description of switch parameters and when they should be used.
+    Explain the behavior when the switch is present vs absent.
+
+.EXAMPLE
+    .\script-name.ps1
+    
+    Basic usage example with explanation of what it does.
+
+.EXAMPLE
+    .\script-name.ps1 -Parameter "value" -SwitchParameter
+    
+    Advanced usage example showing parameter combinations.
+
+.EXAMPLE
+    .\script-name.ps1 -Parameter "C:\Custom\Path" -Format "csv"
+    
+    Example with custom paths and different output formats.
+
+.NOTES
+    File Name      : script-name.ps1
+    Author         : [Team/Author Name]
+    Prerequisite   : [Required software, modules, permissions]
+    Version        : 1.0
+    
+    Requirements:
+    - List all prerequisites and dependencies
+    - Include version requirements where applicable
+    - Mention any required permissions or access
+    
+    Change Log:
+    - Version 1.0: Initial creation
+    - Version 1.1: Added feature X
+
+.LINK
+    https://relevant-documentation-url.com
+    
+.LINK
+    https://additional-reference-url.com
+
+#>
+
+param(
+    [Parameter(Mandatory=$false, HelpMessage="Description of parameter")]
+    [string]$ParameterName = "DefaultValue",
+    
+    [Parameter(Mandatory=$false)]
+    [ValidateSet("Option1", "Option2", "Option3")]
+    [string]$ValidatedParameter = "Option1",
+    
+    [Parameter(Mandatory=$false)]
+    [switch]$SwitchParameter
+)
+```
+
+**Key Elements to Include:**
+
+- **SYNOPSIS**: One-line description of the script's purpose
+- **DESCRIPTION**: Detailed explanation including business context
+- **PARAMETER**: Document each parameter with descriptions, defaults, and constraints
+- **EXAMPLE**: Multiple realistic usage examples showing different scenarios
+- **NOTES**: Metadata including author, version, prerequisites, and change log
+- **LINK**: References to relevant documentation or related resources
+
+**Best Practices:**
+- Always include at least 2-3 practical examples
+- Document all parameters even if they seem obvious
+- Include version information and change tracking
+- Specify all prerequisites and dependencies
+- Use consistent formatting and professional language
+- Update examples when functionality changes
+
 ### IaC
 
 - For bicep, use the Azure Cloud Shell or az cli for bicep commands with az bicep instead of the standalone bicep executable.
