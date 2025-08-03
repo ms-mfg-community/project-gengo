@@ -207,7 +207,13 @@ function Invoke-VulnerabilityInjection {
     
     $vulnerableFilePath = Join-Path $calculatorPath "vulnerable-demo.ts"
     
-    if (Test-Path $vulnerableFilePath) {
+    # If forcing new alerts, always remove existing file first to ensure fresh patterns
+    if ($randomizePatterns -and (Test-Path $vulnerableFilePath)) {
+        Write-Host "🗑️  Removing existing vulnerable demo file for fresh randomized patterns..." -ForegroundColor Yellow
+        Remove-Item -Path $vulnerableFilePath -Force
+        Write-Host "✅ Existing file removed to ensure unique vulnerability fingerprints" -ForegroundColor Green
+    }
+    elseif ((Test-Path $vulnerableFilePath) -and (-not $randomizePatterns)) {
         Write-Host "⚠️  Vulnerable demo file already exists at: $vulnerableFilePath" -ForegroundColor Yellow
         return
     }
