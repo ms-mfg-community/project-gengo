@@ -31,5 +31,10 @@
             "connectionTimeout": 30,
             "connectionType": "host"
         }
-    ]
+    ],
+    "codeQL.cli.executablePath": "C:\\apps\\code-ql\\codeql\\codeql.exe",
+    "codeQL.additionalPacks": [
+        "C:\\Users\\prestopa\\.codeql\\packages"
+    ],
+    "codeQL.runningQueries.memory": 4096
 }

@@ -1,0 +1,6 @@
+name: workshop-custom-queries
+version: 1.0.0
+description: Custom CodeQL queries for GHAS workshop
+queries: .
+dependencies:
+  codeql/javascript-all: "*"

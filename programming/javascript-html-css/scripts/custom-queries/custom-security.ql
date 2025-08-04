@@ -11,6 +11,7 @@
  */
 
 import javascript
+private import semmle.javascript.security.dataflow.DomBasedXssQuery
 
 from Assignment assign, PropAccess prop
 where prop.getPropertyName() = "innerHTML"

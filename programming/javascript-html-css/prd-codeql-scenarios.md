@@ -48,9 +48,9 @@ While CodeQL provides comprehensive out-of-the-box security analysis with 200+ s
 
 ## Implementation Approaches
 
-### Approach 1: Direct Custom Query Files (Recommended for Workshops)
+### Approach 1: Direct Custom Query Files (Simple Workshop Integration)
 
-**Use Case:** Simple addition of specific security checks to existing analysis
+**Use Case:** Single custom security query for specific vulnerability detection
 
 **Implementation Steps:**
 
@@ -70,114 +70,183 @@ While CodeQL provides comprehensive out-of-the-box security analysis with 200+ s
  */
 
 import javascript
+private import semmle.javascript.security.dataflow.DomBasedXssQuery
 
-from CallExpr call, PropAccess prop
+from Assignment assign, PropAccess prop
 where prop.getPropertyName() = "innerHTML"
-  and call.getCallee() = prop
-  and exists(call.getArgument(0))
-select call, "Potential XSS: innerHTML assignment detected."
+  and assign.getLhs() = prop
+  and exists(assign.getRhs())
+select assign, "Potential XSS: innerHTML assignment detected."
 ```
 
-1. **Modify PowerShell Script Integration**
+2. **PowerShell Script Integration (Enhanced v2.0)**
 
 ```powershell
-# BEFORE: Standard query suite only
-& $CodeQLPath database analyze $DatabasePath `
-    $QuerySuitePath `
-    --format=sarif-latest `
-    --output=$OutputPath
-
-# AFTER: Include custom queries
-& $CodeQLPath database analyze $DatabasePath `
-    $QuerySuitePath `
-    "custom-security.ql" `
-    --format=sarif-latest `
-    --output=$OutputPath
+# NEW: Enhanced parameter support with three query approaches
+.\codeql-javascript.ps1 -useCustomQL -customQueryPath ".\custom-queries\custom-security.ql"
 ```
 
 **Workshop Advantages:**
+- Quick implementation for targeted security checks
+- Perfect for demonstrating specific vulnerability patterns
+- Easy to understand and modify during live workshops
 
-- Quick implementation
-- Immediate results
-- Easy to understand and modify
-- Perfect for live demonstrations
+### Approach 2: Comprehensive Custom Query Suites (.qls files)
 
-### Approach 2: Custom Query Suites (.qls files)
-
-**Use Case:** Organized collection of related custom queries with standard queries
+**Use Case:** Enterprise-scale organization combining standard and custom queries
 
 **Implementation Steps:**
 
-1. **Create Custom Suite File** (`workshop-security-suite.qls`)
+1. **Create Comprehensive Suite File** (`workshop-security-suite.qls`)
 
 ```yaml
 # workshop-security-suite.qls
-- description: "GHAS Workshop Security Suite"
+# GHAS Workshop Security Suite (Comprehensive Version)
+# Custom query suite that combines standard security queries with all custom queries
+
+- description: "GHAS Workshop Security Suite - All queries"
+
+# Include all custom queries from the current directory
 - include:
-    kind: 
-    - problem
-    - path-problem
-    tags contain: security
-- include: custom-xss-check.ql
-- include: hardcoded-secrets.ql
-- include: console-log-production.ql
+    queries: .
+
+# Include comprehensive JavaScript security queries from the standard pack
+- from: codeql/javascript-queries
+  queries: codeql-suites/javascript-security-and-quality.qls
+
+# Include additional security-focused queries
+- from: codeql/javascript-queries
+  queries: Security/
+
+# Exclude noisy or non-security queries for workshop focus
 - exclude:
     id: js/unused-local-variable
+- exclude:
+    id: js/useless-assignment-to-local
 ```
 
-1. **Script Integration**
+2. **Enhanced PowerShell Script Integration**
 
 ```powershell
-$WorkshopQuerySuite = "workshop-security-suite.qls"
-& $CodeQLPath database analyze $DatabasePath $WorkshopQuerySuite --format=sarif-latest --output=$OutputPath
+# NEW: Enhanced comprehensive query suite approach
+.\codeql-javascript.ps1 -useCustomQLS -customQuerySuitePath ".\custom-queries\workshop-security-suite.qls"
 ```
 
 **Workshop Advantages:**
+- Demonstrates enterprise-scale query organization
+- Shows comprehensive security coverage
+- Combines standard and custom queries effectively
+- Includes query filtering and exclusion capabilities
 
-- Demonstrates enterprise-scale organization
-- Shows query filtering capabilities
-- Reusable across multiple projects
-- Professional approach for real-world implementation
+### Approach 3: Selective Pattern-Based Query Suites (NEW)
 
-### Approach 3: Parameterized Custom Query Integration
+**Use Case:** Targeted analysis using pattern-matched custom queries for focused workshops
 
-**Use Case:** Flexible script allowing workshop participants to experiment with different query combinations
+**Implementation Steps:**
+
+1. **Create Selective Suite File** (`workshop-selected-query-suites.qls`)
+
+```yaml
+# workshop-selected-query-suites.qls
+# GHAS Workshop Security Suite (Selective Queries Version)
+# Custom query suite that runs only selected custom queries with standard security patterns
+
+- description: "GHAS Workshop Security Suite - Selected queries only"
+
+# Include only selected custom queries using pattern matching
+- include:
+    queries:
+      - "*security*.ql"
+      - "*console*.ql" 
+      - "*eval*.ql"
+
+# Include key security queries from the JavaScript query pack using directory patterns
+- from: codeql/javascript-queries
+  queries: Security/CWE-079/
+- from: codeql/javascript-queries  
+  queries: Security/CWE-089/
+- from: codeql/javascript-queries
+  queries: Security/CWE-094/
+- from: codeql/javascript-queries
+  queries: Expressions/
+- from: codeql/javascript-queries
+  queries: Declarations/
+```
+
+2. **NEW: Selective Query Suite Integration**
+
+```powershell
+# NEW: Pattern-based selective query approach
+.\codeql-javascript.ps1 -useSelectiveQLS -selectiveQuerySuitePath ".\custom-queries\workshop-selected-query-suites.qls"
+```
+
+**Workshop Advantages:**
+- Perfect for focused security training sessions
+- Demonstrates advanced query filtering with wildcards
+- Reduces noise while maintaining security focus
+- Shows enterprise pattern-matching capabilities
+
+### Approach 4: Enhanced Parameterized Integration (Updated)
+
+**Use Case:** Flexible script allowing workshop participants to experiment with all query approaches
 
 **Implementation:**
 
 ```powershell
 param(
-    [string]$SourcePath = ".",
-    [string]$DatabasePath = "js-db",
-    [string]$OutputPath = "codeql-results.sarif",
-    [string]$GitHubToken = $env:GITHUB_TOKEN,
-    [string[]]$CustomQueries = @(),
-    [switch]$WorkshopMode = $false
+    [string]$sourcePath = "..\workspace\calculator",
+    [string]$customQueryPath = ".\custom-queries\custom-security.ql",
+    [string]$customQuerySuitePath = ".\custom-queries\workshop-security-suite.qls",
+    [string]$selectiveQuerySuitePath = ".\custom-queries\workshop-selected-query-suites.qls", # NEW
+    [switch]$useCustomQL,     # Single query approach
+    [switch]$useCustomQLS,    # Comprehensive suite approach  
+    [switch]$useSelectiveQLS, # NEW: Selective pattern-based approach
+    [switch]$uploadToGitHub,
+    [switch]$autoDetectRepo,
+    [switch]$injectReDoSVulnerability,
+    [switch]$forceNewAlerts
 )
 
-$queryArgs = @($QuerySuitePath)
-if ($CustomQueries.Count -gt 0) {
-    Write-Host "🔍 Workshop Mode: Adding custom queries:" -ForegroundColor Cyan
-    foreach ($query in $CustomQueries) {
-        Write-Host "  - $query" -ForegroundColor Yellow
-        $queryArgs += $query
-    }
+# NEW: Enhanced validation for three query approaches
+$queryOptionsCount = @($useCustomQL, $useCustomQLS, $useSelectiveQLS) | Where-Object { $_ } | Measure-Object | Select-Object -ExpandProperty Count
+if ($queryOptionsCount -gt 1) {
+    Write-Error "Cannot use multiple query options together. Choose one: -useCustomQL, -useCustomQLS, or -useSelectiveQLS."
+    exit 1
 }
 
-& $CodeQLPath database analyze $DatabasePath @queryArgs --format=sarif-latest --output=$OutputPath --threads=4
+# NEW: Enhanced analysis logic with three approaches
+if ($useCustomQL) {
+    Write-Host "🔍 Using single custom query: $customQueryPath" -ForegroundColor Cyan
+    # Single query analysis logic
+} elseif ($useCustomQLS) {
+    Write-Host "📋 Using comprehensive query suite: $customQuerySuitePath" -ForegroundColor Cyan
+    # Comprehensive suite analysis logic
+} elseif ($useSelectiveQLS) {
+    Write-Host "🎯 Using selective query suite: $selectiveQuerySuitePath" -ForegroundColor Cyan
+    # NEW: Selective pattern-based analysis logic
+} else {
+    Write-Host "🔧 Using standard query suite" -ForegroundColor Cyan
+    # Standard analysis fallback
+}
 ```
 
-**Workshop Usage Examples:**
+**Enhanced Workshop Usage Examples:**
 
 ```powershell
-# Scenario 1: Basic custom query
-.\CodeQL-JavaScript-v2.ps1 -CustomQueries @("custom-xss-check.ql") -WorkshopMode
+# Scenario 1: Single targeted query (Basic)
+.\codeql-javascript.ps1 -useCustomQL
 
-# Scenario 2: Multiple security patterns
-.\CodeQL-JavaScript-v2.ps1 -CustomQueries @("hardcoded-secrets.ql", "unsafe-eval.ql") -WorkshopMode
+# Scenario 2: Comprehensive security analysis (Enterprise)
+.\codeql-javascript.ps1 -useCustomQLS
 
-# Scenario 3: Full workshop suite
-.\CodeQL-JavaScript-v2.ps1 -CustomQueries @("workshop-security-suite.qls") -WorkshopMode
+# Scenario 3: Selective pattern-based analysis (NEW - Advanced)
+.\codeql-javascript.ps1 -useSelectiveQLS
+
+# Scenario 4: Vulnerability injection with selective queries (NEW)
+.\codeql-javascript.ps1 -useSelectiveQLS -injectReDoSVulnerability -uploadToGitHub -autoDetectRepo
+
+# Scenario 5: Force new alerts with comprehensive suite
+.\codeql-javascript.ps1 -useCustomQLS -injectReDoSVulnerability -forceNewAlerts -uploadToGitHub
 ```
 
 ## Workshop Demonstration Scenarios
@@ -297,68 +366,141 @@ select call, "Dynamic innerHTML assignment detected. Verify input sanitization."
 
 ## Workshop Exercise Structure
 
-### Exercise 1: Basic Custom Query (15 minutes)
+### Exercise 1: Basic Custom Query Implementation (15 minutes)
 
-1. Create `workshop-eval-check.ql`
-2. Run analysis on calculator application
-3. Review results in SARIF viewer
-4. Discuss findings and remediation
+**Objective:** Implement single custom query with enhanced PowerShell script
 
-### Exercise 2: Query Suite Creation (20 minutes)
+1. Create `custom-security.ql` with XSS detection pattern
+2. Run analysis using: `.\codeql-javascript.ps1 -useCustomQL`
+3. Review SARIF results with improved parsing (no "Level: warning warning" duplication)
+4. Discuss findings and remediation approaches
 
-1. Combine multiple custom queries into suite
-2. Configure query exclusions
-3. Run comprehensive analysis
-4. Compare results with standard analysis
+**Enhanced Features Demonstrated:**
+- Single query execution with proper error handling
+- Improved SARIF parsing and display
+- Clean query organization with `qlpack.yml` dependencies
 
-### Exercise 3: CI/CD Integration (25 minutes)
+### Exercise 2: Comprehensive Query Suite Creation (20 minutes)
 
-1. Add custom queries to PowerShell script
-2. Configure parameterized execution
-3. Test with different query combinations
-4. Review automation possibilities
+**Objective:** Build enterprise-scale query suite combining standard and custom queries
 
-### Exercise 4: Custom Query Development (30 minutes)
+1. Examine `workshop-security-suite.qls` configuration
+2. Run comprehensive analysis: `.\codeql-javascript.ps1 -useCustomQLS`
+3. Compare results with standard analysis
+4. Review query inclusion/exclusion patterns
 
-1. Identify new security pattern in calculator
-2. Write custom CodeQL query
-3. Test and refine query logic
-4. Document query metadata
-5. Integration testing
+**Enhanced Features Demonstrated:**
+- Enterprise query organization patterns
+- Comprehensive security coverage
+- Query filtering and exclusion capabilities
+- Professional deployment approaches
+
+### Exercise 3: NEW - Selective Pattern-Based Analysis (25 minutes)
+
+**Objective:** Demonstrate advanced pattern-matching for targeted security analysis
+
+1. Examine `workshop-selected-query-suites.qls` with wildcard patterns
+2. Run selective analysis: `.\codeql-javascript.ps1 -useSelectiveQLS`
+3. Compare performance and results with comprehensive suite
+4. Modify patterns to include/exclude different query types
+
+**NEW Enhanced Features Demonstrated:**
+- Pattern-based query selection (`*security*.ql`, `*console*.ql`, `*eval*.ql`)
+- Focused workshop scenarios with reduced noise
+- Advanced query filtering for targeted training
+- Wildcard pattern matching capabilities
+
+### Exercise 4: Enhanced CI/CD Integration (25 minutes)
+
+**Objective:** Configure advanced PowerShell script parameters and automation
+
+1. Test all three query approaches with parameter validation
+2. Configure vulnerability injection with `injectReDoSVulnerability`
+3. Upload results to GitHub with enhanced SARIF categories
+4. Review automation possibilities with `forceNewAlerts`
+
+**Enhanced Features Demonstrated:**
+- Multi-approach parameter validation
+- Advanced vulnerability injection patterns
+- Enhanced GitHub integration with proper error handling
+- Professional automation scripting
+
+### Exercise 5: Advanced Custom Query Development (30 minutes)
+
+**Objective:** Create new security patterns and integrate with enhanced system
+
+1. Identify new security pattern in calculator application
+2. Write custom CodeQL query with proper metadata
+3. Test query using all three approaches (single, comprehensive, selective)
+4. Add to selective suite using pattern matching
+5. Validate with enhanced SARIF parsing
+
+**Enhanced Features Demonstrated:**
+- Professional query development workflow
+- Multi-approach testing and validation
+- Pattern-based integration
+- Quality assurance with improved tooling
 
 ## Success Criteria
 
-### Workshop Participant Outcomes
+### Enhanced Workshop Participant Outcomes
 
-- Understand 3 primary approaches for custom CodeQL integration
-- Successfully create and execute custom security queries
-- Demonstrate ability to modify existing automation scripts
-- Identify appropriate use cases for custom queries in their organization
+- Understand **four primary approaches** for custom CodeQL integration (single, comprehensive, selective, parameterized)
+- Successfully create and execute custom security queries using all three PowerShell approaches
+- Demonstrate ability to modify and enhance existing automation scripts
+- Configure pattern-based query selection for targeted security analysis
+- Integrate vulnerability injection and remediation workflows
+- Identify appropriate use cases for each query approach in their organization
+- Understand enterprise-scale query organization and management
 
-### Technical Validation
+### Enhanced Technical Validation
 
-- All custom queries execute without syntax errors
-- SARIF results include both standard and custom findings
-- PowerShell script modifications work correctly
-- Query suites load and execute properly
+- All custom queries execute without syntax errors using proper `qlpack.yml` configuration
+- SARIF results display correctly without duplication issues ("Level: warning warning" fixed)
+- PowerShell script parameter validation works correctly for all three approaches
+- Query suites load and execute properly with pattern matching
+- GitHub integration uploads results with proper categorization
+- Vulnerability injection creates detectable security patterns
+- Enhanced SARIF parsing displays clean, readable results
+
+### NEW: Advanced Integration Validation
+
+- **Single Query Approach (`-useCustomQL`):** Executes individual queries with proper error handling
+- **Comprehensive Suite (`-useCustomQLS`):** Combines standard and custom queries effectively
+- **Selective Pattern Matching (`-useSelectiveQLS`):** Filters queries using wildcard patterns
+- **Multi-approach Validation:** Cannot use multiple approaches simultaneously (proper error handling)
+- **Enhanced SARIF Processing:** Clean display without level duplication
+- **Dependency Management:** Proper CodeQL library resolution with `qlpack.yml`
 
 ## Implementation Timeline
 
 ### Pre-Workshop Setup (Instructor)
 
 - Prepare calculator application with intentional vulnerabilities
-- Test all custom queries for accuracy
-- Validate PowerShell script modifications
-- Prepare SARIF result examples
+- Configure enhanced PowerShell script with three query approaches
+- Set up `qlpack.yml` dependencies for proper CodeQL integration
+- Create comprehensive, selective, and single query examples
+- Test all three approaches for accuracy and performance
+- Validate enhanced SARIF parsing and display functionality
+- Prepare GitHub integration examples with proper authentication
 
-### Workshop Day Timeline
+### Enhanced Workshop Day Timeline (Total: 135 minutes)
 
-- **0-15 min:** CodeQL overview and standard analysis demonstration
-- **15-30 min:** Exercise 1 - Basic custom query
-- **30-50 min:** Exercise 2 - Query suite creation
-- **50-75 min:** Exercise 3 - CI/CD integration
-- **75-105 min:** Exercise 4 - Custom query development
-- **105-120 min:** Wrap-up and real-world application discussion
+- **0-15 min:** CodeQL overview and enhanced PowerShell script demonstration
+- **15-30 min:** Exercise 1 - Basic custom query with `-useCustomQL`
+- **30-50 min:** Exercise 2 - Comprehensive suite with `-useCustomQLS`
+- **50-75 min:** Exercise 3 - NEW: Selective analysis with `-useSelectiveQLS`
+- **75-100 min:** Exercise 4 - Enhanced CI/CD integration and vulnerability injection
+- **100-130 min:** Exercise 5 - Advanced custom query development workflow
+- **130-135 min:** Wrap-up and real-world implementation strategies
+
+### NEW: Enhanced Technical Validation Checkpoints
+
+**Checkpoint 1 (15 min):** Verify single query execution and SARIF parsing
+**Checkpoint 2 (30 min):** Validate comprehensive suite integration
+**Checkpoint 3 (50 min):** Confirm selective pattern matching works correctly
+**Checkpoint 4 (75 min):** Test GitHub integration and vulnerability injection
+**Checkpoint 5 (100 min):** Verify custom query development workflow
 
 ## Best Practices for Workshop
 
@@ -408,9 +550,37 @@ function advancedCalculate(expr) {
 
 ## Conclusion
 
-This PRD provides a comprehensive framework for conducting an effective GHAS workshop focused on custom CodeQL query development. The scenarios progress from basic implementation to advanced integration techniques, ensuring participants gain practical skills applicable to their security programs.
+This enhanced PRD provides a comprehensive framework for conducting an advanced GHAS workshop focused on professional-grade custom CodeQL query development. The scenarios now progress from basic implementation through advanced enterprise patterns, including our NEW selective pattern-based approach that demonstrates cutting-edge query organization techniques.
 
-The calculator application serves as an ideal teaching platform, containing realistic security patterns while remaining simple enough for educational purposes. The three implementation approaches (direct queries, query suites, and parameterized scripts) provide flexibility for different organizational maturity levels and use cases.
+### Key Enhancements Delivered
+
+**Enhanced PowerShell Integration (v2.0):**
+- Three distinct query approaches: `-useCustomQL`, `-useCustomQLS`, and `-useSelectiveQLS`
+- Improved SARIF parsing eliminating "Level: warning warning" duplication
+- Professional parameter validation preventing conflicting options
+- Enhanced error handling and fallback mechanisms
+
+**Advanced Query Organization:**
+- Pattern-based selective queries using wildcards (`*security*.ql`, `*console*.ql`, `*eval*.ql`)
+- Comprehensive enterprise suite combining standard and custom queries
+- Proper dependency management with `qlpack.yml` configuration
+- Clean separation of concerns between different query approaches
+
+**Professional Workshop Structure:**
+- Five progressive exercises building from basic to advanced concepts
+- Enhanced technical validation checkpoints
+- Real-world integration scenarios with vulnerability injection
+- Comprehensive coverage of enterprise deployment patterns
+
+The calculator application continues to serve as an ideal teaching platform, containing realistic security patterns while remaining accessible for educational purposes. The **four implementation approaches** (single query, comprehensive suite, selective patterns, and parameterized scripts) provide unprecedented flexibility for different organizational maturity levels and specific use cases.
+
+### NEW: Advanced Workshop Capabilities
+
+**Selective Pattern Matching:** Participants learn enterprise-scale query filtering using wildcard patterns, enabling focused security analysis for specific training scenarios.
+
+**Enhanced Automation:** Professional-grade PowerShell scripting with proper validation, error handling, and GitHub integration demonstrates real-world automation capabilities.
+
+**Quality Assurance:** Improved SARIF parsing and display provides clean, professional results suitable for enterprise reporting and compliance requirements.
 
 ## Call to Action
 
