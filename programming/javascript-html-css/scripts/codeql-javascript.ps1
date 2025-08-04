@@ -29,7 +29,11 @@
 
 .PARAMETER customQueryPath
     Path to custom CodeQL query file for additional security checks or workshop demonstrations.
-    Default: ".\custom-security.ql"
+    Default: ".\custom-queries\custom-security.ql"
+
+.PARAMETER customQuerySuitePath
+    Path to custom query suite (.qls) file that combines standard security queries with custom queries.
+    Default: ".\custom-queries\workshop-security-suite.qls"
 
 .PARAMETER qlsPath
     Base path to search for CodeQL query suites and packages.
@@ -44,9 +48,13 @@
     Default: "sarif-latest"
     Valid values: "sarif-latest", "csv", "json", "table"
 
-.PARAMETER useCustomQueryOnly
+.PARAMETER useCustomQL
     Switch to run only custom queries instead of the standard security suite.
     Useful for testing specific security patterns or workshop scenarios.
+
+.PARAMETER useCustomQLS
+    Switch to use custom query suite (.qls file) that combines standard queries with custom queries.
+    Demonstrates enterprise-scale organization and query filtering capabilities.
 
 .PARAMETER gitHubOrg
     GitHub organization name for uploading SARIF results. Can be auto-detected with -autoDetectRepo.
@@ -82,9 +90,9 @@
     Basic usage - Analyzes calculator app with default settings and displays results locally.
 
 .EXAMPLE
-    .\codeql-javascript.ps1 -useCustomQueryOnly
+    .\codeql-javascript.ps1 -useCustomQL
     
-    Runs only custom security queries from custom-security.ql file.
+    Runs only custom security queries from custom-queries\custom-security.ql file.
 
 .EXAMPLE
     .\codeql-javascript.ps1 -format csv -outputPath "reports\calculator-security.csv"
@@ -107,9 +115,14 @@
     Analyzes calculator from custom source path using custom database location.
 
 .EXAMPLE
-    .\codeql-javascript.ps1 -useCustomQueryOnly -customQueryPath ".\workshop-queries\xss-detection.ql"
+    .\codeql-javascript.ps1 -useCustomQL -customQueryPath ".\workshop-queries\xss-detection.ql"
     
     Runs specific custom query for workshop demonstration of XSS detection patterns.
+
+.EXAMPLE
+    .\codeql-javascript.ps1 -useCustomQLS
+    
+    Uses custom query suite (workshop-security-suite.qls) that combines standard security queries with custom queries for comprehensive analysis.
 
 .EXAMPLE
     .\codeql-javascript.ps1 -injectReDoSVulnerability -uploadToGitHub -autoDetectRepo
@@ -156,12 +169,14 @@ param(
     [string]$outputPath = ".\calculator-results.sarif", # Output file path for SARIF results
     [string]$language = "javascript", # Programming language to analyze
     [string]$desiredQuerySuite = "javascript-security-and-quality.qls",
-    [string]$customQueryPath = ".\custom-security.ql", # Custom query file to use for analysis
+    [string]$customQueryPath = ".\custom-queries\custom-security.ql", # Custom query file to use for analysis
+    [string]$customQuerySuitePath = ".\custom-queries\workshop-security-suite-fixed.qls", # Custom query suite (.qls) file for enterprise-scale analysis
     [string]$qlsPath = "$env:USERPROFILE\.codeql", # Path to search for CodeQL query suites
     [string]$sarifCategory = "calculator-analysis", # Category tag for the SARIF output
     [ValidateSet("sarif-latest", "csv", "json", "table")]
     [string]$format = "sarif-latest",
-    [switch]$useCustomQueryOnly, # Switch to use only the custom query file instead of the query suite
+    [switch]$useCustomQL, # Switch to use only the custom query file instead of the query suite
+    [switch]$useCustomQLS, # Switch to use custom query suite (.qls) that combines standard and custom queries
     # GitHub upload parameters
     [string]$gitHubOrg = "",
     [string]$gitHubRepo = "",
@@ -409,6 +424,12 @@ if ($forceNewAlerts -and -not $injectReDoSVulnerability) {
     exit 1
 }
 
+# Validate custom query options are not used together
+if ($useCustomQL -and $useCustomQLS) {
+    Write-Error "Cannot use both -useCustomQL and -useCustomQLS at the same time. Choose one approach for custom queries."
+    exit 1
+}
+
 if ($injectReDoSVulnerability) {
     Invoke-VulnerabilityInjection -calculatorPath $sourcePath -randomizePatterns $forceNewAlerts
 }
@@ -453,7 +474,7 @@ Write-Host "Calculator analysis output will be saved to: $outputPath" -Foregroun
 
 # run codeql analysis on calculator app
 Write-Host "Analyzing calculator application..." -ForegroundColor Cyan
-if ($useCustomQueryOnly) {
+if ($useCustomQL) {
     Write-Host "Using custom query only: $customQueryPath" -ForegroundColor Cyan
     # Check if custom query file exists
     if (Test-Path $customQueryPath) {
@@ -466,6 +487,22 @@ if ($useCustomQueryOnly) {
         }
     } else {
         Write-Warning "Custom query file not found at: $customQueryPath. Using standard queries only."
+        codeql database analyze $databasePath $fullQlsPath --format=$format --output=$outputPath --sarif-category=$sarifCategory --verbose
+    }
+} elseif ($useCustomQLS) {
+    Write-Host "Using custom query suite: $customQuerySuitePath" -ForegroundColor Cyan
+    # Check if custom query suite file exists
+    if (Test-Path $customQuerySuitePath) {
+        try {
+            Write-Host "📋 Custom query suite combines standard security queries with custom patterns" -ForegroundColor Yellow
+            codeql database analyze $databasePath $customQuerySuitePath --format=$format --output=$outputPath --sarif-category=$sarifCategory --verbose
+        }
+        catch {
+            Write-Warning "Custom query suite failed. Falling back to standard JavaScript security queries."
+            codeql database analyze $databasePath $fullQlsPath --format=$format --output=$outputPath --sarif-category=$sarifCategory --verbose
+        }
+    } else {
+        Write-Warning "Custom query suite file not found at: $customQuerySuitePath. Using standard queries only."
         codeql database analyze $databasePath $fullQlsPath --format=$format --output=$outputPath --sarif-category=$sarifCategory --verbose
     }
 } else {
@@ -502,9 +539,15 @@ foreach ($run in $sarif.runs) {
     if ($run.results.Count -gt 0) {
         Write-Host "`n--- Security Findings ---" -ForegroundColor Red
         foreach ($result in $run.results) {
+            # Find the rule to get the level information
+            $rule = $run.tool.driver.rules | Where-Object { $_.id -eq $result.ruleId }
+            $level = if ($rule -and $rule.defaultConfiguration.level) { $rule.defaultConfiguration.level } else { "unknown" }
+            $severity = if ($rule -and $rule.properties.'problem.severity') { $rule.properties.'problem.severity' } else { "unknown" }
+            
             Write-Host "Rule ID: $($result.ruleId)" -ForegroundColor Magenta
             Write-Host "Message: $($result.message.text)" -ForegroundColor White
-            Write-Host "Level: $($result.level)" -ForegroundColor Yellow
+            Write-Host "Level: $level" -ForegroundColor Yellow
+            Write-Host "Severity: $severity" -ForegroundColor Cyan
             
             foreach ($location in $result.locations) {
                 $file = $location.physicalLocation.artifactLocation.uri

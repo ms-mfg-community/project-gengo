@@ -1,0 +1,55 @@
+# workshop-security-suite.qls
+# GHAS Workshop Security Suite
+# Custom query suite combining standard security queries with workshop-specific custom queries
+# 
+# This demonstrates Approach 2 from the PRD: Custom Query Suites (.qls files)
+# Organized collection of related custom queries with standard queries
+# 
+# Usage: .\codeql-javascript.ps1 -useCustomQLS
+# 
+# Author: GHAS Workshop Team
+# Version: 2.0 (Enhanced for PRD implementation)
+# Date: August 3, 2025
+
+- description: "GHAS Workshop Security Suite - Enterprise-scale security analysis"
+
+# Include standard security and quality queries
+- include:
+    kind: 
+    - problem
+    - path-problem
+    tags contain: security
+
+# Include existing custom workshop queries from the custom-queries directory
+# Note: These demonstrate the enterprise-scale approach when custom queries are available
+- include:
+    from: hardcoded-secrets.ql
+- include:
+    from: console-log-production.ql
+- include:
+    from: unsafe-eval-detection.ql
+
+# Include additional standard security patterns for comprehensive coverage
+- include:
+    tags contain: external/cwe
+
+# Exclude queries that may be too noisy for workshop demonstrations
+- exclude:
+    id: 
+      - js/unused-local-variable
+      - js/useless-assignment-to-local
+      - js/dead-store-of-local
+
+# Focus on high-impact security findings for better workshop experience
+- include:
+    problem.severity:
+      - error
+      - warning
+
+# Include specific CWE patterns that align with workshop scenarios
+- include:
+    tags contain: 
+      - external/cwe/cwe-79   # XSS vulnerabilities
+      - external/cwe/cwe-94   # Code injection
+      - external/cwe/cwe-798  # Hardcoded credentials
+      - external/cwe/cwe-1333 # ReDoS patterns

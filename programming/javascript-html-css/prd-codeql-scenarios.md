@@ -114,10 +114,9 @@ select call, "Potential XSS: innerHTML assignment detected."
 # workshop-security-suite.qls
 - description: "GHAS Workshop Security Suite"
 - include:
-    kind: problem
-    tags contain: security
-- include:
-    kind: path-problem
+    kind: 
+    - problem
+    - path-problem
     tags contain: security
 - include: custom-xss-check.ql
 - include: hardcoded-secrets.ql

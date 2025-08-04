@@ -9,6 +9,9 @@
  * ⚠️  DO NOT USE IN PRODUCTION - FOR EDUCATIONAL PURPOSES ONLY ⚠️
  */
 
+// Demo console.log that will be detected by our custom query
+console.log("Debugging: Application starting...");
+
 /**
  * XSS Vulnerability Demo - Medium Severity
  * CodeQL will detect: js/xss-through-dom
