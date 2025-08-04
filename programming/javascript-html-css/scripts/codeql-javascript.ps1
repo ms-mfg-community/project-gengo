@@ -56,6 +56,10 @@
     Switch to use custom query suite (.qls file) that combines standard queries with custom queries.
     Demonstrates enterprise-scale organization and query filtering capabilities.
 
+.PARAMETER useSelectiveQLS
+    Switch to use selective query suite (.qls file) with pattern-matched custom queries.
+    Uses wildcard patterns (*security*, *console*, *eval*) for targeted analysis.
+
 .PARAMETER gitHubOrg
     GitHub organization name for uploading SARIF results. Can be auto-detected with -autoDetectRepo.
     Example: "ms-mfg-community"
@@ -125,6 +129,11 @@
     Uses custom query suite (workshop-security-suite.qls) that combines standard security queries with custom queries for comprehensive analysis.
 
 .EXAMPLE
+    .\codeql-javascript.ps1 -useSelectiveQLS
+    
+    Uses selective query suite (workshop-selected-query-suites.qls) with pattern-matched custom queries for targeted security analysis.
+
+.EXAMPLE
     .\codeql-javascript.ps1 -injectReDoSVulnerability -uploadToGitHub -autoDetectRepo
     
     Injects ReDoS vulnerability, analyzes calculator, and uploads results showing security alerts.
@@ -171,12 +180,14 @@ param(
     [string]$desiredQuerySuite = "javascript-security-and-quality.qls",
     [string]$customQueryPath = ".\custom-queries\custom-security.ql", # Custom query file to use for analysis
     [string]$customQuerySuitePath = ".\custom-queries\workshop-security-suite.qls", # Custom query suite (.qls) file for enterprise-scale analysis
+    [string]$selectiveQuerySuitePath = ".\custom-queries\workshop-selected-query-suites.qls", # Selective query suite (.qls) file with pattern-matched custom queries
     [string]$qlsPath = "$env:USERPROFILE\.codeql", # Path to search for CodeQL query suites
     [string]$sarifCategory = "calculator-analysis", # Category tag for the SARIF output
     [ValidateSet("sarif-latest", "csv", "json", "table")]
     [string]$format = "sarif-latest",
     [switch]$useCustomQL, # Switch to use only the custom query file instead of the query suite
     [switch]$useCustomQLS, # Switch to use custom query suite (.qls) that combines standard and custom queries
+    [switch]$useSelectiveQLS, # Switch to use selective query suite (.qls) with pattern-matched custom queries
     # GitHub upload parameters
     [string]$gitHubOrg = "",
     [string]$gitHubRepo = "",
@@ -425,8 +436,9 @@ if ($forceNewAlerts -and -not $injectReDoSVulnerability) {
 }
 
 # Validate custom query options are not used together
-if ($useCustomQL -and $useCustomQLS) {
-    Write-Error "Cannot use both -useCustomQL and -useCustomQLS at the same time. Choose one approach for custom queries."
+$queryOptionsCount = @($useCustomQL, $useCustomQLS, $useSelectiveQLS) | Where-Object { $_ } | Measure-Object | Select-Object -ExpandProperty Count
+if ($queryOptionsCount -gt 1) {
+    Write-Error "Cannot use multiple query options together. Choose one: -useCustomQL, -useCustomQLS, or -useSelectiveQLS."
     exit 1
 }
 
@@ -505,6 +517,22 @@ if ($useCustomQL) {
         Write-Warning "Custom query suite file not found at: $customQuerySuitePath. Using standard queries only."
         codeql database analyze $databasePath $fullQlsPath --format=$format --output=$outputPath --sarif-category=$sarifCategory --verbose
     }
+} elseif ($useSelectiveQLS) {
+    Write-Host "Using selective query suite: $selectiveQuerySuitePath" -ForegroundColor Cyan
+    # Check if selective query suite file exists
+    if (Test-Path $selectiveQuerySuitePath) {
+        try {
+            Write-Host "🎯 Selective query suite uses pattern-matched custom queries (*security*, *console*, *eval*)" -ForegroundColor Yellow
+            codeql database analyze $databasePath $selectiveQuerySuitePath --format=$format --output=$outputPath --sarif-category=$sarifCategory --verbose
+        }
+        catch {
+            Write-Warning "Selective query suite failed. Falling back to standard JavaScript security queries."
+            codeql database analyze $databasePath $fullQlsPath --format=$format --output=$outputPath --sarif-category=$sarifCategory --verbose
+        }
+    } else {
+        Write-Warning "Selective query suite file not found at: $selectiveQuerySuitePath. Using standard queries only."
+        codeql database analyze $databasePath $fullQlsPath --format=$format --output=$outputPath --sarif-category=$sarifCategory --verbose
+    }
 } else {
     Write-Host "Using standard query suite: $fullQlsPath" -ForegroundColor Cyan
     codeql database analyze $databasePath $fullQlsPath --format=$format --output=$outputPath --sarif-category=$sarifCategory --verbose
@@ -540,7 +568,7 @@ foreach ($run in $sarif.runs) {
         Write-Host "`n--- Security Findings ---" -ForegroundColor Red
         foreach ($result in $run.results) {
             # Find the rule to get the level information
-            $rule = $run.tool.driver.rules | Where-Object { $_.id -eq $result.ruleId } -First 1
+            $rule = $run.tool.driver.rules | Where-Object { $_.id -eq $result.ruleId } | Select-Object -First 1
             $level = if ($rule -and $rule.defaultConfiguration.level) { $rule.defaultConfiguration.level } else { "unknown" }
             $severity = if ($rule -and $rule.properties.'problem.severity') { $rule.properties.'problem.severity' } else { "unknown" }
             

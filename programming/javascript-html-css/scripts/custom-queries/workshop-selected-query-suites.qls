@@ -1,0 +1,32 @@
+# workshop-selected-query-suites.qls
+# GHAS Workshop Security Suite (Selected Queries Version)
+# Custom query suite that runs only selected custom queries with standard security patterns
+# 
+# This demonstrates selective query inclusion using pattern matching
+# 
+# Usage: Update PowerShell script to use this file instead of workshop-security-suite.qls
+# 
+# Author: GHAS Workshop Team
+# Version: 1.0 (Selected queries approach)
+# Date: August 3, 2025
+
+- description: "GHAS Workshop Security Suite - Selected queries only"
+
+# Include only selected custom queries using pattern matching
+- include:
+    queries:
+      - "*security*.ql"
+      - "*console*.ql" 
+      - "*eval*.ql"
+
+# Include key security queries from the JavaScript query pack using directory patterns
+- from: codeql/javascript-queries
+  queries: Security/CWE-079/
+- from: codeql/javascript-queries  
+  queries: Security/CWE-089/
+- from: codeql/javascript-queries
+  queries: Security/CWE-094/
+- from: codeql/javascript-queries
+  queries: Expressions/
+- from: codeql/javascript-queries
+  queries: Declarations/
