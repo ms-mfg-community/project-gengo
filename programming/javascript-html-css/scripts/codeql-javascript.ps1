@@ -170,7 +170,7 @@ param(
     [string]$language = "javascript", # Programming language to analyze
     [string]$desiredQuerySuite = "javascript-security-and-quality.qls",
     [string]$customQueryPath = ".\custom-queries\custom-security.ql", # Custom query file to use for analysis
-    [string]$customQuerySuitePath = ".\custom-queries\workshop-security-suite-fixed.qls", # Custom query suite (.qls) file for enterprise-scale analysis
+    [string]$customQuerySuitePath = ".\custom-queries\workshop-security-suite.qls", # Custom query suite (.qls) file for enterprise-scale analysis
     [string]$qlsPath = "$env:USERPROFILE\.codeql", # Path to search for CodeQL query suites
     [string]$sarifCategory = "calculator-analysis", # Category tag for the SARIF output
     [ValidateSet("sarif-latest", "csv", "json", "table")]
@@ -540,7 +540,7 @@ foreach ($run in $sarif.runs) {
         Write-Host "`n--- Security Findings ---" -ForegroundColor Red
         foreach ($result in $run.results) {
             # Find the rule to get the level information
-            $rule = $run.tool.driver.rules | Where-Object { $_.id -eq $result.ruleId }
+            $rule = $run.tool.driver.rules | Where-Object { $_.id -eq $result.ruleId } -First 1
             $level = if ($rule -and $rule.defaultConfiguration.level) { $rule.defaultConfiguration.level } else { "unknown" }
             $severity = if ($rule -and $rule.properties.'problem.severity') { $rule.properties.'problem.severity' } else { "unknown" }
             
