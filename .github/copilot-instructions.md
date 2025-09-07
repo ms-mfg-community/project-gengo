@@ -9,7 +9,7 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 - Always prefer simple solutions.
 - Avoid duplication of code whenever possible, which means checking for other areas of the codebase that might already have similar code and functionality.
 - Write code that takes into account the different environments, for example; dev, test, and prod.
-- Only make changes that are requested unless you are confident, the context is well understood and related to the change being requested.
+<!-- - Only make changes that are requested unless you are confident, the context is well understood and related to the change being requested. -->
 - When fixing an issue or bug, do not introduce a new pattern or technology without first exhausting all options for the existing implementation. If however, you must still introduce a new pattern, make sure to please remove the old implementation afterwards so we don't have duplicate logic.
 - Keep the codebase clean and organized
 - Avoid writing scripts in files if possible, especially if the script is likely only to be executed once.
@@ -17,7 +17,7 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 - Mocking data is only needed for tests, never mock data for dev or prod.
 - Never add stubbing or fake data patterns to code that affects the dev or prod environments.
 - Never overwrite the .env file without consent.
-
+<!--  -->
 ## Coding workflow preferences: [Vibe Coding](https://youtu.be/YWwS911iLhg?si=TEdJIIqGryZdjezy)
 
 - Focus on the areas of code relevant to the task.
