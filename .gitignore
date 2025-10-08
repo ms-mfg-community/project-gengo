@@ -5,6 +5,9 @@ node_modules/
 .vs/
 .vscode
 
+# Ignore JetBrains IDE files
+copilot.data.migration*.xml
+
 # Ignore NuGet packages
 *.nupkg
 *.snupkg
