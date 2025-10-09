@@ -1,6 +1,6 @@
 # 01-level-workflow
 
-Create a GitHub Actions workflow named "01-level-workflow" that meets the following criteria:
+Create a GitHub Actions workflow named "01-level-workflow" at the path `.github/workflows/01-level-workflow.yml` that meets the following criteria:
 
 - Triggers on:
   - Push events to the `main` branch, excluding changes in the `.github` directory.

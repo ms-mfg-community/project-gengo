@@ -1,0 +1,139 @@
+# Azure DevOps Pipeline: 01-level-pipeline
+# Translated from GitHub Actions workflow: 01-level-workflow
+
+name: 01-level-pipeline
+
+# Pipeline triggers
+trigger:
+  # Trigger on push to main branch, but exclude changes in .azure-pipelines directory
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - '.azure-pipelines/**'
+
+# Pull request triggers
+pr:
+  branches:
+    include:
+      - main
+
+# Scheduled trigger - runs every 24 hours at midnight UTC
+schedules:
+  - cron: '0 0 * * *'
+    displayName: 'Daily midnight build'
+    branches:
+      include:
+        - main
+    always: true
+
+# Variables
+variables:
+  - name: vmImage
+    value: 'ubuntu-latest'
+
+# Define stages and jobs
+stages:
+  # Stage 1: List Contents
+  - stage: ListContents
+    displayName: 'List Repository Contents'
+    jobs:
+      - job: list_contents
+        displayName: 'List Repository Contents'
+        pool:
+          vmImage: $(vmImage)
+        
+        steps:
+          # Step 1: Display pipeline trigger information
+          - task: Bash@3
+            displayName: 'Display Event and Branch Information'
+            inputs:
+              targetType: 'inline'
+              script: |
+                echo "========================================="
+                echo "Pipeline Triggered by: $(Build.Reason)"
+                echo "Branch: $(Build.SourceBranchName)"
+                echo "Repository: $(Build.Repository.Name)"
+                echo "Triggered by: $(Build.RequestedFor)"
+                echo "Build ID: $(Build.BuildId)"
+                echo "========================================="
+          
+          # Step 2: Check out the repository code (implicit in Azure Pipelines)
+          - checkout: self
+            displayName: 'Checkout Repository'
+          
+          # Step 3: List repository contents using tree command
+          - task: Bash@3
+            displayName: 'List Repository Contents with Tree'
+            inputs:
+              targetType: 'inline'
+              script: |
+                echo "========================================="
+                echo "Repository Contents (using tree command):"
+                echo "========================================="
+                # Install tree if not available
+                sudo apt-get update && sudo apt-get install -y tree
+                # Display directory tree with colors and file sizes
+                tree -L 3 -h --dirsfirst
+          
+          # Step 4: List src directory contents recursively using PowerShell
+          - task: PowerShell@2
+            displayName: 'List src Directory Contents with PowerShell'
+            inputs:
+              targetType: 'inline'
+              pwsh: true
+              script: |
+                Write-Host "=========================================" -ForegroundColor Cyan
+                Write-Host "Contents of src Directory (PowerShell):" -ForegroundColor Cyan
+                Write-Host "=========================================" -ForegroundColor Cyan
+                
+                # Check if src directory exists
+                if (Test-Path "src") {
+                    # Get all items recursively from src directory
+                    Get-ChildItem -Path "src" -Recurse | ForEach-Object {
+                        $indent = "  " * ($_.FullName.Split([IO.Path]::DirectorySeparatorChar).Count - $PWD.Path.Split([IO.Path]::DirectorySeparatorChar).Count - 2)
+                        if ($_.PSIsContainer) {
+                            Write-Host "$indent[DIR]  $($_.Name)" -ForegroundColor Yellow
+                        } else {
+                            $size = [math]::Round($_.Length / 1KB, 2)
+                            Write-Host "$indent[FILE] $($_.Name) ($size KB)" -ForegroundColor Green
+                        }
+                    } # end ForEach-Object
+                } else {
+                    Write-Host "src directory does not exist in this repository." -ForegroundColor Red
+                } # end if
+  
+  # Stage 2: Retrieve Values
+  - stage: RetrieveValues
+    displayName: 'Retrieve Pipeline Values'
+    # This stage runs after ListContents completes
+    dependsOn: ListContents
+    jobs:
+      - job: retrieve_values
+        displayName: 'Retrieve Pipeline Values'
+        pool:
+          vmImage: $(vmImage)
+        
+        steps:
+          # Step: Display current branch information
+          - task: Bash@3
+            displayName: 'Show Current Branch'
+            inputs:
+              targetType: 'inline'
+              script: |
+                echo "========================================="
+                echo "Current Branch Information:"
+                echo "========================================="
+                echo "Branch Name: $(Build.SourceBranchName)"
+                echo "Full Ref: $(Build.SourceBranch)"
+                echo "Repository: $(Build.Repository.Name)"
+                echo "Repository URI: $(Build.Repository.Uri)"
+                echo "Default Branch: $(System.DefaultWorkingDirectory)"
+                echo "Commit ID: $(Build.SourceVersion)"
+                echo "Commit Message: $(Build.SourceVersionMessage)"
+                echo "Build Reason: $(Build.Reason)"
+                echo "Pull Request ID: $(System.PullRequest.PullRequestId)"
+                echo "Pull Request Source Branch: $(System.PullRequest.SourceBranch)"
+                echo "Pull Request Target Branch: $(System.PullRequest.TargetBranch)"
+                echo "========================================="

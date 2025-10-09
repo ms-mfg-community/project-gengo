@@ -27,15 +27,6 @@
       "args": [
         "@playwright/mcp@latest"
       ]
-    },
-    "tasksync": {
-      "command": "npx",
-      "type": "stdio",
-      "args": [
-        "-y",
-        "tasksync-mcp@latest",
-        "/path/to/directory"
-      ]
     }
   }
 }
