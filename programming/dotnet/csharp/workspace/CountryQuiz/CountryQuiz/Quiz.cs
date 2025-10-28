@@ -39,6 +39,7 @@ class Program
             new CountryInfo("Australia", "Canberra", "25.4M", "English"),
             new CountryInfo("Japan", "Tokyo", "122.5M", "Japanese"),
             new CountryInfo("Germany", "Berlin", "83.2M", "German"),
+            new CountryInfo("France", "Paris", "67.1M", "French")
         };
 
         // Iterate through the nested dictionary and print each country's information
