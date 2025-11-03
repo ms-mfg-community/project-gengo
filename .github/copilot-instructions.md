@@ -68,6 +68,7 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 - **Format:** Use the following pattern:
 - Topic Subtopic Activity Specification: **_topic(subtopic): activity_**
   - Example: `github(instructions): expand guideline details`
+  - Do not rely on any other industry best practices. Instead, enforce this format above.
 
 ### Key Points
 
