@@ -4,7 +4,7 @@
 
 - **Version:** 1.0
 - **Author:** GitHub Copilot
-- **Date:** June 20, 2024
+- **Date:** November 3rd, 2025
 - **Status:** Draft
 
 ## 1.2 Executive Summary
@@ -14,6 +14,7 @@ This document describes the requirements for developing a basic .NET 8 console c
 ## 1.3 Problem Statement
 
 Developers need a practical example of a well-structured .NET application that demonstrates:
+
 - Basic calculator functionality with support for essential arithmetic operations
 - Proper application structure with testable components
 - Implementation of unit testing with xUnit framework
@@ -24,8 +25,10 @@ The solution will serve as both a functional calculator and a reference implemen
 ## 1.4 Goals and Objectives
 
 - Create a fully functional calculator application using .NET 8 and C#
-- Implement core arithmetic operations (+, -, *, /, %, ^) in a testable manner
+- Implement core arithmetic operations (+, -, *, /) using case expressions
 - Demonstrate proper C# coding practices including null handling, error management, and code organization
+- Refactor code from using case expressions to methods for better testability
+- Demonstrate incremental development by adding modulo and exponent operations
 - Provide comprehensive xUnit tests with different test approaches (fact, theory)
 - Enable a clean, interactive console experience with proper user feedback
 - Showcase proper solution structure with separate application and test projects
@@ -140,7 +143,7 @@ The solution will serve as both a functional calculator and a reference implemen
 
 ### 1.12.1 Solution Setup
 
-1. Create a PowerShell script named `Set-DotnetSlnForCalculator.ps1` in the workspace directory that:
+1. Create a PowerShell script named `Set-DotnetSlnForCalculator.ps1` in "$(git rev-parse --show-toplevel)\programming\dotnet\csharp\workspace" that:
    - Creates a solution folder named `calculator-xunit-testing`
    - Sets up a new solution
    - Adds a console application project named `calculator`
@@ -191,6 +194,7 @@ The solution will serve as both a functional calculator and a reference implemen
 ## 1.14 Cleanup Procedure
 
 Create a PowerShell script named `Remove-DotnetSlnForCalculator.ps1` to reset the exercise by:
+
 1. Getting the repository root path
 2. Appending the workspace path
 3. Setting the current path to the target
