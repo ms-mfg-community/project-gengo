@@ -150,6 +150,7 @@ The solution will serve as both a functional calculator and a reference implemen
    - Adds an xUnit test project named `calculator.tests`
    - Configures appropriate project references
    - Changes default file names from `Program.cs` to `Calculator.cs` and from `UnitTest1.cs` to `CalculatorTest.cs`
+   - Execute the powershell script to create the solution structure
 
 ### 1.12.2 Calculator Implementation
 
