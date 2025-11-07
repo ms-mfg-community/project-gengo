@@ -34,7 +34,105 @@ This file provides custom instructions for using GitHub Copilot in this reposito
   - For Python, adhere to [PEP 8](https://www.python.org/dev/peps/pep-0008/).
 - **Line Length:** Aim for 80-100 characters per line where possible.
 - **Formatting:** Use automated tools (like Prettier or Black) to enforce formatting rules.
-- **SQL:** For SQL, reference both Microsoft T-SQL as well as PostgreSQL syntax.
+
+## SQL
+
+### General SQL Guidelines
+
+- Reference both Microsoft T-SQL as well as PostgreSQL syntax where applicable
+- Use appropriate SQL dialect based on the target database system
+- Follow database-specific best practices for performance and security
+- Always use parameterized queries to prevent SQL injection
+
+### SQLite
+
+- **Executable:** Use `sqlite3` for executing SQLite commands and scripts
+- **File-based:** SQLite databases are file-based (`.db`, `.sqlite`, `.sqlite3` extensions)
+- **Lightweight:** Ideal for local development, testing, and embedded applications
+
+#### SQLite Usage Examples
+
+**Connect to database and run a query:**
+
+```pwsh
+# Open database file
+sqlite3 database.db "SELECT * FROM tablename;"
+
+# Interactive mode
+sqlite3 database.db
+```
+
+**Common SQLite commands:**
+
+```sql
+.help                 -- Show help
+.tables               -- List all tables
+.schema tablename     -- Show table schema
+.mode column          -- Set output mode
+.headers on           -- Show column headers
+.quit                 -- Exit sqlite3
+```
+
+**Run script file:**
+
+```pwsh
+sqlite3 database.db < script.sql
+```
+
+### Microsoft SQL Server / Azure SQL
+
+- **Executable:** Use `sqlcmd` for executing T-SQL commands and scripts
+- **Modern sqlcmd (Go-based):** Cross-platform, recommended for new projects
+- **Legacy sqlcmd.exe (ODBC-based):** Traditional Windows tool
+- **Bulk Operations:** Use `bcp` (Bulk Copy Program) for bulk data import/export
+
+#### sqlcmd Usage Examples
+
+**Connect and run a query:**
+
+```pwsh
+# Modern sqlcmd or legacy sqlcmd.exe
+sqlcmd -S <server>.database.windows.net -d <database> -U <username> -P <password> -Q "SELECT * FROM sys.tables"
+```
+
+**Run a script file:**
+
+```pwsh
+sqlcmd -S <server>.database.windows.net -d <database> -U <username> -i script.sql -o output.txt
+```
+
+**Interactive session:**
+
+```pwsh
+# Start interactive session
+sqlcmd -S <server> -d <database> -U <username> -P <password>
+
+# Inside sqlcmd, type GO after each query to execute
+# Type EXIT to quit
+```
+
+#### Authentication Options
+
+- `-U` and `-P`: SQL Authentication
+- `-E`: Windows/Integrated Authentication
+- `-G`: Azure Active Directory Authentication
+- `-G -P`: Azure AD with password
+
+#### Related Tools
+
+- **Azure Data Studio** (`azuredatastudio`) - GUI with integrated terminal
+- **SQL Server Management Studio (SSMS)** - Windows GUI tool
+- **mssql-cli** - Interactive command-line with IntelliSense
+
+### SQL Best Practices
+
+- Use transactions for data integrity
+- Always verify with SELECT before UPDATE or DELETE operations
+- Include WHERE clauses to prevent accidental mass updates/deletes
+- Use appropriate indexes for query performance
+- Document complex queries with comments
+- Use consistent formatting and naming conventions
+- Test queries in development before running in production
 
 ## Commenting
 
