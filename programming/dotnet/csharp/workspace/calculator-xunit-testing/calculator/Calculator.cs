@@ -1,10 +1,13 @@
 ﻿// Calculator console application using top-level statements
-// Supports basic arithmetic operations: +, -, *, /
+// Supports arithmetic operations: +, -, *, /, %, ^
 
 bool continueCalculation = true;
 
 while (continueCalculation)
 {
+    // Clear screen for better user experience
+    Console.Clear();
+    
     // Prompt for first operand
     Console.Write("Enter the first operand: ");
     string? input1 = Console.ReadLine();
@@ -13,6 +16,8 @@ while (continueCalculation)
     if (string.IsNullOrWhiteSpace(input1) || !double.TryParse(input1, out double operand1))
     {
         Console.WriteLine("Invalid input for first operand. Please enter a valid number.");
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
         continue;
     } // end if
 
@@ -24,17 +29,21 @@ while (continueCalculation)
     if (string.IsNullOrWhiteSpace(input2) || !double.TryParse(input2, out double operand2))
     {
         Console.WriteLine("Invalid input for second operand. Please enter a valid number.");
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
         continue;
     } // end if
 
     // Prompt for operator
-    Console.Write("Enter an operator (+, -, *, /): ");
+    Console.Write("Enter an operator (+, -, *, /, %, ^): ");
     string? operatorInput = Console.ReadLine();
     
-    // Validate operator input
+    // Validate operator input with null checking
     if (string.IsNullOrWhiteSpace(operatorInput))
     {
         Console.WriteLine("Invalid operator. Please enter a valid operator.");
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
         continue;
     } // end if
 
@@ -45,13 +54,13 @@ while (continueCalculation)
     switch (operatorInput)
     {
         case "+":
-            result = operand1 + operand2;
+            result = Add(operand1, operand2);
             break;
         case "-":
-            result = operand1 - operand2;
+            result = Subtract(operand1, operand2);
             break;
         case "*":
-            result = operand1 * operand2;
+            result = Multiply(operand1, operand2);
             break;
         case "/":
             if (operand2 == 0)
@@ -62,8 +71,23 @@ while (continueCalculation)
             } // end if
             else
             {
-                result = operand1 / operand2;
+                result = Divide(operand1, operand2);
             } // end else
+            break;
+        case "%":
+            if (operand2 == 0)
+            {
+                Console.WriteLine("Error: Modulo by zero is not allowed.");
+                validOperation = false;
+                result = 0;
+            } // end if
+            else
+            {
+                result = Modulo(operand1, operand2);
+            } // end else
+            break;
+        case "^":
+            result = Exponent(operand1, operand2);
             break;
         default:
             Console.WriteLine($"Error: '{operatorInput}' is not a valid operator.");
@@ -86,6 +110,90 @@ while (continueCalculation)
     if (string.IsNullOrWhiteSpace(response) || !response.Trim().Equals("y", StringComparison.OrdinalIgnoreCase))
     {
         continueCalculation = false;
+        Console.Clear();
         Console.WriteLine("Thank you for using the calculator. Goodbye!");
     } // end if
 } // end while
+
+// Static methods for arithmetic operations - testable from xUnit project
+
+/// <summary>
+/// Adds two numbers together.
+/// </summary>
+/// <param name="a">The first operand.</param>
+/// <param name="b">The second operand.</param>
+/// <returns>The sum of a and b.</returns>
+static double Add(double a, double b)
+{
+    return a + b;
+} // end Add
+
+/// <summary>
+/// Subtracts the second number from the first.
+/// </summary>
+/// <param name="a">The first operand.</param>
+/// <param name="b">The second operand.</param>
+/// <returns>The difference of a and b.</returns>
+static double Subtract(double a, double b)
+{
+    return a - b;
+} // end Subtract
+
+/// <summary>
+/// Multiplies two numbers together.
+/// </summary>
+/// <param name="a">The first operand.</param>
+/// <param name="b">The second operand.</param>
+/// <returns>The product of a and b.</returns>
+static double Multiply(double a, double b)
+{
+    return a * b;
+} // end Multiply
+
+/// <summary>
+/// Divides the first number by the second.
+/// </summary>
+/// <param name="a">The dividend.</param>
+/// <param name="b">The divisor.</param>
+/// <returns>The quotient of a divided by b.</returns>
+/// <exception cref="DivideByZeroException">Thrown when b is zero.</exception>
+static double Divide(double a, double b)
+{
+    if (b == 0)
+    {
+        throw new DivideByZeroException("Cannot divide by zero.");
+    } // end if
+    
+    return a / b;
+} // end Divide
+
+/// <summary>
+/// Calculates the modulo (remainder) of the first number divided by the second.
+/// </summary>
+/// <param name="a">The dividend.</param>
+/// <param name="b">The divisor.</param>
+/// <returns>The remainder of a divided by b.</returns>
+/// <exception cref="DivideByZeroException">Thrown when b is zero.</exception>
+static double Modulo(double a, double b)
+{
+    if (b == 0)
+    {
+        throw new DivideByZeroException("Cannot perform modulo by zero.");
+    } // end if
+    
+    return a % b;
+} // end Modulo
+
+/// <summary>
+/// Calculates the first number raised to the power of the second number.
+/// </summary>
+/// <param name="baseNumber">The base number.</param>
+/// <param name="exponent">The exponent.</param>
+/// <returns>The result of baseNumber raised to the power of exponent.</returns>
+static double Exponent(double baseNumber, double exponent)
+{
+    return Math.Pow(baseNumber, exponent);
+} // end Exponent
+
+// Make the Program class public and partial for testing access
+public partial class Program { }
