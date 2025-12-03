@@ -1,209 +1,244 @@
 # Project Gengo
 
-A comprehensive learning and demonstration workspace for GitHub Copilot, featuring multi-language development examples, DevOps automation, and infrastructure as code implementations.
+A comprehensive learning and demonstration repository for modern software development practices, featuring multi-language programming examples, CI/CD pipelines, infrastructure as code, and GitHub Copilot workflows.
 
 ## Overview
 
-Project Gengo serves as a centralized repository for exploring GitHub Copilot capabilities across various programming languages, frameworks, and DevOps tools. This workspace includes practical examples, workflows, and best practices for AI-assisted development.
+Project Gengo is a polyglot workspace designed to showcase best practices across the software development lifecycle. It includes examples for programming languages, DevOps automation, security analysis, database management, and AI-assisted development workflows.
 
-## Features
+## Repository Structure
 
-- **Multi-Language Programming Examples**: C, C++, C#, Go, Java, JavaScript, Node.js, Python, and TypeScript
-- **Infrastructure as Code**: Bicep, Terraform, and ARM templates for Azure deployments
-- **CI/CD Workflows**: GitHub Actions and Azure DevOps pipeline configurations
-- **Security Integration**: GitHub Advanced Security (GHAS) and CodeQL analysis examples
-- **Database Development**: PostgreSQL, Azure SQL, and KQL query examples
-- **Configuration Management**: Ansible playbooks and DevBox configurations
-- **MLOps Demonstrations**: Machine learning operations and workflows
+### Programming Languages
 
-## Project Structure
+- **`programming/`** - Multi-language code examples and projects
+  - `c/` - C programming examples
+  - `cpp/` - C++ projects with CMake configuration
+  - `dotnet/` - .NET applications
+  - `go/` - Go language examples
+  - `java/` - Java projects
+  - `javascript-html-css/` - Frontend web development
+  - `node/` - Node.js applications
+  - `python/` - Python scripts and projects
+  - `typescript-html-css/` - TypeScript web applications
 
-```text
-project-gengo/
-├── cicd/                   # CI/CD workflows and pipeline demonstrations
-├── programming/            # Multi-language code examples
-│   ├── c/                 # C programming examples
-│   ├── cpp/               # C++ programming examples
-│   ├── dotnet/            # .NET applications
-│   ├── go/                # Go programming examples
-│   ├── java/              # Java applications
-│   ├── javascript-html-css/  # Frontend web development
-│   ├── node/              # Node.js applications
-│   ├── python/            # Python scripts and projects
-│   └── typescript-html-css/  # TypeScript frontend examples
-├── iac/                   # Infrastructure as Code
-│   ├── bicep/            # Azure Bicep templates
-│   ├── terraform/        # Terraform configurations
-│   └── arm/              # ARM templates
-├── gitops/               # GitOps workflows and best practices
-├── ghas/                 # GitHub Advanced Security examples
-├── databases/            # Database scripts and queries
-│   ├── rdbms/           # Relational database examples
-│   └── kql/             # Kusto Query Language examples
-├── scripting/            # Utility scripts
-│   ├── powershell/      # PowerShell automation scripts
-│   ├── bash/            # Bash shell scripts
-│   └── azure-cli/       # Azure CLI examples
-├── mlops/                # Machine Learning operations
-└── cm/                   # Configuration management
-    ├── ansible/         # Ansible playbooks
-    └── devbox/          # Development environment configs
-```
+### DevOps & CI/CD
+
+- **`cicd/`** - Continuous Integration and Deployment examples
+- **`gitops/`** - GitOps workflows and documentation
+  - Product requirements documents (PRDs)
+  - GitHub Actions workflows
+  - Azure DevOps pipelines
+- **`.github/workflows/`** - GitHub Actions automation
+- **`.azure-pipelines/`** - Azure DevOps pipeline definitions
+
+### Infrastructure as Code
+
+- **`iac/`** - Infrastructure automation
+  - `arm/` - Azure Resource Manager templates
+  - `bicep/` - Azure Bicep modules
+  - `terraform/` - Terraform configurations
+
+### Configuration Management
+
+- **`cm/`** - Configuration management tools
+  - `ansible/` - Ansible playbooks
+  - `devbox/` - Development environment configurations
+
+### Security & Analysis
+
+- **`ghas/`** - GitHub Advanced Security workflows
+  - CodeQL analysis scripts
+  - Security analysis documentation
+- **`codeql-db/`** - CodeQL database artifacts
+- **`secrets-exclusion/`** - Secret scanning demonstrations
+- **`secrets-inclusion/`** - Security testing examples
+
+### Databases
+
+- **`databases/`** - Database management examples
+  - `kql/` - Kusto Query Language
+  - `rdbms/` - Relational database scripts (PostgreSQL, Azure SQL)
+
+### Features & Demos
+
+- **`features/`** - Feature demonstrations
+  - `code-completion/` - GitHub Copilot code completion examples
+- **`custom-hackathon/`** - Hackathon demonstration projects
+- **`mlops/`** - Machine Learning Operations examples
+
+### Utilities & Scripts
+
+- **`scripting/`** - Automation scripts
+  - `azure-cli/` - Azure CLI examples
+  - `bash/` - Shell scripts
+  - `powershell/` - PowerShell automation
+- **`cli/`** - Command-line interface tools
+- **`lib/`** - Shared libraries
+
+### Documentation
+
+- **`.github/copilot-instructions.md`** - GitHub Copilot custom instructions
+- **`.github/agents/`** - AI agent configurations
+- **`prompt-engineering/`** - Prompt engineering examples
+- **`SECURITY.md`** - Security policies
+- **`LICENSE`** - MIT License
 
 ## Getting Started
 
 ### Prerequisites
 
-- Git
-- GitHub account with Copilot access
-- Development tools for your target language (compilers, runtimes, SDKs)
-- Azure CLI (for Azure-related examples)
-- Docker (optional, for containerized examples)
+Depending on the technology you want to explore:
 
-### Clone the Repository
+- **Programming Languages**: Relevant compilers/runtimes (gcc, g++, Python, Node.js, .NET SDK, Go, JDK)
+- **Azure**: Azure CLI, Azure subscription
+- **DevOps**: Git, GitHub CLI, Azure DevOps CLI
+- **IaC**: Terraform, Bicep CLI
+- **Database**: PostgreSQL client, Azure Data Studio, sqlcmd
+- **Build Tools**: CMake (for C/C++ projects)
 
-```powershell
-git clone https://github.com/ms-mfg-community/project-gengo.git
-cd project-gengo
+### Quick Start
+
+1. **Clone the repository**:
+
+   ```pwsh
+   git clone https://github.com/ms-mfg-community/project-gengo.git
+   cd project-gengo
+   ```
+
+2. **Explore specific areas**:
+
+   ```pwsh
+   # Programming examples
+   cd programming/python/workspace
+   
+   # CI/CD workflows
+   cd gitops/workspace
+   
+   # Infrastructure as Code
+   cd iac/bicep
+   ```
+
+3. **Build C++ projects**:
+
+   ```pwsh
+   mkdir build
+   cd build
+   cmake ..
+   cmake --build .
+   ```
+
+4. **Python projects** (use virtual environments):
+
+   ```pwsh
+   python -m venv dev
+   dev\Scripts\activate
+   pip install -r requirements.txt
+   ```
+
+## GitHub Copilot Integration
+
+This repository includes comprehensive GitHub Copilot instructions in `.github/copilot-instructions.md` that define:
+
+- Coding standards and style guides
+- Language-specific best practices
+- Testing guidelines
+- Documentation requirements
+- Commit message format
+- Security and error handling practices
+
+### Custom Agents
+
+- `.github/agents/readme-creator.agent.md` - Documentation specialist agent
+- Additional agents for specialized tasks
+
+## Key Features
+
+- **Multi-Language Support**: Examples across 10+ programming languages
+- **CI/CD Pipelines**: GitHub Actions and Azure DevOps workflows
+- **Security Integration**: CodeQL analysis and secret scanning
+- **IaC Templates**: Bicep, Terraform, and ARM templates
+- **Database Examples**: SQL scripts for PostgreSQL and Azure SQL
+- **AI-Assisted Development**: GitHub Copilot custom instructions and workflows
+
+## Project Standards
+
+### Commit Message Format
+
+Use the **Topic Subtopic Activity** pattern:
+
+```text
+topic(subtopic): activity
 ```
 
-### Explore Examples
+Examples:
 
-Navigate to the specific directory for the technology you want to explore:
+- `github(instructions): expand guideline details`
+- `feat(auth): add login functionality`
+- `fix(ui): correct button alignment`
 
-```powershell
-# For Python examples
-cd programming/python
+### Coding Guidelines
 
-# For CI/CD workflows
-cd cicd/workspace
+- Prefer simple solutions
+- Avoid code duplication
+- Write environment-aware code (dev, test, prod)
+- Keep files under 100-200 lines
+- Write tests for major functionality
+- Follow language-specific style guides (see `.github/copilot-instructions.md`)
 
-# For Infrastructure as Code
-cd iac/bicep
-```
+## Project Documentation
 
-## Usage
-
-Each subdirectory contains its own `prompts.txt` or README with specific instructions and examples. Follow the guidelines in [`.github/copilot-instructions.md`](.github/copilot-instructions.md) for consistent development practices.
-
-### Working with GitHub Copilot
-
-This repository is optimized for GitHub Copilot usage:
-
-1. **Custom Instructions**: Review `.github/copilot-instructions.md` for project-specific guidelines
-2. **Agent Modes**: Utilize custom agent modes in `.github/agents/` for specialized tasks
-3. **Code Style**: Follow language-specific style guides documented in copilot instructions
-4. **Testing**: Write tests alongside feature development using recommended frameworks
-
-### Language-Specific Setup
-
-#### Python
-
-```powershell
-# Create virtual environment
-python -m venv dev
-dev\Scripts\activate
-pip install -r requirements.txt
-```
-
-#### C/C++
-
-```powershell
-# Build using CMake
-cmake -B build
-cmake --build build
-```
-
-#### Node.js/TypeScript
-
-```powershell
-npm install
-npm run build
-npm test
-```
-
-## CI/CD Integration
-
-The repository includes examples for:
-
-- **GitHub Actions**: Workflow files in `.github/workflows/`
-- **Azure DevOps**: Pipeline definitions in `cicd/workspace/`
-- **CodeQL Analysis**: Security scanning configurations
-
-## Security
-
-- Security policies are documented in [`SECURITY.md`](SECURITY.md)
-- CodeQL analysis results are stored in `codeql-results.sarif`
-- Sensitive data exclusion patterns are configured in `secrets-exclusion/`
+- **Copilot Instructions**: [.github/copilot-instructions.md](.github/copilot-instructions.md)
+- **Security Policy**: [SECURITY.md](SECURITY.md)
+- **GitOps PRDs**: `gitops/prd-*.md`
+- **Database Docs**: `databases/rdbms/*.md`
 
 ## Contributing
 
-Contributions are welcome! Please:
-
-1. Review the coding guidelines in `.github/copilot-instructions.md`
-2. Follow the commit message format: `topic(subtopic): activity`
+1. Follow the coding standards defined in `.github/copilot-instructions.md`
+2. Use the specified commit message format
 3. Write tests for new functionality
-4. Ensure all CI checks pass
-5. Submit a pull request with a clear description
-
-## Development Workflow
-
-1. Create a feature branch: `git checkout -b feature/your-feature-name`
-2. Make changes following project guidelines
-3. Test your changes thoroughly
-4. Commit with descriptive messages
-5. Push and create a pull request
+4. Update documentation as needed
+5. Ensure all CI checks pass before submitting PRs
 
 ## Testing
 
-Testing frameworks vary by language:
+Various testing frameworks are used depending on the language:
 
 - **.NET**: xUnit
-- **Python**: pytest
-- **TypeScript**: Vitest
 - **Java**: JUnit
+- **TypeScript**: Vitest
+- **Python**: pytest
 - **Go**: Testify
+- **Node.js**: Jest
+- **C**: Unity
 - **C++**: Google Test
 
-Run tests from their respective directories following language-specific instructions.
+## CI/CD Workflows
 
-## Documentation
+The repository includes example workflows for:
 
-- **Project Guidelines**: `.github/copilot-instructions.md`
-- **Product Requirements**: PRD documents in feature directories
-- **API Documentation**: Generated in respective language folders
-- **Workflow Documentation**: In `gitops/` directory
+- Repository content listing and artifact management
+- CodeQL security analysis
+- Multi-language builds
+- Azure resource deployment
+- Dependabot automation
 
-## Tools and Technologies
-
-- **Version Control**: Git, GitHub
-- **CI/CD**: GitHub Actions, Azure DevOps
-- **Cloud Platform**: Microsoft Azure
-- **IaC Tools**: Bicep, Terraform, ARM templates
-- **Containerization**: Docker
-- **Security**: GitHub Advanced Security, CodeQL
-- **Configuration Management**: Ansible
-- **Databases**: PostgreSQL, Azure SQL, SQLite
-
-## Related Resources
-
-- [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
-- [Azure DevOps Documentation](https://learn.microsoft.com/en-us/azure/devops/)
-- [GitHub Advanced Security](https://docs.github.com/en/code-security)
-- [Vibe Coding Approach](https://youtu.be/YWwS911iLhg?si=TEdJIIqGryZdjezy)
+See `gitops/workspace/` and `.github/workflows/` for examples.
 
 ## License
 
-See [`LICENSE`](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
+Copyright (c) 2024 Preston K. Parsard
 
-For questions or issues:
+## Resources
 
-- Open an issue in this repository
-- Review existing documentation in subdirectories
-- Check `prompts.txt` files for specific guidance
+- [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
+- [GitHub Actions](https://docs.github.com/en/actions)
+- [Azure DevOps](https://azure.microsoft.com/en-us/products/devops/)
+- [CodeQL](https://codeql.github.com/)
+- [Vibe Coding](https://youtu.be/YWwS911iLhg?si=TEdJIIqGryZdjezy)
 
----
+## Contact
 
-**Note**: This is a learning and demonstration repository. Examples may not be production-ready and should be adapted for your specific use cases.
+For questions or feedback about this repository, please open an issue.

@@ -10,5 +10,4 @@ Focus on the following instructions:
 - Structure README sections logically: overview, installation, usage, contributing
 - Write scannable content with proper headings and formatting
 - Add appropriate badges, links, and navigation elements
-- Use relative links (e.g., `docs/CONTRIBUTING.md`) instead of absolute URLs for files within the repository
-- Make links descriptive and add alt text to images
+- Use relative links (e.g., `docs/CONTRIBUTING.md`) instead of absolute URLs for files within the repository 
