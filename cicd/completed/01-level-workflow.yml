@@ -23,7 +23,7 @@ on:
 
 # Define jobs
 jobs:
-  # First job: List repository contents and upload artifact
+  # First job: List repository contents
   list-contents:
     name: List Repository Contents
     runs-on: ubuntu-latest
@@ -77,16 +77,8 @@ jobs:
           } else {
               Write-Host "src directory does not exist in this repository." -ForegroundColor Red
           } # end if
-      
-      # Step 5: Upload repository contents as artifact
-      - name: Upload Repository Contents Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: repository-contents
-          path: .
-          retention-days: 7
   
-  # Second job: Retrieve workflow values and download artifact
+  # Second job: Retrieve workflow values
   retrieve-values:
     name: Retrieve Workflow Values
     runs-on: ubuntu-latest
@@ -94,23 +86,7 @@ jobs:
     needs: list-contents
     
     steps:
-      # Step 1: Download the artifact from the previous job
-      - name: Download Repository Contents Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: repository-contents
-          path: ./downloaded-contents
-      
-      # Step 2: Display the downloaded artifact contents
-      - name: Display Downloaded Artifact Contents
-        run: |
-          echo "========================================="
-          echo "Downloaded Artifact Contents:"
-          echo "========================================="
-          ls -la ./downloaded-contents | head -20
-          echo "========================================="
-      
-      # Step 3: Display current branch information
+      # Step: Display current branch information
       - name: Show Current Branch
         run: |
           echo "========================================="

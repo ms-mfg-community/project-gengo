@@ -157,12 +157,14 @@ on:
 ### 1.12.3 Content Listing Approaches
 
 **Tree Command:**
+
 - 3-level depth limit
 - Human-readable file sizes
 - Directories listed first
 - Color-coded output
 
 **PowerShell:**
+
 - Recursive directory traversal
 - Conditional directory checking
 - Indented hierarchical display
@@ -180,12 +182,14 @@ needs: list-contents
 ### 1.12.5 Metadata Captured
 
 **Event Information:**
+
 - Workflow trigger type
 - Branch name
 - Repository full name
 - Triggering actor
 
 **Branch Information:**
+
 - Current branch name
 - Full reference path
 - PR head and base references
