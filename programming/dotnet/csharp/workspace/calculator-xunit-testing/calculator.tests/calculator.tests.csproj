@@ -24,4 +24,10 @@
     <ProjectReference Include="..\calculator\calculator.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestData\calculator-test-data.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
