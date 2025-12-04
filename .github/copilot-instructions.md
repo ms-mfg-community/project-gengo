@@ -160,6 +160,9 @@ sqlcmd -S <server> -d <database> -U <username> -P <password>
 - **API Docs:** Maintain inline documentation and generated API docs.
 - **Style:** Use Markdown for all documentation, ensuring consistency in headings and formatting using the [markdownlint](https://github.com/DavidAnson/markdownlint "Markdown Linting Rules") rules.
 - **Warnings** Ensure that after each markdown file is created, it is also scanned for and reformated to fix any markdown linting violations.
+- **Relative Links:** Use relative links for internal documentation references.
+- **Examples:** Provide code examples where applicable.
+- **URLs:** Apply the label, URL and title format for all links in markdown files. For example: [GitHub Docs](https://docs.github.com "GitHub Documentation")
 
 ## Commit Messages
 

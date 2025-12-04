@@ -32,7 +32,8 @@ Create a PowerShell script that queries the GitHub GraphQL API to retrieve Depen
 - The script must be compatible with Windows PowerShell 5.1+ and PowerShell Core 7+.
 
 ## Example Output
-```
+
+```text
 Id                                   CreatedAt            PackageName      Severity
 --                                   ---------            -----------      --------
 MDU6...                              2024-04-01T12:34Z    lodash          HIGH

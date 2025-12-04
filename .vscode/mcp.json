@@ -1,15 +1,5 @@
 {
 	"servers": {
-		"Azure MCP Server": {
-			"command": "npx",
-			"args": [
-				"-y",
-				"@azure/mcp@latest",
-				"server",
-				"start"
-			],
-			"type": "stdio"
-		},
 		"azureDevOps": {
 			"command": "npx",
 			"args": [
@@ -33,7 +23,7 @@
 		"github": {
 			"type": "http",
 			"url": "https://api.githubcopilot.com/mcp",
-		}
+		},
 	},
 	"inputs": []
 }

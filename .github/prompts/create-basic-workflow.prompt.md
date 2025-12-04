@@ -1,3 +1,10 @@
+---
+agent: gpt-5-mini-beast
+description: Create a basic workflow for Java Spring Framework applications using GitHub Actions and Azure DevOps.
+name: create-basic-workflow
+tools: ['search', 'edit', 'fetch', 'changes', 'runCommands', 'runTests', 'problems', 'usages', 'testFailure', 'githubRepo', 'vscodeAPI', 'new', 'openSimpleBrowser', 'search/searchResults', 'runCommands/terminalLastCommand', 'runCommands/terminalSelection', 'edit/editFiles', 'extensions']
+model: GPT-5 mini (copilot)
+---
 # Create Basic Workflow
 
 ## Overview
@@ -83,6 +90,7 @@ Created comprehensive workflow with two jobs: list-contents and retrieve-values.
 $repoRoot = git rev-parse --show-toplevel
 Join-Path -Path $repoRoot -ChildPath ".github/workflows/01-level-workflow.yml"
 ```
+
 
 **PRD Location:**
 
