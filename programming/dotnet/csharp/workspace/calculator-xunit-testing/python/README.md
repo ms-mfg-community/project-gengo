@@ -154,8 +154,12 @@ pytest tests/test_calculator.py
 
    ```bash
    cd web
+   # For development with debug mode (optional)
+   export FLASK_DEBUG=True  # or set FLASK_DEBUG=True on Windows
    python app.py
    ```
+
+   **Note**: Debug mode is disabled by default for security. Only enable it during development.
 
 2. **Open your browser** and navigate to:
 
@@ -171,6 +175,16 @@ pytest tests/test_calculator.py
    - Toggle theme using the moon/sun icon
    - View calculation history in the right panel
    - Click history items to replay calculations
+
+### Production Deployment
+
+For production deployment, use a production WSGI server like **gunicorn**:
+
+```bash
+pip install gunicorn
+cd web
+gunicorn -w 4 -b 0.0.0.0:5000 app:app
+```
 
 ### Running the Command-Line Calculator
 
