@@ -1,6 +1,8 @@
 ﻿// Calculator console application using top-level statements
 // Supports arithmetic operations: +, -, *, /, %, ^
 
+using Calculator.Core;
+
 bool continueCalculation = true;
 
 while (continueCalculation)
@@ -51,50 +53,41 @@ while (continueCalculation)
     double result;
     bool validOperation = true;
 
-    switch (operatorInput)
+    try
     {
-        case "+":
-            result = Add(operand1, operand2);
-            break;
-        case "-":
-            result = Subtract(operand1, operand2);
-            break;
-        case "*":
-            result = Multiply(operand1, operand2);
-            break;
-        case "/":
-            if (operand2 == 0)
-            {
-                Console.WriteLine("Error: Division by zero is not allowed.");
+        switch (operatorInput)
+        {
+            case "+":
+                result = CalculatorEngine.Add(operand1, operand2);
+                break;
+            case "-":
+                result = CalculatorEngine.Subtract(operand1, operand2);
+                break;
+            case "*":
+                result = CalculatorEngine.Multiply(operand1, operand2);
+                break;
+            case "/":
+                result = CalculatorEngine.Divide(operand1, operand2);
+                break;
+            case "%":
+                result = CalculatorEngine.Modulo(operand1, operand2);
+                break;
+            case "^":
+                result = CalculatorEngine.Exponent(operand1, operand2);
+                break;
+            default:
+                Console.WriteLine($"Error: '{operatorInput}' is not a valid operator.");
                 validOperation = false;
                 result = 0;
-            } // end if
-            else
-            {
-                result = Divide(operand1, operand2);
-            } // end else
-            break;
-        case "%":
-            if (operand2 == 0)
-            {
-                Console.WriteLine("Error: Modulo by zero is not allowed.");
-                validOperation = false;
-                result = 0;
-            } // end if
-            else
-            {
-                result = Modulo(operand1, operand2);
-            } // end else
-            break;
-        case "^":
-            result = Exponent(operand1, operand2);
-            break;
-        default:
-            Console.WriteLine($"Error: '{operatorInput}' is not a valid operator.");
-            validOperation = false;
-            result = 0;
-            break;
-    } // end switch
+                break;
+        } // end switch
+    }
+    catch (DivideByZeroException ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+        validOperation = false;
+        result = 0;
+    } // end catch
 
     // Display result if operation was valid
     if (validOperation)
@@ -119,6 +112,7 @@ while (continueCalculation)
 public partial class Program 
 {
     // Static methods for arithmetic operations - testable from xUnit project
+    // These wrap the Calculator.Core.CalculatorEngine methods for backward compatibility with tests
 
     /// <summary>
     /// Adds two numbers together.
@@ -128,7 +122,7 @@ public partial class Program
     /// <returns>The sum of a and b.</returns>
     public static double Add(double a, double b)
     {
-        return a + b;
+        return CalculatorEngine.Add(a, b);
     } // end Add
 
     /// <summary>
@@ -139,7 +133,7 @@ public partial class Program
     /// <returns>The difference of a and b.</returns>
     public static double Subtract(double a, double b)
     {
-        return a - b;
+        return CalculatorEngine.Subtract(a, b);
     } // end Subtract
 
     /// <summary>
@@ -150,7 +144,7 @@ public partial class Program
     /// <returns>The product of a and b.</returns>
     public static double Multiply(double a, double b)
     {
-        return a * b;
+        return CalculatorEngine.Multiply(a, b);
     } // end Multiply
 
     /// <summary>
@@ -162,12 +156,7 @@ public partial class Program
     /// <exception cref="DivideByZeroException">Thrown when b is zero.</exception>
     public static double Divide(double a, double b)
     {
-        if (b == 0)
-        {
-            throw new DivideByZeroException("Cannot divide by zero.");
-        } // end if
-        
-        return a / b;
+        return CalculatorEngine.Divide(a, b);
     } // end Divide
 
     /// <summary>
@@ -179,12 +168,7 @@ public partial class Program
     /// <exception cref="DivideByZeroException">Thrown when b is zero.</exception>
     public static double Modulo(double a, double b)
     {
-        if (b == 0)
-        {
-            throw new DivideByZeroException("Cannot perform modulo by zero.");
-        } // end if
-        
-        return a % b;
+        return CalculatorEngine.Modulo(a, b);
     } // end Modulo
 
     /// <summary>
@@ -195,6 +179,6 @@ public partial class Program
     /// <returns>The result of baseNumber raised to the power of exponent.</returns>
     public static double Exponent(double baseNumber, double exponent)
     {
-        return Math.Pow(baseNumber, exponent);
+        return CalculatorEngine.Exponent(baseNumber, exponent);
     } // end Exponent
 }
