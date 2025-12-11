@@ -25,7 +25,11 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 - Write through tests for all major functionality.
 - Avoid making major changes to the patterns and architecture of how a feature works, after it has been proven to work properly, unless explicitly prompted to do so.
 - Always consider how changes and updates may negatively impact the current function of the solution.
-  
+
+## Project specific custom instructions
+
+When crafting a custom instruction set for a specific project, reference the following content as a template to ensure all necessary aspects are covered: [Project Specific Instructions](https://docs.github.com/en/copilot/concepts/prompting/response-customization?tool=vscode#writing-effective-custom-instructions-1 "Project or folder level custom instructions")
+
 ## Code Style
 
 - **General:** Follow the repository's style guide for consistency.
