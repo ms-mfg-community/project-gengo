@@ -28,7 +28,13 @@ This file provides custom instructions for using GitHub Copilot in this reposito
 
 ## Project specific custom instructions
 
-When crafting a custom instruction set for a specific project, reference the following content as a template to ensure all necessary aspects are covered: [Project Specific Instructions](https://docs.github.com/en/copilot/concepts/prompting/response-customization?tool=vscode#writing-effective-custom-instructions-1 "Project or folder level custom instructions")
+### Template for Project Specific Instructions
+
+When crafting a custom instruction set for a specific project, reference the following content as a template to ensure all necessary aspects are covered: [Project Specific Instructions](https://docs.github.com/en/copilot/concepts/prompting/response-customization?tool=vscode#writing-effective-custom-instructions-1 "Project or folder level custom instructions"). 
+
+### Example Instruction Files
+- [Custom Instructions](https://github.com/github/awesome-copilot/tree/main/instructions "Examples")
+
 
 ## Code Style
 
