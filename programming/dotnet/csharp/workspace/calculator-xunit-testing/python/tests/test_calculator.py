@@ -15,7 +15,7 @@ import pytest
 from calculator.calculator import Calculator
 
 
-class TestDataRecord:
+class DataRecord:
     """Data class representing a test record from the CSV file."""
     
     def __init__(self, first_number: float, second_number: float, 
@@ -27,12 +27,12 @@ class TestDataRecord:
         self.result = result
 
 
-def get_test_data_from_csv() -> List[TestDataRecord]:
+def get_test_data_from_csv() -> List[DataRecord]:
     """
     Gets test data from the CSV file.
     
     Returns:
-        List of TestDataRecord objects containing test cases
+        List of DataRecord objects containing test cases
     """
     # Find the CSV file relative to this test file
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -58,7 +58,7 @@ def get_test_data_from_csv() -> List[TestDataRecord]:
             expected_value = float(row[3].strip())
             result = row[4].strip() if len(row) > 4 else "unknown"
             
-            records.append(TestDataRecord(
+            records.append(DataRecord(
                 first_number, second_number, operation, expected_value, result
             ))
     

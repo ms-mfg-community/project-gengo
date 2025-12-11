@@ -82,6 +82,9 @@ class Calculator:
         """
         Performs modulo operation on two numbers.
         
+        Uses truncated division (C# style) where the result has the sign of the dividend.
+        This differs from Python's default behavior which uses floored division.
+        
         Args:
             first: The dividend
             second: The divisor
@@ -92,7 +95,9 @@ class Calculator:
         if second == 0:
             print("Error: Cannot perform modulo by zero.")
             return float('nan')
-        return first % second
+        # Use C# style truncated modulo (result has sign of dividend)
+        # Python's % uses floored division, but C# uses truncated division
+        return first - second * int(first / second)
 
     @staticmethod
     def exponent(first: float, second: float) -> float:
