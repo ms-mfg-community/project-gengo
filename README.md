@@ -57,6 +57,61 @@ dev\Scripts\activate
 pip install -r requirements.txt
 ```
 
+## Running Tests
+
+The repository includes comprehensive tests across multiple languages. To run all tests:
+
+### Quick Start
+
+**Bash/Linux/macOS:**
+
+```bash
+./run-all-tests.sh
+```
+
+**PowerShell/Windows:**
+
+```powershell
+.\Run-AllTests.ps1
+```
+
+### Manual Test Execution
+
+**Python tests (pytest):**
+
+```bash
+cd programming/python/completed/src/calculator
+python -m pytest test_calculator.py -v
+```
+
+**.NET tests (xUnit):**
+
+```bash
+cd programming/dotnet/csharp/workspace/calculator-xunit-testing
+dotnet test calculator.tests/calculator.tests.csproj --verbosity normal
+```
+
+**Node.js tests (Jest):**
+
+```bash
+cd programming/node/completed/calculator
+npm install
+npm test
+```
+
+**Go tests:**
+
+```bash
+cd programming/go/completed/src
+go test -v ./...
+```
+
+### Test Report
+
+See [TEST_REPORT.md](TEST_REPORT.md) for comprehensive test execution results and coverage details.
+
+**Current Status**: ✅ 208 tests passing across 4 languages (Python, C#/.NET, TypeScript/Node.js, Go)
+
 ## CI/CD Workflows
 
 - GitHub Actions examples in `.github/workflows/`
