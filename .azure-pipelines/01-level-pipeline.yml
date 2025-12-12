@@ -1,139 +1,125 @@
-# Azure DevOps Pipeline: 01-level-pipeline
-# Translated from GitHub Actions workflow: 01-level-workflow
-
-name: 01-level-pipeline
-
-# Pipeline triggers
 trigger:
-  # Trigger on push to main branch, but exclude changes in .azure-pipelines directory
   branches:
     include:
       - main
   paths:
     exclude:
-      - '.azure-pipelines/**'
+      - .github/*
 
-# Pull request triggers
 pr:
   branches:
     include:
       - main
 
-# Scheduled trigger - runs every 24 hours at midnight UTC
 schedules:
-  - cron: '0 0 * * *'
-    displayName: 'Daily midnight build'
+  - cron: "0 0 * * *"
+    displayName: Daily midnight UTC
     branches:
       include:
         - main
-    always: true
+    always: false
 
-# Variables
-variables:
-  - name: vmImage
-    value: 'ubuntu-latest'
+pool:
+  vmImage: 'ubuntu-latest'
 
-# Define stages and jobs
 stages:
-  # Stage 1: List Contents
   - stage: ListContents
     displayName: 'List Repository Contents'
     jobs:
       - job: list_contents
         displayName: 'List Repository Contents'
-        pool:
-          vmImage: $(vmImage)
-        
         steps:
-          # Step 1: Display pipeline trigger information
-          - task: Bash@3
-            displayName: 'Display Event and Branch Information'
+          - task: PowerShell@2
+            displayName: 'Display Pipeline Trigger Information'
             inputs:
               targetType: 'inline'
               script: |
-                echo "========================================="
-                echo "Pipeline Triggered by: $(Build.Reason)"
-                echo "Branch: $(Build.SourceBranchName)"
-                echo "Repository: $(Build.Repository.Name)"
-                echo "Triggered by: $(Build.RequestedFor)"
-                echo "Build ID: $(Build.BuildId)"
-                echo "========================================="
-          
-          # Step 2: Check out the repository code (implicit in Azure Pipelines)
+                Write-Host "========================================" -ForegroundColor Cyan
+                Write-Host "Pipeline Trigger Information" -ForegroundColor Cyan
+                Write-Host "========================================" -ForegroundColor Cyan
+                Write-Host "Event Name: $(Build.Reason)" -ForegroundColor Yellow
+                Write-Host "Branch: $(Build.SourceBranchName)" -ForegroundColor Yellow
+                Write-Host "Repository: $(Build.Repository.Name)" -ForegroundColor Yellow
+                Write-Host "Requested For: $(Build.RequestedFor)" -ForegroundColor Yellow
+                Write-Host "========================================" -ForegroundColor Cyan
+
           - checkout: self
             displayName: 'Checkout Repository'
-          
-          # Step 3: List repository contents using tree command
+
           - task: Bash@3
             displayName: 'List Repository Contents with Tree'
+            continueOnError: true
             inputs:
               targetType: 'inline'
               script: |
-                echo "========================================="
-                echo "Repository Contents (using tree command):"
-                echo "========================================="
-                # Install tree if not available
-                sudo apt-get update && sudo apt-get install -y tree
-                # Display directory tree with colors and file sizes
-                tree -L 3 -h --dirsfirst
-          
-          # Step 4: List src directory contents recursively using PowerShell
+                echo "========================================" 
+                echo "Repository Contents (Tree View - Depth 3)"
+                echo "========================================"
+                tree -L 3 -h --du
+
           - task: PowerShell@2
-            displayName: 'List src Directory Contents with PowerShell'
+            displayName: 'List Source Directory Contents with PowerShell'
             inputs:
               targetType: 'inline'
-              pwsh: true
               script: |
-                Write-Host "=========================================" -ForegroundColor Cyan
-                Write-Host "Contents of src Directory (PowerShell):" -ForegroundColor Cyan
-                Write-Host "=========================================" -ForegroundColor Cyan
+                Write-Host "`n========================================" -ForegroundColor Cyan
+                Write-Host "Source Directory Contents (PowerShell)" -ForegroundColor Cyan
+                Write-Host "========================================" -ForegroundColor Cyan
                 
-                # Check if src directory exists
-                if (Test-Path "src") {
-                    # Get all items recursively from src directory
-                    Get-ChildItem -Path "src" -Recurse | ForEach-Object {
-                        $indent = "  " * ($_.FullName.Split([IO.Path]::DirectorySeparatorChar).Count - $PWD.Path.Split([IO.Path]::DirectorySeparatorChar).Count - 2)
-                        if ($_.PSIsContainer) {
-                            Write-Host "$indent[DIR]  $($_.Name)" -ForegroundColor Yellow
-                        } else {
-                            $size = [math]::Round($_.Length / 1KB, 2)
-                            Write-Host "$indent[FILE] $($_.Name) ($size KB)" -ForegroundColor Green
+                $srcPath = "src"
+                
+                if (Test-Path -Path $srcPath) {
+                    function Get-DirectoryTree {
+                        param(
+                            [string]$Path,
+                            [int]$Depth = 0,
+                            [int]$MaxDepth = 5
+                        )
+                        
+                        if ($Depth -gt $MaxDepth) { return }
+                        
+                        $indent = "  " * $Depth
+                        $items = Get-ChildItem -Path $Path -ErrorAction SilentlyContinue | Sort-Object -Property @{Expression={$_.PSIsContainer}; Descending=$true}, Name
+                        
+                        foreach ($item in $items) {
+                            if ($item.PSIsContainer) {
+                                Write-Host "$indent📁 $($item.Name)/" -ForegroundColor Yellow
+                                Get-DirectoryTree -Path $item.FullName -Depth ($Depth + 1) -MaxDepth $MaxDepth
+                            } else {
+                                $sizeKB = [math]::Round($item.Length / 1KB, 2)
+                                Write-Host "$indent📄 $($item.Name) ($($sizeKB) KB)" -ForegroundColor Green
+                            }
                         }
-                    } # end ForEach-Object
+                    }
+                    
+                    Get-DirectoryTree -Path $srcPath
                 } else {
-                    Write-Host "src directory does not exist in this repository." -ForegroundColor Red
-                } # end if
-  
-  # Stage 2: Retrieve Values
+                    Write-Host "Source directory ($srcPath) does not exist." -ForegroundColor Red
+                }
+                
+                Write-Host "========================================" -ForegroundColor Cyan
+
   - stage: RetrieveValues
-    displayName: 'Retrieve Pipeline Values'
-    # This stage runs after ListContents completes
+    displayName: 'Retrieve and Display Metadata'
     dependsOn: ListContents
     jobs:
       - job: retrieve_values
-        displayName: 'Retrieve Pipeline Values'
-        pool:
-          vmImage: $(vmImage)
-        
+        displayName: 'Retrieve and Display Workflow Metadata'
         steps:
-          # Step: Display current branch information
-          - task: Bash@3
-            displayName: 'Show Current Branch'
+          - task: PowerShell@2
+            displayName: 'Display Branch and Metadata Information'
             inputs:
               targetType: 'inline'
               script: |
-                echo "========================================="
-                echo "Current Branch Information:"
-                echo "========================================="
-                echo "Branch Name: $(Build.SourceBranchName)"
-                echo "Full Ref: $(Build.SourceBranch)"
-                echo "Repository: $(Build.Repository.Name)"
-                echo "Repository URI: $(Build.Repository.Uri)"
-                echo "Default Branch: $(System.DefaultWorkingDirectory)"
-                echo "Commit ID: $(Build.SourceVersion)"
-                echo "Commit Message: $(Build.SourceVersionMessage)"
-                echo "Build Reason: $(Build.Reason)"
-                echo "Pull Request ID: $(System.PullRequest.PullRequestId)"
-                echo "Pull Request Source Branch: $(System.PullRequest.SourceBranch)"
-                echo "Pull Request Target Branch: $(System.PullRequest.TargetBranch)"
-                echo "========================================="
+                Write-Host "========================================" -ForegroundColor Cyan
+                Write-Host "Pipeline Metadata and Branch Information" -ForegroundColor Cyan
+                Write-Host "========================================" -ForegroundColor Cyan
+                Write-Host "Branch Name: $(Build.SourceBranchName)" -ForegroundColor Yellow
+                Write-Host "Full Ref: $(Build.SourceBranch)" -ForegroundColor Yellow
+                Write-Host "Repository Default Branch: $(System.DefaultBranch)" -ForegroundColor Yellow
+                Write-Host "Build ID: $(Build.BuildId)" -ForegroundColor Yellow
+                Write-Host "Build Number: $(Build.BuildNumber)" -ForegroundColor Yellow
+                Write-Host "Source Version (Commit): $(Build.SourceVersion)" -ForegroundColor Yellow
+                Write-Host "Requested For: $(Build.RequestedFor)" -ForegroundColor Yellow
+                Write-Host "Build Reason: $(Build.Reason)" -ForegroundColor Yellow
+                Write-Host "========================================" -ForegroundColor Cyan

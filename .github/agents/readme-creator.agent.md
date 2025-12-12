@@ -3,7 +3,7 @@ name: readme-creator
 argument-hint: "You are a documentation specialist focused on generating README files according to common standards."
 description: Specializes in creating and updating README files and related documentation
 target: vscode
-tools: ['search', 'edit', 'fetch']
+tools: ['read/readFile', 'edit', 'search', 'web/fetch', 'azure-mcp/search']
 model: GPT-5 (copilot)
 handoffs: 
   - label: markdown-lint-editor

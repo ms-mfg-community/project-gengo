@@ -1,141 +1,104 @@
-name: 01-level-workflow
+name: 01-Level-Workflow
 
-# Workflow triggers
 on:
-  # Trigger on push to main branch, but exclude changes in .github directory
   push:
     branches:
       - main
     paths-ignore:
       - '.github/**'
-  
-  # Trigger on pull requests targeting the main branch
   pull_request:
     branches:
       - main
-  
-  # Scheduled trigger - runs every 24 hours at midnight UTC
   schedule:
     - cron: '0 0 * * *'
-  
-  # Manual trigger via GitHub UI
   workflow_dispatch:
 
-# Define jobs
 jobs:
-  # First job: List repository contents and upload artifact
   list-contents:
     name: List Repository Contents
     runs-on: ubuntu-latest
-    
     steps:
-      # Step 1: Display workflow trigger information
-      - name: Display Event and Branch Information
+      - name: Display Workflow Trigger Information
         run: |
-          echo "========================================="
-          echo "Workflow Triggered by: ${{ github.event_name }}"
-          echo "Branch: ${{ github.ref_name }}"
-          echo "Repository: ${{ github.repository }}"
-          echo "Actor: ${{ github.actor }}"
-          echo "========================================="
-      
-      # Step 2: Check out the repository code
+          Write-Host "========================================" -ForegroundColor Cyan
+          Write-Host "Workflow Trigger Information" -ForegroundColor Cyan
+          Write-Host "========================================" -ForegroundColor Cyan
+          Write-Host "Event Name: ${{ github.event_name }}" -ForegroundColor Yellow
+          Write-Host "Branch: ${{ github.ref_name }}" -ForegroundColor Yellow
+          Write-Host "Repository: ${{ github.repository }}" -ForegroundColor Yellow
+          Write-Host "Actor: ${{ github.actor }}" -ForegroundColor Yellow
+          Write-Host "========================================" -ForegroundColor Cyan
+        shell: pwsh
+
       - name: Checkout Repository
         uses: actions/checkout@v4
-      
-      # Step 3: List repository contents using tree command
+
       - name: List Repository Contents with Tree
         run: |
-          echo "========================================="
-          echo "Repository Contents (using tree command):"
-          echo "========================================="
-          # Install tree if not available
-          sudo apt-get update && sudo apt-get install -y tree
-          # Display directory tree with colors and file sizes
-          tree -L 3 -h --dirsfirst
-      
-      # Step 4: List src directory contents recursively using PowerShell
-      - name: List src Directory Contents with PowerShell
-        shell: pwsh
+          Write-Host "`n========================================" -ForegroundColor Cyan
+          Write-Host "Repository Contents (Tree View - Depth 3)" -ForegroundColor Cyan
+          Write-Host "========================================" -ForegroundColor Cyan
+          tree -L 3 -h --du
+        shell: bash
+        continue-on-error: true
+
+      - name: List Source Directory Contents with PowerShell
         run: |
-          Write-Host "=========================================" -ForegroundColor Cyan
-          Write-Host "Contents of src Directory (PowerShell):" -ForegroundColor Cyan
-          Write-Host "=========================================" -ForegroundColor Cyan
+          Write-Host "`n========================================" -ForegroundColor Cyan
+          Write-Host "Source Directory Contents (PowerShell)" -ForegroundColor Cyan
+          Write-Host "========================================" -ForegroundColor Cyan
           
-          # Check if src directory exists
-          if (Test-Path "src") {
-              # Get all items recursively from src directory
-              Get-ChildItem -Path "src" -Recurse | ForEach-Object {
-                  $indent = "  " * ($_.FullName.Split([IO.Path]::DirectorySeparatorChar).Count - $PWD.Path.Split([IO.Path]::DirectorySeparatorChar).Count - 2)
-                  if ($_.PSIsContainer) {
-                      Write-Host "$indent[DIR]  $($_.Name)" -ForegroundColor Yellow
-                  } else {
-                      $size = [math]::Round($_.Length / 1KB, 2)
-                      Write-Host "$indent[FILE] $($_.Name) ($size KB)" -ForegroundColor Green
+          $srcPath = "src"
+          
+          if (Test-Path -Path $srcPath) {
+              function Get-DirectoryTree {
+                  param(
+                      [string]$Path,
+                      [int]$Depth = 0,
+                      [int]$MaxDepth = 5
+                  )
+                  
+                  if ($Depth -gt $MaxDepth) { return }
+                  
+                  $indent = "  " * $Depth
+                  $items = Get-ChildItem -Path $Path -ErrorAction SilentlyContinue | Sort-Object -Property @{Expression={$_.PSIsContainer}; Descending=$true}, Name
+                  
+                  foreach ($item in $items) {
+                      if ($item.PSIsContainer) {
+                          Write-Host "$indent📁 $($item.Name)/" -ForegroundColor Yellow
+                          Get-DirectoryTree -Path $item.FullName -Depth ($Depth + 1) -MaxDepth $MaxDepth
+                      } else {
+                          $sizeKB = [math]::Round($item.Length / 1KB, 2)
+                          Write-Host "$indent📄 $($item.Name) ($($sizeKB) KB)" -ForegroundColor Green
+                      }
                   }
-              } # end ForEach-Object
+              }
+              
+              Get-DirectoryTree -Path $srcPath
           } else {
-              Write-Host "src directory does not exist in this repository." -ForegroundColor Red
-          } # end if
-      
-      # Step 5: Upload repository contents as artifact
-      - name: Create and Upload Contents List Artifact
-        shell: pwsh
-        run: |
-          $contentsFile = "repository-contents.txt"
-          @"
-          Repository Contents Listing
-          Generated: $(Get-Date)
-          Branch: ${{ github.ref_name }}
-          Repository: ${{ github.repository }}
+              Write-Host "Source directory ($srcPath) does not exist." -ForegroundColor Red
+          }
           
-          $(Get-ChildItem -Path "." -Recurse | Select-Object FullName | Out-String)
-          "@ | Set-Content -Path $contentsFile
-      
-      - name: Upload Contents Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: repository-contents
-          path: repository-contents.txt
-          retention-days: 7
-  
-  # Second job: Retrieve workflow values and download artifact
+          Write-Host "========================================" -ForegroundColor Cyan
+        shell: pwsh
+
   retrieve-values:
-    name: Retrieve Workflow Values
+    name: Retrieve and Display Workflow Metadata
     runs-on: ubuntu-latest
-    # This job runs after list-contents completes
     needs: list-contents
-    
     steps:
-      # Step 1: Download the artifact from the previous job
-      - name: Download Repository Contents Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: repository-contents
-          path: ./downloaded-contents
-      
-      # Step 2: Display the downloaded artifact contents
-      - name: Display Downloaded Artifact Contents
-        shell: pwsh
+      - name: Display Branch Information
         run: |
-          Write-Host "=========================================" -ForegroundColor Cyan
-          Write-Host "Downloaded Artifact Contents:" -ForegroundColor Cyan
-          Write-Host "=========================================" -ForegroundColor Cyan
-          Get-Content -Path "./downloaded-contents/repository-contents.txt"
-          Write-Host "=========================================" -ForegroundColor Cyan
-      
-      # Step 3: Display comprehensive branch information
-      - name: Display Comprehensive Branch Information
-        shell: pwsh
-        run: |
-          Write-Host "=========================================" -ForegroundColor Cyan
-          Write-Host "Comprehensive Branch Information:" -ForegroundColor Cyan
-          Write-Host "=========================================" -ForegroundColor Cyan
-          Write-Host "Branch Name: ${{ github.ref_name }}" -ForegroundColor Yellow
+          Write-Host "========================================" -ForegroundColor Cyan
+          Write-Host "Workflow Metadata and Branch Information" -ForegroundColor Cyan
+          Write-Host "========================================" -ForegroundColor Cyan
+          Write-Host "Branch Name (ref_name): ${{ github.ref_name }}" -ForegroundColor Yellow
           Write-Host "Full Ref: ${{ github.ref }}" -ForegroundColor Yellow
-          Write-Host "Head Ref (for PRs): ${{ github.head_ref }}" -ForegroundColor Yellow
-          Write-Host "Base Ref (for PRs): ${{ github.base_ref }}" -ForegroundColor Yellow
+          Write-Host "Head Ref (PRs only): ${{ github.head_ref || 'N/A' }}" -ForegroundColor Yellow
+          Write-Host "Base Ref (PRs only): ${{ github.base_ref || 'N/A' }}" -ForegroundColor Yellow
           Write-Host "Default Branch: ${{ github.event.repository.default_branch }}" -ForegroundColor Yellow
           Write-Host "Job ID: ${{ github.job }}" -ForegroundColor Yellow
           Write-Host "Run ID: ${{ github.run_id }}" -ForegroundColor Yellow
-          Write-Host "=========================================" -ForegroundColor Cyan
+          Write-Host "Run Number: ${{ github.run_number }}" -ForegroundColor Yellow
+          Write-Host "========================================" -ForegroundColor Cyan
+        shell: pwsh
