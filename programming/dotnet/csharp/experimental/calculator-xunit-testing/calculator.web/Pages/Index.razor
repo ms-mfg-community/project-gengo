@@ -1,0 +1,134 @@
+﻿@page "/"
+@using CalculatorWeb.Services
+@using CalculatorWeb.Components
+@implements IAsyncDisposable
+@inject CalculatorService CalculatorService
+@inject HistoryService HistoryService
+@inject ThemeService ThemeService
+@inject IJSRuntime JS
+
+<PageTitle>Calculator</PageTitle>
+
+<div class="@ThemeService.ThemeClass calculator-container">
+    <div class="calculator-wrapper">
+        <!-- Header with title and theme toggle -->
+        <div class="calculator-header">
+            <h1>Calculator</h1>
+            <ThemeToggle ThemeToggleIcon="@ThemeService.ThemeToggleIcon" OnToggle="HandleThemeToggle" />
+        </div>
+
+        <!-- Main calculator area -->
+        <div class="calculator-main">
+            <!-- Display -->
+            <div class="display-area">
+                <input type="text" class="display" readonly value="@CalculatorService.Display" />
+            </div>
+
+            <!-- Keypad -->
+            <CalculatorKeypad 
+                OnNumberClick="CalculatorService.HandleNumberClick"
+                OnOperatorClick="CalculatorService.HandleOperatorClick"
+                OnEquals="HandleEquals"
+                OnClear="HandleClear" />
+        </div>
+
+        <!-- History panel -->
+        <div class="history-container">
+            <HistoryPanel 
+                Calculations="@HistoryService.Calculations"
+                IsEmpty="@HistoryService.IsEmpty"
+                OnReplay="HandleReplay"
+                OnClearHistory="HistoryService.ClearHistory" />
+        </div>
+    </div>
+</div>
+
+@code {
+    private DotNetObjectReference<Index>? objRef;
+
+    protected override void OnInitialized()
+    {
+        CalculatorService.OnDisplayChanged += StateHasChanged;
+        CalculatorService.OnCalculationCompleted += HandleCalculationCompleted;
+        ThemeService.OnThemeChanged += StateHasChanged;
+        HistoryService.OnHistoryChanged += StateHasChanged;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            objRef = DotNetObjectReference.Create(this);
+            try
+            {
+                await JS.InvokeVoidAsync("calculatorKeyboard.initialize", objRef);
+            }
+            catch (Exception)
+            {
+                // Keyboard support is optional
+            }
+        }
+    }
+
+    [JSInvokable]
+    public void HandleNumberClick(string digit)
+    {
+        CalculatorService.HandleNumberClick(digit);
+    }
+
+    [JSInvokable]
+    public void HandleOperatorClick(string op)
+    {
+        CalculatorService.HandleOperatorClick(op);
+    }
+
+    [JSInvokable]
+    public void HandleEquals()
+    {
+        CalculatorService.HandleEquals();
+    }
+
+    [JSInvokable]
+    public void HandleClear()
+    {
+        CalculatorService.HandleClear();
+    }
+
+    private void HandleThemeToggle()
+    {
+        ThemeService.ToggleTheme();
+    }
+
+    private void HandleCalculationCompleted(string op1, string op, string op2, string result)
+    {
+        HistoryService.AddCalculation(op1, op, op2, result);
+    }
+
+    private void HandleReplay(int index)
+    {
+        var result = HistoryService.ReplayCalculation(index);
+        if (result != null)
+        {
+            // Clear and repopulate display from result
+            CalculatorService.HandleClear();
+            foreach (var digit in result)
+            {
+                if (char.IsDigit(digit) || digit == '.')
+                    CalculatorService.HandleNumberClick(digit.ToString());
+            }
+            
+            StateHasChanged();
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        CalculatorService.OnDisplayChanged -= StateHasChanged;
+        CalculatorService.OnCalculationCompleted -= HandleCalculationCompleted;
+        ThemeService.OnThemeChanged -= StateHasChanged;
+        HistoryService.OnHistoryChanged -= StateHasChanged;
+        
+        if (objRef is not null)
+            objRef.Dispose();
+    }
+}
