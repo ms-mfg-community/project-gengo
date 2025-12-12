@@ -79,11 +79,24 @@ jobs:
           } # end if
       
       # Step 5: Upload repository contents as artifact
-      - name: Upload Repository Contents Artifact
+      - name: Create and Upload Contents List Artifact
+        shell: pwsh
+        run: |
+          $contentsFile = "repository-contents.txt"
+          @"
+          Repository Contents Listing
+          Generated: $(Get-Date)
+          Branch: ${{ github.ref_name }}
+          Repository: ${{ github.repository }}
+          
+          $(Get-ChildItem -Path "." -Recurse | Select-Object FullName | Out-String)
+          "@ | Set-Content -Path $contentsFile
+      
+      - name: Upload Contents Artifact
         uses: actions/upload-artifact@v4
         with:
           name: repository-contents
-          path: .
+          path: repository-contents.txt
           retention-days: 7
   
   # Second job: Retrieve workflow values and download artifact
@@ -103,22 +116,26 @@ jobs:
       
       # Step 2: Display the downloaded artifact contents
       - name: Display Downloaded Artifact Contents
+        shell: pwsh
         run: |
-          echo "========================================="
-          echo "Downloaded Artifact Contents:"
-          echo "========================================="
-          ls -la ./downloaded-contents | head -20
-          echo "========================================="
+          Write-Host "=========================================" -ForegroundColor Cyan
+          Write-Host "Downloaded Artifact Contents:" -ForegroundColor Cyan
+          Write-Host "=========================================" -ForegroundColor Cyan
+          Get-Content -Path "./downloaded-contents/repository-contents.txt"
+          Write-Host "=========================================" -ForegroundColor Cyan
       
-      # Step 3: Display current branch information
-      - name: Show Current Branch
+      # Step 3: Display comprehensive branch information
+      - name: Display Comprehensive Branch Information
+        shell: pwsh
         run: |
-          echo "========================================="
-          echo "Current Branch Information:"
-          echo "========================================="
-          echo "Branch Name: ${{ github.ref_name }}"
-          echo "Full Ref: ${{ github.ref }}"
-          echo "Head Ref (for PRs): ${{ github.head_ref }}"
-          echo "Base Ref (for PRs): ${{ github.base_ref }}"
-          echo "Default Branch: ${{ github.event.repository.default_branch }}"
-          echo "========================================="
+          Write-Host "=========================================" -ForegroundColor Cyan
+          Write-Host "Comprehensive Branch Information:" -ForegroundColor Cyan
+          Write-Host "=========================================" -ForegroundColor Cyan
+          Write-Host "Branch Name: ${{ github.ref_name }}" -ForegroundColor Yellow
+          Write-Host "Full Ref: ${{ github.ref }}" -ForegroundColor Yellow
+          Write-Host "Head Ref (for PRs): ${{ github.head_ref }}" -ForegroundColor Yellow
+          Write-Host "Base Ref (for PRs): ${{ github.base_ref }}" -ForegroundColor Yellow
+          Write-Host "Default Branch: ${{ github.event.repository.default_branch }}" -ForegroundColor Yellow
+          Write-Host "Job ID: ${{ github.job }}" -ForegroundColor Yellow
+          Write-Host "Run ID: ${{ github.run_id }}" -ForegroundColor Yellow
+          Write-Host "=========================================" -ForegroundColor Cyan

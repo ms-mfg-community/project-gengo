@@ -1,0 +1,2 @@
+Msg 207, Level 16, State 1, Server svr-ghc-01, Line 1
+Invalid column name 'subcategory'.

@@ -1,7 +1,7 @@
 ---
-description: Create a basic workflow for Java Spring Framework applications using GitHub Actions and Azure DevOps.
+description: Create a basic workflow using GitHub Actions and Azure DevOps.
 name: create-basic-workflow
-tools: ['search', 'edit', 'fetch', 'changes', 'runCommands', 'runTests', 'problems', 'usages', 'testFailure', 'githubRepo', 'vscodeAPI', 'new', 'openSimpleBrowser', 'search/searchResults', 'runCommands/terminalLastCommand', 'runCommands/terminalSelection', 'edit/editFiles', 'extensions']
+tools: ['vscode', 'execute/testFailure', 'execute/getTerminalOutput', 'execute/runInTerminal', 'execute/runTests', 'read/problems', 'read/readFile', 'read/terminalSelection', 'read/terminalLastCommand', 'edit', 'search', 'web', 'azure-mcp/search']
 model: Claude Haiku 4.5 (copilot)
 ---
 # Create Basic Workflow
