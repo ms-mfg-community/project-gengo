@@ -95,6 +95,11 @@ sqlite3 database.db < script.sql
 - **Modern sqlcmd (Go-based):** Cross-platform, recommended for new projects
 - **Legacy sqlcmd.exe (ODBC-based):** Traditional Windows tool
 - **Bulk Operations:** Use `bcp` (Bulk Copy Program) for bulk data import/export
+- **Database Connectivity:** Ensure proper connection strings and authentication methods are used
+
+#### Connecting to SQL Server / Azure SQL
+
+When a connection to a database is requested in a prompt, use the sqlcmd tool with appropriate parameters for server, database, authentication, and query execution.
 
 #### sqlcmd Usage Examples
 
