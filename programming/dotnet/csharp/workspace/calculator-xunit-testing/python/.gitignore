@@ -48,6 +48,10 @@ coverage.xml
 
 # OS
 .DS_Store
+
+# Database
+database/data/*.db
+database/data/*.db-*
 Thumbs.db
 
 # Flask

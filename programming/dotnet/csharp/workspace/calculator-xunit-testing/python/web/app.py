@@ -2,12 +2,19 @@
 Flask web application for the calculator.
 
 This module implements a web-based calculator using Flask with support
-for light/dark themes, calculation history, and interactive UI components.
+for light/dark themes, persistent calculation history, and interactive UI components.
+Uses SQLite database for persistent storage of calculation history.
 """
 
 from flask import Flask, render_template, request, jsonify, session
 import os
+import sys
+from pathlib import Path
 
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from database import init_db
 from services.calculator_service import CalculatorService
 from services.history_service import HistoryService
 from services.theme_service import ThemeService, ThemeMode
@@ -15,6 +22,12 @@ from services.theme_service import ThemeService, ThemeMode
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+
+# Initialize database on app startup
+try:
+    init_db()
+except Exception as e:
+    print(f"Warning: Database initialization failed: {e}")
 
 # Session-based services
 def get_calculator_service():
@@ -25,20 +38,13 @@ def get_calculator_service():
 
 
 def get_history_service():
-    """Get or create history service for the current session."""
-    if 'history' not in session:
-        session['history'] = []
+    """
+    Get history service with persistent database backend.
     
-    service = HistoryService()
-    # Restore history from session
-    for item in session.get('history', []):
-        service.add_calculation(
-            item['operand1'],
-            item['operator'],
-            item['operand2'],
-            item['result']
-        )
-    return service
+    Returns a HistoryService instance that uses SQLite database
+    for persistent storage instead of session memory.
+    """
+    return HistoryService()
 
 
 def get_theme_service():
@@ -207,8 +213,9 @@ def toggle_theme():
 
 @app.route('/api/history/clear', methods=['POST'])
 def clear_history():
-    """Clear the calculation history."""
-    session['history'] = []
+    """Clear the calculation history from database."""
+    history_service = get_history_service()
+    history_service.clear_history()
     return jsonify({'success': True})
 
 

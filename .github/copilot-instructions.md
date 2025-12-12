@@ -1008,3 +1008,24 @@ Teams need a reliable, repeatable, and auditable way to list repository contents
 
 
 ### Example: Product Requirements Document
+
+# Terminal Command Best Practices
+
+If you are generating terminal commands, follow these best practices to ensure clarity, security, and maintainability:
+
+## Terminal host
+- **Shell Selection:** Use PowerShell for Windows environments and Bash for Unix-based systems unless otherwise specified.
+- **Detect Environment:** Use environment detection to choose the appropriate shell dynamically when writing cross-platform scripts.
+- **Consistent Usage:** To avoid environment compatibility issues, consistently use the same shell throughout a script or project.
+- **Exampele**:*
+
+```powershell
+cd "c:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\python" ; python -m pytest tests/test_calculator.py -v --tb=short 2>&1 | head -50
+head: The term 'head' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+```
+
+In this case, the `head` command is not recognized in PowerShell. Instead, use `Select-Object -First 50` to achieve similar functionality:
+```powershell
+cd "c:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\python" ; python -m pytest tests/test_calculator.py -v --tb=short 2>&1 | Select-Object -First 50
+```

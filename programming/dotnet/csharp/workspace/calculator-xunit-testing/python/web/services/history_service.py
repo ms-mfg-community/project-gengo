@@ -1,20 +1,22 @@
 """
-Service that manages calculation history.
+Service that manages calculation history with persistent database storage.
 
-This service maintains a session-only history of calculations with a
-maximum limit of 50 items. It provides methods to add, clear, and replay
-calculations from history.
+This service provides access to calculation history stored in SQLite database,
+maintaining compatibility with existing session-based interface while enabling
+persistent storage. Maximum history items per user session: 50.
 """
 
 from datetime import datetime
 from typing import List, Optional
+
+from services.database_service import DatabaseService, CalculationRecord as DBCalculationRecord
 
 
 class CalculationRecord:
     """Represents a single calculation record in the history."""
     
     def __init__(self, operand1: str, operator: str, operand2: str, 
-                 result: str, timestamp: Optional[datetime] = None):
+                 result: str, timestamp: Optional[datetime] = None, id: int = 0):
         """
         Initialize a calculation record.
         
@@ -24,7 +26,9 @@ class CalculationRecord:
             operand2: Second operand of the calculation
             result: Result of the calculation
             timestamp: When the calculation was performed (defaults to now)
+            id: Database ID of the record
         """
+        self.id = id
         self.operand1 = operand1
         self.operator = operator
         self.operand2 = operand2
@@ -49,6 +53,7 @@ class CalculationRecord:
             Dictionary representation of the record
         """
         return {
+            'id': self.id,
             'operand1': self.operand1,
             'operator': self.operator,
             'operand2': self.operand2,
@@ -60,33 +65,48 @@ class CalculationRecord:
 
 class HistoryService:
     """
-    Service that manages calculation history (session-only, max 50 items).
+    Service that manages calculation history with persistent database storage.
     
-    Maintains a list of calculation records and provides methods for
-    managing the history including adding new records, clearing history,
-    and replaying calculations.
+    Uses SQLite database backend for persistent storage while maintaining
+    session-based interface compatibility. Enforces maximum 50 items per session.
     """
     
     MAX_ITEMS = 50
     
     def __init__(self):
-        """Initialize the history service with an empty history."""
-        self._calculations: List[CalculationRecord] = []
+        """Initialize the history service with database backend."""
+        self._db_service = DatabaseService()
     
     @property
     def calculations(self) -> List[CalculationRecord]:
         """
-        List of calculation records (newest first).
+        List of calculation records from database (newest first).
         
         Returns:
-            Read-only list of calculation records
+            List of calculation records, limited to MAX_ITEMS
         """
-        return self._calculations.copy()
+        db_records = self._db_service.get_all_history(limit=self.MAX_ITEMS)
+        
+        records = []
+        for db_rec in db_records:
+            # Parse ISO format timestamp
+            timestamp = datetime.fromisoformat(db_rec.created_at)
+            record = CalculationRecord(
+                operand1=str(db_rec.operand1),
+                operator=db_rec.operator,
+                operand2=str(db_rec.operand2),
+                result=str(db_rec.result),
+                timestamp=timestamp,
+                id=db_rec.id
+            )
+            records.append(record)
+        
+        return records
     
     def add_calculation(self, operand1: str, operator: str, 
                        operand2: str, result: str) -> None:
         """
-        Adds a new calculation to history.
+        Adds a new calculation to database history.
         
         Args:
             operand1: First operand
@@ -94,29 +114,43 @@ class HistoryService:
             operand2: Second operand
             result: Result of the calculation
         """
-        record = CalculationRecord(operand1, operator, operand2, result)
-        self._calculations.insert(0, record)
+        # Convert to float for storage
+        try:
+            op1 = float(operand1)
+            op2 = float(operand2)
+            res = float(result)
+        except (ValueError, TypeError):
+            # Skip invalid numeric conversions
+            return
         
-        # Keep only last MAX_ITEMS items (FIFO)
-        if len(self._calculations) > self.MAX_ITEMS:
-            self._calculations.pop()
+        self._db_service.create_calculation(op1, operator, op2, res)
+        
+        # Enforce max items by deleting oldest if exceeded
+        count = self._db_service.get_history_count()
+        if count > self.MAX_ITEMS:
+            # Get oldest record and delete it
+            all_records = self._db_service.get_all_history(limit=None)
+            if all_records:
+                oldest = all_records[-1]  # Last in descending order = oldest
+                self._db_service.delete_calculation(oldest.id)
     
     def clear_history(self) -> None:
-        """Clears all history."""
-        self._calculations.clear()
+        """Clears all calculation history from database."""
+        self._db_service.delete_all_history()
     
     def replay_calculation(self, index: int) -> Optional[str]:
         """
-        Replays a calculation from history.
+        Replays a calculation from history by index.
         
         Args:
-            index: Index of the calculation to replay
+            index: Index of the calculation to replay (from most recent)
             
         Returns:
             The result value, or None if index is invalid
         """
-        if 0 <= index < len(self._calculations):
-            return self._calculations[index].result
+        records = self.calculations
+        if 0 <= index < len(records):
+            return records[index].result
         return None
     
     @property
@@ -127,7 +161,7 @@ class HistoryService:
         Returns:
             True if history is empty, False otherwise
         """
-        return len(self._calculations) == 0
+        return self._db_service.get_history_count() == 0
     
     @property
     def count(self) -> int:
@@ -137,13 +171,13 @@ class HistoryService:
         Returns:
             Number of items in history
         """
-        return len(self._calculations)
+        return self._db_service.get_history_count()
     
     def get_all_as_dicts(self) -> List[dict]:
         """
         Get all calculations as dictionaries for JSON serialization.
         
         Returns:
-            List of calculation dictionaries
+            List of calculation dictionaries, newest first
         """
-        return [calc.to_dict() for calc in self._calculations]
+        return [calc.to_dict() for calc in self.calculations]
