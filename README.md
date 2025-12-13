@@ -1,120 +1,129 @@
 # Project Gengo
 
-Project Gengo is a polyglot learning and demo workspace that showcases modern software development practices across languages, CI/CD, security, infrastructure-as-code, and AI-assisted workflows.
+<div align="left">
+
+<!-- Badges: update workflow names/paths if different -->
+<a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue" /></a>
+<a href=".github/workflows/codeql.yml"><img alt="CodeQL" src="https://github.com/ms-mfg-community/project-gengo/actions/workflows/codeql.yml/badge.svg" /></a>
+<a href=".github/workflows/build.yml"><img alt="Build" src="https://github.com/ms-mfg-community/project-gengo/actions/workflows/build.yml/badge.svg" /></a>
+<a href="SECURITY.md"><img alt="Security Policy" src="https://img.shields.io/badge/security-policy-green" /></a>
+
+</div>
+
+A practical, multi-language workspace for demos, experiments, and CI/CD automation. It includes examples across security (CodeQL), infrastructure-as-code (Bicep/Terraform), data, and assorted programming languages. This repo prioritizes simple solutions, clear structure, and reproducible workflows.
 
 ## Overview
 
-- Multi-language examples (C, C++, .NET, Go, Java, JavaScript/TypeScript, Python)
-- CI/CD with GitHub Actions and Azure DevOps
-- Security workflows with CodeQL and secret scanning
-- Infrastructure as Code (ARM, Bicep, Terraform)
-- Database scripts (PostgreSQL, KQL) and MLOps samples
+- **CI/CD & Workflows:** GitHub Actions and Azure DevOps examples under `gitops/` and `ghas/`.
+- **Security:** CodeQL workflows, database, and results in `codeql-db/`, `ghas/`, and `codeql-results.sarif`.
+- **Infrastructure:** Bicep/Terraform/ARM under `iac/` and archived GitOps infra in `archive/gitops-workspace-infra/`.
+- **Programming:** Language workspaces in `programming/` (C, C++, .NET, Go, Java, Python, Node, TS, React, etc.).
+- **Data & SQL:** `databases/` with KQL, PostgreSQL, and Azure SQL materials.
+- **Scripts:** PowerShell/Bash/Azure CLI helpers in `scripting/`.
+- **Docs & Prompts:** Prompts and PRDs in `prompt-engineering/`, `gitops/`, `ghas/`, and `cicd/`.
 
-## Repository Structure
+See `SECURITY.md` for security guidance and `LICENSE` for licensing.
 
-- `programming/`: Language-specific workspaces and examples
-- `cicd/`: CI/CD workflows, pipelines, and PRDs
-- `.github/`: Actions workflows, agents, prompts, instructions
-- `ghas/`: GitHub Advanced Security (CodeQL, SARIF results)
-- `iac/`: Infrastructure-as-code (ARM, Bicep, Terraform)
-- `databases/`: SQL, KQL, and data-related docs
-- `features/`: Focused demos (e.g., Copilot code completion)
-- `scripting/`: PowerShell, Bash, Azure CLI scripts
-- `prompt-engineering/`: Prompts and usage docs
-- `SECURITY.md`, `LICENSE`: Policies and license
+## Quick Start
 
-## Getting Started
+1. Clone the repo.
+2. Open in VS Code.
+3. Explore a feature or language folder (e.g., `programming/python`, `ghas/`, `iac/bicep`).
 
 ### Prerequisites
 
-- Git and a GitHub account
-- Recommended tooling based on interest:
-  - Build tools: `cmake`, `gcc/g++`, `.NET SDK`, `node`, `python`
-  - CI/CD: GitHub Actions (no local install), Azure DevOps (optional)
-  - IaC: `az` CLI, `terraform`, `bicep`
+- Windows, macOS, or Linux
+- VS Code with recommended extensions (GitHub Copilot, Azure Tools, CodeQL if using security scenarios)
+- Language toolchains as needed (e.g., MSVC or GCC for C/C++, .NET SDK, Python 3.11+)
 
-### Clone
+## Common Workflows
 
-```pwsh
-git clone https://github.com/ms-mfg-community/project-gengo.git
-cd project-gengo
+### CodeQL
+
+- Guidance and templates: `ghas/`
+- Results example: `codeql-results.sarif`
+- Queries and notes: `gitops/codeql-queries.md`, `gitops/code-ql-cpp.md`
+
+### Infrastructure (Bicep/Terraform)
+
+- Bicep examples: `iac/bicep/`
+- Archived GitOps infra: `archive/gitops-workspace-infra/` with `main.bicep` and `main.bicepparam`
+
+### Programming Examples
+
+- C/C++: `programming/c/`, `programming/cpp/` with VS Code tasks; CMake at repo root (`CMakeLists.txt`)
+- .NET: `programming/dotnet/`
+- Python: `programming/python/`, with `todo_api/requirements.txt`
+- Java/Go/Node/TS: respective folders under `programming/`
+
+## Usage
+
+- Navigate to a folder's `README.md` or prompts to follow local instructions.
+- Many folders include runnable samples, scripts, or PRDs.
+
+### Example: Run C++ build task (Windows, VS Code)
+
+Use the preconfigured tasks to build the active file or project:
+
+```text
+Terminal > Run Task > "C/C++: g++.exe build active file"
+Terminal > Run Task > "C/C++: cl.exe build active file"
 ```
 
-### C++ Build (example)
+### Example: Python
 
-```pwsh
-mkdir build
-cd build
-cmake ..
-cmake --build .
-```
+If a folder includes `requirements.txt` (e.g., `todo_api/`):
 
-### Python (virtual environment)
-
-```pwsh
+```powershell
 python -m venv dev
 dev\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## CI/CD Workflows
+## Repository Structure
 
-- GitHub Actions examples in `.github/workflows/`
-- PRD for repository auditing workflow: `cicd/prd-01-level-workspace.md`
-- Example Java/Maven workflow: `cicd/workspace/workflow-ghb.yml`
-- Azure DevOps pipeline example: `cicd/workspace/pipeline-ado.yml`
-
-## GitHub Copilot Integration
-
-- Custom instructions: `.github/copilot-instructions.md`
-- Agents (e.g., readme-creator): `.github/agents/`
-- Prompts used in workflows: `.github/prompts/`
-
-## Standards
-
-### Commit Message Format
-
-Use the Topic Subtopic Activity pattern:
-
-```text
-topic(subtopic): activity
-```
-
-Examples:
-
-- `github(instructions): expand guideline details`
-- `feat(auth): add login functionality`
-- `fix(ui): correct button alignment`
-
-### Coding Guidelines
-
-- Prefer simple solutions and avoid duplication
-- Write environment-aware code (dev, test, prod)
-- Keep files under ~200 lines where practical
-- Write tests for major functionality
-- Follow language-specific style guides (see `.github/copilot-instructions.md`)
-
-## Documentation
-
-- Copilot Instructions: `.github/copilot-instructions.md`
-- Security Policy: `SECURITY.md`
-- GitOps PRDs: `gitops/prd-*.md`
-- Database Docs: `databases/rdbms/*.md`
+- `ghas/`: CodeQL guidance, templates, workspace
+- `gitops/`: Workflows, pipelines, prompts, PRDs
+- `iac/`: ARM, Bicep, Terraform
+- `programming/`: Language-specific examples
+- `databases/`: KQL, PostgreSQL, Azure SQL
+- `scripting/`: PowerShell, Bash, Azure CLI
+- `archive/`: Historical or reference content (e.g., GitOps infra)
+- `build/`: CMake build outputs
+- `lib/`: Libraries (e.g., `calculator.library/`)
+- `IntellisenseRepro/`: .NET sample
+- `mlops/`: ML workflows
+- `content-*`: Inclusion/exclusion examples
 
 ## Contributing
 
-- Follow coding standards and commit message format above
-- Add tests and update docs when introducing changes
-- Ensure CI passes before submitting PRs
+- Keep changes focused and small.
+- Prefer simple solutions and avoid duplication.
+- Follow repository coding style and testing guidelines.
+- Propose updates via pull requests with clear descriptions.
+
+See `github-gui/prompts.txt` and PRD examples like `gitops/prd-workflows-and-pipelines.md` for inspiration.
+
+## Security
+
+- Review `SECURITY.md` for reporting and best practices.
+- Never commit secrets; use environment variables and `.env.example` patterns.
 
 ## License
 
-This project is licensed under the MIT License. See `LICENSE` for details.
+See `LICENSE` for details.
 
-## Resources
+## Helpful Links (Relative)
 
-- [GitHub Copilot](https://docs.github.com/en/copilot "GitHub Copilot Documentation")
-- [GitHub Actions](https://docs.github.com/en/actions "GitHub Actions Documentation")
-- [Azure DevOps Pipelines](https://learn.microsoft.com/azure/devops/pipelines/ "Azure DevOps Pipelines Documentation")
-- [CodeQL](https://codeql.github.com/ "CodeQL Documentation")
+- Docs & PRDs: `gitops/prd-workflows-and-pipelines.md`, `ghas/prd-codeql-analysis-for-python.md`
+- Templates: `ghas/templates/`, `gitops/templates/`
+- Prompts: `prompt-engineering/prompt-engineering.txt`, `github-gui/prompts.txt`
 
+## Badges
+
+- License: points to `LICENSE` (MIT)
+- CodeQL: GitHub Actions badge from `.github/workflows/codeql.yml`
+- Build: GitHub Actions badge from `.github/workflows/build.yml`
+- Security Policy: links to `SECURITY.md`
+
+Note: If your workflow filenames differ, update the badge links accordingly (e.g., `ci.yml`, `codeql-analysis.yml`).
