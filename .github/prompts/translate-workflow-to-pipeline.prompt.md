@@ -22,6 +22,8 @@ Translate the basic workflow at: "$(git rev-parse --show-toplevel)\.github\workf
 - If there are any features in the GitHub workflow that do not have a direct equivalent in Azure DevOps, provide a comment in the generated YAML indicating this.
 - Preserve any environment variables, secrets, and other configurations as much as possible.  
 - If the 01-level-pipeline.yml file already exists, overwrite it with the new translation.
+- Use the Azure DevOps project name `translate-workflow-to-pipeline` and set its visibility to private.
+- Reference the personal access token stored in the github pat: `jet-brains-ide-generic-pat-classic` for authentication when importing the repository.
 
 # Caveats
 - Some GitHub Actions may not have direct equivalents in Azure DevOps; in such cases, provide alternative solutions or workarounds.
