@@ -1,0 +1,128 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - '.github/**'
+
+pr:
+  branches:
+    include:
+      - main
+
+schedules:
+  - cron: '0 0 * * *'
+    displayName: Daily midnight run
+    branches:
+      include:
+        - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+  - job: ListContents
+    displayName: 'List Repository Contents'
+    steps:
+      - script: |
+          echo "========================================"
+          echo "Workflow Trigger Information"
+          echo "========================================"
+          echo "Event Name: $(Build.Reason)"
+          echo "Branch: $(Build.SourceBranchName)"
+          echo "Repository: $(Build.Repository.Name)"
+          echo "Requested By: $(Build.RequestedFor)"
+          echo "========================================"
+        displayName: 'Display Workflow Trigger Information'
+
+      - checkout: self
+        displayName: 'Checkout Repository'
+
+      - bash: |
+          echo ""
+          echo "========================================"
+          echo "Repository Contents (Tree View - Depth 3)"
+          echo "========================================"
+          tree -L 3 -h --du || find . -type d -name .git -prune -o -type f -print | head -100
+        displayName: 'List Repository Contents with Tree'
+        continueOnError: true
+
+      - pwsh: |
+          Write-Host "`n========================================" -ForegroundColor Cyan
+          Write-Host "Source Directory Contents (PowerShell)" -ForegroundColor Cyan
+          Write-Host "========================================" -ForegroundColor Cyan
+          
+          $srcPath = "src"
+          
+          if (Test-Path -Path $srcPath) {
+              function Get-DirectoryTree {
+                  param(
+                      [string]$Path,
+                      [int]$Depth = 0,
+                      [int]$MaxDepth = 5
+                  )
+                  
+                  if ($Depth -gt $MaxDepth) { return }
+                  
+                  $indent = "  " * $Depth
+                  $items = Get-ChildItem -Path $Path -ErrorAction SilentlyContinue | Sort-Object -Property @{Expression={$_.PSIsContainer}; Descending=$true}, Name
+                  
+                  foreach ($item in $items) {
+                      if ($item.PSIsContainer) {
+                          Write-Host "$indent📁 $($item.Name)/" -ForegroundColor Yellow
+                          Get-DirectoryTree -Path $item.FullName -Depth ($Depth + 1) -MaxDepth $MaxDepth
+                      } else {
+                          $sizeKB = [math]::Round($item.Length / 1KB, 2)
+                          Write-Host "$indent📄 $($item.Name) ($($sizeKB) KB)" -ForegroundColor Green
+                      }
+                  }
+              }
+              
+              Get-DirectoryTree -Path $srcPath
+          } else {
+              Write-Host "Source directory ($srcPath) does not exist." -ForegroundColor Red
+          }
+          
+          Write-Host "========================================" -ForegroundColor Cyan
+        displayName: 'List Source Directory Contents with PowerShell'
+
+  - job: RetrieveValues
+    displayName: 'Retrieve and Display Workflow Metadata'
+    dependsOn: ListContents
+    steps:
+      - pwsh: |
+          Write-Host "========================================" -ForegroundColor Cyan
+          Write-Host "Workflow Metadata and Branch Information" -ForegroundColor Cyan
+          Write-Host "========================================" -ForegroundColor Cyan
+          Write-Host "Branch Name (SourceBranchName): $(Build.SourceBranchName)" -ForegroundColor Yellow
+          Write-Host "Full Source Branch: $(Build.SourceBranch)" -ForegroundColor Yellow
+          # NOTE: Azure DevOps does not have direct equivalents for GitHub's head_ref and base_ref
+          # These are primarily used in pull request contexts in GitHub Actions
+          Write-Host "Head Ref (PRs only): N/A - Azure DevOps uses different PR context variables" -ForegroundColor Yellow
+          Write-Host "Base Ref (PRs only): N/A - Azure DevOps uses different PR context variables" -ForegroundColor Yellow
+          # NOTE: Default branch would require Azure DevOps REST API call to fetch repository details
+          # This is outside the scope of simple translation; set as pipeline variable if needed
+          Write-Host "Default Branch: [Requires manual configuration via pipeline variables]" -ForegroundColor Yellow
+          Write-Host "Job ID: $(System.JobId)" -ForegroundColor Yellow
+          Write-Host "Build ID: $(Build.BuildId)" -ForegroundColor Yellow
+          Write-Host "Build Number: $(Build.BuildNumber)" -ForegroundColor Yellow
+          Write-Host "========================================" -ForegroundColor Cyan
+        displayName: 'Display Branch Information'
+
+# Translation Notes:
+# 1. GitHub Actions 'on' trigger maps to Azure DevOps 'trigger' and 'pr' sections
+# 2. GitHub's 'runs-on: ubuntu-latest' maps to 'pool' with 'vmImage: ubuntu-latest'
+# 3. GitHub contexts like github.event_name, github.ref_name map to Azure DevOps variables:
+#    - github.event_name → Build.Reason
+#    - github.ref_name → Build.SourceBranchName
+#    - github.repository → Build.Repository.Name
+#    - github.actor → Build.RequestedFor
+# 4. GitHub Actions checkout@v4 maps to 'checkout: self'
+# 5. Shell specifications (shell: pwsh, shell: bash) map to 'pwsh' and 'bash' steps
+# 6. Job dependencies (needs: list-contents) map to 'dependsOn' in Azure DevOps
+# 7. GitHub's github.event.repository.default_branch, github.head_ref, github.base_ref
+#    do not have direct equivalents in Azure DevOps and require alternative approaches:
+#    - Default branch: Set as pipeline variable or use REST API call
+#    - head_ref/base_ref: Use System.PullRequest.* variables for PR contexts
+# 8. continue-on-error in GitHub Actions maps to 'continueOnError' in Azure DevOps
