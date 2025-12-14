@@ -351,8 +351,55 @@ param(
 ### Python
 
 - Follow the PEP 8 style guide.
-- **Always use virtual environments to manage dependencies** - this is mandatory for all Python projects.
+- **Always use venv virtual environments to manage dependencies** - this is mandatory for all Python projects.
 - Include comprehensive docstrings for functions and classes.
+- Use the following script header templeate when creating new Python scripts.
+
+```python
+'''
+Script: script.py
+
+Description:
+    A brief overview of what the script does, its functionality, and any important implementation details. Explain the business context and use cases. 
+
+Purpose:
+    Explain why this script was created and what problem it solves.
+
+Author:
+    Your Name or Team
+
+Created:
+    2024-06-01
+
+Version:
+    1.00
+
+Requirements:
+    - Python 3.8+
+    - openai package (pip install openai)
+    - Azure OpenAI API credentials
+    - subscription_key environment variable set
+
+Usage:
+    python script.py  
+
+Environment Variables:
+
+
+Example:
+    $ export subscription_key="your-api-key"
+
+Notes:
+    - Ensure that the required packages are installed before running the script.
+    - Handle exceptions and errors gracefully.
+
+Change Log:
+    - v1.00: Initial creation
+
+TODO:
+    - Add additional features as needed 
+'''
+```
 
 #### Virtual Environment Management with venv
 
