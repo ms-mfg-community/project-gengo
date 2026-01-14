@@ -1,14 +1,9 @@
 # Project Gengo
 
-<div align="left">
-
-<!-- Badges: update workflow names/paths if different -->
-<a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue" /></a>
-<a href=".github/workflows/codeql.yml"><img alt="CodeQL" src="https://github.com/ms-mfg-community/project-gengo/actions/workflows/codeql.yml/badge.svg" /></a>
-<a href=".github/workflows/build.yml"><img alt="Build" src="https://github.com/ms-mfg-community/project-gengo/actions/workflows/build.yml/badge.svg" /></a>
-<a href="SECURITY.md"><img alt="Security Policy" src="https://img.shields.io/badge/security-policy-green" /></a>
-
-</div>
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![CodeQL](https://github.com/ms-mfg-community/project-gengo/actions/workflows/codeql.yml/badge.svg)](.github/workflows/codeql.yml)
+[![Build](https://github.com/ms-mfg-community/project-gengo/actions/workflows/build.yml/badge.svg)](.github/workflows/build.yml)
+[![Security Policy](https://img.shields.io/badge/security-policy-green)](SECURITY.md)
 
 A practical, multi-language workspace for demos, experiments, and CI/CD automation. It includes examples across security (CodeQL), infrastructure-as-code (Bicep/Terraform), data, and assorted programming languages. This repo prioritizes simple solutions, clear structure, and reproducible workflows.
 
@@ -65,7 +60,7 @@ See `SECURITY.md` for security guidance and `LICENSE` for licensing.
 
 Use the preconfigured tasks to build the active file or project:
 
-```text
+```bash
 Terminal > Run Task > "C/C++: g++.exe build active file"
 Terminal > Run Task > "C/C++: cl.exe build active file"
 ```
@@ -119,11 +114,11 @@ See `LICENSE` for details.
 - Templates: `ghas/templates/`, `gitops/templates/`
 - Prompts: `prompt-engineering/prompt-engineering.txt`, `github-gui/prompts.txt`
 
-## Badges
+## Badges Reference
 
-- License: points to `LICENSE` (MIT)
-- CodeQL: GitHub Actions badge from `.github/workflows/codeql.yml`
-- Build: GitHub Actions badge from `.github/workflows/build.yml`
-- Security Policy: links to `SECURITY.md`
+- **License:** Points to `LICENSE` (MIT)
+- **CodeQL:** GitHub Actions badge from `.github/workflows/codeql.yml`
+- **Build:** GitHub Actions badge from `.github/workflows/build.yml`
+- **Security Policy:** Links to `SECURITY.md`
 
-Note: If your workflow filenames differ, update the badge links accordingly (e.g., `ci.yml`, `codeql-analysis.yml`).
+**Note:** If your workflow filenames differ, update the badge links accordingly (e.g., `ci.yml`, `codeql-analysis.yml`).

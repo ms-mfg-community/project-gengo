@@ -1,0 +1,198 @@
+---
+description: Refactor the console calculator into a modern Blazor Server web application with responsive UI, theme support, keyboard integration, and service-based architecture.
+name: refactor-calculator-blazor-app
+agent: agent
+model: claude-haiku-4.5
+tools:
+  - github/*
+---
+
+# Refactor Calculator as Blazor Web App
+
+You are an expert ASP.NET Core and Blazor developer helping users transform a console calculator into a professional web application.
+
+## Objective
+
+Refactor the existing console calculator into a Blazor Server web application with modern UI components, theme support, keyboard interoperability, and service-based dependency injection while maintaining all existing unit tests.
+
+## Key Requirements
+
+### Architecture
+- Create shared class library (`calculator.library`) containing pure calculator logic
+- Build Blazor Server web application (`calculator.web`) using .NET 8.0
+- Implement service layer with dependency injection (CalculatorService, HistoryService, ThemeService)
+- Move Calculator.cs to library, removing console dependencies
+- Maintain 32 passing unit tests without modification
+
+### UI Components (Razor)
+- **CalculatorKeypad.razor**: 4-column grid with numeric buttons (0-9), operators, equals, clear, power
+- **HistoryPanel.razor**: Displays up to 50 recent calculations (FIFO) with replay functionality
+- **ThemeToggle.razor**: Light/Dark mode toggle with 🌙/☀️ icons
+- **Index.razor**: Main application layout combining all components
+
+### Functional Requirements
+- Display shows real-time input and calculation results
+- Numeric input via click (buttons) or keyboard (0-9, .)
+- Operator buttons: ÷ (division), × (multiplication), − (subtraction), + (addition), ^ (power)
+- Equals button calculates result and adds to history
+- Clear button resets display and operations
+- History shows: "operand1 operator operand2 = result (time)"
+- Clicking history replays calculation
+- Zero button spans 2 columns in grid layout
+- Unicode mathematical symbols for clarity (÷, ×, −)
+
+### Keyboard Support
+- Digits: 0-9
+- Operators: +, -, *, /, ^
+- Decimal: .
+- Calculate: Enter or =
+- Clear: Backspace, Delete, or C
+- Full integration via JavaScript interop
+
+### Styling & Themes
+- Light Theme: #f5f5f5 background, #e0e0e0 buttons
+- Dark Theme: #1e1e1e background, #3d3d3d buttons
+- High-contrast colors: Operators #FF9800 (orange), Equals #4caf50 (green), Clear #f44336 (red)
+- Smooth theme transitions with CSS animations
+- Responsive design for 480px, 768px, and desktop viewports
+- Standard 4-column calculator grid layout
+- Hover and active states for visual feedback
+
+### Services
+**CalculatorService**
+- State management: display, pending operand, operator
+- Events: OnDisplayChanged, OnCalculationCompleted
+- Support for chained calculations
+
+**HistoryService**
+- FIFO queue with max 50 items (newest-first ordering)
+- Replay functionality
+- Event: OnHistoryChanged
+- Session-only storage (no persistence)
+
+**ThemeService**
+- Light/Dark mode toggle
+- CSS class generation
+- Session state management
+
+### Project Structure
+```
+lib/calculator.library/
+  └── Calculator.cs (Pure math logic)
+programming/dotnet/csharp/workspace/calculator.web/
+  ├── Components/
+  │   ├── CalculatorKeypad.razor
+  │   ├── HistoryPanel.razor
+  │   ├── ThemeToggle.razor
+  │   └── Index.razor
+  ├── Services/
+  │   ├── CalculatorService.cs
+  │   ├── HistoryService.cs
+  │   └── ThemeService.cs
+  ├── Models/
+  │   └── CalculationRecord.cs
+  ├── wwwroot/
+  │   ├── css/calculator.css
+  │   └── js/keyboard-support.js
+  └── Program.cs
+calculator.tests/
+  └── [32 existing tests - no modification needed]
+```
+
+## Development Workflow
+
+1. **Setup Phase**
+   - Create `calculator.library` as .NET 8.0 class library
+   - Create `calculator.web` as .NET 8.0 Blazor Server application
+   - Configure project references (web → library, tests → library)
+
+2. **Library Migration**
+   - Move Calculator.cs to library
+   - Remove console I/O dependencies
+   - Verify all 32 tests still pass
+
+3. **Service Implementation**
+   - Implement CalculatorService with state management and events
+   - Implement HistoryService with FIFO queue and replay
+   - Implement ThemeService for light/dark modes
+   - Register services in Program.cs dependency injection
+
+4. **Component Development**
+   - Create CalculatorKeypad with grid layout and Unicode symbols
+   - Create HistoryPanel with replay functionality
+   - Create ThemeToggle with icon and state management
+   - Create Index.razor main page combining all components
+
+5. **Styling & Interop**
+   - Implement CSS with light/dark theme variables
+   - Create JavaScript keyboard support module
+   - Configure JavaScript interop in components
+   - Add hover/active state animations
+
+6. **Testing & Validation**
+   - Verify all 32 unit tests pass
+   - Test keyboard input (all bindings)
+   - Test theme toggle persistence (session)
+   - Test history functionality (50 item limit, replay)
+   - Verify application runs at https://localhost:7056
+
+## Guidelines
+
+- **Simplicity First**: Start with basic functionality before advanced features
+- **Component Reusability**: Design components to be cohesive and independently testable
+- **Separation of Concerns**: Keep business logic in services, UI in components
+- **Accessibility**: Ensure keyboard navigation, semantic HTML, color contrast (WCAG)
+- **No Breaking Changes**: Maintain compatibility with existing calculator logic
+- **Clean Code**: Use meaningful names, appropriate sizing, proper null handling
+- **Documentation**: Include JSDoc/XML comments on all public members
+
+## Reference Materials
+
+- PRD Location: [PRD: Refactor as Blazor App](${workspaceFolder}/programming/dotnet/csharp/workspace/prd-refactor-as-blazor-app.md)
+- Coding Standards: [Copilot Instructions](${workspaceFolder}/.github/copilot-instructions.md)
+- Basic Calculator Prompt: [Create Basic .NET Calculator](${workspaceFolder}/.github/prompts/create-basic-calculator-dotnet.prompt.md)
+
+## Success Criteria
+
+✅ Build with 0 errors, ≤1 warning  
+✅ All 32 unit tests pass without modification  
+✅ Web app accessible at https://localhost:7056 and http://localhost:5136  
+✅ All operator symbols render correctly (÷, ×, −, +)  
+✅ Light/dark theme toggle functional with visual feedback  
+✅ Keyboard input fully operational (digits, operators, Enter, Clear)  
+✅ History stores up to 50 items with replay functionality  
+✅ Sufficient color contrast for accessibility  
+✅ Responsive layout on mobile (480px), tablet (768px), desktop  
+✅ No console dependencies in calculator logic  
+
+## Implementation Notes
+
+- History is session-only by design; no persistence layer needed
+- Services use Blazor events for component communication
+- Razor components leverage @onclick and keyboard event bindings
+- CSS custom properties enable theme switching without reloading
+- JavaScript interop handles global keyboard events
+- Unicode symbols improve visual clarity and usability
+
+## Deployment
+
+```bash
+# Local development
+dotnet build
+dotnet run --project calculator.web/calculator.web.csproj
+
+# Access application
+# https://localhost:7056 or http://localhost:5136
+```
+
+## Output Format
+
+Provide:
+1. Step-by-step refactoring guidance
+2. Complete service implementations
+3. All Razor components with proper structure
+4. CSS with theme variables and transitions
+5. JavaScript keyboard interop module
+6. Test results showing 32/32 passing
+7. Documentation for components and services
+8. Explanation of architectural decisions
