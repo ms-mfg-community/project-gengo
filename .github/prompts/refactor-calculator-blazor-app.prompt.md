@@ -2,7 +2,7 @@
 description: Refactor the console calculator into a modern Blazor Server web application with responsive UI, theme support, keyboard integration, and service-based architecture.
 name: refactor-calculator-blazor-app
 agent: agent
-model: claude-haiku-4.5
+model: Claude Haiku 4.5 (copilot)
 tools:
   - github/*
 ---
@@ -79,7 +79,7 @@ Refactor the existing console calculator into a Blazor Server web application wi
 ```
 lib/calculator.library/
   └── Calculator.cs (Pure math logic)
-programming/dotnet/csharp/workspace/calculator.web/
+programming/dotnet/csharp/workspace/calculator-xunit-testing/calculator.web/
   ├── Components/
   │   ├── CalculatorKeypad.razor
   │   ├── HistoryPanel.razor

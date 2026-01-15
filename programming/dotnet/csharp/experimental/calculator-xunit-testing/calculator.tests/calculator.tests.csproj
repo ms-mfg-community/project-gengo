@@ -21,7 +21,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../../../../../lib/calculator.library/calculator.library.csproj" />
+    <ProjectReference Include="..\calculator\calculator.csproj" />
+    <ProjectReference Include="..\Calculator.Core\Calculator.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestData\calculator-test-data.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

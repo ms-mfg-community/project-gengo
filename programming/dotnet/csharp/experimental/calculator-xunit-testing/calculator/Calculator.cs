@@ -1,177 +1,184 @@
-﻿namespace CalculatorApp;
+﻿// Calculator console application using top-level statements
+// Supports arithmetic operations: +, -, *, /, %, ^
 
-/// <summary>
-/// Calculator class that provides arithmetic operations and user interaction
-/// </summary>
-public class Calculator
+using Calculator.Core;
+
+bool continueCalculation = true;
+
+while (continueCalculation)
 {
-    /// <summary>
-    /// Main entry point for the calculator application
-    /// </summary>
-    public static void Main()
+    // Clear screen for better user experience
+    Console.Clear();
+    
+    // Prompt for first operand
+    Console.Write("Enter the first operand: ");
+    string? input1 = Console.ReadLine();
+    
+    // Validate first operand input
+    if (string.IsNullOrWhiteSpace(input1) || !double.TryParse(input1, out double operand1))
     {
-        bool continueCalculating = true;
+        Console.WriteLine("Invalid input for first operand. Please enter a valid number.");
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
+        continue;
+    } // end if
 
-        while (continueCalculating)
+    // Prompt for second operand
+    Console.Write("Enter the second operand: ");
+    string? input2 = Console.ReadLine();
+    
+    // Validate second operand input
+    if (string.IsNullOrWhiteSpace(input2) || !double.TryParse(input2, out double operand2))
+    {
+        Console.WriteLine("Invalid input for second operand. Please enter a valid number.");
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
+        continue;
+    } // end if
+
+    // Prompt for operator
+    Console.Write("Enter an operator (+, -, *, /, %, ^): ");
+    string? operatorInput = Console.ReadLine();
+    
+    // Validate operator input with null checking
+    if (string.IsNullOrWhiteSpace(operatorInput))
+    {
+        Console.WriteLine("Invalid operator. Please enter a valid operator.");
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
+        continue;
+    } // end if
+
+    // Perform calculation based on operator
+    double result;
+    bool validOperation = true;
+
+    try
+    {
+        switch (operatorInput)
         {
-            Console.Clear();
-            Console.WriteLine("=== Simple Calculator ===");
-            
-            // Get first operand
-            double firstOperand = GetNumericInput("Enter first operand: ");
-            
-            // Get second operand
-            double secondOperand = GetNumericInput("Enter second operand: ");
-            
-            // Get operator
-            string? op = GetOperator("Enter operator (+, -, *, /, %, ^): ");
-            
-            // Perform calculation
-            double result = PerformCalculation(firstOperand, op, secondOperand);
-            
-            if (double.IsNaN(result))
-            {
-                Console.WriteLine("Error: Invalid operation");
-            }
-            else
-            {
-                Console.WriteLine($"\nResult: {firstOperand} {op} {secondOperand} = {result}");
-            }
-            
-            // Ask if user wants to continue
-            Console.Write("\nDo you want to perform another calculation? (yes/no): ");
-            string? response = Console.ReadLine()?.ToLower();
-            continueCalculating = response == "yes" || response == "y";
-        }
-
-        Console.WriteLine("\nThank you for using the calculator. Goodbye!");
+            case "+":
+                result = CalculatorEngine.Add(operand1, operand2);
+                break;
+            case "-":
+                result = CalculatorEngine.Subtract(operand1, operand2);
+                break;
+            case "*":
+                result = CalculatorEngine.Multiply(operand1, operand2);
+                break;
+            case "/":
+                result = CalculatorEngine.Divide(operand1, operand2);
+                break;
+            case "%":
+                result = CalculatorEngine.Modulo(operand1, operand2);
+                break;
+            case "^":
+                result = CalculatorEngine.Exponent(operand1, operand2);
+                break;
+            default:
+                Console.WriteLine($"Error: '{operatorInput}' is not a valid operator.");
+                validOperation = false;
+                result = 0;
+                break;
+        } // end switch
     }
+    catch (DivideByZeroException ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+        validOperation = false;
+        result = 0;
+    } // end catch
+
+    // Display result if operation was valid
+    if (validOperation)
+    {
+        Console.WriteLine($"Result: {operand1} {operatorInput} {operand2} = {result}");
+    } // end if
+
+    // Ask if user wants to perform another calculation
+    Console.Write("\nWould you like to perform another calculation? (y/n): ");
+    string? response = Console.ReadLine();
+    
+    // Handle user response with null checking
+    if (string.IsNullOrWhiteSpace(response) || !response.Trim().Equals("y", StringComparison.OrdinalIgnoreCase))
+    {
+        continueCalculation = false;
+        Console.Clear();
+        Console.WriteLine("Thank you for using the calculator. Goodbye!");
+    } // end if
+} // end while
+
+// Make the Program class public and partial for testing access
+public partial class Program 
+{
+    // Static methods for arithmetic operations - testable from xUnit project
+    // These wrap the Calculator.Core.CalculatorEngine methods for backward compatibility with tests
 
     /// <summary>
-    /// Gets numeric input from the user with validation
+    /// Adds two numbers together.
     /// </summary>
-    private static double GetNumericInput(string prompt)
+    /// <param name="a">The first operand.</param>
+    /// <param name="b">The second operand.</param>
+    /// <returns>The sum of a and b.</returns>
+    public static double Add(double a, double b)
     {
-        while (true)
-        {
-            Console.Write(prompt);
-            if (double.TryParse(Console.ReadLine(), out double result))
-            {
-                return result;
-            }
-            Console.WriteLine("Invalid input. Please enter a valid number.");
-        }
-    }
+        return CalculatorEngine.Add(a, b);
+    } // end Add
 
     /// <summary>
-    /// Gets and validates operator input from the user
+    /// Subtracts the second number from the first.
     /// </summary>
-    private static string? GetOperator(string prompt)
+    /// <param name="a">The first operand.</param>
+    /// <param name="b">The second operand.</param>
+    /// <returns>The difference of a and b.</returns>
+    public static double Subtract(double a, double b)
     {
-        while (true)
-        {
-            Console.Write(prompt);
-            string? input = Console.ReadLine()?.Trim();
-            
-            if (string.IsNullOrEmpty(input))
-            {
-                Console.WriteLine("Invalid operator. Please enter +, -, *, /, %, or ^");
-                continue;
-            }
-            
-            if (input == "+" || input == "-" || input == "*" || input == "/" || input == "%" || input == "^")
-            {
-                return input;
-            }
-            Console.WriteLine("Invalid operator. Please enter +, -, *, /, %, or ^");
-        }
-    }
+        return CalculatorEngine.Subtract(a, b);
+    } // end Subtract
 
     /// <summary>
-    /// Performs the calculation based on the operation
+    /// Multiplies two numbers together.
     /// </summary>
-    private static double PerformCalculation(double first, string? op, double second)
+    /// <param name="a">The first operand.</param>
+    /// <param name="b">The second operand.</param>
+    /// <returns>The product of a and b.</returns>
+    public static double Multiply(double a, double b)
     {
-        if (string.IsNullOrEmpty(op))
-        {
-            return double.NaN;
-        }
-        
-        return op switch
-        {
-            "+" => Add(first, second),
-            "-" => Subtract(first, second),
-            "*" => Multiply(first, second),
-            "/" => second == 0 ? HandleDivisionByZero() : Divide(first, second),
-            "%" => Modulo(first, second),
-            "^" => Exponent(first, second),
-            _ => double.NaN
-        };
-    }
+        return CalculatorEngine.Multiply(a, b);
+    } // end Multiply
 
     /// <summary>
-    /// Adds two numbers
+    /// Divides the first number by the second.
     /// </summary>
-    public static double Add(double first, double second)
+    /// <param name="a">The dividend.</param>
+    /// <param name="b">The divisor.</param>
+    /// <returns>The quotient of a divided by b.</returns>
+    /// <exception cref="DivideByZeroException">Thrown when b is zero.</exception>
+    public static double Divide(double a, double b)
     {
-        return first + second;
-    }
+        return CalculatorEngine.Divide(a, b);
+    } // end Divide
 
     /// <summary>
-    /// Subtracts two numbers
+    /// Calculates the modulo (remainder) of the first number divided by the second.
     /// </summary>
-    public static double Subtract(double first, double second)
+    /// <param name="a">The dividend.</param>
+    /// <param name="b">The divisor.</param>
+    /// <returns>The remainder of a divided by b.</returns>
+    /// <exception cref="DivideByZeroException">Thrown when b is zero.</exception>
+    public static double Modulo(double a, double b)
     {
-        return first - second;
-    }
+        return CalculatorEngine.Modulo(a, b);
+    } // end Modulo
 
     /// <summary>
-    /// Multiplies two numbers
+    /// Calculates the first number raised to the power of the second number.
     /// </summary>
-    public static double Multiply(double first, double second)
+    /// <param name="baseNumber">The base number.</param>
+    /// <param name="exponent">The exponent.</param>
+    /// <returns>The result of baseNumber raised to the power of exponent.</returns>
+    public static double Exponent(double baseNumber, double exponent)
     {
-        return first * second;
-    }
-
-    /// <summary>
-    /// Divides two numbers
-    /// </summary>
-    public static double Divide(double first, double second)
-    {
-        if (second == 0)
-        {
-            return HandleDivisionByZero();
-        }
-        return first / second;
-    }
-
-    /// <summary>
-    /// Performs modulo operation on two numbers
-    /// </summary>
-    public static double Modulo(double first, double second)
-    {
-        if (second == 0)
-        {
-            Console.WriteLine("Error: Cannot perform modulo by zero.");
-            return double.NaN;
-        }
-        return first % second;
-    }
-
-    /// <summary>
-    /// Raises the first number to the power of the second number
-    /// </summary>
-    public static double Exponent(double first, double second)
-    {
-        return Math.Pow(first, second);
-    }
-
-    /// <summary>
-    /// Handles division by zero error
-    /// </summary>
-    private static double HandleDivisionByZero()
-    {
-        Console.WriteLine("Error: Cannot divide by zero.");
-        return double.NaN;
-    }
+        return CalculatorEngine.Exponent(baseNumber, exponent);
+    } // end Exponent
 }

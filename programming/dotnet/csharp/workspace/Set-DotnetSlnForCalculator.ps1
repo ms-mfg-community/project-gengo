@@ -1,100 +1,157 @@
 <#
 .SYNOPSIS
-    Sets up the calculator solution with .NET 8 console app and xUnit test project.
+    Sets up a .NET 8 calculator solution with xUnit testing framework.
 
 .DESCRIPTION
-    This script creates a complete solution structure for the calculator project including:
-    - A .NET 8 console application (calculator)
-    - An xUnit test project (calculator.tests)
-    - Proper project references and solution configuration
+    Creates a complete solution structure for a calculator application with comprehensive xUnit testing.
+    This script automates the setup of:
+    - Solution folder named 'calculator-xunit-testing'
+    - Console application project named 'calculator'
+    - xUnit test project named 'calculator.tests'
+    - Proper project references and configurations
+    - Renamed default files for clarity
 
-.PARAMETER Path
-    Optional. The path where to create the solution. Defaults to the current git repository root
-    followed by the programming/dotnet/csharp/workspace path.
+.PARAMETER WorkspacePath
+    The base workspace path where the calculator solution will be created.
+    If not provided, uses the current script's directory.
 
 .EXAMPLE
     .\Set-DotnetSlnForCalculator.ps1
-    
-    Creates the solution in the default workspace path.
+
+    Creates the calculator solution in the script's directory.
 
 .EXAMPLE
-    .\Set-DotnetSlnForCalculator.ps1 -Path "C:\custom\path"
-    
-    Creates the solution in a custom path.
+    .\Set-DotnetSlnForCalculator.ps1 -WorkspacePath "c:\projects"
+
+    Creates the calculator solution in the specified directory.
 
 .NOTES
     File Name      : Set-DotnetSlnForCalculator.ps1
     Author         : GitHub Copilot
-    Prerequisite   : PowerShell 5.0+, .NET 8.0 SDK installed
+    Prerequisite   : .NET 8 SDK installed and available in PATH
     Version        : 1.0
+    
+    This script requires:
+    - .NET 8 SDK or later
+    - PowerShell 5.1 or higher
+    - Write permissions to the workspace directory
+
+.LINK
+    https://docs.microsoft.com/en-us/dotnet/
 
 #>
 
 param(
-    [Parameter(Mandatory=$false, HelpMessage="Path to the workspace directory")]
-    [string]$Path
+    [Parameter(Mandatory = $false, HelpMessage = "Base workspace path for solution creation")]
+    [string]$WorkspacePath = $PSScriptRoot
 )
 
-# If path not provided, calculate it from git root
-if ([string]::IsNullOrWhiteSpace($Path)) {
-    try {
-        $gitRoot = git rev-parse --show-toplevel
-        $Path = Join-Path $gitRoot "programming\dotnet\csharp\workspace"
-    }
-    catch {
-        Write-Error "Could not determine git repository root. Please provide -Path parameter."
-        exit 1
-    }
-}
+# Ensure the workspace path exists
+if (-not (Test-Path -Path $WorkspacePath -PathType Container)) {
+    Write-Host "Error: Workspace path does not exist: $WorkspacePath" -ForegroundColor Red
+    exit 1
+} # end if
 
-$solutionDir = Join-Path $Path "calculator-xunit-testing"
+Write-Host "Setting up .NET Calculator Solution with xUnit Testing" -ForegroundColor Cyan
+Write-Host "Workspace Path: $WorkspacePath" -ForegroundColor Gray
 
-Write-Host "Setting up calculator solution..."
+# Define solution and project variables
+$SolutionFolder = "calculator-xunit-testing"
+$SolutionPath = Join-Path -Path $WorkspacePath -ChildPath $SolutionFolder
+$ConsoleAppProject = "calculator"
+$TestProject = "calculator.tests"
 
-# Create directory
-if (-not (Test-Path $solutionDir)) {
-    New-Item -ItemType Directory -Path $solutionDir | Out-Null
-    Write-Host "✓ Created directory: $solutionDir"
-} else {
-    Write-Host "✓ Directory already exists: $solutionDir"
-}
+# Create solution folder
+Write-Host "`nStep 1: Creating solution folder..." -ForegroundColor Yellow
+if (Test-Path -Path $SolutionPath) {
+    Write-Host "Solution folder already exists. Removing..." -ForegroundColor Cyan
+    Remove-Item -Path $SolutionPath -Recurse -Force
+} # end if
+New-Item -Path $SolutionPath -ItemType Directory -Force | Out-Null
+Write-Host "Solution folder created: $SolutionPath" -ForegroundColor Green
 
-Push-Location $solutionDir
+# Change to solution directory
+Push-Location -Path $SolutionPath
 
 try {
-    # Create solution
-    Write-Host "Creating solution..."
-    & dotnet new sln -n calculator | Out-Null
-    Write-Host "✓ Solution created"
+    # Create the solution file
+    Write-Host "`nStep 2: Creating solution file..." -ForegroundColor Yellow
+    dotnet new sln --name "Calculator" --force | Out-Null
+    Write-Host "Solution file created: Calculator.sln" -ForegroundColor Green
 
-    # Create console app
-    Write-Host "Creating console application..."
-    & dotnet new console -n calculator --framework net8.0 | Out-Null
-    Write-Host "✓ Console app created"
+    # Create console application project
+    Write-Host "`nStep 3: Creating console application project..." -ForegroundColor Yellow
+    dotnet new console --name $ConsoleAppProject --framework net8.0 | Out-Null
+    Write-Host "Console application project created: $ConsoleAppProject" -ForegroundColor Green
 
     # Create xUnit test project
-    Write-Host "Creating xUnit test project..."
-    & dotnet new xunit -n calculator.tests --framework net8.0 | Out-Null
-    Write-Host "✓ Test project created"
+    Write-Host "`nStep 4: Creating xUnit test project..." -ForegroundColor Yellow
+    dotnet new xunit --name $TestProject --framework net8.0 | Out-Null
+    Write-Host "xUnit test project created: $TestProject" -ForegroundColor Green
 
     # Add projects to solution
-    Write-Host "Adding projects to solution..."
-    & dotnet sln calculator.slnx add calculator/calculator.csproj calculator.tests/calculator.tests.csproj | Out-Null
-    Write-Host "✓ Projects added to solution"
+    Write-Host "`nStep 5: Adding projects to solution..." -ForegroundColor Yellow
+    dotnet sln add (Join-Path -Path $ConsoleAppProject -ChildPath "$ConsoleAppProject.csproj") | Out-Null
+    dotnet sln add (Join-Path -Path $TestProject -ChildPath "$TestProject.csproj") | Out-Null
+    Write-Host "Projects added to solution" -ForegroundColor Green
 
-    # Configure references
-    Write-Host "Configuring project references..."
-    & dotnet add calculator.tests/calculator.tests.csproj reference calculator/calculator.csproj | Out-Null
-    Write-Host "✓ Project references configured"
-
-    Write-Host "`n✓ Setup complete!" -ForegroundColor Green
-    Write-Host "`nNext steps:"
-    Write-Host "1. Review the PRD: programming\dotnet\csharp\workspace\prd-csharp-basic-calculator-solution.md"
-    Write-Host "2. Implement Calculator.cs and Program.cs"
-    Write-Host "3. Create comprehensive tests in calculator.tests"
-    Write-Host "4. Build: dotnet build"
-    Write-Host "5. Test: dotnet test"
-}
-finally {
+    # Add project reference (test project references calculator project)
+    Write-Host "`nStep 6: Configuring project references..." -ForegroundColor Yellow
+    Push-Location -Path $TestProject
+    $CalcProjectRef = ".." | Join-Path -ChildPath $ConsoleAppProject | Join-Path -ChildPath "$ConsoleAppProject.csproj"
+    dotnet add reference $CalcProjectRef | Out-Null
     Pop-Location
-}
+    Write-Host "Project references configured" -ForegroundColor Green
+
+    # Rename default files
+    Write-Host "`nStep 7: Renaming default files..." -ForegroundColor Yellow
+
+    # Rename Program.cs to Calculator.cs
+    $ConsoleAppProgramPath = Join-Path -Path $ConsoleAppProject -ChildPath "Program.cs"
+    $ConsoleAppCalculatorPath = Join-Path -Path $ConsoleAppProject -ChildPath "Calculator.cs"
+    if (Test-Path -Path $ConsoleAppProgramPath) {
+        Rename-Item -Path $ConsoleAppProgramPath -NewName "Calculator.cs" -Force
+        Write-Host "Renamed: Program.cs -> Calculator.cs" -ForegroundColor Green
+    } # end if
+
+    # Rename UnitTest1.cs to CalculatorTest.cs
+    $TestProjectUnitTestPath = Join-Path -Path $TestProject -ChildPath "UnitTest1.cs"
+    $TestProjectCalculatorTestPath = Join-Path -Path $TestProject -ChildPath "CalculatorTest.cs"
+    if (Test-Path -Path $TestProjectUnitTestPath) {
+        Rename-Item -Path $TestProjectUnitTestPath -NewName "CalculatorTest.cs" -Force
+        Write-Host "Renamed: UnitTest1.cs -> CalculatorTest.cs" -ForegroundColor Green
+    } # end if
+
+    # Build the solution to verify everything is set up correctly
+    Write-Host "`nStep 8: Building solution to verify setup..." -ForegroundColor Yellow
+    dotnet build | Out-Null
+    Write-Host "Solution built successfully" -ForegroundColor Green
+
+    Write-Host "`n" + "=" * 60 -ForegroundColor Cyan
+    Write-Host "Setup Complete!" -ForegroundColor Green
+    Write-Host "=" * 60 -ForegroundColor Cyan
+    Write-Host "`nSolution Details:" -ForegroundColor Yellow
+    Write-Host "  Location: $SolutionPath" -ForegroundColor Gray
+    Write-Host "  Solution File: Calculator.sln" -ForegroundColor Gray
+    Write-Host "  Console App: $ConsoleAppProject" -ForegroundColor Gray
+    Write-Host "  Test Project: $TestProject" -ForegroundColor Gray
+    Write-Host "`nNext Steps:" -ForegroundColor Yellow
+    Write-Host "  1. Navigate to the solution folder: cd '$SolutionFolder'" -ForegroundColor Gray
+    Write-Host "  2. Open in VS Code: code ." -ForegroundColor Gray
+    Write-Host "  3. Review and edit Calculator.cs for application logic" -ForegroundColor Gray
+    Write-Host "  4. Write tests in CalculatorTest.cs" -ForegroundColor Gray
+    Write-Host "  5. Run tests: dotnet test" -ForegroundColor Gray
+    Write-Host "`nUseful Commands:" -ForegroundColor Yellow
+    Write-Host "  dotnet build          - Build the solution" -ForegroundColor Gray
+    Write-Host "  dotnet run -p calculator - Run the calculator app" -ForegroundColor Gray
+    Write-Host "  dotnet test           - Run all tests" -ForegroundColor Gray
+    Write-Host "  dotnet watch test     - Watch for changes and run tests" -ForegroundColor Gray
+
+} catch {
+    Write-Host "Error during setup: $_" -ForegroundColor Red
+    exit 1
+} finally {
+    Pop-Location
+} # end try catch finally
+
+Write-Host "`n"
