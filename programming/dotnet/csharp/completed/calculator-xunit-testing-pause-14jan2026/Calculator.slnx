@@ -1,6 +1,0 @@
-<Solution>
-  <Project Path="calculator.shared/calculator.shared.csproj" />
-  <Project Path="calculator/calculator.csproj" />
-  <Project Path="calculator.tests/calculator.tests.csproj" />
-  <Project Path="calculator.web/calculator.web.csproj" />
-</Solution>
