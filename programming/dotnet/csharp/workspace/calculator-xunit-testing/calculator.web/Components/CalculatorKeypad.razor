@@ -1,0 +1,70 @@
+@using calculator.web.Services
+@inject CalculatorService CalculatorService
+
+<div class="calculator-keypad">
+    <div class="display">
+        <input type="text" readonly value="@CalculatorService.Display" class="display-input" />
+    </div>
+
+    <div class="keypad-grid">
+        <!-- Row 1: 7, 8, 9, ÷ -->
+        <button class="btn-number" @onclick="() => OnDigit('7')">7</button>
+        <button class="btn-number" @onclick="() => OnDigit('8')">8</button>
+        <button class="btn-number" @onclick="() => OnDigit('9')">9</button>
+        <button class="btn-operator" @onclick="() => OnOperator('/')">÷</button>
+
+        <!-- Row 2: 4, 5, 6, × -->
+        <button class="btn-number" @onclick="() => OnDigit('4')">4</button>
+        <button class="btn-number" @onclick="() => OnDigit('5')">5</button>
+        <button class="btn-number" @onclick="() => OnDigit('6')">6</button>
+        <button class="btn-operator" @onclick="() => OnOperator('*')">×</button>
+
+        <!-- Row 3: 1, 2, 3, − -->
+        <button class="btn-number" @onclick="() => OnDigit('1')">1</button>
+        <button class="btn-number" @onclick="() => OnDigit('2')">2</button>
+        <button class="btn-number" @onclick="() => OnDigit('3')">3</button>
+        <button class="btn-operator" @onclick="() => OnOperator('-')">−</button>
+
+        <!-- Row 4: 0 (spans 2), ., + -->
+        <button class="btn-number btn-zero" @onclick="() => OnDigit('0')">0</button>
+        <button class="btn-number" @onclick="() => OnDigit('.')">.</button>
+        <button class="btn-operator" @onclick="() => OnOperator('+')">+</button>
+
+        <!-- Row 5: ^, =, C -->
+        <button class="btn-operator" @onclick="() => OnOperator('^')">^</button>
+        <button class="btn-equals" @onclick="OnEquals">=</button>
+        <button class="btn-clear" @onclick="OnClear">C</button>
+    </div>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        CalculatorService.OnDisplayChanged += StateHasChanged;
+    }
+
+    private void OnDigit(string digit)
+    {
+        CalculatorService.AppendDigit(digit);
+    }
+
+    private void OnOperator(string op)
+    {
+        CalculatorService.SetOperator(op);
+    }
+
+    private void OnEquals()
+    {
+        CalculatorService.Calculate();
+    }
+
+    private void OnClear()
+    {
+        CalculatorService.Clear();
+    }
+
+    void IDisposable.Dispose()
+    {
+        CalculatorService.OnDisplayChanged -= StateHasChanged;
+    }
+}
