@@ -1,5 +1,6 @@
 @using calculator.web.Services
 @using calculator.web.Models
+@implements IAsyncDisposable
 @inject CalculatorService CalculatorService
 @inject HistoryService HistoryService
 
@@ -43,8 +44,9 @@
         HistoryService.Clear();
     }
 
-    void IDisposable.Dispose()
+    async ValueTask IAsyncDisposable.DisposeAsync()
     {
         HistoryService.OnHistoryChanged -= StateHasChanged;
+        await ValueTask.CompletedTask;
     }
 }
