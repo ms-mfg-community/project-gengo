@@ -2,9 +2,11 @@ trigger:
   branches:
     include:
       - main
+    exclude:
+      - .github/**
   paths:
     exclude:
-      - '.github/**'
+      - .github/**
 
 pr:
   branches:
@@ -12,11 +14,12 @@ pr:
       - main
 
 schedules:
-  - cron: '0 0 * * *'
+  - cron: "0 0 * * *"
     displayName: Daily midnight run
     branches:
       include:
         - main
+    always: true
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -24,105 +27,96 @@ pool:
 jobs:
   - job: ListContents
     displayName: 'List Repository Contents'
+    
     steps:
-      - script: |
-          echo "========================================"
-          echo "Workflow Trigger Information"
-          echo "========================================"
-          echo "Event Name: $(Build.Reason)"
-          echo "Branch: $(Build.SourceBranchName)"
-          echo "Repository: $(Build.Repository.Name)"
-          echo "Requested By: $(Build.RequestedFor)"
-          echo "========================================"
-        displayName: 'Display Workflow Trigger Information'
+      - task: PowerShell@2
+        displayName: 'Display Pipeline Trigger Information'
+        inputs:
+          targetType: 'inline'
+          script: |
+            Write-Host "========== Pipeline Trigger Information ==========" -ForegroundColor Cyan
+            Write-Host "Build Reason:    $(Build.Reason)" -ForegroundColor Yellow
+            Write-Host "Branch:          $(Build.SourceBranchName)" -ForegroundColor Yellow
+            Write-Host "Repository:      $(Build.Repository.Name)" -ForegroundColor Yellow
+            Write-Host "Requested By:    $(Build.RequestedFor)" -ForegroundColor Yellow
+            Write-Host "Source Branch:   $(Build.SourceBranch)" -ForegroundColor Yellow
+            Write-Host "================================================" -ForegroundColor Cyan
+          pwsh: true
 
       - checkout: self
-        displayName: 'Checkout Repository'
 
-      - bash: |
-          echo ""
-          echo "========================================"
-          echo "Repository Contents (Tree View - Depth 3)"
-          echo "========================================"
-          tree -L 3 -h --du || find . -type d -name .git -prune -o -type f -print | head -100
-        displayName: 'List Repository Contents with Tree'
-        continueOnError: true
+      - task: PowerShell@2
+        displayName: 'List Repository Contents with Tree Command'
+        inputs:
+          targetType: 'inline'
+          script: |
+            Write-Host "========== Repository Contents (Tree - Depth 3) ==========" -ForegroundColor Cyan
+            tree -L 3 -h --du 2>/dev/null || Write-Host "Tree command not available, using alternative listing" -ForegroundColor Yellow
+            Write-Host "========================================================" -ForegroundColor Cyan
+          pwsh: true
 
-      - pwsh: |
-          Write-Host "`n========================================" -ForegroundColor Cyan
-          Write-Host "Source Directory Contents (PowerShell)" -ForegroundColor Cyan
-          Write-Host "========================================" -ForegroundColor Cyan
-          
-          $srcPath = "src"
-          
-          if (Test-Path -Path $srcPath) {
-              function Get-DirectoryTree {
-                  param(
-                      [string]$Path,
-                      [int]$Depth = 0,
-                      [int]$MaxDepth = 5
-                  )
-                  
-                  if ($Depth -gt $MaxDepth) { return }
-                  
-                  $indent = "  " * $Depth
-                  $items = Get-ChildItem -Path $Path -ErrorAction SilentlyContinue | Sort-Object -Property @{Expression={$_.PSIsContainer}; Descending=$true}, Name
-                  
-                  foreach ($item in $items) {
-                      if ($item.PSIsContainer) {
-                          Write-Host "$indent📁 $($item.Name)/" -ForegroundColor Yellow
-                          Get-DirectoryTree -Path $item.FullName -Depth ($Depth + 1) -MaxDepth $MaxDepth
-                      } else {
-                          $sizeKB = [math]::Round($item.Length / 1KB, 2)
-                          Write-Host "$indent📄 $($item.Name) ($($sizeKB) KB)" -ForegroundColor Green
-                      }
-                  }
-              }
+      - task: PowerShell@2
+        displayName: 'List Directory Contents with PowerShell'
+        inputs:
+          targetType: 'inline'
+          script: |
+            function Get-DirectoryTree {
+              param(
+                [string]$Path = '.',
+                [int]$Depth = 0,
+                [int]$MaxDepth = 3
+              )
               
-              Get-DirectoryTree -Path $srcPath
-          } else {
-              Write-Host "Source directory ($srcPath) does not exist." -ForegroundColor Red
-          }
-          
-          Write-Host "========================================" -ForegroundColor Cyan
-        displayName: 'List Source Directory Contents with PowerShell'
+              if ($Depth -gt $MaxDepth) { return }
+              
+              try {
+                $items = Get-ChildItem -Path $Path -Force -ErrorAction SilentlyContinue | Sort-Object -Property @{Expression = {$_.PSIsContainer}; Descending = $true}, Name
+                
+                foreach ($item in $items) {
+                  $indent = "  " * $Depth
+                  $type = if ($item.PSIsContainer) { "[DIR]" } else { "[FILE]" }
+                  $size = if (-not $item.PSIsContainer) { " ({0:N0} KB)" -f ($item.Length / 1KB) } else { "" }
+                  
+                  if ($item.PSIsContainer) {
+                    Write-Host "$indent$type $($item.Name)" -ForegroundColor Yellow
+                  } else {
+                    Write-Host "$indent$type $($item.Name)$size" -ForegroundColor Green
+                  }
+                  
+                  if ($item.PSIsContainer -and $Depth -lt $MaxDepth) {
+                    Get-DirectoryTree -Path $item.FullName -Depth ($Depth + 1) -MaxDepth $MaxDepth
+                  }
+                }
+              }
+              catch {
+                Write-Host "Error accessing path: $_" -ForegroundColor Red
+              }
+            }
+            
+            Write-Host "========== Repository Structure (PowerShell) ==========" -ForegroundColor Cyan
+            Get-DirectoryTree -Path '.' -MaxDepth 3
+            Write-Host "======================================================" -ForegroundColor Cyan
+          pwsh: true
 
   - job: RetrieveValues
-    displayName: 'Retrieve and Display Workflow Metadata'
+    displayName: 'Display Pipeline Metadata'
     dependsOn: ListContents
+    
     steps:
-      - pwsh: |
-          Write-Host "========================================" -ForegroundColor Cyan
-          Write-Host "Workflow Metadata and Branch Information" -ForegroundColor Cyan
-          Write-Host "========================================" -ForegroundColor Cyan
-          Write-Host "Branch Name (SourceBranchName): $(Build.SourceBranchName)" -ForegroundColor Yellow
-          Write-Host "Full Source Branch: $(Build.SourceBranch)" -ForegroundColor Yellow
-          # NOTE: Azure DevOps does not have direct equivalents for GitHub's head_ref and base_ref
-          # These are primarily used in pull request contexts in GitHub Actions
-          Write-Host "Head Ref (PRs only): N/A - Azure DevOps uses different PR context variables" -ForegroundColor Yellow
-          Write-Host "Base Ref (PRs only): N/A - Azure DevOps uses different PR context variables" -ForegroundColor Yellow
-          # NOTE: Default branch would require Azure DevOps REST API call to fetch repository details
-          # This is outside the scope of simple translation; set as pipeline variable if needed
-          Write-Host "Default Branch: [Requires manual configuration via pipeline variables]" -ForegroundColor Yellow
-          Write-Host "Job ID: $(System.JobId)" -ForegroundColor Yellow
-          Write-Host "Build ID: $(Build.BuildId)" -ForegroundColor Yellow
-          Write-Host "Build Number: $(Build.BuildNumber)" -ForegroundColor Yellow
-          Write-Host "========================================" -ForegroundColor Cyan
-        displayName: 'Display Branch Information'
-
-# Translation Notes:
-# 1. GitHub Actions 'on' trigger maps to Azure DevOps 'trigger' and 'pr' sections
-# 2. GitHub's 'runs-on: ubuntu-latest' maps to 'pool' with 'vmImage: ubuntu-latest'
-# 3. GitHub contexts like github.event_name, github.ref_name map to Azure DevOps variables:
-#    - github.event_name → Build.Reason
-#    - github.ref_name → Build.SourceBranchName
-#    - github.repository → Build.Repository.Name
-#    - github.actor → Build.RequestedFor
-# 4. GitHub Actions checkout@v4 maps to 'checkout: self'
-# 5. Shell specifications (shell: pwsh, shell: bash) map to 'pwsh' and 'bash' steps
-# 6. Job dependencies (needs: list-contents) map to 'dependsOn' in Azure DevOps
-# 7. GitHub's github.event.repository.default_branch, github.head_ref, github.base_ref
-#    do not have direct equivalents in Azure DevOps and require alternative approaches:
-#    - Default branch: Set as pipeline variable or use REST API call
-#    - head_ref/base_ref: Use System.PullRequest.* variables for PR contexts
-# 8. continue-on-error in GitHub Actions maps to 'continueOnError' in Azure DevOps
+      - task: PowerShell@2
+        displayName: 'Display Branch and Pipeline Information'
+        inputs:
+          targetType: 'inline'
+          script: |
+            Write-Host "========== Branch and Pipeline Metadata ==========" -ForegroundColor Cyan
+            Write-Host "Branch Name:                         $(Build.SourceBranchName)" -ForegroundColor Yellow
+            Write-Host "Full Source Branch:                  $(Build.SourceBranch)" -ForegroundColor Yellow
+            Write-Host "Source Version (Commit):             $(Build.SourceVersion)" -ForegroundColor Yellow
+            Write-Host "Build ID:                            $(Build.BuildId)" -ForegroundColor Yellow
+            Write-Host "Build Number:                        $(Build.BuildNumber)" -ForegroundColor Yellow
+            Write-Host "Build Reason:                        $(Build.Reason)" -ForegroundColor Yellow
+            Write-Host "Requested By:                        $(Build.RequestedFor)" -ForegroundColor Yellow
+            Write-Host "Repository:                          $(Build.Repository.Name)" -ForegroundColor Yellow
+            Write-Host "Repository URI:                      $(Build.Repository.Uri)" -ForegroundColor Yellow
+            Write-Host "================================================" -ForegroundColor Cyan
+          pwsh: true
