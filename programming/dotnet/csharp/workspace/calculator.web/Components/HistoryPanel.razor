@@ -1,0 +1,50 @@
+@using calculator.web.Services
+@using calculator.web.Models
+@inject CalculatorService CalculatorService
+@inject HistoryService HistoryService
+
+<div class="history-panel">
+    <div class="history-header">
+        <h3>History</h3>
+        <button class="btn-clear-history" @onclick="ClearHistory">Clear</button>
+    </div>
+    
+    <div class="history-list">
+        @if (HistoryService.GetHistory().Any())
+        {
+            @foreach (var record in HistoryService.GetHistory())
+            {
+                <div class="history-item" @onclick="() => ReplayCalculation(record)">
+                    <span class="history-calc">@record.DisplayText</span>
+                    <span class="history-time">@record.TimeString</span>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="history-empty">No history</p>
+        }
+    </div>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        HistoryService.OnHistoryChanged += StateHasChanged;
+    }
+
+    private void ReplayCalculation(CalculationRecord record)
+    {
+        CalculatorService.ReplayCalculation(record);
+    }
+
+    private void ClearHistory()
+    {
+        HistoryService.Clear();
+    }
+
+    void IDisposable.Dispose()
+    {
+        HistoryService.OnHistoryChanged -= StateHasChanged;
+    }
+}
