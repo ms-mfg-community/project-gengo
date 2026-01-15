@@ -28,6 +28,13 @@ obj/
 # Ignore any .env that might be in any folder of this repo
 **/.env
 
+# Ignore SQLite database files
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
 # Ignore and js-db folder for codeql operations
 **/js-db
 
