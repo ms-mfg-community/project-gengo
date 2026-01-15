@@ -1,118 +1,146 @@
-using CalculatorApp;
+using calculator.library;
 using calculator.web.Models;
 
 namespace calculator.web.Services;
 
-/// <summary>Service managing calculator state and operations.</summary>
+/// <summary>
+/// Service managing calculator state, operations, and display.
+/// Fires events when display changes or calculations complete.
+/// </summary>
 public class CalculatorService
 {
     private readonly Calculator _calculator = new();
     private string _display = "0";
-    private double _pendingOperand = 0;
-    private string? _pendingOperator = null;
-    private bool _newDisplay = true;
+    private decimal _pendingOperand = 0;
+    private char? _pendingOperator = null;
+    private bool _isNewDisplay = true;
 
-    /// <summary>Event raised when display changes.</summary>
-    public event Action? OnDisplayChanged;
-
-    /// <summary>Event raised when calculation completes.</summary>
-    public event Action<CalculationRecord>? OnCalculationCompleted;
-
-    /// <summary>Gets the current display value.</summary>
     public string Display => _display;
 
-    /// <summary>Appends a digit to the display.</summary>
+    public event EventHandler? OnDisplayChanged;
+    public event EventHandler<CalculationRecord>? OnCalculationCompleted;
+
+    /// <summary>
+    /// Appends a digit to the display.
+    /// </summary>
     public void AppendDigit(string digit)
     {
-        if (_newDisplay)
+        if (_isNewDisplay)
         {
-            _display = digit == "." ? "0." : digit;
-            _newDisplay = false;
+            _display = digit;
+            _isNewDisplay = false;
         }
         else
         {
-            if (digit == "." && _display.Contains("."))
-                return;
             _display += digit;
         }
-        OnDisplayChanged?.Invoke();
+
+        OnDisplayChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    /// <summary>Sets an operator and performs pending calculation if needed.</summary>
-    public void SetOperator(string op)
+    /// <summary>
+    /// Adds decimal point to display.
+    /// </summary>
+    public void AppendDecimal()
     {
-        if (!double.TryParse(_display, out double current))
+        if (!_display.Contains("."))
+        {
+            _display += ".";
+            _isNewDisplay = false;
+            OnDisplayChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    /// <summary>
+    /// Sets the pending operator and calculates previous operation if needed.
+    /// </summary>
+    public void SetOperator(char op)
+    {
+        if (!decimal.TryParse(_display, out var currentValue))
             return;
 
-        if (_pendingOperator != null && !_newDisplay)
+        if (_pendingOperator.HasValue && !_isNewDisplay)
         {
-            _pendingOperand = _calculator.Operate(_pendingOperand, current, _pendingOperator);
-            _display = _pendingOperand.ToString();
+            try
+            {
+                var result = _calculator.Operate(_pendingOperand, currentValue, _pendingOperator.Value);
+                _display = result.ToString();
+            }
+            catch
+            {
+                _display = "Error";
+            }
         }
         else
         {
-            _pendingOperand = current;
+            _pendingOperand = currentValue;
         }
 
         _pendingOperator = op;
-        _newDisplay = true;
-        OnDisplayChanged?.Invoke();
+        _isNewDisplay = true;
+        OnDisplayChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    /// <summary>Calculates the result of the pending operation.</summary>
-    public CalculationRecord? Calculate()
+    /// <summary>
+    /// Calculates the result of pending operation.
+    /// </summary>
+    public void Calculate()
     {
-        if (!double.TryParse(_display, out double current) || _pendingOperator == null)
-            return null;
+        if (!_pendingOperator.HasValue || !decimal.TryParse(_display, out var currentValue))
+            return;
 
+        decimal result;
         try
         {
-            double result = _calculator.Operate(_pendingOperand, current, _pendingOperator);
-            _display = result.ToString();
-
-            var record = new CalculationRecord
-            {
-                FirstOperand = _pendingOperand,
-                SecondOperand = current,
-                Operator = _pendingOperator,
-                Result = result,
-                Timestamp = DateTime.Now
-            };
-
-            _pendingOperator = null;
-            _newDisplay = true;
-            OnCalculationCompleted?.Invoke(record);
-            OnDisplayChanged?.Invoke();
-
-            return record;
+            result = _calculator.Operate(_pendingOperand, currentValue, _pendingOperator.Value);
         }
-        catch (ArgumentException)
+        catch
         {
             _display = "Error";
             _pendingOperator = null;
-            _newDisplay = true;
-            OnDisplayChanged?.Invoke();
-            return null;
+            _isNewDisplay = true;
+            OnDisplayChanged?.Invoke(this, EventArgs.Empty);
+            return;
         }
+
+        var record = new CalculationRecord
+        {
+            FirstOperand = _pendingOperand,
+            SecondOperand = currentValue,
+            Operator = _pendingOperator.Value,
+            Result = result,
+            Timestamp = DateTime.Now
+        };
+
+        _display = result.ToString();
+        _pendingOperator = null;
+        _isNewDisplay = true;
+
+        OnDisplayChanged?.Invoke(this, EventArgs.Empty);
+        OnCalculationCompleted?.Invoke(this, record);
     }
 
-    /// <summary>Clears the calculator state.</summary>
+    /// <summary>
+    /// Clears calculator state.
+    /// </summary>
     public void Clear()
     {
         _display = "0";
         _pendingOperand = 0;
         _pendingOperator = null;
-        _newDisplay = true;
-        OnDisplayChanged?.Invoke();
+        _isNewDisplay = true;
+        OnDisplayChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    /// <summary>Replays a calculation from history.</summary>
+    /// <summary>
+    /// Replays a calculation from history.
+    /// </summary>
     public void ReplayCalculation(CalculationRecord record)
     {
-        _pendingOperand = record.FirstOperand;
-        _pendingOperator = record.Operator;
-        _display = record.SecondOperand.ToString();
-        _newDisplay = false;
-        OnDisplayChanged?.Invoke();
+        _display = record.Result.ToString();
+        _pendingOperand = record.Result;
+        _pendingOperator = null;
+        _isNewDisplay = true;
+        OnDisplayChanged?.Invoke(this, EventArgs.Empty);
     }
 }
