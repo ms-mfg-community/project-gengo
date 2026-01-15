@@ -1,0 +1,38 @@
+@page "/"
+@using calculator.web.Services
+@using calculator.web.Components
+@inject ThemeService ThemeService
+@inject CalculatorService CalculatorService
+@inject HistoryService HistoryService
+
+<div class="@ThemeService.ThemeClass app-container">
+    <div class="app-header">
+        <h1>Calculator</h1>
+        <ThemeToggle />
+    </div>
+
+    <div class="app-content">
+        <div class="calculator-section">
+            <CalculatorKeypad />
+        </div>
+        <div class="history-section">
+            <HistoryPanel />
+        </div>
+    </div>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        ThemeService.OnThemeChanged += StateHasChanged;
+        CalculatorService.OnCalculationCompleted += (record) =>
+        {
+            HistoryService.AddCalculation(record);
+        };
+    }
+
+    void IDisposable.Dispose()
+    {
+        ThemeService.OnThemeChanged -= StateHasChanged;
+    }
+}
