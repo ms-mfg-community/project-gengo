@@ -87,6 +87,7 @@ select assign, "Potential XSS: innerHTML assignment detected."
 ```
 
 **Workshop Advantages:**
+
 - Quick implementation for targeted security checks
 - Perfect for demonstrating specific vulnerability patterns
 - Easy to understand and modify during live workshops
@@ -133,6 +134,7 @@ select assign, "Potential XSS: innerHTML assignment detected."
 ```
 
 **Workshop Advantages:**
+
 - Demonstrates enterprise-scale query organization
 - Shows comprehensive security coverage
 - Combines standard and custom queries effectively
@@ -157,13 +159,13 @@ select assign, "Potential XSS: innerHTML assignment detected."
 - include:
     queries:
       - "*security*.ql"
-      - "*console*.ql" 
+      - "*console*.ql"
       - "*eval*.ql"
 
 # Include key security queries from the JavaScript query pack using directory patterns
 - from: codeql/javascript-queries
   queries: Security/CWE-079/
-- from: codeql/javascript-queries  
+- from: codeql/javascript-queries
   queries: Security/CWE-089/
 - from: codeql/javascript-queries
   queries: Security/CWE-094/
@@ -181,6 +183,7 @@ select assign, "Potential XSS: innerHTML assignment detected."
 ```
 
 **Workshop Advantages:**
+
 - Perfect for focused security training sessions
 - Demonstrates advanced query filtering with wildcards
 - Reduces noise while maintaining security focus
@@ -199,7 +202,7 @@ param(
     [string]$customQuerySuitePath = ".\custom-queries\workshop-security-suite.qls",
     [string]$selectiveQuerySuitePath = ".\custom-queries\workshop-selected-query-suites.qls", # NEW
     [switch]$useCustomQL,     # Single query approach
-    [switch]$useCustomQLS,    # Comprehensive suite approach  
+    [switch]$useCustomQLS,    # Comprehensive suite approach
     [switch]$useSelectiveQLS, # NEW: Selective pattern-based approach
     [switch]$uploadToGitHub,
     [switch]$autoDetectRepo,
@@ -376,6 +379,7 @@ select call, "Dynamic innerHTML assignment detected. Verify input sanitization."
 4. Discuss findings and remediation approaches
 
 **Enhanced Features Demonstrated:**
+
 - Single query execution with proper error handling
 - Improved SARIF parsing and display
 - Clean query organization with `qlpack.yml` dependencies
@@ -390,6 +394,7 @@ select call, "Dynamic innerHTML assignment detected. Verify input sanitization."
 4. Review query inclusion/exclusion patterns
 
 **Enhanced Features Demonstrated:**
+
 - Enterprise query organization patterns
 - Comprehensive security coverage
 - Query filtering and exclusion capabilities
@@ -405,6 +410,7 @@ select call, "Dynamic innerHTML assignment detected. Verify input sanitization."
 4. Modify patterns to include/exclude different query types
 
 **NEW Enhanced Features Demonstrated:**
+
 - Pattern-based query selection (`*security*.ql`, `*console*.ql`, `*eval*.ql`)
 - Focused workshop scenarios with reduced noise
 - Advanced query filtering for targeted training
@@ -420,6 +426,7 @@ select call, "Dynamic innerHTML assignment detected. Verify input sanitization."
 4. Review automation possibilities with `forceNewAlerts`
 
 **Enhanced Features Demonstrated:**
+
 - Multi-approach parameter validation
 - Advanced vulnerability injection patterns
 - Enhanced GitHub integration with proper error handling
@@ -436,6 +443,7 @@ select call, "Dynamic innerHTML assignment detected. Verify input sanitization."
 5. Validate with enhanced SARIF parsing
 
 **Enhanced Features Demonstrated:**
+
 - Professional query development workflow
 - Multi-approach testing and validation
 - Pattern-based integration
@@ -540,11 +548,11 @@ const API_KEY = "sk-1234567890abcdef";
 console.log("Debug: calculation performed");
 
 // 3. innerHTML usage
-document.getElementById('display').innerHTML = userInput;
+document.getElementById("display").innerHTML = userInput;
 
 // 4. Additional eval usage
 function advancedCalculate(expr) {
-    return eval("Math." + expr);
+  return eval("Math." + expr);
 }
 ```
 
@@ -555,18 +563,21 @@ This enhanced PRD provides a comprehensive framework for conducting an advanced 
 ### Key Enhancements Delivered
 
 **Enhanced PowerShell Integration (v2.0):**
+
 - Three distinct query approaches: `-useCustomQL`, `-useCustomQLS`, and `-useSelectiveQLS`
 - Improved SARIF parsing eliminating "Level: warning warning" duplication
 - Professional parameter validation preventing conflicting options
 - Enhanced error handling and fallback mechanisms
 
 **Advanced Query Organization:**
+
 - Pattern-based selective queries using wildcards (`*security*.ql`, `*console*.ql`, `*eval*.ql`)
 - Comprehensive enterprise suite combining standard and custom queries
 - Proper dependency management with `qlpack.yml` configuration
 - Clean separation of concerns between different query approaches
 
 **Professional Workshop Structure:**
+
 - Five progressive exercises building from basic to advanced concepts
 - Enhanced technical validation checkpoints
 - Real-world integration scenarios with vulnerability injection

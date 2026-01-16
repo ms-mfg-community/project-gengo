@@ -5,6 +5,7 @@ A modern, web-based calculator application built with TypeScript, featuring comp
 ## Features
 
 ### Core Calculator Functionality
+
 - ✅ Basic arithmetic operations (addition, subtraction, multiplication, division)
 - ✅ Advanced operations (modulo %, exponentiation ^)
 - ✅ User-friendly web interface with colorized keypad
@@ -12,12 +13,14 @@ A modern, web-based calculator application built with TypeScript, featuring comp
 - ✅ Keyboard input support
 
 ### Multi-language Support
+
 - 🌍 **English**: Complete documentation and interface
 - 🇩🇪 **German**: Vollständige Dokumentation und Benutzeroberfläche
 - 🇮🇳 **Hindi**: पूर्ण दस्तावेज़ीकरण और इंटरफ़ेस
 - 🇯🇵 **Japanese**: 完全なドキュメントとインターフェース
 
 ### Development Features
+
 - 📦 TypeScript implementation with strict mode
 - 🧪 Comprehensive Jest testing suite (80%+ coverage)
 - 🎨 Responsive CSS design with color-coded interface
@@ -38,16 +41,19 @@ winget install OpenJS.NodeJS
 ### Installation
 
 1. **Clone or navigate to the calculator directory**
+
    ```bash
    cd calculator/
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Build the TypeScript code**
+
    ```bash
    npm run build
    ```
@@ -84,7 +90,7 @@ npm run dev
 ```
 calculator/
 ├── index.html              # Main application interface
-├── calculator.css          # Styling and visual presentation  
+├── calculator.css          # Styling and visual presentation
 ├── package.json            # Node.js dependencies and scripts
 ├── tsconfig.json           # TypeScript configuration
 ├── jest.config.js          # Jest testing configuration
@@ -101,25 +107,25 @@ calculator/
 
 ### Basic Operations
 
-| Operation | Button | Keyboard | Example |
-|-----------|--------|----------|---------|
-| Addition | + | + | 5 + 3 = 8 |
-| Subtraction | - | - | 10 - 4 = 6 |
-| Multiplication | × | * | 7 × 6 = 42 |
-| Division | / | / | 15 / 3 = 5 |
+| Operation      | Button | Keyboard | Example    |
+| -------------- | ------ | -------- | ---------- |
+| Addition       | +      | +        | 5 + 3 = 8  |
+| Subtraction    | -      | -        | 10 - 4 = 6 |
+| Multiplication | ×      | \*       | 7 × 6 = 42 |
+| Division       | /      | /        | 15 / 3 = 5 |
 
 ### Advanced Operations
 
-| Operation | Button | Keyboard | Example |
-|-----------|--------|----------|---------|
-| Modulo | % | % | 10 % 3 = 1 |
-| Exponentiation | ^ | ** or ^ | 2 ^ 3 = 8 |
+| Operation      | Button | Keyboard  | Example    |
+| -------------- | ------ | --------- | ---------- |
+| Modulo         | %      | %         | 10 % 3 = 1 |
+| Exponentiation | ^      | \*\* or ^ | 2 ^ 3 = 8  |
 
 ### Interface Features
 
-- **Color-coded Keypad**: 
+- **Color-coded Keypad**:
   - 🔵 Blue buttons for numbers
-  - 🟠 Orange buttons for basic operations  
+  - 🟠 Orange buttons for basic operations
   - 🟣 Purple buttons for advanced operations
   - 🟢 **Darker green** equals button (as specified in PRD)
 
@@ -135,6 +141,7 @@ calculator/
 The calculator includes a comprehensive test suite covering:
 
 ### Test Categories
+
 - ✅ Basic arithmetic operations
 - ✅ Advanced operations (modulo, exponentiation)
 - ✅ Display operations (append, clear, delete)
@@ -143,6 +150,7 @@ The calculator includes a comprehensive test suite covering:
 - ✅ Multi-language documentation verification
 
 ### Coverage Requirements
+
 - **Minimum 80% code coverage** (as specified in PRD)
 - **All critical paths tested**
 - **Edge cases and error scenarios covered**
@@ -167,12 +175,12 @@ The calculator features comprehensive multi-language documentation:
 ```typescript
 /**
  * English: Function to add two numbers
- * German: Funktion zum Addieren zweier Zahlen  
+ * German: Funktion zum Addieren zweier Zahlen
  * Hindi: दो संख्याओं को जोड़ने के लिए फ़ंक्शन
  * Japanese: 二つの数値を足し算する関数
  */
 function add(a: number, b: number): number {
-    return a + b;
+  return a + b;
 }
 ```
 
@@ -186,6 +194,7 @@ function add(a: number, b: number): number {
    - Live Server
 
 2. **Open project in VS Code**:
+
    ```bash
    code .
    ```
@@ -212,8 +221,9 @@ The project uses strict TypeScript configuration for maximum type safety:
 ## Browser Compatibility
 
 ✅ **Supported Browsers**:
+
 - Chrome (latest 2 versions)
-- Firefox (latest 2 versions)  
+- Firefox (latest 2 versions)
 - Safari (latest 2 versions)
 - Edge (latest 2 versions)
 
@@ -227,19 +237,20 @@ The project uses strict TypeScript configuration for maximum type safety:
 
 While this project uses Jest, other testing frameworks were evaluated:
 
-| Framework | Pros | Use Cases |
-|-----------|------|-----------|
-| **Jest** | Excellent TypeScript support, comprehensive | **Recommended** for most projects |
-| **Mocha** | Flexible, good for complex scenarios | Large applications with custom requirements |
-| **Jasmine** | BDD-focused, minimal setup | Behavior-driven development |
-| **Karma** | Browser-based testing | Cross-browser testing requirements |
-| **AVA** | Concurrent execution, minimal API | Performance-critical test suites |
+| Framework   | Pros                                        | Use Cases                                   |
+| ----------- | ------------------------------------------- | ------------------------------------------- |
+| **Jest**    | Excellent TypeScript support, comprehensive | **Recommended** for most projects           |
+| **Mocha**   | Flexible, good for complex scenarios        | Large applications with custom requirements |
+| **Jasmine** | BDD-focused, minimal setup                  | Behavior-driven development                 |
+| **Karma**   | Browser-based testing                       | Cross-browser testing requirements          |
+| **AVA**     | Concurrent execution, minimal API           | Performance-critical test suites            |
 
 ## Troubleshooting
 
 ### Common Issues
 
 **TypeScript compilation errors**:
+
 ```bash
 # Clean and rebuild
 rm -rf dist/
@@ -247,12 +258,14 @@ npm run build
 ```
 
 **Jest test failures**:
+
 ```bash
 # Clear Jest cache
 npm test -- --clearCache
 ```
 
 **Module not found errors**:
+
 ```bash
 # Reinstall dependencies
 rm -rf node_modules/
@@ -262,11 +275,13 @@ npm install
 ### Package Management
 
 **Remove a package**:
+
 ```bash
 npm uninstall {package_name}
 ```
 
 **Update dependencies**:
+
 ```bash
 npm update
 ```
@@ -290,6 +305,7 @@ npm update
 ## Future Enhancements
 
 ### Potential Features
+
 - 📱 Mobile responsive design optimization
 - 🔬 Scientific calculator functions (trigonometry, logarithms)
 - 💾 History and memory functions
@@ -297,12 +313,14 @@ npm update
 - 🎨 Theme customization options
 
 ### Platform Expansion
+
 - 📦 Progressive Web App (PWA) conversion
 - 🖥️ Electron desktop application
 - 📱 React Native mobile application
 - 🐍 Python Flask web application alternative
 
 ### Internationalization Expansion
+
 - 🌐 Additional language support (Spanish, French, Chinese)
 - ↔️ Right-to-left language support (Arabic, Hebrew)
 - 🌍 Cultural number formatting
@@ -315,15 +333,19 @@ MIT License - See LICENSE file for details.
 ## Multi-language Summary
 
 ### English
+
 A comprehensive TypeScript calculator with testing and multi-language support.
 
 ### German | Deutsch
+
 Ein umfassender TypeScript-Rechner mit Tests und mehrsprachiger Unterstützung.
 
-### Hindi | हिंदी  
+### Hindi | हिंदी
+
 परीक्षण और बहुभाषी समर्थन के साथ एक व्यापक टाइपस्क्रिप्ट कैलकुलेटर।
 
 ### Japanese | 日本語
+
 テストと多言語サポートを備えた包括的なTypeScript電卓。
 
 ---

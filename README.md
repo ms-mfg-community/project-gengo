@@ -57,26 +57,26 @@ programming/          # Multi-language programming examples
 
 ### Specialized Domains
 
-| Folder | Purpose |
-|--------|---------|
-| `genai/` | Generative AI and LLM demonstrations |
-| `ghas/` | GitHub Advanced Security (CodeQL analysis) |
-| `gitops/` | GitOps workflows and infrastructure |
-| `iac/` | Infrastructure as Code (ARM, Bicep, Terraform) |
-| `mlops/` | Machine Learning operations |
-| `cicd/` | CI/CD pipeline patterns and workflows |
-| `databases/` | Database examples (KQL, RDBMS) |
+| Folder       | Purpose                                                |
+| ------------ | ------------------------------------------------------ |
+| `genai/`     | Generative AI and LLM demonstrations                   |
+| `ghas/`      | GitHub Advanced Security (CodeQL analysis)             |
+| `gitops/`    | GitOps workflows and infrastructure                    |
+| `iac/`       | Infrastructure as Code (ARM, Bicep, Terraform)         |
+| `mlops/`     | Machine Learning operations                            |
+| `cicd/`      | CI/CD pipeline patterns and workflows                  |
+| `databases/` | Database examples (KQL, RDBMS)                         |
 | `scripting/` | Cross-platform scripting (PowerShell, Bash, Azure CLI) |
 
 ### Configuration & Infrastructure
 
-| Folder | Purpose |
-|--------|---------|
-| `.github/` | GitHub Actions workflows, custom agents, and instructions |
-| `.azure/` | Azure DevOps configurations |
-| `.devcontainer/` | Development container setup |
-| `iac/` | Infrastructure deployment templates |
-| `.vscode/` | VS Code settings and configurations |
+| Folder           | Purpose                                                   |
+| ---------------- | --------------------------------------------------------- |
+| `.github/`       | GitHub Actions workflows, custom agents, and instructions |
+| `.azure/`        | Azure DevOps configurations                               |
+| `.devcontainer/` | Development container setup                               |
+| `iac/`           | Infrastructure deployment templates                       |
+| `.vscode/`       | VS Code settings and configurations                       |
 
 ---
 
@@ -174,17 +174,17 @@ See: [gitops/](gitops/) and [cicd/](cicd/).
 
 The repository includes examples and projects in:
 
-| Language | Folder | Notable Features |
-|----------|--------|------------------|
-| **C** | programming/c/ | Systems programming patterns |
-| **C++** | programming/cpp/ | Modern C++17 with CMake |
-| **.NET/C#** | programming/dotnet/ | Full-stack examples, Blazor |
-| **Go** | programming/go/ | Concurrent patterns, CLI tools |
-| **Java** | programming/java/ | Enterprise patterns, Maven builds |
-| **JavaScript** | programming/javascript-html-css/ | Web fundamentals |
-| **Node.js** | programming/node/ | Backend services, APIs |
-| **Python** | programming/python/ | Data processing, automation, AI |
-| **TypeScript** | programming/typescript-* | Type-safe web development |
+| Language       | Folder                           | Notable Features                  |
+| -------------- | -------------------------------- | --------------------------------- |
+| **C**          | programming/c/                   | Systems programming patterns      |
+| **C++**        | programming/cpp/                 | Modern C++17 with CMake           |
+| **.NET/C#**    | programming/dotnet/              | Full-stack examples, Blazor       |
+| **Go**         | programming/go/                  | Concurrent patterns, CLI tools    |
+| **Java**       | programming/java/                | Enterprise patterns, Maven builds |
+| **JavaScript** | programming/javascript-html-css/ | Web fundamentals                  |
+| **Node.js**    | programming/node/                | Backend services, APIs            |
+| **Python**     | programming/python/              | Data processing, automation, AI   |
+| **TypeScript** | programming/typescript-\*        | Type-safe web development         |
 
 ---
 
@@ -383,7 +383,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Owner:** [ms-mfg-community](https://github.com/ms-mfg-community)
 
-
 # Project Gengo
 
 A comprehensive, multi-technology learning and demonstration repository featuring practical examples, best practices, and hands-on implementations across multiple programming languages, frameworks, and cloud platforms.
@@ -443,26 +442,26 @@ programming/          # Multi-language programming examples
 
 ### Specialized Domains
 
-| Folder | Purpose |
-|--------|---------|
-| `genai/` | Generative AI and LLM demonstrations |
-| `ghas/` | GitHub Advanced Security (CodeQL analysis) |
-| `gitops/` | GitOps workflows and infrastructure |
-| `iac/` | Infrastructure as Code (ARM, Bicep, Terraform) |
-| `mlops/` | Machine Learning operations |
-| `cicd/` | CI/CD pipeline patterns and workflows |
-| `databases/` | Database examples (KQL, RDBMS) |
+| Folder       | Purpose                                                |
+| ------------ | ------------------------------------------------------ |
+| `genai/`     | Generative AI and LLM demonstrations                   |
+| `ghas/`      | GitHub Advanced Security (CodeQL analysis)             |
+| `gitops/`    | GitOps workflows and infrastructure                    |
+| `iac/`       | Infrastructure as Code (ARM, Bicep, Terraform)         |
+| `mlops/`     | Machine Learning operations                            |
+| `cicd/`      | CI/CD pipeline patterns and workflows                  |
+| `databases/` | Database examples (KQL, RDBMS)                         |
 | `scripting/` | Cross-platform scripting (PowerShell, Bash, Azure CLI) |
 
 ### Configuration & Infrastructure
 
-| Folder | Purpose |
-|--------|---------|
-| `.github/` | GitHub Actions workflows, custom agents, and instructions |
-| `.azure/` | Azure DevOps configurations |
-| `.devcontainer/` | Development container setup |
-| `iac/` | Infrastructure deployment templates |
-| `.vscode/` | VS Code settings and configurations |
+| Folder           | Purpose                                                   |
+| ---------------- | --------------------------------------------------------- |
+| `.github/`       | GitHub Actions workflows, custom agents, and instructions |
+| `.azure/`        | Azure DevOps configurations                               |
+| `.devcontainer/` | Development container setup                               |
+| `iac/`           | Infrastructure deployment templates                       |
+| `.vscode/`       | VS Code settings and configurations                       |
 
 ---
 
@@ -516,6 +515,7 @@ A full-featured calculator demonstration across multiple frameworks:
 - **C++ Implementation:** CMake-based build
 
 Located in:
+
 - `calculator/` - Main .NET console app
 - `Calculator.Core/` - Shared library
 - `calculator.tests/` - Test suite
@@ -559,17 +559,17 @@ See: [`gitops/`](gitops/) and [`cicd/`](cicd/)
 
 The repository includes examples and projects in:
 
-| Language | Folder | Notable Features |
-|----------|--------|------------------|
-| **C** | `programming/c/` | Systems programming patterns |
-| **C++** | `programming/cpp/` | Modern C++17 with CMake |
-| **.NET/C#** | `programming/dotnet/` | Full-stack examples, Blazor |
-| **Go** | `programming/go/` | Concurrent patterns, CLI tools |
-| **Java** | `programming/java/` | Enterprise patterns, Maven builds |
-| **JavaScript** | `programming/javascript-html-css/` | Web fundamentals |
-| **Node.js** | `programming/node/` | Backend services, APIs |
-| **Python** | `programming/python/` | Data processing, automation, AI |
-| **TypeScript** | `programming/typescript-*` | Type-safe web development |
+| Language       | Folder                             | Notable Features                  |
+| -------------- | ---------------------------------- | --------------------------------- |
+| **C**          | `programming/c/`                   | Systems programming patterns      |
+| **C++**        | `programming/cpp/`                 | Modern C++17 with CMake           |
+| **.NET/C#**    | `programming/dotnet/`              | Full-stack examples, Blazor       |
+| **Go**         | `programming/go/`                  | Concurrent patterns, CLI tools    |
+| **Java**       | `programming/java/`                | Enterprise patterns, Maven builds |
+| **JavaScript** | `programming/javascript-html-css/` | Web fundamentals                  |
+| **Node.js**    | `programming/node/`                | Backend services, APIs            |
+| **Python**     | `programming/python/`              | Data processing, automation, AI   |
+| **TypeScript** | `programming/typescript-*`         | Type-safe web development         |
 
 ---
 

@@ -1,378 +1,244 @@
-# .NET CI/CD Workflow Templates
-
-🚀 **Streamlined .NET developer onboarding with GitHub Actions, VS Code, and GitHub Copilot**
-
-This repository contains reusable workflow templates, automation scripts, and comprehensive documentation to set up a complete CI/CD pipeline for .NET applications in under 10 minutes.
-
-## 📋 Quick Start
-
-### One-Command Setup
-
-```powershell
-# Clone or download this repository, then run:
-.\setup\complete-setup.ps1 -Owner "your-github-username" -Repo "your-repo-name"
-```
-
-### Prerequisites
-
-- **GitHub CLI** (`gh`) installed and authenticated
-- **Git** installed and configured
-- **Azure CLI** (`az`) installed and authenticated (optional)
-- **Azure subscription** with appropriate permissions
-- **VS Code** with GitHub Copilot extension (recommended)
-
-## 🗂️ Repository Structure
-
-```
-workflow-templates/
-├── 📄 README.md                           # This file
-├── 📋 prd-master-ci-cd-dotnet-appservices.md  # Product Requirements Document
-├── 🔧 .env.template                       # Environment configuration template
-├── 📝 .gitignore                          # Git ignore rules
-├── 📁 setup/                              # Automation scripts
-│   ├── 🔧 complete-setup.ps1              # Complete onboarding automation
-│   ├── 🔧 setup-github-environment.ps1    # GitHub environment setup (Windows)
-│   ├── 🔧 setup-github-environment.sh     # GitHub environment setup (Linux/macOS)
-│   └── 📖 onboarding-guide.md             # Detailed onboarding guide
-├── 📁 workflow-templates/                 # Workflow files
-│   └── 🔄 master-ci-cd-dotnet-appservices-commented.yaml
-└── 📁 references/                         # Reference implementations
-    ├── 🔄 master-ci-cd-dotnet-appservices.yaml
-    └── 🔄 deploy-child.yaml
-```
-
-## 🎯 What This Solution Provides
-
-### ✅ Automated Setup
-- **GitHub environments** (dev, qa, prod) with protection rules
-- **Secrets and variables** configuration via GitHub CLI
-- **Branch protection** rules for main branch
-- **Workflow files** copied to your repository
-- **Git configuration** with proper .gitignore
-
-### ✅ Comprehensive Workflows
-- **Multi-environment deployments** with approval gates
-- **Reusable workflow templates** for consistency
-- **Azure App Service** deployment automation
-- **Build, test, and deploy** stages with error handling
-
-### ✅ Developer Experience
-- **VS Code + GitHub Copilot** integration prompts
-- **Extensive documentation** with troubleshooting guides
-- **Cross-platform support** (Windows, macOS, Linux)
-- **Customizable templates** for different project needs
-
-## 🚀 Getting Started
-
-### Step 1: Prerequisites Setup
-
-**Install GitHub CLI:**
-```powershell
-# Windows
-winget install GitHub.cli
-
-# macOS
-brew install gh
-
-# Linux - see https://cli.github.com/
-```
-
-**Authenticate GitHub CLI:**
-```bash
-gh auth login
-```
-
-**Create Azure Service Principal:**
-```bash
-az ad sp create-for-rbac --name "github-actions-{your-project}" --role contributor
-```
-
-### Step 2: Environment Configuration
-
-1. **Copy environment template:**
-   ```powershell
-   Copy-Item .env.template .env
-   ```
-
-2. **Edit .env file** with your values:
-   - Azure service principal credentials
-   - Azure Web App names for each environment
-   - GitHub repository information
-
-### Step 3: Run Complete Setup
-
-```powershell
-# Complete automated setup
-.\setup\complete-setup.ps1 -Owner "your-org" -Repo "your-repo"
-
-# Or run individual components
-.\setup\setup-github-environment.ps1 -Owner "your-org" -Repo "your-repo"
-```
-
-### Step 4: Manual Steps
-
-1. **Add publish profiles** to environment secrets:
-   ```bash
-   gh secret set AZURE_WEBAPP_PUBLISH_PROFILE --body "$(cat profile.xml)" --env dev
-   ```
-
-2. **Configure reviewers** for qa and prod environments in GitHub UI
-
-3. **Test the workflow** by pushing code or creating a pull request
-
-## 🔧 Configuration Details
-
-### GitHub Environments
-
-| Environment | Auto-Deploy | Reviewers | Wait Time | Branch Policy |
-|-------------|-------------|-----------|-----------|---------------|
-| **dev**     | ✅          | None      | None      | Any branch    |
-| **qa**      | ❌          | 1         | None      | main only     |
-| **prod**    | ❌          | 2         | 5 minutes | main only     |
-
-### Required Secrets
-
-**Repository Level:**
-- `AZURE_CLIENT_ID`
-- `AZURE_CLIENT_SECRET`
-- `AZURE_TENANT_ID`
-- `AZURE_SUBSCRIPTION_ID`
-
-**Environment Level:**
-- `AZURE_WEBAPP_PUBLISH_PROFILE`
-
-### Required Variables
-
-**Environment Level:**
-- `AZURE_WEBAPP_NAME`
-- `AZURE_RESOURCE_GROUP`
-- `DEPLOYMENT_SLOT`
-
-## 🤖 GitHub Copilot Integration
-
-### Setup Prompts
-
-```
-I need to set up a .NET CI/CD pipeline using GitHub Actions. Please help me:
-
-1. Review my workflow configuration for best practices
-2. Customize deployment steps for my Azure App Service
-3. Add environment-specific application settings
-4. Configure monitoring and alerting
-
-Project: .NET 6 web application
-Target: Azure App Service
-Environments: dev, qa, prod
-```
-
-### Customization Prompts
-
-```
-Help me customize my .NET deployment workflow:
-
-1. Add SonarQube code quality checks
-2. Include database migration steps
-3. Configure blue-green deployment for production
-4. Add Slack notifications for deployment status
-
-Current workflow: .github/workflows/ci-cd-dotnet.yaml
-```
-
-### Troubleshooting Prompts
-
-```
-My .NET CI/CD pipeline is failing. Please help me:
-
-1. Analyze the workflow error logs
-2. Check Azure App Service configuration
-3. Verify secrets and variables
-4. Suggest fixes for deployment issues
-
-Error: [paste error message here]
-Workflow: [paste workflow URL here]
-```
-
-## 📚 Documentation
-
-### Core Documents
-- **[Product Requirements Document](prd-master-ci-cd-dotnet-appservices.md)** - Complete solution overview
-- **[Onboarding Guide](setup/onboarding-guide.md)** - Step-by-step setup instructions
-- **[Workflow Templates](workflow-templates/)** - Commented workflow files
-
-### Additional Resources
-- **[GitHub Actions Documentation](https://docs.github.com/en/actions)**
-- **[Azure App Service Deployment](https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions)**
-- **[GitHub CLI Manual](https://cli.github.com/manual/)**
-
-## 🛠️ Customization Examples
-
-### Adding Custom Build Steps
-
-```yaml
-- name: Code Quality Analysis
-  uses: sonarqube-quality-gate-action@master
-  env:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-```
-
-### Environment-Specific Configuration
-
-```yaml
-- name: Update App Settings
-  run: |
-    # Replace connection strings per environment
-    if [ "${{ github.event.inputs.environment }}" = "prod" ]; then
-      echo "Using production settings"
-    fi
-```
-
-### Custom Notifications
-
-```yaml
-- name: Notify Deployment Status
-  if: always()
-  uses: 8398a7/action-slack@v3
-  with:
-    status: ${{ job.status }}
-    channel: '#deployments'
-  env:
-    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-```
-
-## 🔍 Monitoring and Troubleshooting
-
-### Workflow Monitoring
-
-Access your workflows and environments:
-- **GitHub Actions:** `https://github.com/{owner}/{repo}/actions`
-- **Environments:** `https://github.com/{owner}/{repo}/settings/environments`
-- **Secrets:** `https://github.com/{owner}/{repo}/settings/secrets`
-
-### Common Issues
-
-**1. Authentication Errors**
-```powershell
-# Re-authenticate GitHub CLI
-gh auth login --web
-gh auth status
-```
-
-**2. Azure Connection Issues**
-```bash
-# Test service principal
-az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
-```
-
-**3. Workflow Syntax Errors**
-- Use VS Code GitHub Actions extension
-- Check workflow logs for detailed errors
-- Use GitHub Copilot for syntax help
-
-### Getting Help
-
-**Use GitHub Copilot:**
-```
-I'm having issues with my .NET CI/CD pipeline:
-
-Error: [paste error message]
-Workflow: [paste workflow file]
-Environment: [development/qa/production]
-
-Please help me:
-1. Analyze the error
-2. Suggest fixes
-3. Provide best practices
-```
-
-## 🎯 Success Criteria
-
-Your setup is complete when you can:
-
-1. ✅ **Trigger workflows** manually or via code push
-2. ✅ **Deploy to dev** automatically on code changes
-3. ✅ **Deploy to qa/prod** with proper approvals
-4. ✅ **Monitor deployments** in GitHub and Azure
-5. ✅ **Customize workflows** using GitHub Copilot
-
-## 🔄 Deployment Process
-
-### Development Environment
-1. **Trigger:** Push to any branch
-2. **Process:** Build → Test → Deploy
-3. **Approval:** None required
-4. **Rollback:** Automatic on failure
-
-### QA Environment
-1. **Trigger:** Manual or push to main
-2. **Process:** Build → Test → Review → Deploy
-3. **Approval:** 1 reviewer required
-4. **Rollback:** Manual process
-
-### Production Environment
-1. **Trigger:** Manual from main branch only
-2. **Process:** Build → Test → Wait → Review → Deploy
-3. **Approval:** 2 reviewers + 5-minute wait
-4. **Rollback:** Manual with approval
-
-## 🤝 Contributing
-
-Help improve this solution:
-
-1. **Report issues** with setup or workflows
-2. **Suggest enhancements** for automation scripts
-3. **Share customizations** that work for your projects
-4. **Update documentation** based on your experience
-
-### Development Setup
-
-```powershell
-# Clone the repository
-git clone https://github.com/your-org/workflow-templates.git
-cd workflow-templates
-
-# Test the setup scripts
-.\setup\complete-setup.ps1 -Owner "test-org" -Repo "test-repo" -DryRun
-```
-
-## 📊 Performance Metrics
-
-Expected performance after setup:
-
-- **Setup Time:** < 10 minutes
-- **First Deployment:** < 5 minutes
-- **Subsequent Deployments:** < 3 minutes
-- **Error Rate:** < 5% for properly configured projects
-
-## 🔐 Security Best Practices
-
-- **Secrets Management:** Use GitHub secrets, never commit credentials
-- **Environment Protection:** Implement proper approval workflows
-- **Branch Protection:** Require reviews for main branch
-- **Access Control:** Use least-privilege service principals
-- **Audit Logging:** Monitor all deployment activities
-
-## 📞 Support
-
-For support and questions:
-
-1. **Check troubleshooting guides** in documentation
-2. **Use GitHub Copilot** for contextual help
-3. **Create repository issues** for bugs or feature requests
-4. **Contact your DevOps team** for organization-specific guidance
-
-## 🎉 What's Next?
-
-After successful setup:
-
-1. **Customize workflows** for your specific needs
-2. **Add monitoring and alerting** for production environments
-3. **Implement advanced deployment strategies** (blue-green, canary)
-4. **Integrate with additional tools** (SonarQube, monitoring, etc.)
-5. **Share your experience** with the development community
-
----
-
-**Made with ❤️ for .NET developers**
-
-*This solution is designed to work seamlessly with GitHub Copilot. Use the provided prompts throughout your development process for the best experience.*
+# .NET CI/CD Workflow Templates
+
+🚀 **Streamlined .NET developer onboarding with GitHub Actions, VS Code, and GitHub Copilot**
+
+This repository contains reusable workflow templates, automation scripts, and comprehensive documentation to set up a complete CI/CD pipeline for .NET applications in under 10 minutes.
+\n\n📋 Quick Start
+\n\nOne-Command Setup
+
+```powershell\n\nClone or download this repository, then run:
+.\setup\complete-setup.ps1 -Owner "your-github-username" -Repo "your-repo-name"
+```
+\n\nPrerequisites
+\n\n**GitHub CLI** (`gh`) installed and authenticated\n\n**Git** installed and configured\n\n**Azure CLI** (`az`) installed and authenticated (optional)\n\n**Azure subscription** with appropriate permissions\n\n**VS Code** with GitHub Copilot extension (recommended)
+\n\n🗂️ Repository Structure
+
+```
+workflow-templates/
+├── 📄 README.md                           # This file
+├── 📋 prd-master-ci-cd-dotnet-appservices.md  # Product Requirements Document
+├── 🔧 .env.template                       # Environment configuration template
+├── 📝 .gitignore                          # Git ignore rules
+├── 📁 setup/                              # Automation scripts
+│   ├── 🔧 complete-setup.ps1              # Complete onboarding automation
+│   ├── 🔧 setup-github-environment.ps1    # GitHub environment setup (Windows)
+│   ├── 🔧 setup-github-environment.sh     # GitHub environment setup (Linux/macOS)
+│   └── 📖 onboarding-guide.md             # Detailed onboarding guide
+├── 📁 workflow-templates/                 # Workflow files
+│   └── 🔄 master-ci-cd-dotnet-appservices-commented.yaml
+└── 📁 references/                         # Reference implementations
+    ├── 🔄 master-ci-cd-dotnet-appservices.yaml
+    └── 🔄 deploy-child.yaml
+```
+\n\n🎯 What This Solution Provides
+\n\n✅ Automated Setup
+\n\n**GitHub environments** (dev, qa, prod) with protection rules\n\n**Secrets and variables** configuration via GitHub CLI\n\n**Branch protection** rules for main branch\n\n**Workflow files** copied to your repository\n\n**Git configuration** with proper .gitignore
+\n\n✅ Comprehensive Workflows
+\n\n**Multi-environment deployments** with approval gates\n\n**Reusable workflow templates** for consistency\n\n**Azure App Service** deployment automation\n\n**Build, test, and deploy** stages with error handling
+\n\n✅ Developer Experience
+\n\n**VS Code + GitHub Copilot** integration prompts\n\n**Extensive documentation** with troubleshooting guides\n\n**Cross-platform support** (Windows, macOS, Linux)\n\n**Customizable templates** for different project needs
+\n\n🚀 Getting Started
+\n\nStep 1: Prerequisites Setup
+
+**Install GitHub CLI:**
+
+```powershell\n\nWindows
+winget install GitHub.cli
+\n\nmacOS
+brew install gh
+\n\nLinux - see https://cli.github.com/
+```
+
+**Authenticate GitHub CLI:**
+
+```bash
+gh auth login
+```
+
+**Create Azure Service Principal:**
+
+```bash
+az ad sp create-for-rbac --name "github-actions-{your-project}" --role contributor
+```
+\n\nStep 2: Environment Configuration
+\n\n**Copy environment template:**
+
+   ```powershell
+   Copy-Item .env.template .env
+   ```
+\n\n**Edit .env file** with your values:\n\nAzure service principal credentials\n\nAzure Web App names for each environment\n\nGitHub repository information
+\n\nStep 3: Run Complete Setup
+
+```powershell\n\nComplete automated setup
+.\setup\complete-setup.ps1 -Owner "your-org" -Repo "your-repo"
+\n\nOr run individual components
+.\setup\setup-github-environment.ps1 -Owner "your-org" -Repo "your-repo"
+```
+\n\nStep 4: Manual Steps
+\n\n**Add publish profiles** to environment secrets:
+
+   ```bash
+   gh secret set AZURE_WEBAPP_PUBLISH_PROFILE --body "$(cat profile.xml)" --env dev
+   ```
+\n\n**Configure reviewers** for qa and prod environments in GitHub UI
+\n\n**Test the workflow** by pushing code or creating a pull request
+\n\n🔧 Configuration Details
+\n\nGitHub Environments
+
+| Environment | Auto-Deploy | Reviewers | Wait Time | Branch Policy |
+| ----------- | ----------- | --------- | --------- | ------------- |
+| **dev**     | ✅          | None      | None      | Any branch    |
+| **qa**      | ❌          | 1         | None      | main only     |
+| **prod**    | ❌          | 2         | 5 minutes | main only     |
+\n\nRequired Secrets
+
+**Repository Level:**
+\n\n`AZURE_CLIENT_ID`\n\n`AZURE_CLIENT_SECRET`\n\n`AZURE_TENANT_ID`\n\n`AZURE_SUBSCRIPTION_ID`
+
+**Environment Level:**
+\n\n`AZURE_WEBAPP_PUBLISH_PROFILE`
+\n\nRequired Variables
+
+**Environment Level:**
+\n\n`AZURE_WEBAPP_NAME`\n\n`AZURE_RESOURCE_GROUP`\n\n`DEPLOYMENT_SLOT`
+\n\n🤖 GitHub Copilot Integration
+\n\nSetup Prompts
+
+```
+I need to set up a .NET CI/CD pipeline using GitHub Actions. Please help me:
+\n\nReview my workflow configuration for best practices\n\nCustomize deployment steps for my Azure App Service\n\nAdd environment-specific application settings\n\nConfigure monitoring and alerting
+
+Project: .NET 6 web application
+Target: Azure App Service
+Environments: dev, qa, prod
+```
+\n\nCustomization Prompts
+
+```
+Help me customize my .NET deployment workflow:
+\n\nAdd SonarQube code quality checks\n\nInclude database migration steps\n\nConfigure blue-green deployment for production\n\nAdd Slack notifications for deployment status
+
+Current workflow: .github/workflows/ci-cd-dotnet.yaml
+```
+\n\nTroubleshooting Prompts
+
+```
+My .NET CI/CD pipeline is failing. Please help me:
+\n\nAnalyze the workflow error logs\n\nCheck Azure App Service configuration\n\nVerify secrets and variables\n\nSuggest fixes for deployment issues
+
+Error: [paste error message here]
+Workflow: [paste workflow URL here]
+```
+\n\n📚 Documentation
+\n\nCore Documents
+\n\n**[Product Requirements Document](prd-master-ci-cd-dotnet-appservices.md)** - Complete solution overview\n\n**[Onboarding Guide](setup/onboarding-guide.md)** - Step-by-step setup instructions\n\n**[Workflow Templates](workflow-templates/)** - Commented workflow files
+\n\nAdditional Resources
+\n\n**[GitHub Actions Documentation](https://docs.github.com/en/actions)**\n\n**[Azure App Service Deployment](https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions)**\n\n**[GitHub CLI Manual](https://cli.github.com/manual/)**
+\n\n🛠️ Customization Examples
+\n\nAdding Custom Build Steps
+
+```yaml\n\nname: Code Quality Analysis
+  uses: sonarqube-quality-gate-action@master
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+```
+\n\nEnvironment-Specific Configuration
+
+```yaml\n\nname: Update App Settings
+  run: |
+    # Replace connection strings per environment
+    if [ "${{ github.event.inputs.environment }}" = "prod" ]; then
+      echo "Using production settings"
+    fi
+```
+\n\nCustom Notifications
+
+```yaml\n\nname: Notify Deployment Status
+  if: always()
+  uses: 8398a7/action-slack@v3
+  with:
+    status: ${{ job.status }}
+    channel: "#deployments"
+  env:
+    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+```
+\n\n🔍 Monitoring and Troubleshooting
+\n\nWorkflow Monitoring
+
+Access your workflows and environments:
+\n\n**GitHub Actions:** `https://github.com/{owner}/{repo}/actions`\n\n**Environments:** `https://github.com/{owner}/{repo}/settings/environments`\n\n**Secrets:** `https://github.com/{owner}/{repo}/settings/secrets`
+\n\nCommon Issues
+
+**1. Authentication Errors**
+
+```powershell\n\nRe-authenticate GitHub CLI
+gh auth login --web
+gh auth status
+```
+
+**2. Azure Connection Issues**
+
+```bash\n\nTest service principal
+az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+```
+
+**3. Workflow Syntax Errors**
+\n\nUse VS Code GitHub Actions extension\n\nCheck workflow logs for detailed errors\n\nUse GitHub Copilot for syntax help
+\n\nGetting Help
+
+**Use GitHub Copilot:**
+
+```
+I'm having issues with my .NET CI/CD pipeline:
+
+Error: [paste error message]
+Workflow: [paste workflow file]
+Environment: [development/qa/production]
+
+Please help me:\n\nAnalyze the error\n\nSuggest fixes\n\nProvide best practices
+```
+\n\n🎯 Success Criteria
+
+Your setup is complete when you can:
+\n\n✅ **Trigger workflows** manually or via code push\n\n✅ **Deploy to dev** automatically on code changes\n\n✅ **Deploy to qa/prod** with proper approvals\n\n✅ **Monitor deployments** in GitHub and Azure\n\n✅ **Customize workflows** using GitHub Copilot
+\n\n🔄 Deployment Process
+\n\nDevelopment Environment
+\n\n**Trigger:** Push to any branch\n\n**Process:** Build → Test → Deploy\n\n**Approval:** None required\n\n**Rollback:** Automatic on failure
+\n\nQA Environment
+\n\n**Trigger:** Manual or push to main\n\n**Process:** Build → Test → Review → Deploy\n\n**Approval:** 1 reviewer required\n\n**Rollback:** Manual process
+\n\nProduction Environment
+\n\n**Trigger:** Manual from main branch only\n\n**Process:** Build → Test → Wait → Review → Deploy\n\n**Approval:** 2 reviewers + 5-minute wait\n\n**Rollback:** Manual with approval
+\n\n🤝 Contributing
+
+Help improve this solution:
+\n\n**Report issues** with setup or workflows\n\n**Suggest enhancements** for automation scripts\n\n**Share customizations** that work for your projects\n\n**Update documentation** based on your experience
+\n\nDevelopment Setup
+
+```powershell\n\nClone the repository
+git clone https://github.com/your-org/workflow-templates.git
+cd workflow-templates
+\n\nTest the setup scripts
+.\setup\complete-setup.ps1 -Owner "test-org" -Repo "test-repo" -DryRun
+```
+\n\n📊 Performance Metrics
+
+Expected performance after setup:
+\n\n**Setup Time:** < 10 minutes\n\n**First Deployment:** < 5 minutes\n\n**Subsequent Deployments:** < 3 minutes\n\n**Error Rate:** < 5% for properly configured projects
+\n\n🔐 Security Best Practices
+\n\n**Secrets Management:** Use GitHub secrets, never commit credentials\n\n**Environment Protection:** Implement proper approval workflows\n\n**Branch Protection:** Require reviews for main branch\n\n**Access Control:** Use least-privilege service principals\n\n**Audit Logging:** Monitor all deployment activities
+\n\n📞 Support
+
+For support and questions:
+\n\n**Check troubleshooting guides** in documentation\n\n**Use GitHub Copilot** for contextual help\n\n**Create repository issues** for bugs or feature requests\n\n**Contact your DevOps team** for organization-specific guidance
+\n\n🎉 What's Next?
+
+After successful setup:
+\n\n**Customize workflows** for your specific needs\n\n**Add monitoring and alerting** for production environments\n\n**Implement advanced deployment strategies** (blue-green, canary)\n\n**Integrate with additional tools** (SonarQube, monitoring, etc.)\n\n**Share your experience** with the development community
+
+---
+
+**Made with ❤️ for .NET developers**
+
+_This solution is designed to work seamlessly with GitHub Copilot. Use the provided prompts throughout your development process for the best experience._
+\n

@@ -26,24 +26,24 @@ Developing a basic TypeScript calculator app in WebStorm is straightforward. Her
 
      ```typescript
      class Calculator {
-         add(a: number, b: number): number {
-             return a + b;
-         }
+       add(a: number, b: number): number {
+         return a + b;
+       }
 
-         subtract(a: number, b: number): number {
-             return a - b;
-         }
+       subtract(a: number, b: number): number {
+         return a - b;
+       }
 
-         multiply(a: number, b: number): number {
-             return a * b;
-         }
+       multiply(a: number, b: number): number {
+         return a * b;
+       }
 
-         divide(a: number, b: number): number {
-             if (b === 0) {
-                 throw new Error("Division by zero is not allowed.");
-             }
-             return a / b;
+       divide(a: number, b: number): number {
+         if (b === 0) {
+           throw new Error("Division by zero is not allowed.");
          }
+         return a / b;
+       }
      }
 
      // Example usage
@@ -91,12 +91,12 @@ To test your TypeScript calculator app with Vitest in WebStorm, follow these ste
    - Add a `vitest.config.ts` file to your project root with the following content:
 
      ```typescript
-     import { defineConfig } from 'vitest/config';
+     import { defineConfig } from "vitest/config";
 
      export default defineConfig({
        test: {
          globals: true,
-         environment: 'node',
+         environment: "node",
        },
      });
      ```
@@ -105,33 +105,35 @@ To test your TypeScript calculator app with Vitest in WebStorm, follow these ste
    - Create a new file named `calculator.test.ts` in your project directory and add your test cases:
 
      ```typescript
-     import { describe, it, expect } from 'vitest';
-     import { Calculator } from './calculator';
+     import { describe, it, expect } from "vitest";
+     import { Calculator } from "./calculator";
 
-     describe('Calculator', () => {
-       it('should add two numbers', () => {
+     describe("Calculator", () => {
+       it("should add two numbers", () => {
          const calculator = new Calculator();
          expect(calculator.add(2, 3)).toBe(5);
        });
 
-       it('should subtract two numbers', () => {
+       it("should subtract two numbers", () => {
          const calculator = new Calculator();
          expect(calculator.subtract(5, 2)).toBe(3);
        });
 
-       it('should multiply two numbers', () => {
+       it("should multiply two numbers", () => {
          const calculator = new Calculator();
          expect(calculator.multiply(4, 3)).toBe(12);
        });
 
-       it('should divide two numbers', () => {
+       it("should divide two numbers", () => {
          const calculator = new Calculator();
          expect(calculator.divide(10, 2)).toBe(5);
        });
 
-       it('should throw an error when dividing by zero', () => {
+       it("should throw an error when dividing by zero", () => {
          const calculator = new Calculator();
-         expect(() => calculator.divide(1, 0)).toThrow('Division by zero is not allowed.');
+         expect(() => calculator.divide(1, 0)).toThrow(
+           "Division by zero is not allowed.",
+         );
        });
      });
      ```

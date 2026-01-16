@@ -1,5 +1,4 @@
-<!-- BEGIN MICROSOFT SECURITY.MD V0.0.9 BLOCK -->
----
+## <!-- BEGIN MICROSOFT SECURITY.MD V0.0.9 BLOCK -->
 
 # Security Policy
 

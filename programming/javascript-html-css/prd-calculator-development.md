@@ -82,48 +82,48 @@ The organization needs a modern, web-based calculator application that:
 
 ### Core Calculator Features
 
-| Requirement ID | Feature | Description | Priority |
-|---|---|---|---|
-| FR-001 | Basic Arithmetic | Addition, subtraction, multiplication, division operations | High |
-| FR-002 | Advanced Operations | Modulo (%) and exponentiation (^) functions | High |
-| FR-003 | User Interface | Visual keypad with number and operation buttons | High |
-| FR-004 | Color-coded Interface | Different colors for numbers and operations | Medium |
-| FR-005 | Enhanced Visual Design | Darker green equal sign for better UX | Low |
+| Requirement ID | Feature                | Description                                                | Priority |
+| -------------- | ---------------------- | ---------------------------------------------------------- | -------- |
+| FR-001         | Basic Arithmetic       | Addition, subtraction, multiplication, division operations | High     |
+| FR-002         | Advanced Operations    | Modulo (%) and exponentiation (^) functions                | High     |
+| FR-003         | User Interface         | Visual keypad with number and operation buttons            | High     |
+| FR-004         | Color-coded Interface  | Different colors for numbers and operations                | Medium   |
+| FR-005         | Enhanced Visual Design | Darker green equal sign for better UX                      | Low      |
 
 ### File Structure Requirements
 
-| Requirement ID | Component | Description | Priority |
-|---|---|---|---|
-| FR-006 | HTML Structure | index.html file for application layout | High |
-| FR-007 | Styling | calculator.css for visual presentation | High |
-| FR-008 | Logic Implementation | calculator.js (TypeScript compiled) for functionality | High |
-| FR-009 | Project Organization | calculator/ folder structure for organization | High |
+| Requirement ID | Component            | Description                                           | Priority |
+| -------------- | -------------------- | ----------------------------------------------------- | -------- |
+| FR-006         | HTML Structure       | index.html file for application layout                | High     |
+| FR-007         | Styling              | calculator.css for visual presentation                | High     |
+| FR-008         | Logic Implementation | calculator.js (TypeScript compiled) for functionality | High     |
+| FR-009         | Project Organization | calculator/ folder structure for organization         | High     |
 
 ### Development Environment Requirements
 
-| Requirement ID | Component | Description | Priority |
-|---|---|---|---|
-| FR-010 | Runtime Environment | Node.js installation via winget on Windows 11 | High |
-| FR-011 | Development IDE | Visual Studio Code integration and execution | High |
-| FR-012 | Version Control | Git ignore configuration for node_modules | High |
+| Requirement ID | Component           | Description                                   | Priority |
+| -------------- | ------------------- | --------------------------------------------- | -------- |
+| FR-010         | Runtime Environment | Node.js installation via winget on Windows 11 | High     |
+| FR-011         | Development IDE     | Visual Studio Code integration and execution  | High     |
+| FR-012         | Version Control     | Git ignore configuration for node_modules     | High     |
 
 ### Testing Requirements
 
-| Requirement ID | Component | Description | Priority |
-|---|---|---|---|
-| FR-013 | Test Framework | Jest integration for TypeScript testing | High |
-| FR-014 | Test Execution | Command-line test execution capabilities | High |
-| FR-015 | Test Coverage | Comprehensive test suite for calculator functions | Medium |
-| FR-016 | Alternative Tools | Evaluation of Mocha, Jasmine, Karma, AVA | Low |
+| Requirement ID | Component         | Description                                       | Priority |
+| -------------- | ----------------- | ------------------------------------------------- | -------- |
+| FR-013         | Test Framework    | Jest integration for TypeScript testing           | High     |
+| FR-014         | Test Execution    | Command-line test execution capabilities          | High     |
+| FR-015         | Test Coverage     | Comprehensive test suite for calculator functions | Medium   |
+| FR-016         | Alternative Tools | Evaluation of Mocha, Jasmine, Karma, AVA          | Low      |
 
 ### Internationalization Requirements
 
-| Requirement ID | Component | Description | Priority |
-|---|---|---|---|
-| FR-017 | German Documentation | Code comments and explanations in German | Medium |
-| FR-018 | Hindi Support | Code explanation capabilities in Hindi | Medium |
-| FR-019 | Japanese Support | Code explanation capabilities in Japanese | Medium |
-| FR-020 | Multi-language Framework | Foundation for additional language support | Low |
+| Requirement ID | Component                | Description                                | Priority |
+| -------------- | ------------------------ | ------------------------------------------ | -------- |
+| FR-017         | German Documentation     | Code comments and explanations in German   | Medium   |
+| FR-018         | Hindi Support            | Code explanation capabilities in Hindi     | Medium   |
+| FR-019         | Japanese Support         | Code explanation capabilities in Japanese  | Medium   |
+| FR-020         | Multi-language Framework | Foundation for additional language support | Low      |
 
 ## Non-Functional Requirements
 
@@ -360,11 +360,11 @@ calculator/
 
 ```typescript
 // English: Function to add two numbers
-// German: Funktion zum Addieren zweier Zahlen  
+// German: Funktion zum Addieren zweier Zahlen
 // Hindi: दो संख्याओं को जोड़ने के लिए फ़ंक्शन
 // Japanese: 二つの数値を足し算する関数
 function add(a: number, b: number): number {
-    return a + b;
+  return a + b;
 }
 ```
 

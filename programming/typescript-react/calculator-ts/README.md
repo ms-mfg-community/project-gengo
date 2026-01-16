@@ -32,6 +32,7 @@ calculator-ts/
 ## Features
 
 ✅ **Core Calculator**
+
 - All arithmetic operations: +, −, ×, ÷, ^, %
 - Decimal support with validation
 - Chained calculations
@@ -39,18 +40,21 @@ calculator-ts/
 - Display with real-time updates
 
 ✅ **User Interface**
+
 - React components matching Blazor structure
 - Unicode mathematical symbols (÷, ×, −, +)
 - Standard 4-column calculator grid layout
 - High-contrast color scheme
 
 ✅ **Themes**
+
 - Light theme (light gray buttons, white background)
 - Dark theme (dark gray buttons, dark background)
 - Theme persisted to localStorage
 - Smooth transitions
 
 ✅ **History Management**
+
 - Session and persistent history via API
 - Replay calculations from history
 - 50-item FIFO limit
@@ -58,13 +62,15 @@ calculator-ts/
 - User-specific history support (ready for auth)
 
 ✅ **Keyboard Support**
+
 - Numeric input (0-9)
-- Operators: +, −, *, /, ^
+- Operators: +, −, \*, /, ^
 - Decimal point (.)
 - Enter or = for equals
 - Backspace/Delete/C for clear
 
 ✅ **Backend API**
+
 - Express REST API
 - CORS-enabled for frontend integration
 - Health check endpoint
@@ -72,6 +78,7 @@ calculator-ts/
 - Ready for Azure SQL integration
 
 ✅ **Testing**
+
 - Jest + React Testing Library (frontend)
 - Jest + Supertest (backend)
 - Calculator service unit tests
@@ -80,17 +87,20 @@ calculator-ts/
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+ and npm 9+
 - Git
 
 ### Installation
 
 1. Clone repository:
+
 ```bash
 cd C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\typescript-react\calculator-ts
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
@@ -98,6 +108,7 @@ npm install
 ### Development
 
 **Run full stack (frontend + backend):**
+
 ```bash
 npm run dev
 ```
@@ -106,11 +117,13 @@ Frontend: http://localhost:3000
 Backend: http://localhost:5000
 
 **Run frontend only:**
+
 ```bash
 npm run dev --workspace=frontend
 ```
 
 **Run backend only:**
+
 ```bash
 npm run dev --workspace=backend
 ```
@@ -122,6 +135,7 @@ npm run build
 ```
 
 Outputs:
+
 - Frontend: `frontend/dist/`
 - Backend: `backend/dist/`
 
@@ -134,17 +148,20 @@ npm run test
 ## Frontend Structure
 
 ### Components
+
 - **App.tsx** - Main component with state management
 - **CalculatorKeypad.tsx** - Button grid (40 buttons)
 - **HistoryPanel.tsx** - Calculation history sidebar
 - **ThemeToggle.tsx** - Light/Dark toggle button
 
 ### Services
+
 - **Calculator.ts** - Pure arithmetic operations
 - **HistoryService.ts** - API integration for history
 - **ThemeService.ts** - Theme state management
 
 ### Styling
+
 - **calculator.css** - Single source of truth for all styles
 - CSS custom properties (variables) for theming
 - Responsive design (480px, 768px, desktop)
@@ -153,6 +170,7 @@ npm run test
 ## Backend Structure
 
 ### Routes
+
 - `GET /history` - Fetch all calculations
 - `GET /history/:id` - Fetch single calculation
 - `POST /history` - Add new calculation
@@ -161,6 +179,7 @@ npm run test
 - `GET /health` - Health check
 
 ### Services
+
 - **HistoryService.ts** - In-memory storage (development)
   - Ready to replace with database integration
   - 50-item FIFO limit
@@ -169,6 +188,7 @@ npm run test
 ## API Endpoints
 
 ### History
+
 ```
 GET /history              - Get all calculations
 POST /history             - Create calculation
@@ -186,6 +206,7 @@ DELETE /history/:id       - Delete calculation
 ```
 
 ### Health
+
 ```
 GET /health               - Service health status
 ```
@@ -193,6 +214,7 @@ GET /health               - Service health status
 ## Deployment to Azure
 
 ### Prerequisites
+
 - Azure Account
 - Azure CLI
 - Docker (optional for containerization)
@@ -212,6 +234,7 @@ GET /health               - Service health status
    - Register Application Insights
 
 3. **Build & Publish**
+
    ```bash
    npm run build
    # Publish to Azure App Service
@@ -246,32 +269,33 @@ CORS_ORIGIN=http://localhost:3000
 
 ## Performance Characteristics
 
-| Metric | Value |
-|--------|-------|
-| **Frontend Build Size** | ~200-250 KB (gzipped) |
-| **Backend Size** | ~50-80 KB (production) |
-| **Display Update Time** | <50ms |
-| **API Response Time** | <100ms (in-memory) |
-| **History Limit** | 50 items (FIFO) |
-| **Supported Browsers** | Chrome, Firefox, Safari, Edge (modern versions) |
+| Metric                  | Value                                           |
+| ----------------------- | ----------------------------------------------- |
+| **Frontend Build Size** | ~200-250 KB (gzipped)                           |
+| **Backend Size**        | ~50-80 KB (production)                          |
+| **Display Update Time** | <50ms                                           |
+| **API Response Time**   | <100ms (in-memory)                              |
+| **History Limit**       | 50 items (FIFO)                                 |
+| **Supported Browsers**  | Chrome, Firefox, Safari, Edge (modern versions) |
 
 ## Comparison: .NET/Blazor vs Node.js/TypeScript
 
-| Aspect | Blazor (.NET) | React + Express (Node.js) |
-|--------|--------------|--------------------------|
-| Frontend Runtime | .NET WebAssembly | JavaScript |
-| Backend Runtime | .NET 8.0 | Node.js |
-| Type Safety | Strong (C#) | Strong (TypeScript) |
-| Learning Curve | Moderate (C# knowledge) | Moderate (JS/TS knowledge) |
-| Package Ecosystem | NuGet | npm |
-| Development Speed | Fast | Fast |
-| Production Performance | Excellent | Good |
-| Hosting Costs | Moderate | Low to Moderate |
-| Team Familiarity | .NET teams | JavaScript/Node teams |
+| Aspect                 | Blazor (.NET)           | React + Express (Node.js)  |
+| ---------------------- | ----------------------- | -------------------------- |
+| Frontend Runtime       | .NET WebAssembly        | JavaScript                 |
+| Backend Runtime        | .NET 8.0                | Node.js                    |
+| Type Safety            | Strong (C#)             | Strong (TypeScript)        |
+| Learning Curve         | Moderate (C# knowledge) | Moderate (JS/TS knowledge) |
+| Package Ecosystem      | NuGet                   | npm                        |
+| Development Speed      | Fast                    | Fast                       |
+| Production Performance | Excellent               | Good                       |
+| Hosting Costs          | Moderate                | Low to Moderate            |
+| Team Familiarity       | .NET teams              | JavaScript/Node teams      |
 
 ## Testing Data
 
 Sample calculations to test:
+
 - `5 + 3 = 8`
 - `10 × 7 = 70`
 - `100 ÷ 4 = 25`

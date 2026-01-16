@@ -1,6 +1,3 @@
-# Refactoring Guidelines
-
-- Prefer pure functions where possible
-- Apply SOLID principles
-- Replace long conditionals with strategy pattern
-- Add logging using our internal telemetry wrapper `hwLog()`
+# Refactoring Guidelines
+\n\nPrefer pure functions where possible\n\nApply SOLID principles\n\nReplace long conditionals with strategy pattern\n\nAdd logging using our internal telemetry wrapper `hwLog()`
+\n

@@ -40,6 +40,7 @@ calculator-typescript/
 ## Installation
 
 1. Navigate to the project directory:
+
    ```bash
    cd programming/typescript-react/workspace/calculator-typescript
    ```
@@ -110,68 +111,84 @@ The `Calculator` class provides static methods for performing arithmetic operati
 #### Methods
 
 ##### `add(first: number, second: number): number`
+
 Adds two numbers and returns the sum.
 
 **Example:**
+
 ```typescript
-import { Calculator } from './calculator';
+import { Calculator } from "./calculator";
 const result = Calculator.add(10, 5); // 15
 ```
 
 ##### `subtract(first: number, second: number): number`
+
 Subtracts the second number from the first and returns the difference.
 
 **Example:**
+
 ```typescript
 const result = Calculator.subtract(10, 5); // 5
 ```
 
 ##### `multiply(first: number, second: number): number`
+
 Multiplies two numbers and returns the product.
 
 **Example:**
+
 ```typescript
 const result = Calculator.multiply(10, 5); // 50
 ```
 
 ##### `divide(first: number, second: number): number`
+
 Divides the first number by the second and returns the quotient. Returns `NaN` if dividing by zero.
 
 **Example:**
+
 ```typescript
 const result = Calculator.divide(10, 5); // 2
 const error = Calculator.divide(10, 0); // NaN (with error message)
 ```
 
 ##### `modulo(first: number, second: number): number`
+
 Returns the remainder when dividing the first number by the second. Returns `NaN` if dividing by zero.
 
 **Example:**
+
 ```typescript
 const result = Calculator.modulo(10, 3); // 1
 const error = Calculator.modulo(10, 0); // NaN (with error message)
 ```
 
 ##### `exponent(first: number, second: number): number`
+
 Raises the first number to the power of the second number.
 
 **Example:**
+
 ```typescript
 const result = Calculator.exponent(2, 3); // 8
 ```
 
 ##### `performCalculation(first: number, operator: string, second: number): number`
+
 Performs a calculation based on the provided operator. Returns `NaN` for invalid operators.
 
 **Example:**
+
 ```typescript
 const result = Calculator.performCalculation(10, "+", 5); // 15
 ```
 
 ##### `isValidOperator(operator: string): boolean`
-Validates if a string is a valid operator (+, -, *, /, %, ^).
+
+Validates if a string is a valid operator (+, -, \*, /, %, ^).
 
 **Example:**
+
 ```typescript
 const valid = Calculator.isValidOperator("+"); // true
 const invalid = Calculator.isValidOperator("?"); // false

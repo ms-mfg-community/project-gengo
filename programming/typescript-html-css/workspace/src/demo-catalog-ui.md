@@ -115,24 +115,24 @@ Implement form state management using React useState hook to track all form fiel
 
 ```typescript
 const [formData, setFormData] = useState({
-  id: '',
-  points: '',
-  category: '',
-  sub_category: '',
-  language: '',
-  role: '',
-  person: '',
-  ide_type: '',
-  prompt_type: '',
-  shot_type: '',
+  id: "",
+  points: "",
+  category: "",
+  sub_category: "",
+  language: "",
+  role: "",
+  person: "",
+  ide_type: "",
+  prompt_type: "",
+  shot_type: "",
   is_test: false,
-  test_type: '',
-  epoch: '',
-  confidence_percent: '',
-  scenario: '',
-  github_org: '',
-  reference: '',
-  data_source: ''
+  test_type: "",
+  epoch: "",
+  confidence_percent: "",
+  scenario: "",
+  github_org: "",
+  reference: "",
+  data_source: "",
 });
 ```
 
@@ -145,11 +145,13 @@ Create change handlers for the form inputs that update the form state when users
 ```
 
 ```typescript
-const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+) => {
   const { name, value } = e.target;
   setFormData({
     ...formData,
-    [name]: value
+    [name]: value,
   });
 };
 ```
@@ -165,17 +167,17 @@ Implement a form submission handler that sends the form data to a backend API en
 ```typescript
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
-  const response = await fetch('/api/demo-catalog-ui', {
-    method: 'POST',
+  const response = await fetch("/api/demo-catalog-ui", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(formData)
+    body: JSON.stringify(formData),
   });
   if (response.ok) {
-    alert('Data submitted successfully');
+    alert("Data submitted successfully");
   } else {
-    alert('Failed to submit data');
+    alert("Failed to submit data");
   }
 };
 ```
@@ -404,4 +406,4 @@ Document the application with appropriate comments and documentation to make it 
 
 ---
 
-This implementation guide provides a structured approach to creating a responsive, accessible, and feature-rich catalog form UI using React and TypeScript. Each section includes practical prompts that can be used to implement specific parts of the application incrementally. 
+This implementation guide provides a structured approach to creating a responsive, accessible, and feature-rich catalog form UI using React and TypeScript. Each section includes practical prompts that can be used to implement specific parts of the application incrementally.

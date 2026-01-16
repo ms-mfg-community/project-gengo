@@ -1,75 +1,56 @@
-# CalculatorWeb.sln - Quick Start Guide
-
-## ?? Location
-```
-C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\experimental\calculator-xunit-testing\CalculatorWeb.sln
-```
-
-## ?? Quick Commands
-
-### Build
-```powershell
-cd C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\experimental\calculator-xunit-testing
-dotnet build CalculatorWeb.sln
-```
-
-### Run
-```powershell
-dotnet run --project CalculatorBlazor\CalculatorBlazor.csproj
-```
-
-### Open in Browser
-```
-https://localhost:7264
-```
-
-## ?? Solution Contents
-
-| Project | Type | Purpose |
-|---------|------|---------|
-| **Calculator.Core** | Class Library | Arithmetic operations engine |
-| **CalculatorBlazor** | Blazor Web App | Interactive web UI |
-
-## ? Build Status
-
-? **Success** - Both projects build without errors
-- Calculator.Core: ? Ready
-- CalculatorBlazor: ? Ready
-
-## ?? Configuration
-
-- **.NET Version:** 8.0
-- **HTTPS Port:** 7264
-- **HTTP Port:** 5073
-- **Configuration:** Debug|Any CPU, Release|Any CPU
-
-## ?? Documentation
-
-See `CALCULATORWEB_SOLUTION.md` for detailed information.
-
-## ?? What's Included
-
-? Calculator.Core library with 6 operations
-? CalculatorBlazor web application
-? Interactive calculator component
-? Error handling (division by zero, etc.)
-? Bootstrap UI styling
-? Full integration between projects
-
-## ?? Next Steps
-
-1. Build: `dotnet build CalculatorWeb.sln`
-2. Run: `dotnet run --project CalculatorBlazor\CalculatorBlazor.csproj`
-3. Test: Open https://localhost:7264
-4. Calculate: Use the interactive calculator UI
-
-## ?? Tips
-
-- Use `dotnet clean CalculatorWeb.sln` to clear build artifacts
-- Use `--configuration Release` for production builds
-- Both projects automatically update together in this solution
-
----
-
-**Created:** CalculatorWeb.sln - Consolidated solution combining Calculator.Core and CalculatorBlazor
-**Status:** ? Ready for development, testing, and deployment
+# CalculatorWeb.sln - Quick Start Guide
+\n\n?? Location
+
+```
+C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\experimental\calculator-xunit-testing\CalculatorWeb.sln
+```
+\n\n?? Quick Commands
+\n\nBuild
+
+```powershell
+cd C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\experimental\calculator-xunit-testing
+dotnet build CalculatorWeb.sln
+```
+\n\nRun
+
+```powershell
+dotnet run --project CalculatorBlazor\CalculatorBlazor.csproj
+```
+\n\nOpen in Browser
+
+```
+https://localhost:7264
+```
+\n\n?? Solution Contents
+
+| Project              | Type           | Purpose                      |
+| -------------------- | -------------- | ---------------------------- |
+| **Calculator.Core**  | Class Library  | Arithmetic operations engine |
+| **CalculatorBlazor** | Blazor Web App | Interactive web UI           |
+\n\n? Build Status
+
+? **Success** - Both projects build without errors
+\n\nCalculator.Core: ? Ready\n\nCalculatorBlazor: ? Ready
+\n\n?? Configuration
+\n\n**.NET Version:** 8.0\n\n**HTTPS Port:** 7264\n\n**HTTP Port:** 5073\n\n**Configuration:** Debug|Any CPU, Release|Any CPU
+\n\n?? Documentation
+
+See `CALCULATORWEB_SOLUTION.md` for detailed information.
+\n\n?? What's Included
+
+? Calculator.Core library with 6 operations
+? CalculatorBlazor web application
+? Interactive calculator component
+? Error handling (division by zero, etc.)
+? Bootstrap UI styling
+? Full integration between projects
+\n\n?? Next Steps
+\n\nBuild: `dotnet build CalculatorWeb.sln`\n\nRun: `dotnet run --project CalculatorBlazor\CalculatorBlazor.csproj`\n\nTest: Open https://localhost:7264\n\nCalculate: Use the interactive calculator UI
+\n\n?? Tips
+\n\nUse `dotnet clean CalculatorWeb.sln` to clear build artifacts\n\nUse `--configuration Release` for production builds\n\nBoth projects automatically update together in this solution
+
+---
+
+**Created:** CalculatorWeb.sln - Consolidated solution combining Calculator.Core and CalculatorBlazor
+**Status:** ? Ready for development, testing, and deployment
+\n

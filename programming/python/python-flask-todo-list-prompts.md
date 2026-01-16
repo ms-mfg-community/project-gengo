@@ -5,9 +5,9 @@ This document contains prompts to guide you through creating a simple Flask API 
 ## Setup and Initial Configuration
 
 1. **Project Setup**: Create a project folder structure for a Flask API to manage a to-do list application with GET, POST, PUT, and DELETE endpoints. Use this hierarchy and names at the path: C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\python\workspace
-todo_api/
-├── app.py
-└── requirements.txt
+   todo_api/
+   ├── app.py
+   └── requirements.txt
 
 2. **Dependencies**: Create a requirements.txt file with the necessary dependencies for a Flask API project.
 
@@ -49,9 +49,9 @@ todo_api/
 
 ```json
 [
-  {"id": 1, "title": "Buy groceries", "done": false},
-  {"id": 2, "title": "Walk the dog", "done": false},
-  {"id": 3, "title": "Finish Flask API project", "done": false}
+  { "id": 1, "title": "Buy groceries", "done": false },
+  { "id": 2, "title": "Walk the dog", "done": false },
+  { "id": 3, "title": "Finish Flask API project", "done": false }
 ]
 ```
 

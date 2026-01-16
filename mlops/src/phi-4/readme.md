@@ -1,4 +1,2 @@
-## Instructions
-
-1. Remove authenticated users from the ssh key *.pem and store in ~/.ssh/ directory.
-1.
+## Instructions
+\n\nRemove authenticated users from the ssh key \*.pem and store in ~/.ssh/ directory.\n\n\n
