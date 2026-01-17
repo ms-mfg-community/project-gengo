@@ -93,7 +93,9 @@ The application must support natural interruption patterns:
 \n\n**Update State**: Transition to listening state
 \n\n**Set Cancellation Flag**: Mark response as cancelled to skip delta events
 \n\n**Process User Input**: Continue with normal speech processing
-# Critical Implementation Details:
+
+# Critical Implementation Details
+
 \n\nOnly cancel responses if assistant is currently speaking or processing
 \n\nCheck `current_state` before attempting cancellation
 \n\nHandle exceptions gracefully during cancellation
@@ -112,13 +114,9 @@ async def _handle_audio_delta(self, event):
 
         return  # Skip cancelled responses
 
-
-
     if assistant_state.get("state") != "assistant_speaking":
 
         self.state_callback("assistant_speaking", "Assistant speaking…")
-
-
 
     audio_data = getattr(event, "delta", None)
 
@@ -129,7 +127,9 @@ async def _handle_audio_delta(self, event):
         _broadcast({"type": "audio", "audio": audio_b64})
 
 ```text
-# Key Points:
+
+## Key Points
+
 \n\nAlways check cancellation flag before processing
 \n\nUpdate state on first audio delta only (not every delta)
 \n\nEncode audio as base64 for JSON transport
@@ -165,9 +165,17 @@ self.state_callback(new_state, human_readable_message)
 ```text
 \n\nDeployment Configuration
 
+\n\nDeployment Script Selection
+
+**Windows OS (Recommended):** Use PowerShell script `azdeploy.ps1`
+
+**WSL2/Linux (Alternative):** Use Bash script `azdeploy.sh` (may encounter Bicep/auth issues)
+
+**Recommendation:** Windows PowerShell is preferred as it avoids WSL2 complexity, Bicep provider resolution issues, and headless authentication limitations.
+
 \n\nAzure Resources
 
-The deployment script (`azdeploy.sh`) creates:
+The deployment script (PowerShell or Bash) creates:
 
 \n\n**Azure AI Services**: Hosts the VoiceLive model (gpt-4o)
 \n\n**Azure Container Registry**: Stores container image
@@ -238,7 +246,7 @@ bash
 FLASK_APP=src/flask_app.py FLASK_ENV=development python -m flask run
 
 ```text
-\n\nNavigate to http://localhost:5000
+\n\nNavigate to <http://localhost:5000>
 
 \n\nProduction Testing
 
@@ -281,12 +289,24 @@ FLASK_APP=src/flask_app.py FLASK_ENV=development python -m flask run
 \n\n**Solution**:
 \n\nCheck indentation in all code sections
 \n\nRun `python -m py_compile src/flask_app.py` to verify syntax
-\n\nRe-run deployment with `bash azdeploy.sh` and option 2
+\n\nRe-run deployment:
+\n\n- **Windows**: `powershell -NoExit -Command ".\\azdeploy.ps1"` and select option 2
+\n\n- **WSL2/Linux**: `bash azdeploy.sh` and select option 2
 
 \n\nIssue: Deployment Fails at Model Deployment
 
 \n\n**Cause**: Region quota exceeded or service unavailable
-\n\n**Solution**: Update region in azdeploy.sh; wait 5 minutes; try again
+\n\n**Solution**: Update region in azdeploy.ps1 (Windows) or azdeploy.sh (WSL2); wait 5 minutes; try again
+
+\n\nIssue: WSL2 - Bicep Resolution Errors
+
+\n\n**Cause**: Bicep provider initialization fails in WSL2 environment
+\n\n**Solution**: Use PowerShell on Windows with `azdeploy.ps1` instead; this avoids WSL2 infrastructure provider issues
+
+\n\nIssue: WSL2 - Authentication Prompts Fail
+
+\n\n**Cause**: Browser-open fails in headless WSL2; OAuth login cannot complete
+\n\n**Solution**: Use PowerShell on Windows with `azdeploy.ps1` instead; provides native browser integration
 
 \n\nIssue: WebSocket Connection Fails
 
@@ -333,7 +353,9 @@ FLASK_APP=src/flask_app.py FLASK_ENV=development python -m flask run
 \n\nIntegration Points
 
 \n\nClient-Side WebSocket Messages
-# Sent by Flask App:
+
+## Sent by Flask App
+
 ```text
 json
 
@@ -346,7 +368,9 @@ json
 {"type": "control", "action": "stop_playback"}
 
 ```text
-# Received from Browser:
+
+## Received from Browser
+
 ```text
 json
 
@@ -378,7 +402,9 @@ Subscribe to all ServerEventType events:
 \n\n[Azure Container Registry Documentation](https://learn.microsoft.com/en-us/azure/container-registry/)
 
 ---
-# Instruction Version History
+
+## Instruction Version History
+
 | Version | Date | Updated | Changes |
 
 |---|---|---|---|

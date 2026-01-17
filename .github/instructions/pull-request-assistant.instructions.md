@@ -7,17 +7,25 @@ applyTo: "**"
 \n\nWhen creating pull request descriptions or reviewing PRs:
 
 \n\nPR Description Template
+
 # What changed
+
 \n\nClear summary of modifications and affected components
 \n\nLink to related issues or tickets
-# Why
+
+## Why
+
 \n\nBusiness context and requirements
 \n\nTechnical reasoning for approach taken
-# Testing
+
+## Testing
+
 \n\n[ ] Unit tests pass and cover new functionality
 \n\n[ ] Manual testing completed for user-facing changes
 \n\n[ ] Performance/security considerations addressed
-# Breaking Changes
+
+## Breaking Changes
+
 \n\nList any API changes or behavioral modifications
 \n\nInclude migration instructions if needed
 

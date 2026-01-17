@@ -33,7 +33,9 @@ Create a PowerShell script that queries the GitHub GraphQL API to retrieve Depen
 
 \n\nExample Output
 
-```text
+```
+
+text
 
 Id                                   CreatedAt            PackageName      Severity
 
@@ -43,7 +45,9 @@ MDU6...                              2024-04-01T12:34Z    lodash          HIGH
 
 MDU6...                              2024-03-15T09:21Z    minimist        MODERATE
 
-```text
+```
+
+text
 text
 
 \n\nUsage

@@ -18,11 +18,15 @@ A command-line calculator application that performs basic arithmetic operations.
 
 From the project root directory, run:
 
-```bash
+```
+
+bash
 
 mvn clean package
 
-```text
+```
+
+text
 text
 
 This will create a runnable JAR file in the `target` directory.
@@ -31,20 +35,28 @@ This will create a runnable JAR file in the `target` directory.
 
 After building the project, you can run the calculator using:
 
-```bash
+```
+
+bash
 
 java -jar target/calculator-1.0-SNAPSHOT.jar
 
-```text
+```
+
+text
 text
 
 Alternatively, you can run it directly with:
 
-```bash
+```
+
+bash
 
 mvn exec:java -Dexec.mainClass="com.calculator.Calculator"
 
-```text
+```
+
+text
 text
 
 \n\nUsage Instructions
@@ -57,7 +69,9 @@ text
 
 \n\nExample Session
 
-```text
+```
+
+text
 
 Welcome to the Simple Calculator!
 
@@ -83,7 +97,9 @@ Do you want to perform another calculation? (yes/no): no
 
 Thank you for using the Simple Calculator. Goodbye!
 
-```text
+```
+
+text
 text
 
 \n

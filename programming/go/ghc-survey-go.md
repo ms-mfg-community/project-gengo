@@ -1,3 +1,5 @@
+# Ghc Survey Go
+
 Creating a simple calculator program in Go with Visual Studio 2022 is a great way to get started with Go programming. Here's a step-by-step guide:
 
 \n\n**Set Up Your Project**:
@@ -9,11 +11,11 @@ Creating a simple calculator program in Go with Visual Studio 2022 is a great wa
 \n\n**Write the Calculator Code**:
 \n\nIn the main Go file (usually `main.go`), write the code for your basic calculator. Here's an example:
 
-     ```go
+     ```
+
+go
 
      package main
-
-
 
      import (
 
@@ -23,11 +25,7 @@ Creating a simple calculator program in Go with Visual Studio 2022 is a great wa
 
      )
 
-
-
      type Calculator struct{}
-
-
 
      func (c Calculator) Add(a, b float64) float64 {
 
@@ -35,23 +33,17 @@ Creating a simple calculator program in Go with Visual Studio 2022 is a great wa
 
      }
 
-
-
      func (c Calculator) Subtract(a, b float64) float64 {
 
          return a - b
 
      }
 
-
-
      func (c Calculator) Multiply(a, b float64) float64 {
 
          return a * b
 
      }
-
-
 
      func (c Calculator) Divide(a, b float64) (float64, error) {
 
@@ -65,13 +57,9 @@ Creating a simple calculator program in Go with Visual Studio 2022 is a great wa
 
      }
 
-
-
      func main() {
 
          calculator := Calculator{}
-
-
 
          fmt.Println("Addition: ", calculator.Add(2, 3))         // Output: 5
 
@@ -108,8 +96,6 @@ go
 
      package main
 
-
-
      import (
 
          "fmt"
@@ -118,11 +104,7 @@ go
 
      )
 
-
-
      type Calculator struct{}
-
-
 
      func (c Calculator) Add(a, b float64) float64 {
 
@@ -130,23 +112,17 @@ go
 
      }
 
-
-
      func (c Calculator) Subtract(a, b float64) float64 {
 
          return a - b
 
      }
 
-
-
      func (c Calculator) Multiply(a, b float64) float64 {
 
          return a * b
 
      }
-
-
 
      func (c Calculator) Divide(a, b float64) (float64, error) {
 
@@ -160,8 +136,6 @@ go
 
      }
 
-
-
      func main() {
 
          calculator := Calculator{}
@@ -169,8 +143,6 @@ go
          var a, b float64
 
          var choice int
-
-
 
          for {
 
@@ -190,15 +162,11 @@ go
 
              fmt.Scanln(&choice)
 
-
-
              if choice == 5 {
 
                  break
 
              }
-
-
 
              fmt.Print("Enter first number: ")
 
@@ -207,8 +175,6 @@ go
              fmt.Print("Enter second number: ")
 
              fmt.Scanln(&b)
-
-
 
              switch choice {
 
@@ -279,19 +245,13 @@ go
 
      package main
 
-
-
      import (
 
          "errors"
 
      )
 
-
-
      type Calculator struct{}
-
-
 
      func (c Calculator) Add(a, b float64) float64 {
 
@@ -299,23 +259,17 @@ go
 
      }
 
-
-
      func (c Calculator) Subtract(a, b float64) float64 {
 
          return a - b
 
      }
 
-
-
      func (c Calculator) Multiply(a, b float64) float64 {
 
          return a * b
 
      }
-
-
 
      func (c Calculator) Divide(a, b float64) (float64, error) {
 
@@ -340,8 +294,6 @@ go
 
      package main
 
-
-
      import (
 
          "testing"
@@ -349,8 +301,6 @@ go
          "github.com/stretchr/testify/assert"
 
      )
-
-
 
      func TestAdd(t *testing.T) {
 
@@ -362,8 +312,6 @@ go
 
      }
 
-
-
      func TestSubtract(t *testing.T) {
 
          calculator := Calculator{}
@@ -374,8 +322,6 @@ go
 
      }
 
-
-
      func TestMultiply(t *testing.T) {
 
          calculator := Calculator{}
@@ -385,8 +331,6 @@ go
          assert.Equal(t, 12.0, result, "they should be equal")
 
      }
-
-
 
      func TestDivide(t *testing.T) {
 
@@ -399,8 +343,6 @@ go
          assert.Equal(t, 5.0, result, "they should be equal")
 
      }
-
-
 
      func TestDivideByZero(t *testing.T) {
 

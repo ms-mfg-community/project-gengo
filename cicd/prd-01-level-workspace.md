@@ -159,7 +159,9 @@ The workflow consists of two jobs:
 
 \n\n1.12.2 Trigger Configuration
 
-```yaml
+```
+
+yaml
 
 on:
 
@@ -178,16 +180,22 @@ on:
 
   workflow_dispatch:
 
-```text
+```
+
+text
 text
 
 \n\n1.12.3 Content Listing Approaches
-# Tree Command:
+
+## Tree Command
+
 \n\n3-level depth limit
 \n\nHuman-readable file sizes
 \n\nDirectories listed first
 \n\nColor-coded output
-# PowerShell:
+
+## PowerShell
+
 \n\nRecursive directory traversal
 \n\nConditional directory checking
 \n\nIndented hierarchical display
@@ -198,18 +206,27 @@ text
 
 The `retrieve-values` job depends on `list-contents` completion:
 
-```yaml
+```
+
+yaml
 needs: list-contents
-```text
+
+```
+
+text
 text
 
 \n\n1.12.5 Metadata Captured
-# Event Information:
+
+## Event Information
+
 \n\nWorkflow trigger type
 \n\nBranch name
 \n\nRepository full name
 \n\nTriggering actor
-# Branch Information:
+
+## Branch Information
+
 \n\nCurrent branch name
 \n\nFull reference path
 \n\nPR head and base references

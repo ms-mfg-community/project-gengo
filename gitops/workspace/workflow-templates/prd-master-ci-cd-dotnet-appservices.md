@@ -133,7 +133,9 @@ This manual process is error-prone, time-consuming, and inconsistent across team
 
 \n\nFile Structure
 
-```text
+```
+
+text
 
 gitops/workspace/workflow-templates/
 
@@ -163,7 +165,9 @@ gitops/workspace/workflow-templates/
 
     └── deploy-child.yaml
 
-```text
+```
+
+text
 text
 
 \n\nRequired Secrets and Variables
@@ -210,17 +214,16 @@ text
 
 \n\nSetup Prompt Template
 
-```text
+```
+
+text
 
 I need to set up a .NET CI/CD pipeline using GitHub Actions. Please help me:
-
 
 \n\nCreate GitHub environments for dev, qa, and prod with appropriate protection rules
 \n\nConfigure the required secrets and variables based on my Azure subscription
 \n\nSet up branch protection rules for main and develop branches
 \n\nGenerate an environment file with placeholder values
-
-
 
 Project Details:
 \n\nFramework: .NET 6/7/8
@@ -228,28 +231,31 @@ Project Details:
 \n\nEnvironments: dev, qa, prod
 \n\nRepository: [REPO_NAME]
 
-```text
+```
+
+text
 text
 
 \n\nWorkflow Customization Prompt
 
-```text
+```
+
+text
 
 I want to customize the .NET deployment workflow for my project. Please help me:
-
 
 \n\nModify the master workflow to include additional testing stages
 \n\nAdd custom environment variables for my specific requirements
 \n\nConfigure different deployment strategies per environment
 \n\nSet up notifications for deployment status
 
-
-
 Current workflow: master-ci-cd-dotnet-appservices.yaml
 
 Customization needs: [SPECIFIC_REQUIREMENTS]
 
-```text
+```
+
+text
 text
 
 \n\nSuccess Criteria
@@ -341,42 +347,49 @@ text
 
 \n\nAppendix A: Required GitHub CLI Commands
 
-```bash
+```
+
+bash
 \n\nCreate environments
 
 gh api repos/{owner}/{repo}/environments/{environment_name} --method PUT
-
 
 \n\nSet environment secrets
 
 gh secret set {SECRET_NAME} --body "{SECRET_VALUE}" --env {ENVIRONMENT}
 
-
 \n\nConfigure branch protection
 
 gh api repos/{owner}/{repo}/branches/{branch}/protection --method PUT
 
-```text
+```
+
+text
 text
 
 \n\nAppendix B: Azure Service Principal Setup
 
-```bash
+```
+
+bash
 \n\nCreate service principal
 
 az ad sp create-for-rbac --name "github-actions-{project-name}" --role contributor
-
 
 \n\nAssign additional roles if needed
 
 az role assignment create --assignee {client-id} --role "Website Contributor"
 
-```text
+```
+
+text
 text
 
 \n\nAppendix C: Environment File Template
 
-```bash
+```
+
+bash
 \n\nAzure Configuration
 
 AZURE_CLIENT_ID=your-client-id-here
@@ -386,7 +399,6 @@ AZURE_CLIENT_SECRET=your-client-secret-here
 AZURE_TENANT_ID=your-tenant-id-here
 
 AZURE_SUBSCRIPTION_ID=your-subscription-id-here
-
 
 \n\nApplication Configuration
 
@@ -398,7 +410,9 @@ AZURE_WEBAPP_NAME_PROD=your-webapp-prod
 
 AZURE_RESOURCE_GROUP=your-resource-group
 
-```text
+```
+
+text
 text
 
 \n\nQuestions and Feedback

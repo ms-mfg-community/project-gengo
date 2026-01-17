@@ -6,7 +6,9 @@ This document provides a series of prompts to recreate a simple inventory manage
 
 \n\nPrompt 1: Setting up the project structure
 
-```text
+```
+
+text
 
 Create a new C++ inventory management system project in VS Code with the following structure:
 \n\nCreate a folder named "inventory-management-system" with a subfolder "src"
@@ -14,70 +16,98 @@ Create a new C++ inventory management system project in VS Code with the followi
 \n\nCreate a .vscode folder inside the src directory for VS Code configuration
 \n\nCreate tasks.json for building the project
 
-```text
+```
+
+text
 text
 
 \n\nPrompt 2: Create tasks.json configuration
 
-```text
+```
+
+text
 
 Create a tasks.json file in the .vscode folder with configurations for both single-file compilation and multi-file compilation using g++. Include support for both MSVC (cl.exe) and GCC (g++). Use proper warning flags and C++17 standard support.
 
-```text
+```
+
+text
 text
 
 \n\nImplementing the Core Classes
 
 \n\nPrompt 3: Create the InventoryItem class header
 
-```text
+```
+
+text
 
 Create an InventoryItem.h file that defines a class to represent individual inventory items. Include properties for name, quantity, price, ID, and category. Implement getters and setters for all properties and include a method to update quantity. Use proper header guards and documentation comments.
 
-```text
+```
+
+text
 text
 
 \n\nPrompt 4: Implement the InventoryItem class
 
-```text
+```
+
+text
 
 Create an InventoryItem.cpp file that implements all the methods from the InventoryItem.h header. Include a static variable for generating unique IDs. Implement constructors, getters, setters, and the updateQuantity method that prevents quantities from going below zero.
 
-```text
+```
+
+text
 text
 
 \n\nPrompt 5: Create the InventoryManager class header
 
-```text
+```
+
+text
 
 Create an InventoryManager.h file that defines a class to manage a collection of inventory items. Include methods for adding, removing, finding, and displaying items. Use a vector to store the items and include proper header guards and documentation comments.
 
-```text
+```
+
+text
 text
 
 \n\nPrompt 6: Implement the InventoryManager class
 
-```text
+```
+
+text
 
 Create an InventoryManager.cpp file that implements all the methods from the InventoryManager.h header. Include implementations for adding items (with duplicate handling), removing items, finding items by name, and displaying formatted inventory lists.
 
-```text
+```
+
+text
 text
 
 \n\nPrompt 7: Create the main application
 
-```text
+```
+
+text
 
 Create a main.cpp file that demonstrates the functionality of the inventory management system. Implement a menu-driven interface with options for adding, removing, finding, and displaying items. Include input validation and a clean user interface.
 
-```text
+```
+
+text
 text
 
 \n\nCode Implementation
 
 \n\nFor InventoryItem.h
 
-```cpp
+```
+
+cpp
 
 /**
 \n\n@file InventoryItem.h
@@ -107,25 +137,17 @@ private:
 
     std::string name;
 
-
-
     /** Current quantity of the item in inventory */
 
     int quantity;
-
-
 
     /** Price per unit of the item */
 
     double price;
 
-
-
     /** Unique identifier for the item */
 
     int id;
-
-
 
     /** Category or type of the item */
 
@@ -140,8 +162,6 @@ public:
 
     InventoryItem();
 
-
-
     /**
 \n\n@brief Parameterized constructor
 \n\n@param name Name of the item
@@ -153,8 +173,6 @@ public:
 
     InventoryItem(const std::string& name, int quantity, double price, const std::string& category);
 
-
-
     /**
 \n\n@brief Get the name of the item
 \n\n@return Name of the item as string
@@ -162,8 +180,6 @@ public:
      */
 
     std::string getName() const;
-
-
 
     /**
 \n\n@brief Get the current quantity
@@ -173,8 +189,6 @@ public:
 
     int getQuantity() const;
 
-
-
     /**
 \n\n@brief Get the price per unit
 \n\n@return Price as double
@@ -182,8 +196,6 @@ public:
      */
 
     double getPrice() const;
-
-
 
     /**
 \n\n@brief Get the unique identifier
@@ -193,8 +205,6 @@ public:
 
     int getId() const;
 
-
-
     /**
 \n\n@brief Get the category
 \n\n@return Category as string
@@ -202,8 +212,6 @@ public:
      */
 
     std::string getCategory() const;
-
-
 
     /**
 \n\n@brief Set a new name for the item
@@ -213,8 +221,6 @@ public:
 
     void setName(const std::string& name);
 
-
-
     /**
 \n\n@brief Set a new quantity
 \n\n@param quantity New quantity to set
@@ -222,8 +228,6 @@ public:
      */
 
     void setQuantity(int quantity);
-
-
 
     /**
 \n\n@brief Set a new price
@@ -233,8 +237,6 @@ public:
 
     void setPrice(double price);
 
-
-
     /**
 \n\n@brief Set a new category
 \n\n@param category New category to set
@@ -242,8 +244,6 @@ public:
      */
 
     void setCategory(const std::string& category);
-
-
 
     /**
 \n\n@brief Add to the current quantity
@@ -257,12 +257,16 @@ public:
 
 #endif // INVENTORYITEM_H
 
-```text
+```
+
+text
 text
 
 \n\nFor InventoryItem.cpp
 
-```cpp
+```
+
+cpp
 
 /**
 \n\n@file InventoryItem.cpp
@@ -437,12 +441,16 @@ void InventoryItem::updateQuantity(int amount) {
 
 }
 
-```text
+```
+
+text
 text
 
 \n\nFor InventoryManager.h
 
-```cpp
+```
+
+cpp
 
 /**
 \n\n@file InventoryManager.h
@@ -484,8 +492,6 @@ public:
 
     void addItem(const InventoryItem& item);
 
-
-
     /**
 \n\n@brief Removes an item from the inventory based on its name
 \n\n@param name The name of the item to be removed
@@ -493,8 +499,6 @@ public:
      */
 
     void removeItem(const std::string& name);
-
-
 
     /**
 \n\n@brief Searches for an item in the inventory by name
@@ -504,8 +508,6 @@ public:
      */
 
     InventoryItem* findItem(const std::string& name);
-
-
 
     /**
 \n\n@brief Displays all items currently in the inventory
@@ -518,12 +520,16 @@ public:
 
 #endif // INVENTORYMANAGER_H
 
-```text
+```
+
+text
 text
 
 \n\nFor InventoryManager.cpp
 
-```cpp
+```
+
+cpp
 
 /**
 \n\n@file InventoryManager.cpp
@@ -552,8 +558,6 @@ void InventoryManager::addItem(const InventoryItem& item) {
     // Check if an item with this name already exists
 
     InventoryItem* existingItem = findItem(item.getName());
-
-
 
     if (existingItem != nullptr) {
 
@@ -589,8 +593,6 @@ void InventoryManager::removeItem(const std::string& name) {
 
                           [&name](const InventoryItem& item) { return item.getName() == name; });
 
-
-
     if (it != items.end()) {
 
         // Item found, remove it
@@ -624,8 +626,6 @@ InventoryItem* InventoryManager::findItem(const std::string& name) {
 
                           [&name](const InventoryItem& item) { return item.getName() == name; });
 
-
-
     if (it != items.end()) {
 
         // Item found, return pointer to it
@@ -658,13 +658,9 @@ void InventoryManager::displayInventory() const {
 
     }
 
-
-
     std::cout << "==== Current Inventory ====" << std::endl;
 
     std::cout << "--------------------------" << std::endl;
-
-
 
     // Display header
 
@@ -679,8 +675,6 @@ void InventoryManager::displayInventory() const {
               << std::setw(15) << "Category" << std::endl;
 
     std::cout << "--------------------------" << std::endl;
-
-
 
     // Display each item
 
@@ -698,18 +692,20 @@ void InventoryManager::displayInventory() const {
 
     }
 
-
-
     std::cout << "==========================" << std::endl;
 
 }
 
-```text
+```
+
+text
 text
 
 \n\nFor main.cpp
 
-```cpp
+```
+
+cpp
 
 /**
 \n\n@file main.cpp
@@ -818,8 +814,6 @@ int main() {
 
     InventoryManager manager;
 
-
-
     // Variables for menu interaction
 
     int choice;
@@ -830,8 +824,6 @@ int main() {
 
     double price;
 
-
-
     // Add some initial sample items
 
     manager.addItem(InventoryItem("Laptop", 10, 999.99, "Electronics"));
@@ -840,8 +832,6 @@ int main() {
 
     manager.addItem(InventoryItem("Notebook", 100, 4.99, "Stationery"));
 
-
-
     // Main program loop
 
     while (true) {
@@ -849,8 +839,6 @@ int main() {
         displayMenu();
 
         choice = getIntInput();
-
-
 
         // Process the user's choice
 
@@ -862,31 +850,21 @@ int main() {
 
                 std::getline(std::cin, name);
 
-
-
                 std::cout << "Enter quantity: ";
 
                 quantity = getIntInput();
-
-
 
                 std::cout << "Enter price: ";
 
                 price = getDoubleInput();
 
-
-
                 std::cout << "Enter category: ";
 
                 std::getline(std::cin, category);
 
-
-
                 manager.addItem(InventoryItem(name, quantity, price, category));
 
                 break;
-
-
 
             case 2:  // Remove Item
 
@@ -898,8 +876,6 @@ int main() {
 
                 break;
 
-
-
             case 3:  // Find Item
 
                 {  // Added braces to create a local scope for 'found'
@@ -907,8 +883,6 @@ int main() {
                     std::cout << "Enter name of item to find: ";
 
                     std::getline(std::cin, name);
-
-
 
                     InventoryItem* found = manager.findItem(name);
 
@@ -928,23 +902,17 @@ int main() {
 
                 break;
 
-
-
             case 4:  // Display All Items
 
                 manager.displayInventory();
 
                 break;
 
-
-
             case 5:  // Exit
 
                 std::cout << "Thank you for using the Inventory Management System!\n";
 
                 return 0;
-
-
 
             default:
 
@@ -958,12 +926,16 @@ int main() {
 
 }
 
-```text
+```
+
+text
 text
 
 \n\nFor .vscode/tasks.json
 
-```jsonc
+```
+
+jsonc
 // VS Code tasks.json - Configures build tasks for C/C++ development
 
 // This file defines compilation tasks that can be executed via Terminal > Run Task in VS Code
@@ -1146,27 +1118,33 @@ text
   ],
 }
 
-```text
+```
+
+text
 text
 
 \n\nBuilding and Testing
 
 \n\nPrompt 8: Compiling the project with PowerShell
 
-```text
+```
+
+text
 
 To compile all files in the project using PowerShell and g++, run the following command from the src directory:
 
-
-
 g++ -fdiagnostics-color=always -g -std=c++17 -Wall -Wextra -Wpedantic $(Get-ChildItem -Path . -Recurse -File -Filter *.cpp | Select-Object -ExpandProperty FullName) -o main.exe
 
-```text
+```
+
+text
 text
 
 \n\nPrompt 9: Testing the application
 
-```text
+```
+
+text
 
 Run the compiled application and test all its features:
 \n\nRun the main.exe file
@@ -1176,7 +1154,9 @@ Run the compiled application and test all its features:
 \n\nDisplay the full inventory
 \n\nVerify error handling with invalid inputs
 
-```text
+```
+
+text
 text
 
 \n\nConclusion

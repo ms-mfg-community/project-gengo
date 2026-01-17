@@ -8,12 +8,16 @@ This repository contains reusable workflow templates, automation scripts, and co
 
 \n\nOne-Command Setup
 
-```powershell
+```
+
+powershell
 \n\nClone or download this repository, then run:
 
 .\setup\complete-setup.ps1 -Owner "your-github-username" -Repo "your-repo-name"
 
-```text
+```
+
+text
 text
 
 \n\nPrerequisites
@@ -26,7 +30,9 @@ text
 
 \n\n🗂️ Repository Structure
 
-```text
+```
+
+text
 
 workflow-templates/
 
@@ -58,7 +64,9 @@ workflow-templates/
 
     └── 🔄 deploy-child.yaml
 
-```text
+```
+
+text
 text
 
 \n\n🎯 What This Solution Provides
@@ -88,46 +96,66 @@ text
 \n\n🚀 Getting Started
 
 \n\nStep 1: Prerequisites Setup
-# Install GitHub CLI:
-```powershell
+
+## Install GitHub CLI
+
+```
+
+powershell
 \n\nWindows
 
 winget install GitHub.cli
-
 
 \n\nmacOS
 
 brew install gh
 
+\n\nLinux - see <https://cli.github.com/>
 
-\n\nLinux - see https://cli.github.com/
+```
 
-```text
 text
-# Authenticate GitHub CLI:
-```bash
+text
+
+## Authenticate GitHub CLI
+
+```
+
+bash
 
 gh auth login
 
-```text
+```
+
 text
-# Create Azure Service Principal:
-```bash
+text
+
+## Create Azure Service Principal
+
+```
+
+bash
 
 az ad sp create-for-rbac --name "github-actions-{your-project}" --role contributor
 
-```text
+```
+
+text
 text
 
 \n\nStep 2: Environment Configuration
 
 \n\n**Copy environment template:**
 
-```powershell
+```
+
+powershell
 
 Copy-Item .env.template .env
 
-```text
+```
+
+text
 text
 
 \n\n**Edit .env file** with your values:
@@ -137,28 +165,35 @@ text
 
 \n\nStep 3: Run Complete Setup
 
-```powershell
+```
+
+powershell
 \n\nComplete automated setup
 
 .\setup\complete-setup.ps1 -Owner "your-org" -Repo "your-repo"
-
 
 \n\nOr run individual components
 
 .\setup\setup-github-environment.ps1 -Owner "your-org" -Repo "your-repo"
 
-```text
+```
+
+text
 text
 
 \n\nStep 4: Manual Steps
 
 \n\n**Add publish profiles** to environment secrets:
 
-```bash
+```
+
+bash
 
 gh secret set AZURE_WEBAPP_PUBLISH_PROFILE --body "$(cat profile.xml)" --env dev
 
-```text
+```
+
+text
 text
 
 \n\n**Configure reviewers** for qa and prod environments in GitHub UI
@@ -180,16 +215,22 @@ text
 | **prod** | ❌ | 2 | 5 minutes | main only |
 
 \n\nRequired Secrets
-# Repository Level:
+
+## Repository Level
+
 \n\n`AZURE_CLIENT_ID`
 \n\n`AZURE_CLIENT_SECRET`
 \n\n`AZURE_TENANT_ID`
 \n\n`AZURE_SUBSCRIPTION_ID`
-# Environment Level:
+
+## Environment Level
+
 \n\n`AZURE_WEBAPP_PUBLISH_PROFILE`
 
 \n\nRequired Variables
-# Environment Level:
+
+## Environment Level
+
 \n\n`AZURE_WEBAPP_NAME`
 \n\n`AZURE_RESOURCE_GROUP`
 \n\n`DEPLOYMENT_SLOT`
@@ -198,17 +239,16 @@ text
 
 \n\nSetup Prompts
 
-```text
+```
+
+text
 
 I need to set up a .NET CI/CD pipeline using GitHub Actions. Please help me:
-
 
 \n\nReview my workflow configuration for best practices
 \n\nCustomize deployment steps for my Azure App Service
 \n\nAdd environment-specific application settings
 \n\nConfigure monitoring and alerting
-
-
 
 Project: .NET 6 web application
 
@@ -216,47 +256,51 @@ Target: Azure App Service
 
 Environments: dev, qa, prod
 
-```text
+```
+
+text
 text
 
 \n\nCustomization Prompts
 
-```text
+```
+
+text
 
 Help me customize my .NET deployment workflow:
-
 
 \n\nAdd SonarQube code quality checks
 \n\nInclude database migration steps
 \n\nConfigure blue-green deployment for production
 \n\nAdd Slack notifications for deployment status
 
-
-
 Current workflow: .github/workflows/ci-cd-dotnet.yaml
 
-```text
+```
+
+text
 text
 
 \n\nTroubleshooting Prompts
 
-```text
+```
+
+text
 
 My .NET CI/CD pipeline is failing. Please help me:
-
 
 \n\nAnalyze the workflow error logs
 \n\nCheck Azure App Service configuration
 \n\nVerify secrets and variables
 \n\nSuggest fixes for deployment issues
 
-
-
 Error: [paste error message here]
 
 Workflow: [paste workflow URL here]
 
-```text
+```
+
+text
 text
 
 \n\n📚 Documentation
@@ -277,7 +321,9 @@ text
 
 \n\nAdding Custom Build Steps
 
-```yaml
+```
+
+yaml
 \n\nname: Code Quality Analysis
 
   uses: sonarqube-quality-gate-action@master
@@ -288,12 +334,16 @@ text
 
     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-```text
+```
+
+text
 text
 
 \n\nEnvironment-Specific Configuration
 
-```yaml
+```
+
+yaml
 \n\nname: Update App Settings
 
   run: |
@@ -306,12 +356,16 @@ text
 
     fi
 
-```text
+```
+
+text
 text
 
 \n\nCustom Notifications
 
-```yaml
+```
+
+yaml
 \n\nname: Notify Deployment Status
 
   if: always()
@@ -328,7 +382,9 @@ text
 
     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
-```text
+```
+
+text
 text
 
 \n\n🔍 Monitoring and Troubleshooting
@@ -342,36 +398,52 @@ Access your workflows and environments:
 \n\n**Secrets:** `https://github.com/{owner}/{repo}/settings/secrets`
 
 \n\nCommon Issues
-# 1. Authentication Errors
-```powershell
+
+## 1. Authentication Errors
+
+```
+
+powershell
 \n\nRe-authenticate GitHub CLI
 
 gh auth login --web
 
 gh auth status
 
-```text
+```
+
 text
-# 2. Azure Connection Issues
-```bash
+text
+
+## 2. Azure Connection Issues
+
+```
+
+bash
 \n\nTest service principal
 
 az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
 
-```text
+```
+
 text
-# 3. Workflow Syntax Errors
+text
+
+## 3. Workflow Syntax Errors
+
 \n\nUse VS Code GitHub Actions extension
 \n\nCheck workflow logs for detailed errors
 \n\nUse GitHub Copilot for syntax help
 
 \n\nGetting Help
-# Use GitHub Copilot:
-```text
+
+## Use GitHub Copilot
+
+```
+
+text
 
 I'm having issues with my .NET CI/CD pipeline:
-
-
 
 Error: [paste error message]
 
@@ -379,14 +451,14 @@ Workflow: [paste workflow file]
 
 Environment: [development/qa/production]
 
-
-
 Please help me:
 \n\nAnalyze the error
 \n\nSuggest fixes
 \n\nProvide best practices
 
-```text
+```
+
+text
 text
 
 \n\n🎯 Success Criteria
@@ -433,19 +505,22 @@ Help improve this solution:
 
 \n\nDevelopment Setup
 
-```powershell
+```
+
+powershell
 \n\nClone the repository
 
-git clone https://github.com/your-org/workflow-templates.git
+git clone <https://github.com/your-org/workflow-templates.git>
 
 cd workflow-templates
-
 
 \n\nTest the setup scripts
 
 .\setup\complete-setup.ps1 -Owner "test-org" -Repo "test-repo" -DryRun
 
-```text
+```
+
+text
 text
 
 \n\n📊 Performance Metrics
@@ -485,7 +560,9 @@ After successful setup:
 \n\n**Share your experience** with the development community
 
 ---
-# Made with ❤️ for .NET developers
+
+## Made with ❤️ for .NET developers
+
 _This solution is designed to work seamlessly with GitHub Copilot. Use the provided prompts throughout your development process for the best experience._
 
 \n

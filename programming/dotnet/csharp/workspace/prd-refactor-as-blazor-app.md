@@ -50,7 +50,7 @@ The existing console calculator application lacks a modern user interface and is
 
 | ----- | ------------------------------------------------------------------------- |
 
-| FR-1 | Application accessible at https://localhost:7056 or http://localhost:5136 |
+| FR-1 | Application accessible at <https://localhost:7056> or <http://localhost:5136> |
 
 | FR-2 | Display shows current input or calculation result in real-time |
 
@@ -199,27 +199,37 @@ The existing console calculator application lacks a modern user interface and is
 └── calculator.tests/ (32 tests)`
 
 \n\nServices
-# CalculatorService
+
+## CalculatorService
+
 \n\nState: display, pending operand, operator
 \n\nEvents: OnDisplayChanged, OnCalculationCompleted
 \n\nSupports chained calculations
-# HistoryService
+
+## HistoryService
+
 \n\nFIFO queue (max 50 items)
 \n\nNewest-first ordering
 \n\nReplay functionality
 \n\nEvent: OnHistoryChanged
-# ThemeService
+
+## ThemeService
+
 \n\nLight/Dark modes
 \n\nCSS class generation
 \n\nIcon state (🌙/☀️)
 \n\nSession-only
 
 \n\nCSS Theme Variables
-# Light Theme
+
+## Light Theme
+
 \n\nbg: #f5f5f5, buttons: #e0e0e0
 \n\nOperators: #FF9800 (orange)
 \n\nEquals: #4caf50 (green), Clear: #f44336 (red)
-# Dark Theme
+
+## Dark Theme
+
 \n\nbg: #1e1e1e, buttons: #3d3d3d
 \n\nOperators: #FF9800 (maintains contrast)
 \n\nEquals: #388E3C, Clear: #d32f2f
@@ -266,7 +276,7 @@ All requirements have been successfully implemented and tested:
 
 ✅ 32 unit tests passing without modification
 
-✅ Application accessible at https://localhost:7056
+✅ Application accessible at <https://localhost:7056>
 
 \n\n1.12 Deployment
 
@@ -278,7 +288,7 @@ dotnet build
 
 dotnet run --project calculator.web/calculator.web.csproj
 
-\n\nAccess: https://localhost:7056
+\n\nAccess: <https://localhost:7056>
 
 `
 
@@ -318,7 +328,9 @@ dotnet run --project calculator.web/calculator.web.csproj
 | Documentation | ✅ Complete | 12/11/2025 |
 
 ---
-# Document Version History
+
+## Document Version History
+
 | Version | Date | Author | Changes |
 
 | ------- | ---------- | -------------- | ------------------------------------- |

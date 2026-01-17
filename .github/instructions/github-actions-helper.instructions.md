@@ -1,3 +1,5 @@
+# Github Actions Helper.Instructions
+
 ---
 applyTo: ".github/workflows/**/*.yml"
 ---
@@ -29,8 +31,6 @@ When generating or improving GitHub Actions workflows:
 name: CI
 
 on: [push, pull_request]
-
-
 
 jobs:
 

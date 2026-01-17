@@ -40,7 +40,9 @@ Before setting up unit testing, ensure you have:
 
 Ensure your `pom.xml` file includes the necessary JUnit 5 dependencies:
 
-```xml
+```
+
+xml
 
 <dependencies>
 
@@ -72,14 +74,18 @@ Ensure your `pom.xml` file includes the necessary JUnit 5 dependencies:
 
 </dependencies>
 
-```text
+```
+
+text
 text
 
 \n\nStep 2: Create the Test Directory Structure
 
 Maven follows a standard directory structure for tests:
 
-```text
+```
+
+text
 
 src
 
@@ -103,16 +109,22 @@ src
 
                 └── AppTest.java
 
-```text
+```
+
+text
 text
 
 If this structure doesn't exist yet, create it:
 
-```bash
+```
+
+bash
 
 mkdir -p src/test/java/com/project13
 
-```text
+```
+
+text
 text
 
 \n\nCreating Unit Tests
@@ -121,19 +133,17 @@ text
 
 Create a test class called `AppTest.java` in the `src/test/java/com/project13` directory. Start with a basic structure:
 
-```java
+```
+
+java
 
 package com.project13;
-
-
 
 import org.junit.jupiter.api.DisplayName;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-
 
 /**
 \n\nUnit tests for the App class calculator functionality.
@@ -146,14 +156,18 @@ public class AppTest {
 
 }
 
-```text
+```
+
+text
 text
 
 \n\nStep 4: Write Basic Tests for Each Operation
 
 Add tests for each calculator operation. Here's an example for addition:
 
-```java
+```
+
+java
 
 /**
 \n\nTests for the add method.
@@ -172,8 +186,6 @@ public void testAddPositiveNumbers() {
 
 }
 
-
-
 @Test
 
 @DisplayName("Addition: Test with negative numbers")
@@ -185,8 +197,6 @@ public void testAddNegativeNumbers() {
         "-2.0 + -3.0 should equal -5.0");
 
 }
-
-
 
 @Test
 
@@ -200,14 +210,18 @@ public void testAddDecimals() {
 
 }
 
-```text
+```
+
+text
 text
 
 \n\nStep 5: Test Edge Cases
 
 Don't forget to test edge cases, such as division by zero:
 
-```java
+```
+
+java
 
 @Test
 
@@ -221,14 +235,18 @@ public void testDivideByZero() {
 
 }
 
-```text
+```
+
+text
 text
 
 \n\nStep 6: Add Parameterized Tests
 
 For more efficient testing of multiple test cases, use parameterized tests:
 
-```java
+```
+
+java
 
 @ParameterizedTest
 
@@ -254,14 +272,18 @@ public void testAddParameterized(double a, double b, double expected) {
 
 }
 
-```text
+```
+
+text
 text
 
 \n\nStep 7: Test the Main Calculate Method
 
 Test the central `calculate` method which handles all operations:
 
-```java
+```
+
+java
 
 @ParameterizedTest
 
@@ -293,7 +315,9 @@ public void testCalculateParameterized(double a, double b, char operator, double
 
 }
 
-```text
+```
+
+text
 text
 
 \n\nRunning the Tests
@@ -302,11 +326,15 @@ text
 
 To run the tests, use Maven from the command line:
 
-```bash
+```
+
+bash
 
 mvn test
 
-```text
+```
+
+text
 text
 
 This will compile the code and run all tests, providing a summary of test results.
@@ -347,7 +375,9 @@ Include helpful error messages in assertions to make test failures easier to und
 
 Use tools like JaCoCo to analyze your test coverage:
 
-```xml
+```
+
+xml
 
 <plugin>
 
@@ -387,16 +417,22 @@ Use tools like JaCoCo to analyze your test coverage:
 
 </plugin>
 
-```text
+```
+
+text
 text
 
 Then run:
 
-```bash
+```
+
+bash
 
 mvn clean test
 
-```text
+```
+
+text
 text
 
 Coverage reports will be generated in `target/site/jacoco/`.

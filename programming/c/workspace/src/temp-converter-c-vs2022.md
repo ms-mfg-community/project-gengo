@@ -1,12 +1,14 @@
+# Temp Converter C Vs2022
+
 Sure! Here's a simple temperature conversion program in C that meets your requirements:
 
-```c
+```
+
+c
 
 // temp_converter.c
 
 #include <stdio.h>
-
-
 
 // Function to convert Fahrenheit to Celsius
 
@@ -16,13 +18,9 @@ float fahrenheitToCelsius(float fahrenheit) {
 
 }
 
-
-
 int main() {
 
     float fahrenheit, celsius;
-
-
 
     // Prompt the user to enter a temperature in Fahrenheit
 
@@ -30,25 +28,17 @@ int main() {
 
     scanf("%f", &fahrenheit);
 
-
-
     // Convert the temperature to Celsius
 
     celsius = fahrenheitToCelsius(fahrenheit);
-
-
 
     // Display the input temperature in Fahrenheit and the converted temperature in Celsius
 
     printf("%.2f Fahrenheit is %.2f Celsius\n", fahrenheit, celsius);
 
-
-
     return 0;
 
 }
-
-
 
 /*
 
@@ -58,7 +48,9 @@ gcc -o temp_converter temp_converter.c
 
 */
 
-```text
+```
+
+text
 text
 
 This program includes a function `fahrenheitToCelsius` that converts a temperature from Fahrenheit to Celsius using the formula provided. The `main` function prompts the user to enter a temperature in Fahrenheit, reads the input, converts it to Celsius, and displays both temperatures formatted to two decimal places.
@@ -80,7 +72,9 @@ Sure! Here's how you can write a set of unit tests for the temperature conversio
 \n\n**Create a Test File**:
 \n\nCreate a new file named `test_temp_converter.c` and add the following code:
 
-     ```c
+     ```
+
+c
 
      // test_temp_converter.c
 
@@ -88,23 +82,17 @@ Sure! Here's how you can write a set of unit tests for the temperature conversio
 
      #include "temp_converter.c"
 
-
-
      void setUp(void) {
 
          // Set up code if needed
 
      }
 
-
-
      void tearDown(void) {
 
          // Tear down code if needed
 
      }
-
-
 
      void test_fahrenheitToCelsius(void) {
 
@@ -119,8 +107,6 @@ Sure! Here's how you can write a set of unit tests for the temperature conversio
          TEST_ASSERT_FLOAT_WITHIN(0.01, 37.78, fahrenheitToCelsius(100.0));
 
      }
-
-
 
      int main(void) {
 

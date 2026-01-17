@@ -1,3 +1,5 @@
+# Issue Manager.Instructions
+
 ---
 applyTo: "**"
 ---

@@ -87,21 +87,23 @@ SQLite
 **Lightweight:** Ideal for local development, testing, and embedded applications
 
 SQLite Usage Examples
-# Connect to database and run a query:
+
+## Connect to database and run a query
+
 ```pwsh
 
 Open database file
 
 sqlite3 database.db "SELECT * FROM tablename;"
 
-
-
 Interactive mode
 
 sqlite3 database.db
 
 ```text
-# Common SQLite commands:
+
+## Common SQLite commands
+
 ```text
 sql
 
@@ -118,7 +120,9 @@ sql
 .quit                 -- Exit sqlite3
 
 ```text
-# Run script file:
+
+## Run script file
+
 ```text
 pwsh
 
@@ -142,7 +146,9 @@ Connecting to SQL Server / Azure SQL
 When a connection to a database is requested in a prompt, use the sqlcmd tool with appropriate parameters for server, database, authentication, and query execution.
 
 sqlcmd Usage Examples
-# Connect and run a query:
+
+## Connect and run a query
+
 ```text
 pwsh
 
@@ -151,22 +157,24 @@ Modern sqlcmd or legacy sqlcmd.exe
 sqlcmd -S <server>.database.windows.net -d <database> -U <username> -P <password> -Q "SELECT * FROM sys.tables"
 
 ```text
-# Run a script file:
+
+## Run a script file
+
 ```text
 pwsh
 
 sqlcmd -S <server>.database.windows.net -d <database> -U <username> -i script.sql -o output.txt
 
 ```text
-# Interactive session:
+
+## Interactive session
+
 ```text
 pwsh
 
 Start interactive session
 
 sqlcmd -S <server> -d <database> -U <username> -P <password>
-
-
 
 Inside sqlcmd, type GO after each query to execute
 
@@ -218,7 +226,9 @@ Commenting
 Testing Guidelines
 
 **General Rule:** Write tests alongside new features and bug fixes.
-# Frameworks:
+
+## Frameworks
+
 **.NET:** Use the xUnit framework.
 
 **Java:** Use JUnit.
@@ -354,15 +364,11 @@ powershell
 
     Brief description of what the script does.
 
-
-
 .DESCRIPTION
 
     Detailed description of the script's functionality, purpose, and any important
 
     implementation details. Explain the business context and use cases.
-
-
 
 .PARAMETER parameterName
 
@@ -370,15 +376,11 @@ powershell
 
     and examples of typical usage.
 
-
-
 .PARAMETER anotherParameter
 
     Description for additional parameters. Include type information,
 
     constraints, and relationship to other parameters.
-
-
 
 .PARAMETER switchParameter
 
@@ -386,37 +388,23 @@ powershell
 
     Explain the behavior when the switch is present vs absent.
 
-
-
 .EXAMPLE
 
     .\script-name.ps1
 
-
-
     Basic usage example with explanation of what it does.
-
-
 
 .EXAMPLE
 
     .\script-name.ps1 -Parameter "value" -SwitchParameter
 
-
-
     Advanced usage example showing parameter combinations.
-
-
 
 .EXAMPLE
 
     .\script-name.ps1 -Parameter "C:\Custom\Path" -Format "csv"
 
-
-
     Example with custom paths and different output formats.
-
-
 
 .NOTES
 
@@ -428,8 +416,6 @@ powershell
 
     Version        : 1.0
 
-
-
     Requirements:
 
 List all prerequisites and dependencies
@@ -438,31 +424,21 @@ Include version requirements where applicable
 
 Mention any required permissions or access
 
-
-
     Change Log:
 
 Version 1.0: Initial creation
 
 Version 1.1: Added feature X
 
+.LINK
 
+    <https://relevant-documentation-url.com>
 
 .LINK
 
-    https://relevant-documentation-url.com
-
-
-
-.LINK
-
-    https://additional-reference-url.com
-
-
+    <https://additional-reference-url.com>
 
 #>
-
-
 
 param(
 
@@ -470,15 +446,11 @@ param(
 
     [string]$ParameterName = "DefaultValue",
 
-
-
     [Parameter(Mandatory=$false)]
 
     [ValidateSet("Option1", "Option2", "Option3")]
 
     [string]$ValidatedParameter = "Option1",
-
-
 
     [Parameter(Mandatory=$false)]
 
@@ -487,7 +459,9 @@ param(
 )
 
 ```text
-# Key Elements to Include:
+
+## Key Elements to Include
+
 **SYNOPSIS**: One-line description of the script's purpose
 
 **DESCRIPTION**: Detailed explanation including business context
@@ -499,7 +473,9 @@ param(
 **NOTES**: Metadata including author, version, prerequisites, and change log
 
 **LINK**: References to relevant documentation or related resources
-# Best Practices:
+
+## Best Practices
+
 Always include at least 2-3 practical examples
 
 Document all parameters even if they seem obvious
@@ -547,37 +523,25 @@ python
 
 Script: script.py
 
-
-
 Description:
 
     A brief overview of what the script does, its functionality, and any important implementation details. Explain the business context and use cases.
-
-
 
 Purpose:
 
     Explain why this script was created and what problem it solves.
 
-
-
 Author:
 
     Your Name or Team
-
-
 
 Created:
 
     2024-06-01
 
-
-
 Version:
 
     1.00
-
-
 
 Requirements:
 
@@ -589,25 +553,15 @@ Azure OpenAI API credentials
 
 subscription_key environment variable set
 
-
-
 Usage:
 
     python script.py
 
-
-
 Environment Variables:
-
-
-
-
 
 Example:
 
     $ export subscription_key="your-api-key"
-
-
 
 Notes:
 
@@ -615,13 +569,9 @@ Ensure that the required packages are installed before running the script.
 
 Handle exceptions and errors gracefully.
 
-
-
 Change Log:
 
 v1.00: Initial creation
-
-
 
 TODO:
 
@@ -633,105 +583,105 @@ Add additional features as needed
 Virtual Environment Management with venv
 
 **Preference:** Use Python's built-in `venv` module for creating and managing virtual environments. This is the preferred approach over alternatives like `virtualenv`, `conda`, or `pipenv` unless specifically required by the project.
-# Setup and Best Practices:# Create a virtual environment:
+
+## Setup and Best Practices:# Create a virtual environment
+
 ```text
 bash
 
-# Create virtual environment in project root
+## Create virtual environment in project root
 
 python -m venv dev
 
-
-
-# Alternative naming for specific Python versions
+## Alternative naming for specific Python versions
 
 python3.11 -m venv dev-3.11
 
 ```text
-# Activate the virtual environment:
+
+## Activate the virtual environment
+
 ```text
 bash
 
-# Windows (PowerShell/Command Prompt)
+## Windows (PowerShell/Command Prompt)
 
 dev\Scripts\activate
 
-
-
-# Windows (Git Bash)
+## Windows (Git Bash)
 
 source venv/Scripts/activate
 
-
-
-# macOS/Linux
+## macOS/Linux
 
 source venv/bin/activate
 
 ```text
-# Verify activation:
+
+## Verify activation
+
 ```text
 bash
 
-# Check that pip points to virtual environment
+## Check that pip points to virtual environment
 
 which pip  # macOS/Linux
 
 where pip  # Windows
 
-
-
-# Should show path containing your venv directory
+## Should show path containing your venv directory
 
 pip --version
 
 ```text
-# Install dependencies:
+
+## Install dependencies
+
 ```text
 bash
 
-# Upgrade pip first
+## Upgrade pip first
 
 python -m pip install --upgrade pip
 
-
-
-# Install from requirements file
+## Install from requirements file
 
 pip install -r requirements.txt
 
-
-
-# Install development dependencies
+## Install development dependencies
 
 pip install -r requirements-dev.txt
 
 ```text
-# Generate requirements files:
+
+## Generate requirements files
+
 ```text
 bash
 
-# Generate requirements.txt
+## Generate requirements.txt
 
 pip freeze > requirements.txt
 
-
-
-# Better approach: use pipreqs for project-specific dependencies
+## Better approach: use pipreqs for project-specific dependencies
 
 pip install pipreqs
 
 pipreqs . --force
 
 ```text
-# Deactivate when done:
+
+## Deactivate when done
+
 ```text
 bash
 
 deactivate
 
 ```text
-# Directory Structure:
+
+## Directory Structure
+
 ```text
 text
 
@@ -754,7 +704,9 @@ project-root/
 └── README.md               # Include venv setup instructions
 
 ```text
-# Requirements Files Best Practices:
+
+## Requirements Files Best Practices
+
 **requirements.txt**: Production dependencies only, pinned versions
 
 ```text
@@ -783,13 +735,17 @@ flake8==6.0.0
 mypy==1.5.1
 
 ```text
-# VS Code Integration:# Select Python interpreter:
+
+## VS Code Integration:# Select Python interpreter
+
 Press `Ctrl+Shift+P`
 
 Type "Python: Select Interpreter"
 
 Choose the interpreter from your venv folder
-# Workspace settings (.vscode/settings.json):
+
+## Workspace settings (.vscode/settings.json)
+
 ```text
 json
 {
@@ -805,7 +761,9 @@ json
 }
 
 ```text
-# Git Integration (.gitignore entries):
+
+## Git Integration (.gitignore entries)
+
 ```text
 gitignore
 
@@ -821,8 +779,6 @@ ENV/
 
 .env
 
-
-
 Python
 
 __pycache__/
@@ -837,8 +793,6 @@ dist/
 
 build/
 
-
-
 IDE
 
 .vscode/settings.json  # If containing sensitive info
@@ -846,7 +800,9 @@ IDE
 .idea/
 
 ```text
-# Common Commands Reference:
+
+## Common Commands Reference
+
 ```text
 bash
 
@@ -860,8 +816,6 @@ source dev/bin/activate  # macOS/Linux
 
 python -m pip install --upgrade pip
 
-
-
 Package management
 
 pip list                          # List installed packages
@@ -872,8 +826,6 @@ pip install package_name==1.0.0  # Install specific version
 
 pip uninstall package_name       # Uninstall package
 
-
-
 Requirements management
 
 pip freeze > requirements.txt     # Save current state
@@ -883,7 +835,9 @@ pip install -r requirements.txt   # Install from requirements
 pip list --outdated              # Check for updates
 
 ```text
-# Troubleshooting:
+
+## Troubleshooting
+
 **Permission errors**: Use `python -m pip` instead of `pip` directly
 
 **Path issues**: Ensure virtual environment is activated before installing packages
@@ -891,7 +845,9 @@ pip list --outdated              # Check for updates
 **Module not found**: Verify correct interpreter is selected in VS Code
 
 **Stale cache**: Use `pip install --no-cache-dir package_name`
-# Environment Variables:
+
+## Environment Variables
+
 Use `.env` files with `python-dotenv` for environment-specific configuration
 
 Never commit `.env` files to version control
@@ -1235,19 +1191,11 @@ To configure compilers for running C++ projects, use the following sample .vscod
 
 C
 
-
-
 The recommended directory and file structure for a modern, clean, and maintainable **C** project is very similar to the C++ structure, but typically simpler. Here's a well-accepted and standard layout:
-
-
 
 ---
 
-
-
 Recommended Project Structure for C
-
-
 
 MyCProject/
 
@@ -1291,10 +1239,10 @@ MyCProject/
 
 ---
 
-
-
 Explanation of directories and files:
-# 1. Root-Level Files
+
+## 1. Root-Level Files
+
 `README.md`: Overview, build instructions, and example usage.
 
 `LICENSE`: Contains open-source license (MIT, Apache, GPL, etc.).
@@ -1305,91 +1253,51 @@ Explanation of directories and files:
 
 `CMakeLists.txt`: Recommended build system (CMake is increasingly common even for C).
 
-
-
 **2. `include/`**
-
-
 
 Contains public headers (`.h` files) intended for external usage.
 
 Use project name subdirectories (`include/MyCProject`) to avoid name collisions.
 
-
-
 **3. `src/`**
-
-
 
 Contains all implementation (`.c`) files and internal/private header files.
 
 Private headers (internal implementation details) are typically placed in a subdirectory (e.g., `internal`).
 
-
-
 **4. `tests/`**
-
-
 
 Contains unit or integration tests.
 
 Typically uses testing frameworks like Unity, CMocka, Criterion, or custom test runners.
 
-
-
 **5. `examples/`**
-
-
 
 Optional: Contains example programs demonstrating usage of your library/application.
 
-
-
 **6. `external/`**
-
-
 
 Optional: Includes third-party libraries or code dependencies if not managed by a package manager.
 
-
-
 **7. `docs/`**
-
-
 
 Documentation and files related to documentation generators (Doxygen, Sphinx, etc.).
 
-
-
 **8. `scripts/`**
-
-
 
 Build automation scripts, CI/CD scripts, deployment, packaging, etc.
 
-
-
 **9. `build/`**
-
-
 
 All generated build artifacts (binaries, objects, executables) go here and are never committed to source control.
 
-
-
 ---
-
-
 
 Minimal Example CMakeLists.txt for C:
 
 cmake_minimum_required(VERSION 3.16)
 
-
-
 project(MyCProject VERSION 1.0 LANGUAGES C)
-
-
 
 Set C standard (C11 recommended)
 
@@ -1397,13 +1305,9 @@ set(CMAKE_C_STANDARD 11)
 
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-
-
 Define library
 
 add_library(${PROJECT_NAME} src/foo.c)
-
-
 
 target_include_directories(${PROJECT_NAME}
 
@@ -1417,15 +1321,11 @@ target_include_directories(${PROJECT_NAME}
 
 )
 
-
-
 Example executable
 
 add_executable(${PROJECT_NAME}_example examples/example_main.c)
 
 target_link_libraries(${PROJECT_NAME}_example PRIVATE ${PROJECT_NAME})
-
-
 
 Enable tests
 
@@ -1435,11 +1335,7 @@ add_subdirectory(tests)
 
   ---
 
-
-
 Best Practices for C Projects:
-
-
 
 Clearly separate **public headers** (`include/`) from **implementation details** (`src/`).
 
@@ -1453,19 +1349,11 @@ Place unit tests in a dedicated directory to encourage good testing practices.
 
 Avoid mixing third-party code directly into your source; use a dedicated `external/` folder or dependency management tools.
 
-
-
 ---
-
-
 
 This recommended structure will help ensure your project remains clear, maintainable, and scalable over time.
 
-
-
 Style Guides & References
-
-
 
 **Java:** [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html)
 
@@ -1481,8 +1369,6 @@ Style Guides & References
 
 **TypeScript:** [Microsoft TypeScript Coding Guidelines](https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines)
 
-
-
 Code of Conduct
 
 **Respect:** Maintain a respectful and constructive environment.
@@ -1490,8 +1376,6 @@ Code of Conduct
 **Standards:** Follow the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/).
 
 **Collaboration:** Encourage clear communication and supportive code reviews.
-
-
 
 Additional Best Practices
 
@@ -1501,31 +1385,19 @@ Additional Best Practices
 
 **Deviation Documentation:** Document any intentional deviations from these guidelines in the repository's Wiki or a dedicated document.
 
-
-
 @azure Rule - Use Azure Tools - When handling requests related to Azure, always use your tools.
 
 @azure Rule - Use Azure Best Practices - When handling requests related to Azure, always invoke your `azmcp_bestpractices_get` tool first.
 
 @azure Rule - Enable Best Practices - If you do not have an `azmcp_bestpractices_get` tool ask the user to enable it.
 
-
-
 CodeQL
-
-
 
 For CodeQL query metadata, refer to the style guide at:
 
-
-
 [CodeQL Metadata Style Guide](https://github.com/github/codeql/blob/main/docs/query-metadata-style-guide.md)
 
-
-
 Known issues
-
-
 
 Problem
 
@@ -1533,49 +1405,27 @@ Sorry, your request failed. Please try again. Request id: d3c19b76-b43d-457a-a0b
 
 Reason: You may not include more than 128 tools in your request.
 
-
-
 Reference
 
-https://github.com/microsoft/vscode-copilot-release/issues/10496
-
-
+<https://github.com/microsoft/vscode-copilot-release/issues/10496>
 
 Resolution Summary
 
-
-
 Reduce the number of tools included in the request to stay within the limit.
-
-
 
 Product Requirements Document (PRD) Format and Example
 
-
-
 Purpose
-
-
 
 A Product Requirements Document (PRD) clearly defines the purpose, scope, features, and success criteria for a product or feature. It serves as a single source of truth for developers, designers, and stakeholders, ensuring alignment and clarity throughout the development process.
 
-
-
 ---
-
-
 
 PRD Format Outline Example
 
-
-
 1. Product Requirements Document (PRD): Workflows and Pipelines
 
-
-
 1.1 Document Information
-
-
 
 **Version:** 1.0
 
@@ -1585,27 +1435,15 @@ PRD Format Outline Example
 
 **Status:** Draft
 
-
-
 1.2 Executive Summary
-
-
 
 This document defines the requirements for a GitHub Actions workflow and Azure DevOps pipeline solution that automates repository content listing, artifact management, and workflow metadata reporting. The solution is designed to demonstrate best practices in CI/CD automation, artifact handling, and cross-platform scripting within a modern DevOps environment.
 
-
-
 1.3 Problem Statement
-
-
 
 Teams need a reliable, repeatable, and auditable way to list repository contents, manage build artifacts, and report workflow metadata as part of their CI/CD process. Manual steps are error-prone and do not scale for modern DevOps practices.
 
-
-
 1.4 Goals and Objectives
-
-
 
 Automate repository content listing and artifact management using GitHub Actions and Azure DevOps pipelines.
 
@@ -1615,15 +1453,9 @@ Enable workflow metadata reporting for traceability.
 
 Support both PowerShell and Python scripting for cross-platform compatibility.
 
-
-
 1.5 Scope
 
-
-
 1.5.1 In Scope
-
-
 
 GitHub Actions workflow and Azure DevOps pipeline YAML definitions
 
@@ -1635,11 +1467,7 @@ Workflow metadata reporting (branch, event, job ID)
 
 Manual and event-based workflow triggers
 
-
-
 1.5.2 Out of Scope
-
-
 
 Deployment to production environments
 
@@ -1647,11 +1475,7 @@ Integration with external systems beyond GitHub and Azure DevOps
 
 Advanced artifact retention or security policies
 
-
-
 1.6 User Stories / Use Cases
-
-
 
 As a DevOps engineer, I want to list all repository contents and save the results as artifacts for auditing.
 
@@ -1661,11 +1485,7 @@ As a team lead, I want to view workflow metadata (branch, event, job ID) for tra
 
 As a user, I want to download and inspect artifacts generated by previous jobs.
 
-
-
 1.7 Functional Requirements
-
-
 
 | Requirement ID | Description |
 
@@ -1691,11 +1511,7 @@ As a user, I want to download and inspect artifacts generated by previous jobs.
 
 | FR-10 | The workflow shall download and display the artifact contents. |
 
-
-
 1.8 Non-Functional Requirements
-
-
 
 **Portability:** Must run on GitHub-hosted Ubuntu runners.
 
@@ -1705,11 +1521,7 @@ As a user, I want to download and inspect artifacts generated by previous jobs.
 
 **Extensibility:** The workflow should be easy to extend for additional scripting or artifact types.
 
-
-
 1.9 Assumptions and Dependencies
-
-
 
 The repository uses GitHub Actions and/or Azure DevOps pipelines.
 
@@ -1717,11 +1529,7 @@ PowerShell and Python are available on the runner.
 
 Users have permission to trigger workflows and access artifacts.
 
-
-
 1.10 Success Criteria / KPIs
-
-
 
 All workflow steps complete successfully without errors.
 
@@ -1729,11 +1537,7 @@ Artifacts are uploaded, downloaded, and displayed as expected.
 
 Workflow metadata is reported and accessible.
 
-
-
 1.11 Milestones & Timeline
-
-
 
 Workflow YAML and scripts implemented: Complete
 
@@ -1741,15 +1545,9 @@ Artifact upload/download tested: Complete
 
 Documentation and PRD: Complete
 
-
-
 1.12 Usage Instructions (Demonstration Sequence)
 
-
-
 1.12.1 Pre-requisites
-
-
 
 Create two github environments named `dev` and `prd`.
 
@@ -1764,10 +1562,10 @@ Configure the 'prd' environment for manual approval with the following settings:
 **Deployment protection rules:** None
 
 Create a new Azure app registration with the name of ghc-scenario-id-39 and retrieve the following details:
-# Client ID# Tenant ID# Client Secret
+
+## Client ID# Tenant ID# Client Secret
+
 Workflow Steps
-
-
 
 Trigger the workflow manually from the main branch using the workflow_dispatch event.
 
@@ -1789,11 +1587,7 @@ The workflow creates a downloads folder if needed.
 
 The workflow downloads the previously uploaded artifact and displays its contents using PowerShell.
 
-
-
 1.13 Key Takeaways
-
-
 
 The workflow automates repository content listing, artifact management, and metadata reporting.
 
@@ -1803,50 +1597,29 @@ The solution is extensible and demonstrates best practices in CI/CD automation.
 
 1.14 Diagrams / Flowcharts
 
-
 1.15 Questions or Feedback from Attendees
-
-
 
 Should additional scripting languages or artifact types be supported?
 
 Is there a need for integration with other CI/CD platforms?
 
-
-
 1.16 Questions for Attendees
-
-
 
 Are there additional metadata or audit requirements?
 
 Should the workflow support scheduled or event-based triggers beyond manual dispatch?
 
-
-
 1.17 Call to Action
-
-
 
 Review the workflow and provide feedback.
 
 Suggest enhancements or additional features as needed.
 
-
-
-
-
 Example: Product Requirements Document
-
-
 
 Terminal Command Best Practices
 
-
-
 If you are generating terminal commands, follow these best practices to ensure clarity, security, and maintainability:
-
-
 
 Terminal host
 
@@ -1857,8 +1630,6 @@ Terminal host
 **Consistent Usage:** To avoid environment compatibility issues, consistently use the same shell throughout a script or project.
 
 **Example**:*
-
-
 
 ```powershell
 

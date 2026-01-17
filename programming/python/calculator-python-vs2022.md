@@ -8,30 +8,45 @@ Creating a basic calculator program in Python with Visual Studio 2022 is a great
 1. **Write the Calculator Code**:
    - In the `main.py` file (or any other Python file you create), write the code for your basic calculator. Here's an example:
 
-     ```python
-     class Calculator:
-         def add(self, a, b):
-             return a + b
+```text
+ ```
+```
 
-         def subtract(self, a, b):
-             return a - b
+python
 
-         def multiply(self, a, b):
-             return a * b
+```text
+ class Calculator:
+     def add(self, a, b):
+         return a + b
+```
 
-         def divide(self, a, b):
-             if b == 0:
-                 raise ValueError("Division by zero is not allowed.")
-             return a / b
+```text
+     def subtract(self, a, b):
+         return a - b
+```
 
-     # Example usage
-     if __name__ == "__main__":
-         calculator = Calculator()
-         print("Addition: ", calculator.add(2, 3))         # Output: 5
-         print("Subtraction: ", calculator.subtract(5, 2)) # Output: 3
-         print("Multiplication: ", calculator.multiply(4, 3)) # Output: 12
-         print("Division: ", calculator.divide(10, 2))     # Output: 5
-     ```
+```text
+     def multiply(self, a, b):
+         return a * b
+```
+
+```text
+     def divide(self, a, b):
+         if b == 0:
+             raise ValueError("Division by zero is not allowed.")
+         return a / b
+```
+
+```text
+ # Example usage
+ if __name__ == "__main__":
+     calculator = Calculator()
+     print("Addition: ", calculator.add(2, 3))         # Output: 5
+     print("Subtraction: ", calculator.subtract(5, 2)) # Output: 3
+     print("Multiplication: ", calculator.multiply(4, 3)) # Output: 12
+     print("Division: ", calculator.divide(10, 2))     # Output: 5
+ ```
+```
 
 1. **Run Your Program**:
    - To run your program, press `Ctrl + F5` or click on the "Start Without Debugging" button in the toolbar.
@@ -40,57 +55,78 @@ Creating a basic calculator program in Python with Visual Studio 2022 is a great
 1. **Add Error Handling and User Input** (Optional):
    - You can enhance your calculator by adding error handling and allowing user input. Here's an example:
 
-     ```
+```text
+ ```
+```
 
 python
-     class Calculator:
-         def add(self, a, b):
-             return a + b
 
-         def subtract(self, a, b):
-             return a - b
+```text
+ class Calculator:
+     def add(self, a, b):
+         return a + b
+```
 
-         def multiply(self, a, b):
-             return a * b
+```text
+     def subtract(self, a, b):
+         return a - b
+```
 
-         def divide(self, a, b):
-            Division by zero is not allowed.")
-             return a / b
+```text
+     def multiply(self, a, b):
+         return a * b
+```
 
-     def main():
-         calculator = Calculator()
-         while True:
-             print("Options:")
-             print("1. Add")
-             print("2. Subtract")
-             print("3. Multiply")
-             print("4. Divide")
-             print("5. Exit")
-             choice = input("Choose an option: ")
+```text
+     def divide(self, a, b):
+        Division by zero is not allowed.")
+         return a / b
+```
 
-             if choice == '5':
-                 break
+```text
+ def main():
+     calculator = Calculator()
+     while True:
+         print("Options:")
+         print("1. Add")
+         print("2. Subtract")
+         print("3. Multiply")
+         print("4. Divide")
+         print("5. Exit")
+         choice = input("Choose an option: ")
+```
 
-             a = float(input("Enter first number: "))
-             b = float(input("Enter second number: "))
+```text
+         if choice == '5':
+             break
+```
 
-             try:
-                 if choice == '1':
-                     print("Result: ", calculator.add(a, b))
-                 elif choice == '2':
-                     print("Result: ", calculator.subtract(a, b))
-                 elif choice == '3':
-                     print("Result: ", calculator.multiply(a, b))
-                 elif choice == '4':
-                     print("Result: ", calculator.divide(a, b))
-                 else:
-                     print("Invalid choice")
-             except ValueError as e:
-                 print(e)
+```text
+         a = float(input("Enter first number: "))
+         b = float(input("Enter second number: "))
+```
 
-     if __name__ == "__main__":
-         main()
-     ```
+```text
+         try:
+             if choice == '1':
+                 print("Result: ", calculator.add(a, b))
+             elif choice == '2':
+                 print("Result: ", calculator.subtract(a, b))
+             elif choice == '3':
+                 print("Result: ", calculator.multiply(a, b))
+             elif choice == '4':
+                 print("Result: ", calculator.divide(a, b))
+             else:
+                 print("Invalid choice")
+         except ValueError as e:
+             print(e)
+```
+
+```text
+ if __name__ == "__main__":
+     main()
+ ```
+```
 
 This should help you get started with creating a basic calculator program in Python using Visual Studio 2022. If you have any questions or need further assistance, feel free to ask!
 
@@ -99,64 +135,95 @@ To test your Python calculator program with pytest in Visual Studio 2022, follow
 1. **Set Up Your Project**:
    - Ensure you have Python and pytest installed. If not, you can install pytest using pip:
 
-     ```
+```text
+ ```
+```
 
 sh
-     pip install pytest
-     ```
+
+```text
+ pip install pytest
+ ```
+```
 
 1. **Create Your Calculator Program**:
    - In Visual Studio 2022, create a new Python project and add your calculator code. For example, in `calculator.py`:
 
-     ```
+```text
+ ```
+```
 
 python
-     class Calculator:
-         def add(self, a, b):
-             return a + b
 
-         def subtract(self, a, b):
-             return a - b
+```text
+ class Calculator:
+     def add(self, a, b):
+         return a + b
+```
 
-         def multiply(self, a, b):
-             return a * b
+```text
+     def subtract(self, a, b):
+         return a - b
+```
 
-         def divide(self, a, b):
-             if b == 0:
-                 raise ValueError("Division by zero is not allowed.")
-             return a / b
-     ```
+```text
+     def multiply(self, a, b):
+         return a * b
+```
+
+```text
+     def divide(self, a, b):
+         if b == 0:
+             raise ValueError("Division by zero is not allowed.")
+         return a / b
+ ```
+```
 
 1. **Create Test Cases**:
    - Create a new file named `test_calculator.py` in your project directory and add your test cases:
 
-     ```
+```text
+ ```
+```
 
 python
-     import pytest
-     from calculator import Calculator
 
-     def test_add():
-         calculator = Calculator()
-         assert calculator.add(2, 3) == 5
+```text
+ import pytest
+ from calculator import Calculator
+```
 
-     def test_subtract():
-         calculator = Calculator()
-         assert calculator.subtract(5, 2) == 3
+```text
+ def test_add():
+     calculator = Calculator()
+     assert calculator.add(2, 3) == 5
+```
 
-     def test_multiply():
-         calculator = Calculator()
-         assert calculator.multiply(4, 3) == 12
+```text
+ def test_subtract():
+     calculator = Calculator()
+     assert calculator.subtract(5, 2) == 3
+```
 
-     def test_divide():
-         calculator = Calculator()
-         assert calculator.divide(10, 2) == 5
+```text
+ def test_multiply():
+     calculator = Calculator()
+     assert calculator.multiply(4, 3) == 12
+```
 
-     def test_divide_by_zero():
-         calculator = Calculator()
-         with pytest.raises(ValueError, match="Division by zero is not allowed."):
-             calculator.divide(1, 0)
-     ```
+```text
+ def test_divide():
+     calculator = Calculator()
+     assert calculator.divide(10, 2) == 5
+```
+
+```text
+ def test_divide_by_zero():
+     calculator = Calculator()
+     with pytest.raises(ValueError, match="Division by zero is not allowed."):
+         calculator.divide(1, 0)
+ ```
+```
 
 1. **Configure pytest in Visual Studio**:
    - Right-click on your project in Solution Explorer and select `Properties`.

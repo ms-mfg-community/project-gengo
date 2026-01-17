@@ -7,7 +7,9 @@
 \n\nRight-click on the database and select "New Query"
 \n\nRun the following SQL to create the table (if it doesn't exist):
 
-```sql
+```
+
+sql
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[demos]') AND type in (N'U'))
 
@@ -57,7 +59,9 @@ BEGIN
 
 END
 
-```text
+```
+
+text
 text
 
 \n\nIn the Object Explorer, right-click on the `demos` table
@@ -72,13 +76,17 @@ text
 \n\nClick "Next" and then "Finish"
 \n\nAfter the import completes, verify the data with:
 
-```sql
+```
+
+sql
 
 SELECT COUNT(*) AS TotalImportedRecords FROM [dbo].[demos];
 
 SELECT TOP 10 * FROM [dbo].[demos];
 
-```text
+```
+
+text
 text
 
 \n\nOption 2: Using the PowerShell Script
@@ -86,20 +94,28 @@ text
 \n\nOpen a PowerShell window with administrative privileges
 \n\nNavigate to the directory where the script is located:
 
-```text
+```
+
+text
 
 cd "C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\databases\rdbms\completed\azure-sql"
 
-```text
+```
+
+text
 text
 
 \n\nRun the script:
 
-```text
+```
+
+text
 
 .\import-ghc-demos.ps1
 
-```text
+```
+
+text
 text
 
 \n\nEnter your SQL Server username and password when prompted

@@ -1,3 +1,5 @@
+# Temp Converter C Clion
+
 Sure! The most suitable JetBrains IDE for C programming is **CLion**[1](https://www.jetbrains.com/clion/). Here's a step-by-step guide to create a simple temperature conversion program in C and write unit tests using Unity in CLion:
 
 \n\nStep 1: Set Up Your Project
@@ -17,13 +19,13 @@ Sure! The most suitable JetBrains IDE for C programming is **CLion**[1](https://
 \n\nIn the Project Explorer, right-click on the `src` folder and select `New` > `C File`.
 \n\nName the file `temp_converter.c` and add the following code:
 
-     ```c
+     ```
+
+c
 
      // temp_converter.c
 
      #include <stdio.h>
-
-
 
      // Function to convert Fahrenheit to Celsius
 
@@ -33,13 +35,9 @@ Sure! The most suitable JetBrains IDE for C programming is **CLion**[1](https://
 
      }
 
-
-
      int main() {
 
          float fahrenheit, celsius;
-
-
 
          // Prompt the user to enter a temperature in Fahrenheit
 
@@ -47,25 +45,17 @@ Sure! The most suitable JetBrains IDE for C programming is **CLion**[1](https://
 
          scanf("%f", &fahrenheit);
 
-
-
          // Convert the temperature to Celsius
 
          celsius = fahrenheitToCelsius(fahrenheit);
-
-
 
          // Display the input temperature in Fahrenheit and the converted temperature in Celsius
 
          printf("%.2f Fahrenheit is %.2f Celsius\n", fahrenheit, celsius);
 
-
-
          return 0;
 
      }
-
-
 
      /*
 
@@ -101,23 +91,17 @@ c
 
      #include "temp_converter.c"
 
-
-
      void setUp(void) {
 
          // Set up code if needed
 
      }
 
-
-
      void tearDown(void) {
 
          // Tear down code if needed
 
      }
-
-
 
      void test_fahrenheitToCelsius(void) {
 
@@ -132,8 +116,6 @@ c
          TEST_ASSERT_FLOAT_WITHIN(0.01, 37.78, fahrenheitToCelsius(100.0));
 
      }
-
-
 
      int main(void) {
 
@@ -160,11 +142,7 @@ cmake
 
      project(temp_converter C)
 
-
-
      set(CMAKE_C_STANDARD 99)
-
-
 
      add_executable(temp_converter temp_converter.c)
 

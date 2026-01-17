@@ -143,47 +143,50 @@ This document summarizes all the deliverables created for the streamlined .NET C
 
 \n\nQuick Start (< 10 minutes)
 
-```powershell
+```
+
+powershell
 \n\n1. Copy environment template
 
 cp .env.template .env
-
 
 \n\n2. Edit .env with your values
 
 code .env
 
-
 \n\n3. Run complete setup
 
 .\setup\complete-setup.ps1 -Owner "your-org" -Repo "your-repo"
-
 
 \n\n4. Add publish profiles manually
 
 gh secret set AZURE_WEBAPP_PUBLISH_PROFILE --body "$(cat profile.xml)" --env dev
 
-```text
+```
+
+text
 text
 
 \n\nAdvanced Usage
 
-```powershell
+```
+
+powershell
 \n\nDry run to see what would be done
 
 .\setup\complete-setup.ps1 -Owner "your-org" -Repo "your-repo" -DryRun
-
 
 \n\nSkip certain steps
 
 .\setup\complete-setup.ps1 -Owner "your-org" -Repo "your-repo" -SkipWorkflowCopy
 
-
 \n\nUse custom environment file
 
 .\setup\complete-setup.ps1 -Owner "your-org" -Repo "your-repo" -EnvFile ".env.prod"
 
-```text
+```
+
+text
 text
 
 \n\n🤖 GitHub Copilot Integration
@@ -192,64 +195,67 @@ text
 
 \n\nSetup Assistance
 
-```text
+```
+
+text
 
 I need to set up a .NET CI/CD pipeline using GitHub Actions. Please help me:
-
 
 \n\nReview my workflow configuration for best practices
 \n\nCustomize deployment steps for my Azure App Service
 \n\nAdd environment-specific application settings
 \n\nConfigure monitoring and alerting
 
-
-
 Project Details:
 \n\nFramework: .NET 6/7/8
 \n\nTarget: Azure App Service
 \n\nEnvironments: dev, qa, prod
 
-```text
+```
+
+text
 text
 
 \n\nCustomization Help
 
-```text
+```
+
+text
 
 Help me customize my .NET deployment workflow:
-
 
 \n\nAdd SonarQube code quality checks
 \n\nInclude Entity Framework database migrations
 \n\nConfigure blue-green deployment for production
 \n\nAdd Slack notifications for deployment status
 
-
-
 Current workflow: .github/workflows/ci-cd-dotnet.yaml
 
-```text
+```
+
+text
 text
 
 \n\nTroubleshooting Support
 
-```text
+```
+
+text
 
 My .NET CI/CD pipeline is failing. Please help me troubleshoot:
-
 
 \n\nAnalyze the workflow error logs
 \n\nCheck Azure App Service configuration
 \n\nVerify secrets and variables are set correctly
 \n\nSuggest fixes for common deployment issues
 
-
-
 Error message: [paste error here]
 
 Workflow run: [paste URL here]
 
-```text
+```
+
+text
 text
 
 \n\n📊 Solution Benefits

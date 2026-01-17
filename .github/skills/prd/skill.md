@@ -1,3 +1,5 @@
+# Skill
+
 ---
 name: prd
 
@@ -10,7 +12,7 @@ Guide users through context gathering, section drafting, and validation when wri
 
 \n\nReference Skills Repository
 
-https://github.com/anthropic/skills
+<https://github.com/anthropic/skills>
 
 \n\nWhen to Use
 

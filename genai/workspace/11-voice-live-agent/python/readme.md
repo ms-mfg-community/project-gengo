@@ -56,13 +56,17 @@ You can run the run the project locally and only provision the AI model followin
 
 **Initialize environment** (choose a descriptive name):
 
-```bash
+```
+
+bash
 
 azd env new gpt-realtime-lab --confirm
 
-# or: azd env new your-name-gpt-experiment --confirm
+## or: azd env new your-name-gpt-experiment --confirm
 
-```text
+```
+
+text
 text
 
 **Important**: This name becomes part of your Azure resource names!
@@ -71,29 +75,39 @@ The `--confirm` flag sets this as your default environment without prompting.
 
 **Set your resource group**:
 
-```bash
+```
+
+bash
 
 azd env set AZURE_RESOURCE_GROUP "rg-your-name-gpt"
 
-```text
+```
+
+text
 text
 
 **Login and provision AI resources**:
 
-```bash
+```
+
+bash
 
 az login
 
 azd provision
 
-```text
+```
+
+text
 text
 
 > **Important**: Do NOT run `azd deploy` - the app is not configured in the AZD templates.
 
 If you only provisioned the model using the `azd provision` method you MUST create a `.env` file in the root of the directory with the following entries:
 
-```text
+```
+
+text
 
 AZURE_VOICE_LIVE_ENDPOINT=""
 
@@ -107,7 +121,9 @@ VOICE_LIVE_INSTRUCTIONS="You are a helpful AI assistant with a focus on world hi
 
 VOICE_LIVE_VERBOSE="" #Suppresses excessive logging to the terminal if running locally
 
-```text
+```
+
+text
 text
 
 Notes:

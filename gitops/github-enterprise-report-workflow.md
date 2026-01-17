@@ -37,11 +37,15 @@ This GitHub Action workflow automatically collects and formats comprehensive Git
 
 The workflow is configured to run automatically every Sunday at 2 AM UTC. You can modify the schedule in the workflow file:
 
-```yaml
+```
+
+yaml
 schedule:
 \n\ncron: "0 2 * * 0" # Weekly on Sundays at 2 AM UTC
 
-```text
+```
+
+text
 text
 
 \n\nPrerequisites
@@ -185,7 +189,9 @@ The script includes error handling for:
 
 \n\nSample CSV Output
 
-```csv
+```
+
+csv
 
 org_name,repo_name,repo_private,repo_language,code_scanning_total_alerts,secret_scanning_total_alerts
 
@@ -195,12 +201,16 @@ MyOrg,api-service,true,Python,12,0
 
 MyOrg,mobile-app,false,Swift,3,1
 
-```text
+```
+
+text
 text
 
 \n\nSample Metadata
 
-```json
+```
+
+json
 {
   "organization": {
     "name": "MyOrg",
@@ -216,7 +226,10 @@ text
 
   "total_repositories": 40
 }
-```text
+
+```
+
+text
 text
 
 \n\nContributing

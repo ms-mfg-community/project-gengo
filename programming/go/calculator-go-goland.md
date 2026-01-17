@@ -1,3 +1,5 @@
+# Calculator Go Goland
+
 Sure! Here's how you can write a basic calculator app in Go and perform unit testing with Testify:
 
 \n\nStep 1: Write the Calculator App
@@ -6,7 +8,9 @@ Sure! Here's how you can write a basic calculator app in Go and perform unit tes
 \n\nCreate a new directory for your project and navigate to it in your terminal.
 \n\nInitialize a new Go module:
 
-     ```sh
+     ```
+
+sh
 
      go mod init calculator
 
@@ -21,19 +25,13 @@ go
 
      package main
 
-
-
      import (
 
          "errors"
 
      )
 
-
-
      type Calculator struct{}
-
-
 
      func (c Calculator) Add(a, b float64) float64 {
 
@@ -41,23 +39,17 @@ go
 
      }
 
-
-
      func (c Calculator) Subtract(a, b float64) float64 {
 
          return a - b
 
      }
 
-
-
      func (c Calculator) Multiply(a, b float64) float64 {
 
          return a * b
 
      }
-
-
 
      func (c Calculator) Divide(a, b float64) (float64, error) {
 
@@ -95,8 +87,6 @@ go
 
      package main
 
-
-
      import (
 
          "testing"
@@ -104,8 +94,6 @@ go
          "github.com/stretchr/testify/assert"
 
      )
-
-
 
      func TestAdd(t *testing.T) {
 
@@ -117,8 +105,6 @@ go
 
      }
 
-
-
      func TestSubtract(t *testing.T) {
 
          calculator := Calculator{}
@@ -129,8 +115,6 @@ go
 
      }
 
-
-
      func TestMultiply(t *testing.T) {
 
          calculator := Calculator{}
@@ -140,8 +124,6 @@ go
          assert.Equal(t, 12.0, result, "they should be equal")
 
      }
-
-
 
      func TestDivide(t *testing.T) {
 
@@ -154,8 +136,6 @@ go
          assert.Equal(t, 5.0, result, "they should be equal")
 
      }
-
-
 
      func TestDivideByZero(t *testing.T) {
 

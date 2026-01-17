@@ -26,7 +26,9 @@ The solution will serve as both a functional calculator and a reference implemen
 
 \n\nCreate a fully functional calculator application using .NET 8 and C#
 \n\nImplement core arithmetic operations (+, -, \*, /) using case expressions
+
 \n\nDemonstrate proper C# coding practices including null handling, error management, and code organization
+
 \n\nRefactor code from using case expressions to methods for better testability
 \n\nDemonstrate incremental development by adding modulo and exponent operations
 \n\nProvide comprehensive xUnit tests with different test approaches (fact, theory)
@@ -107,6 +109,7 @@ The solution will serve as both a functional calculator and a reference implemen
 \n\n**Reliability:** The application shall handle edge cases and invalid inputs without crashing
 \n\n**Testability:** All core functionality shall be covered by unit tests
 \n\n**Maintainability:** Code shall follow C# best practices and be well-documented
+
 \n\n**Compatibility:** The application shall run on any platform supporting .NET 8
 
 \n\n1.9 Assumptions and Dependencies
@@ -115,6 +118,7 @@ The solution will serve as both a functional calculator and a reference implemen
 \n\nxUnit will be used as the testing framework
 \n\nDevelopers have access to appropriate .NET development tools
 \n\nThe application will use standard C# console I/O features
+
 \n\nNo external libraries beyond .NET Standard and xUnit are required
 
 \n\n1.10 Success Criteria / KPIs
@@ -221,7 +225,9 @@ Create a PowerShell script named `Remove-DotnetSlnForCalculator.ps1` to reset th
 
 \n\nUnderstanding .NET solution and project structure
 \n\nWorking with C# top-level statements
+
 \n\nImplementing proper null handling in C# code
+
 \n\nWriting effective xUnit tests with different techniques
 \n\nCreating reusable setup and cleanup scripts
 \n\nTranslating C# concepts to other languages (Python)

@@ -55,7 +55,9 @@ The workflow should demonstrate essential GitHub Actions capabilities with the f
 \n\nJob 1: list-contents
 
 **Purpose:** Display repository structure and contents
-# Steps:
+
+# Steps
+
 \n\nDisplay workflow trigger information (event name, branch, repository, actor)
 \n\nCheck out repository code using actions/checkout@v4
 \n\nList repository contents using tree command (depth 3, with sizes)
@@ -72,7 +74,9 @@ The workflow should demonstrate essential GitHub Actions capabilities with the f
 **Purpose:** Display workflow metadata and context
 
 **Dependencies:** Must run after list-contents job completes
-# Steps:
+
+## Steps
+
 \n\nDisplay comprehensive branch information including:
 
 \n\nBranch name (github.ref_name)
@@ -101,7 +105,9 @@ $repoRoot = git rev-parse --show-toplevel
 \n\nOutput Location
 
 .github/workflows/01-level-workflow.yml
-# Prompt Requirements Summary:
+
+## Prompt Requirements Summary
+
 Create a GitHub Actions workflow that automates repository content listing and workflow metadata reporting with the following requirements:
 
 \n\nMultiple trigger types (push, PR, schedule, manual)
@@ -109,15 +115,18 @@ Create a GitHub Actions workflow that automates repository content listing and w
 \n\nDirectory-specific listing using PowerShell
 \n\nWorkflow metadata reporting
 \n\nJob dependencies and sequencing
-# Response:
+
+## Response
+
 Created comprehensive workflow with two jobs: list-contents and retrieve-values.
-# PRD Location:
+
+## PRD Location
+
 ```text
 pwsh
 \n\nRelative path
 
 cicd/prd-01-level-workspace.md
-
 
 \n\nFull path resolution
 

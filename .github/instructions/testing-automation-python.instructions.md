@@ -1,3 +1,5 @@
+# Testing Automation Python.Instructions
+
 ---
 applyTo: "**tests/**/*.py"
 ---
@@ -28,8 +30,6 @@ import pytest
 
 from unittest.mock import Mock, patch
 
-
-
 class TestUserService:
 
     @pytest.fixture
@@ -37,8 +37,6 @@ class TestUserService:
     def user_service(self):
 
         return UserService()
-
-
 
     @pytest.mark.parametrize("invalid_email", ["", "invalid", "@test.com"])
 
@@ -48,15 +46,11 @@ class TestUserService:
 
             user_service.create_user({"email": invalid_email})
 
-
-
     @patch('src.user_service.email_validator')
 
     def test_should_handle_validation_failure(self, mock_validator, user_service):
 
         mock_validator.validate.side_effect = ConnectionError()
-
-
 
         with pytest.raises(ConnectionError):
 

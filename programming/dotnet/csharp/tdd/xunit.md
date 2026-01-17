@@ -34,11 +34,11 @@ Use GitHub Copilot to generate a basic test class.
 
 Example: C#
 
-```csharp
+```
+
+csharp
 
 using Xunit;
-
-
 
 public class MyFirstTests
 
@@ -56,7 +56,9 @@ public class MyFirstTests
 
 }
 
-```text
+```
+
+text
 text
 
 Running the Test:
@@ -77,7 +79,9 @@ Demonstrate how Copilot can suggest and complete test methods.
 
 Example: C#
 
-```csharp
+```
+
+csharp
 
 [Fact]
 
@@ -91,8 +95,6 @@ public void TestAddition()
 
 }
 
-
-
 private int Add(int a, int b)
 
 {
@@ -101,7 +103,9 @@ private int Add(int a, int b)
 
 }
 
-```text
+```
+
+text
 text
 
 Best Practices: Tips for effectively using Copilot to write and maintain tests.
@@ -124,7 +128,9 @@ Add a GitHub Actions workflow for running tests.
 
 Example Workflow:
 
-```yaml
+```
+
+yaml
 
 name: .NET Core
 
@@ -135,8 +141,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
-
 
     steps:
 \n\nuses: actions/checkout@v2
@@ -157,7 +161,9 @@ jobs:
 
         run: dotnet test --no-build --verbosity normal
 
-```text
+```
+
+text
 text
 
 \n

@@ -10,7 +10,9 @@
 
 \n\nProjects Included
 
-```text
+```
+
+text
 
 CalculatorWeb.sln
 
@@ -36,27 +38,35 @@ CalculatorWeb.sln
 
         ??? Namespace: Calculator.Blazor
 
-```text
+```
+
+text
 text
 
 \n\nBuild Status
 
 ? **Build Succeeded** (2.6s)
 
-```text
+```
+
+text
 
 Calculator.Core net8.0     ? Calculator.Core\bin\Debug\net8.0\Calculator.Core.dll
 
 CalculatorBlazor net8.0    ? CalculatorBlazor\bin\Debug\net8.0\CalculatorBlazor.dll
 
-```text
+```
+
+text
 text
 
 \n\nSolution Structure
 
 \n\nDependency Graph
 
-```text
+```
+
+text
 
 ????????????????????????????????????????
 
@@ -88,58 +98,76 @@ text
 \n\nModulo
 \n\nExponent
 
-```text
+```
+
+text
 text
 
 \n\nQuick Commands
 
 \n\nBuild the Solution
 
-```powershell
+```
+
+powershell
 
 cd C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\experimental\calculator-xunit-testing
 
-
-
 dotnet build CalculatorWeb.sln
 
-```text
+```
+
+text
 text
 
 \n\nRun the Blazor Application
 
-```powershell
+```
+
+powershell
 
 dotnet run --project CalculatorBlazor\CalculatorBlazor.csproj
 
-```text
+```
+
+text
 text
 
 Then open: **https://localhost:7264** or **http://localhost:5073**
 
 \n\nClean Build
 
-```powershell
+```
+
+powershell
 
 dotnet clean CalculatorWeb.sln
 
 dotnet build CalculatorWeb.sln
 
-```text
+```
+
+text
 text
 
 \n\nList All Projects
 
-```powershell
+```
+
+powershell
 
 dotnet sln CalculatorWeb.sln list
 
-```text
+```
+
+text
 text
 
 Expected Output:
 
-```text
+```
+
+text
 
 Project(s)
 
@@ -149,7 +177,9 @@ Calculator.Core\Calculator.Core.csproj
 
 CalculatorBlazor\CalculatorBlazor.csproj
 
-```text
+```
+
+text
 text
 
 \n\nArchitecture
@@ -189,6 +219,7 @@ Both projects configured for:
 
 \n\n? .NET 8.0 (`net8.0`)
 \n\n? Latest C# version (`LangVersion: latest`)
+
 \n\n? Implicit usings (`ImplicitUsings: enable`)
 \n\n? Nullable reference types (`Nullable: enable`)
 \n\n? XML documentation (`GenerateDocumentationFile: true`)
@@ -217,29 +248,41 @@ Both projects configured for:
 
 \n\nScenario 1: Build for Development
 
-```powershell
+```
+
+powershell
 
 dotnet build CalculatorWeb.sln --configuration Debug
 
-```text
+```
+
+text
 text
 
 \n\nScenario 2: Build for Production
 
-```powershell
+```
+
+powershell
 
 dotnet build CalculatorWeb.sln --configuration Release
 
-```text
+```
+
+text
 text
 
 \n\nScenario 3: Publish the Application
 
-```powershell
+```
+
+powershell
 
 dotnet publish CalculatorWeb.sln --configuration Release --output ./publish
 
-```text
+```
+
+text
 text
 
 \n\nIntegration with Visual Studio
@@ -258,7 +301,7 @@ Open `CalculatorWeb.sln` in Visual Studio 2022:
 
 \n\nBuild: `dotnet build CalculatorWeb.sln`
 \n\nRun: `dotnet run --project CalculatorBlazor\CalculatorBlazor.csproj`
-\n\nTest: https://localhost:7264
+\n\nTest: <https://localhost:7264>
 
 \n\n2. ?? Recommended (Optional)
 
@@ -290,7 +333,9 @@ The new `CalculatorWeb.sln` focuses on:
 
 \n\nFile Locations
 
-```text
+```
+
+text
 
 calculator-xunit-testing/
 
@@ -334,7 +379,9 @@ calculator-xunit-testing/
 
 ??? ... other files
 
-```text
+```
+
+text
 text
 
 \n\nTroubleshooting
@@ -344,12 +391,18 @@ text
 **Solution:** Verify file paths are correct relative to solution file location
 
 \n\nIssue: Port 7264 already in use
-# Solution:
-```powershell
+
+## Solution
+
+```
+
+powershell
 
 dotnet run --project CalculatorBlazor\CalculatorBlazor.csproj -- --urls "https://localhost:7265"
 
-```text
+```
+
+text
 text
 
 \n\nIssue: Calculator.Core not found in CalculatorBlazor
@@ -364,8 +417,12 @@ text
 \n\n**Build Status:** ? Success (2.6s)
 \n\n**Purpose:** Consolidated solution for web-based calculator
 \n\n**Ready for:** Development, testing, deployment, and .NET upgrades
-# Start using it:
-```powershell
+
+## Start using it
+
+```
+
+powershell
 
 cd C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\experimental\calculator-xunit-testing
 
@@ -373,7 +430,9 @@ dotnet build CalculatorWeb.sln
 
 dotnet run --project CalculatorBlazor\CalculatorBlazor.csproj
 
-```text
+```
+
+text
 text
 
 Then open: **https://localhost:7264**

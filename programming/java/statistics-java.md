@@ -22,8 +22,11 @@ After the first calculation, ask the user if they would like another, and if the
 
 Add a 3 unit test cases to execute unit tests for 3 arrays of 5 values each.
 
-```markdown
-# java-statistics
+```
+
+markdown
+
+## java-statistics
 
 generate: Initial build
 
@@ -90,5 +93,8 @@ Perform a final execution of the test to confirm that the last refactoring opera
 Thought Exercise
 
 How else can we scale this application to make it handle more volume in a distributed architecture?
-```text
+
+```
+
+text
 text

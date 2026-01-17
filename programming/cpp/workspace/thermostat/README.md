@@ -19,49 +19,54 @@ A C++ thermostat control system project.
 
 \n\nBuild Instructions
 
-```bash
+```
+
+bash
 \n\nClone the repository
 
 git clone <repository-url>
 
 cd thermostat
 
-
 \n\nCreate build directory
 
 mkdir build && cd build
-
 
 \n\nConfigure with CMake
 
 cmake ..
 
-
 \n\nBuild
 
 cmake --build .
 
-```text
+```
+
+text
 text
 
 \n\nRunning Tests
 
-```bash
+```
+
+bash
 
 cd build
 
 ctest
 
-```text
+```
+
+text
 text
 
 \n\nUsage
 
-```cpp
+```
+
+cpp
 
 #include <thermostat/thermostat.hpp>
-
-
 
 int main() {
 
@@ -71,7 +76,9 @@ int main() {
 
 }
 
-```text
+```
+
+text
 text
 
 \n\nLicense

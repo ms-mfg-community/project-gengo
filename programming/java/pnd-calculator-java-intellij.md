@@ -1,5 +1,7 @@
 Using GitHub Copilot in JetBrains IntelliJ IDEA is a great way to enhance your Java development experience. Here's a step-by-step guide to set up and demonstrate a simple Java program with GitHub Copilot in IntelliJ IDEA:
+
 # Step 1: Set Up Your Environment
+
 **Install IntelliJ IDEA**: If you haven't already, download and install IntelliJ IDEA.
 \n\n**Install GitHub Copilot Plugin**:
 
@@ -10,7 +12,9 @@ In the settings window, select `Plugins` from the left sidebar.
 Search for "GitHub Copilot" in the Marketplace tab.
 
 Click `Install` and restart IntelliJ IDEA to activate the plugin[1](https://devblogs.microsoft.com/java/free-plan-support-for-github-copilot-available-on-jetbrains-ides/)[2](https://www.restack.io/p/ai-copilots-answer-github-copilot-intellij-java-cat-ai).
-# Step 2: Create a New Java Project
+
+## Step 2: Create a New Java Project
+
 **Open IntelliJ IDEA** and create a new project:
 
 Go to `File > New > Project`.
@@ -18,7 +22,9 @@ Go to `File > New > Project`.
 Select `Java` and click `Next`.
 
 Configure your project settings and click `Finish`.
-# Step 3: Write the Main Class
+
+## Step 3: Write the Main Class
+
 **Create a new Java class** named `TodoList`:
 
 Right-click on the `src` folder, select `New > Java Class`, and name it `TodoList`.
@@ -45,320 +51,545 @@ Right-click on the `src` folder, select `New > Java Class`, and name it `TodoLis
 \n\nRight-click on the `src` folder, select `New > Java Class`, and name it `TodoList`.
 \n\n**Start typing** the class definition and let GitHub Copilot assist you:
 
-```java
+```
+
+java
 
 public class TodoList {
 
-    public static void main(String[] args) {
+```text
+public static void main(String[] args) {
+```
 
-        // Your code here
+```text
+    // Your code here
+```
 
-    }
+```text
+}
+```
 
 }
 
-```text
+```
+
+text
 text
 
 \n\n**Step 4: Define the To-Do Item Class**
-# Step 4: Define the To-Do Item Class
+
+## Step 4: Define the To-Do Item Class
+
 **Create a new Java class** named `TodoItem`:
 
 Right-click on the `src` folder, select `New > Java Class`, and name it `TodoItem`.
 
 **Use Copilot** to help you define the class:
 
-```java
+```
+
+java
 
 public class TodoItem {
 
-    private String description;
+```text
+private String description;
+```
 
-    private boolean isCompleted;
+```text
+private boolean isCompleted;
+```
 
+```text
+public TodoItem(String description) {
+```
 
-    public TodoItem(String description) {
+```text
+    this.description = description;
+```
 
-        this.description = description;
+```text
+    this.isCompleted = false;
+```
 
-        this.isCompleted = false;
+```text
+}
+```
 
-    }
+```text
+public String getDescription() {
+```
 
+```text
+    return description;
+```
 
-    public String getDescription() {
+```text
+}
+```
 
-        return description;
+```text
+public boolean isCompleted() {
+```
 
-    }
+```text
+    return isCompleted;
+```
 
+```text
+}
+```
 
-    public boolean isCompleted() {
+```text
+public void markAsCompleted() {
+```
 
-        return isCompleted;
+```text
+    this.isCompleted = true;
+```
 
-    }
-
-
-    public void markAsCompleted() {
-
-        this.isCompleted = true;
-
-    }
+```text
+}
+```
 
 }
 
-```text
+```
+
+text
 text
 
 \n\n**Create a new Java class** named `TodoItem`:
 \n\nRight-click on the `src` folder, select `New > Java Class`, and name it `TodoItem`.
 \n\n**Use Copilot** to help you define the class:
 
-```java
+```
+
+java
 
 public class TodoItem {
 
-    private String description;
+```text
+private String description;
+```
 
-    private boolean isCompleted;
+```text
+private boolean isCompleted;
+```
 
+```text
+public TodoItem(String description) {
+```
 
+```text
+    this.description = description;
+```
 
-    public TodoItem(String description) {
+```text
+    this.isCompleted = false;
+```
 
-        this.description = description;
+```text
+}
+```
 
-        this.isCompleted = false;
+```text
+public String getDescription() {
+```
 
-    }
+```text
+    return description;
+```
 
+```text
+}
+```
 
+```text
+public boolean isCompleted() {
+```
 
-    public String getDescription() {
+```text
+    return isCompleted;
+```
 
-        return description;
+```text
+}
+```
 
-    }
+```text
+public void markAsCompleted() {
+```
 
+```text
+    this.isCompleted = true;
+```
 
-
-    public boolean isCompleted() {
-
-        return isCompleted;
-
-    }
-
-
-
-    public void markAsCompleted() {
-
-        this.isCompleted = true;
-
-    }
+```text
+}
+```
 
 }
 
-```text
+```
+
+text
 text
 
 \n\n**Step 5: Implement the To-Do List Logic**
-# Step 5: Implement the To-Do List Logic
+
+## Step 5: Implement the To-Do List Logic
+
 **Go back to `TodoList.java`** and implement the logic for adding, displaying, and completing to-do items:
 
-```java
+```
+
+java
 
 import java.util.ArrayList;
 
 import java.util.Scanner;
 
-
 public class TodoList {
 
-    private static ArrayList<TodoItem> items = new ArrayList<>();
+```text
+private static ArrayList<TodoItem> items = new ArrayList<>();
+```
 
+```text
+public static void main(String[] args) {
+```
 
-    public static void main(String[] args) {
+```text
+    Scanner scanner = new Scanner(System.in);
+```
 
-        Scanner scanner = new Scanner(System.in);
+```text
+    while (true) {
+```
 
-        while (true) {
+```text
+        System.out.println("1. Add item");
+```
 
-            System.out.println("1. Add item");
+```text
+        System.out.println("2. View items");
+```
 
-            System.out.println("2. View items");
+```text
+        System.out.println("3. Complete item");
+```
 
-            System.out.println("3. Complete item");
+```text
+        System.out.println("4. Exit");
+```
 
-            System.out.println("4. Exit");
+```text
+        int choice = scanner.nextInt();
+```
 
-            int choice = scanner.nextInt();
+```text
+        scanner.nextLine(); // Consume newline
+```
 
-            scanner.nextLine(); // Consume newline
+```text
+        switch (choice) {
+```
 
+```text
+            case 1:
+```
 
-            switch (choice) {
+```text
+                System.out.println("Enter description:");
+```
 
-                case 1:
+```text
+                String description = scanner.nextLine();
+```
 
-                    System.out.println("Enter description:");
+```text
+                items.add(new TodoItem(description));
+```
 
-                    String description = scanner.nextLine();
+```text
+                break;
+```
 
-                    items.add(new TodoItem(description));
+```text
+            case 2:
+```
 
-                    break;
+```text
+                for (int i = 0; i < items.size(); i++) {
+```
 
-                case 2:
+```text
+                    TodoItem item = items.get(i);
+```
 
-                    for (int i = 0; i < items.size(); i++) {
+```text
+                    System.out.println((i + 1) + ". " + item.getDescription() + " [" + (item.isCompleted() ? "Completed" : "Pending") + "]");
+```
 
-                        TodoItem item = items.get(i);
+```text
+                }
+```
 
-                        System.out.println((i + 1) + ". " + item.getDescription() + " [" + (item.isCompleted() ? "Completed" : "Pending") + "]");
+```text
+                break;
+```
 
-                    }
+```text
+            case 3:
+```
 
-                    break;
+```text
+                System.out.println("Enter item number to complete:");
+```
 
-                case 3:
+```text
+                int itemNumber = scanner.nextInt();
+```
 
-                    System.out.println("Enter item number to complete:");
+```text
+                if (itemNumber > 0 && itemNumber <= items.size()) {
+```
 
-                    int itemNumber = scanner.nextInt();
+```text
+                    items.get(itemNumber - 1).markAsCompleted();
+```
 
-                    if (itemNumber > 0 && itemNumber <= items.size()) {
+```text
+                }
+```
 
-                        items.get(itemNumber - 1).markAsCompleted();
+```text
+                break;
+```
 
-                    }
+```text
+            case 4:
+```
 
-                    break;
+```text
+                System.out.println("Goodbye!");
+```
 
-                case 4:
+```text
+                scanner.close();
+```
 
-                    System.out.println("Goodbye!");
+```text
+                return;
+```
 
-                    scanner.close();
+```text
+            default:
+```
 
-                    return;
+```text
+                System.out.println("Invalid choice");
+```
 
-                default:
-
-                    System.out.println("Invalid choice");
-
-            }
-
+```text
         }
+```
 
+```text
     }
+```
+
+```text
+}
+```
 
 }
 
-```text
+```
+
+text
 text
 
 \n\n**Go back to `TodoList.java`** and implement the logic for adding, displaying, and completing to-do items:
 
-```java
+```
+
+java
 
 import java.util.ArrayList;
 
 import java.util.Scanner;
 
-
-
 public class TodoList {
 
-    private static ArrayList<TodoItem> items = new ArrayList<>();
+```text
+private static ArrayList<TodoItem> items = new ArrayList<>();
+```
 
+```text
+public static void main(String[] args) {
+```
 
+```text
+    Scanner scanner = new Scanner(System.in);
+```
 
-    public static void main(String[] args) {
+```text
+    while (true) {
+```
 
-        Scanner scanner = new Scanner(System.in);
+```text
+        System.out.println("1. Add item");
+```
 
-        while (true) {
+```text
+        System.out.println("2. View items");
+```
 
-            System.out.println("1. Add item");
+```text
+        System.out.println("3. Complete item");
+```
 
-            System.out.println("2. View items");
+```text
+        System.out.println("4. Exit");
+```
 
-            System.out.println("3. Complete item");
+```text
+        int choice = scanner.nextInt();
+```
 
-            System.out.println("4. Exit");
+```text
+        scanner.nextLine(); // Consume newline
+```
 
-            int choice = scanner.nextInt();
+```text
+        switch (choice) {
+```
 
-            scanner.nextLine(); // Consume newline
+```text
+            case 1:
+```
 
+```text
+                System.out.println("Enter description:");
+```
 
+```text
+                String description = scanner.nextLine();
+```
 
-            switch (choice) {
+```text
+                items.add(new TodoItem(description));
+```
 
-                case 1:
+```text
+                break;
+```
 
-                    System.out.println("Enter description:");
+```text
+            case 2:
+```
 
-                    String description = scanner.nextLine();
+```text
+                for (int i = 0; i < items.size(); i++) {
+```
 
-                    items.add(new TodoItem(description));
+```text
+                    TodoItem item = items.get(i);
+```
 
-                    break;
+```text
+                    System.out.println((i + 1) + ". " + item.getDescription() + " [" + (item.isCompleted() ? "Completed" : "Pending") + "]");
+```
 
-                case 2:
+```text
+                }
+```
 
-                    for (int i = 0; i < items.size(); i++) {
+```text
+                break;
+```
 
-                        TodoItem item = items.get(i);
+```text
+            case 3:
+```
 
-                        System.out.println((i + 1) + ". " + item.getDescription() + " [" + (item.isCompleted() ? "Completed" : "Pending") + "]");
+```text
+                System.out.println("Enter item number to complete:");
+```
 
-                    }
+```text
+                int itemNumber = scanner.nextInt();
+```
 
-                    break;
+```text
+                if (itemNumber > 0 && itemNumber <= items.size()) {
+```
 
-                case 3:
+```text
+                    items.get(itemNumber - 1).markAsCompleted();
+```
 
-                    System.out.println("Enter item number to complete:");
+```text
+                }
+```
 
-                    int itemNumber = scanner.nextInt();
+```text
+                break;
+```
 
-                    if (itemNumber > 0 && itemNumber <= items.size()) {
+```text
+            case 4:
+```
 
-                        items.get(itemNumber - 1).markAsCompleted();
+```text
+                System.out.println("Goodbye!");
+```
 
-                    }
+```text
+                scanner.close();
+```
 
-                    break;
+```text
+                return;
+```
 
-                case 4:
+```text
+            default:
+```
 
-                    System.out.println("Goodbye!");
+```text
+                System.out.println("Invalid choice");
+```
 
-                    scanner.close();
-
-                    return;
-
-                default:
-
-                    System.out.println("Invalid choice");
-
-            }
-
+```text
         }
+```
 
+```text
     }
+```
+
+```text
+}
+```
 
 }
 
-```text
+```
+
+text
 text
 
 \n\n**Step 6: Run the Program**
-# Step 6: Run the Program
+
+## Step 6: Run the Program
+
 **Run the program** by right-clicking on `TodoList.java` and selecting `Run 'TodoList.main()'`.
-# Demonstration Tips
+
+## Demonstration Tips
+
 **Highlight Copilot's Suggestions**: Show how Copilot suggests code snippets and helps complete functions.
 
 **Explain the Code**: Walk through the code, explaining each part and how Copilot assisted.
@@ -379,152 +610,267 @@ Open IntelliJ IDEA and create a new Java project.
 
 Add your basic calculator app code. For example, a simple calculator class might look like this:
 
-      ```java
+```text
+  ```
+```
 
-      public class Calculator {
+java
 
-          public int add(int a, int b) {
+```text
+  public class Calculator {
+```
 
-              return a + b;
+```text
+      public int add(int a, int b) {
+```
 
-          }
+```text
+          return a + b;
+```
 
-
-          public int subtract(int a, int b) {
-
-              return a - b;
-
-          }
-
-
-          public int multiply(int a, int b) {
-
-              return a * b;
-
-          }
-
-
-          public int divide(int a, int b) {
-
-              if (b == 0) {
-
-                  throw new IllegalArgumentException("Division by zero is not allowed.");
-
-              }
-
-              return a / b;
-
-          }
-
+```text
       }
+```
 
-      ```
+```text
+      public int subtract(int a, int b) {
+```
+
+```text
+          return a - b;
+```
+
+```text
+      }
+```
+
+```text
+      public int multiply(int a, int b) {
+```
+
+```text
+          return a * b;
+```
+
+```text
+      }
+```
+
+```text
+      public int divide(int a, int b) {
+```
+
+```text
+          if (b == 0) {
+```
+
+```text
+              throw new IllegalArgumentException("Division by zero is not allowed.");
+```
+
+```text
+          }
+```
+
+```text
+          return a / b;
+```
+
+```text
+      }
+```
+
+```text
+  }
+```
+
+```text
+  ```
+```
 
 **Add JUnit to Your Project**:
 
 Open the `pom.xml` file if you're using Maven, or `build.gradle` if you're using Gradle, and add the JUnit dependency. For Maven, it looks like this:
 
-          <dependency>
+```text
+      <dependency>
+```
 
-          <groupId>org.junit.jupiter</groupId>
+```text
+      <groupId>org.junit.jupiter</groupId>
+```
 
-          <artifactId>junit-jupiter-api</artifactId>
+```text
+      <artifactId>junit-jupiter-api</artifactId>
+```
 
-          <version>5.8.1</version>
+```text
+      <version>5.8.1</version>
+```
 
-          <scope>test</scope>
+```text
+      <scope>test</scope>
+```
 
+```text
+  </dependency>
+```
 
-      </dependency>
+```text
+  ```
+```
 
-      ```
+```text
+  For Gradle, it looks like this:
+```
 
-
-      For Gradle, it looks like this:
-
-      ```
+```text
+  ```
+```
 
 groovy
 
-      testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+```text
+  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+```
 
-      testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+```text
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+```
 
-      ```
+```text
+  ```
+```
 
 **Create Test Cases**:
 
 Create a new Java class for your test cases. For example, you can create a `CalculatorTest` class:
 
-      ```
+```text
+  ```
+```
 
 java
 
-      import static org.junit.jupiter.api.Assertions.*;
+```text
+  import static org.junit.jupiter.api.Assertions.*;
+```
 
-      import org.junit.jupiter.api.Test;
+```text
+  import org.junit.jupiter.api.Test;
+```
 
+```text
+  public class CalculatorTest {
+```
 
-      public class CalculatorTest {
+```text
+      @Test
+```
 
+```text
+      public void testAdd() {
+```
 
-          @Test
+```text
+          Calculator calculator = new Calculator();
+```
 
-          public void testAdd() {
+```text
+          assertEquals(5, calculator.add(2, 3));
+```
 
-              Calculator calculator = new Calculator();
-
-              assertEquals(5, calculator.add(2, 3));
-
-          }
-
-
-          @Test
-
-          public void testSubtract() {
-
-              Calculator calculator = new Calculator();
-
-              assertEquals(1, calculator.subtract(3, 2));
-
-          }
-
-
-          @Test
-
-          public void testMultiply() {
-
-              Calculator calculator = new Calculator();
-
-              assertEquals(6, calculator.multiply(2, 3));
-
-          }
-
-
-          @Test
-
-          public void testDivide() {
-
-              Calculator calculator = new Calculator();
-
-              assertEquals(2, calculator.divide(6, 3));
-
-          }
-
-
-          @Test
-
-          public void testDivideByZero() {
-
-              Calculator calculator = new Calculator();
-
-              assertThrows(IllegalArgumentException.class, () -> calculator.divide(1, 0));
-
-          }
-
+```text
       }
+```
 
-      ```
+```text
+      @Test
+```
+
+```text
+      public void testSubtract() {
+```
+
+```text
+          Calculator calculator = new Calculator();
+```
+
+```text
+          assertEquals(1, calculator.subtract(3, 2));
+```
+
+```text
+      }
+```
+
+```text
+      @Test
+```
+
+```text
+      public void testMultiply() {
+```
+
+```text
+          Calculator calculator = new Calculator();
+```
+
+```text
+          assertEquals(6, calculator.multiply(2, 3));
+```
+
+```text
+      }
+```
+
+```text
+      @Test
+```
+
+```text
+      public void testDivide() {
+```
+
+```text
+          Calculator calculator = new Calculator();
+```
+
+```text
+          assertEquals(2, calculator.divide(6, 3));
+```
+
+```text
+      }
+```
+
+```text
+      @Test
+```
+
+```text
+      public void testDivideByZero() {
+```
+
+```text
+          Calculator calculator = new Calculator();
+```
+
+```text
+          assertThrows(IllegalArgumentException.class, () -> calculator.divide(1, 0));
+```
+
+```text
+      }
+```
+
+```text
+  }
+```
+
+```text
+  ```
+```
 
 **Run Your Tests**:
 
@@ -554,165 +900,265 @@ Sure! Here's how you can use JUnit to test a basic calculator app written in Jav
 \n\nOpen IntelliJ IDEA and create a new Java project.
 \n\nAdd your basic calculator app code. For example, a simple calculator class might look like this:
 
-      ```
+```text
+  ```
+```
 
 java
 
-      public class Calculator {
+```text
+  public class Calculator {
+```
 
-          public int add(int a, int b) {
+```text
+      public int add(int a, int b) {
+```
 
-              return a + b;
+```text
+          return a + b;
+```
 
-          }
-
-
-
-          public int subtract(int a, int b) {
-
-              return a - b;
-
-          }
-
-
-
-          public int multiply(int a, int b) {
-
-              return a * b;
-
-          }
-
-
-
-          public int divide(int a, int b) {
-
-              if (b == 0) {
-
-                  throw new IllegalArgumentException("Division by zero is not allowed.");
-
-              }
-
-              return a / b;
-
-          }
-
+```text
       }
+```
 
-      ```
+```text
+      public int subtract(int a, int b) {
+```
+
+```text
+          return a - b;
+```
+
+```text
+      }
+```
+
+```text
+      public int multiply(int a, int b) {
+```
+
+```text
+          return a * b;
+```
+
+```text
+      }
+```
+
+```text
+      public int divide(int a, int b) {
+```
+
+```text
+          if (b == 0) {
+```
+
+```text
+              throw new IllegalArgumentException("Division by zero is not allowed.");
+```
+
+```text
+          }
+```
+
+```text
+          return a / b;
+```
+
+```text
+      }
+```
+
+```text
+  }
+```
+
+```text
+  ```
+```
 
 \n\n**Add JUnit to Your Project**:
 \n\nOpen the `pom.xml` file if you're using Maven, or `build.gradle` if you're using Gradle, and add the JUnit dependency. For Maven, it looks like this:
 
-          <dependency>
+```text
+      <dependency>
+```
 
-          <groupId>org.junit.jupiter</groupId>
+```text
+      <groupId>org.junit.jupiter</groupId>
+```
 
-          <artifactId>junit-jupiter-api</artifactId>
+```text
+      <artifactId>junit-jupiter-api</artifactId>
+```
 
-          <version>5.8.1</version>
+```text
+      <version>5.8.1</version>
+```
 
-          <scope>test</scope>
+```text
+      <scope>test</scope>
+```
 
+```text
+  </dependency>
+```
 
+```text
+  ```
+```
 
-      </dependency>
+```text
+  For Gradle, it looks like this:
+```
 
-      ```
-
-
-
-      For Gradle, it looks like this:
-
-
-
-      ```
+```text
+  ```
+```
 
 groovy
 
-      testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+```text
+  testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+```
 
-      testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+```text
+  testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+```
 
-      ```
+```text
+  ```
+```
 
 \n\n**Create Test Cases**:
 \n\nCreate a new Java class for your test cases. For example, you can create a `CalculatorTest` class:
 
-      ```
+```text
+  ```
+```
 
 java
 
-      import static org.junit.jupiter.api.Assertions.*;
+```text
+  import static org.junit.jupiter.api.Assertions.*;
+```
 
-      import org.junit.jupiter.api.Test;
+```text
+  import org.junit.jupiter.api.Test;
+```
 
+```text
+  public class CalculatorTest {
+```
 
+```text
+      @Test
+```
 
-      public class CalculatorTest {
+```text
+      public void testAdd() {
+```
 
+```text
+          Calculator calculator = new Calculator();
+```
 
+```text
+          assertEquals(5, calculator.add(2, 3));
+```
 
-          @Test
-
-          public void testAdd() {
-
-              Calculator calculator = new Calculator();
-
-              assertEquals(5, calculator.add(2, 3));
-
-          }
-
-
-
-          @Test
-
-          public void testSubtract() {
-
-              Calculator calculator = new Calculator();
-
-              assertEquals(1, calculator.subtract(3, 2));
-
-          }
-
-
-
-          @Test
-
-          public void testMultiply() {
-
-              Calculator calculator = new Calculator();
-
-              assertEquals(6, calculator.multiply(2, 3));
-
-          }
-
-
-
-          @Test
-
-          public void testDivide() {
-
-              Calculator calculator = new Calculator();
-
-              assertEquals(2, calculator.divide(6, 3));
-
-          }
-
-
-
-          @Test
-
-          public void testDivideByZero() {
-
-              Calculator calculator = new Calculator();
-
-              assertThrows(IllegalArgumentException.class, () -> calculator.divide(1, 0));
-
-          }
-
+```text
       }
+```
 
-      ```
+```text
+      @Test
+```
+
+```text
+      public void testSubtract() {
+```
+
+```text
+          Calculator calculator = new Calculator();
+```
+
+```text
+          assertEquals(1, calculator.subtract(3, 2));
+```
+
+```text
+      }
+```
+
+```text
+      @Test
+```
+
+```text
+      public void testMultiply() {
+```
+
+```text
+          Calculator calculator = new Calculator();
+```
+
+```text
+          assertEquals(6, calculator.multiply(2, 3));
+```
+
+```text
+      }
+```
+
+```text
+      @Test
+```
+
+```text
+      public void testDivide() {
+```
+
+```text
+          Calculator calculator = new Calculator();
+```
+
+```text
+          assertEquals(2, calculator.divide(6, 3));
+```
+
+```text
+      }
+```
+
+```text
+      @Test
+```
+
+```text
+      public void testDivideByZero() {
+```
+
+```text
+          Calculator calculator = new Calculator();
+```
+
+```text
+          assertThrows(IllegalArgumentException.class, () -> calculator.divide(1, 0));
+```
+
+```text
+      }
+```
+
+```text
+  }
+```
+
+```text
+  ```
+```
 
 \n\n**Run Your Tests**:
 \n\nRight-click on your test class and select `Run 'CalculatorTest'`.

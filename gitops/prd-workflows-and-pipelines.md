@@ -325,12 +325,16 @@ Create the following enterprise-grade directory structure in `$(git rev-parse --
 \n\n1.12.3.2 Workflow Security and Authentication Architecture
 
 The workflow implements enterprise-grade security with the following components:
-# OIDC Authentication Configuration:
+
+## OIDC Authentication Configuration
+
 \n\n**Purpose**: Eliminates long-lived secrets in repositories using federated identity
 \n\n**Implementation**: Azure App Registration with GitHub federated credentials
 \n\n**Scope**: Environment-specific credentials (dev/prd) for secure multi-environment deployment
 \n\n**Permissions**: Subscription-level Contributor role for infrastructure deployment
-# Environment Protection Strategy:
+
+## Environment Protection Strategy
+
 \n\n**Development Environment (`dev`)**: Planning and validation with automatic approval
 \n\n**Production Environment (`prd`)**: Deployment with mandatory manual approval gates
 \n\n**Security Model**: Least-privilege access with role-based permissions
@@ -368,7 +372,9 @@ Create a `workflow_dispatch` trigger with comprehensive input validation for fle
 \n\nDescription should explain use for stack naming and identification
 
 \n\n1.12.3.4 Resource Naming Strategy and Conflict Prevention
-# Dynamic Resource Naming Architecture:
+
+## Dynamic Resource Naming Architecture
+
 Configure environment variables at the workflow level for consistent resource prefixes:
 
 \n\n**Azure Authentication Variables** (configured as repository secrets):
@@ -385,13 +391,17 @@ Configure environment variables at the workflow level for consistent resource pr
 \n\nkeyVaultPrefix: 'kvt' (Key Vault prefix)
 \n\nlawPrefix: 'law' (Log Analytics Workspace prefix)
 \n\nappInsightsPrefix: 'ais' (Application Insights prefix)
-# Random Suffix Generation:
+
+## Random Suffix Generation
+
 In the plan job, create a step that generates a unique random suffix for resource naming:
 
 \n\nUse job outputs to make the suffix available to other jobs
 \n\nGenerate 8-character alphanumeric string using: `echo $RANDOM | md5sum | head -c 8`
 \n\nStore the result in GitHub outputs using the variable name 'rndSuffix'
-# Resource Name Construction:
+
+## Resource Name Construction
+
 For the what-if analysis in the plan job, construct Azure CLI deployment command with dynamic parameters:
 
 \n\nUse `az deployment sub what-if` command
@@ -449,7 +459,9 @@ Additionally, configure optional debugging variables:
 \n\n1.12.3.7 Azure CLI and Bicep Extension Setup
 
 The workflow ensures consistent tooling across all job executions through standardized setup procedures:
-# Azure CLI and Bicep Extension Configuration:
+
+## Azure CLI and Bicep Extension Configuration
+
 Create a workflow step that implements comprehensive Azure CLI and Bicep setup with the following requirements:
 
 \n\n**Output Status Message**: Display "Setting up Azure CLI and Bicep extension..." for audit trail
@@ -461,9 +473,13 @@ Create a workflow step that implements comprehensive Azure CLI and Bicep setup w
 This standardized setup ensures compatibility, security, and reliability across all deployment operations while providing clear audit trails for troubleshooting and compliance requirements.
 
 \n\n1.12.3.1 Workflow Input Configuration
-# Workflow Dispatch Trigger Setup:
+
+## Workflow Dispatch Trigger Setup
+
 Create a comprehensive workflow dispatch configuration in the `gaw-iac-azure-deployment.yml` workflow file with dynamic input parameters for flexible deployment scenarios:
-# Required Input Parameters:
+
+## Required Input Parameters
+
 Configure the following inputs with appropriate data types, validation, and descriptive help text:
 
 \n\n**resourceGroupName**: String input with default value `gaw-iac-azure-deployment` for Azure resource group naming
@@ -477,7 +493,9 @@ Configure the following inputs with appropriate data types, validation, and desc
 Each input should include comprehensive descriptions explaining the purpose, impact, and expected values to guide users in making appropriate selections.
 
 \n\n1.12.3.2 Resource Naming Strategy
-# Workflow Environment Variables Configuration:
+
+## Workflow Environment Variables Configuration
+
 Configure environment variables at the workflow level to ensure consistent resource prefixes across all deployment operations:
 
 **Azure Authentication Variables** (configured as repository secrets):
@@ -496,14 +514,18 @@ Configure environment variables at the workflow level to ensure consistent resou
 \n\nkeyVaultPrefix: 'kvt' for Key Vault prefix
 \n\nlawPrefix: 'law' for Log Analytics Workspace prefix
 \n\nappInsightsPrefix: 'ais' for Application Insights prefix
-# Random Suffix Generation Strategy:
+
+## Random Suffix Generation Strategy
+
 Create a plan job output variable that generates unique resource identifiers:
 
 Create a job output named 'rndSuffix' and implement a step with ID 'rnd' that:
 
 \n\nGenerates an 8-character random string using: echo $RANDOM | md5sum | head -c 8
 \n\nOutputs the result to GitHub outputs using the rndSuffix variable name
-# Dynamic Resource Name Construction:
+
+## Dynamic Resource Name Construction
+
 Implement resource name construction within the plan job using the generated suffix through Bicep parameter integration:
 
 Implement an Azure CLI what-if deployment command that:
@@ -513,7 +535,9 @@ Implement an Azure CLI what-if deployment command that:
 \n\nUses the bicepFile and bicepParametersFile from workflow inputs
 \n\nConstructs all resource name parameters dynamically using environment prefixes and random suffix
 \n\nIncludes parameters for: resourceGroupName, location, storageAccountName, containerRegistryName, appInsightsName, keyVaultName, lawName
-# Deployment Job Resource Naming:
+
+## Deployment Job Resource Naming
+
 Implement the same naming pattern in the deploy job using job output references for Azure Deployment Stacks:
 
 Implement an Azure CLI deployment stack command that:
@@ -635,7 +659,9 @@ The solution implements a subscription-scoped deployment that creates a complete
 \n\n1.12.4.2 Directory Structure
 
 Create a standardized Bicep configuration structure in the path `gitops/workspace/infra/` with the following organization:
-# Root Level Files:
+
+## Root Level Files
+
 \n\n`main.bicep`: Main subscription-scoped template
 \n\n`main.bicepparam`: Parameter file for environment values
 \n\n`README.md`: Infrastructure documentation
@@ -756,7 +782,9 @@ This hybrid deployment approach ensures that foundational infrastructure is mana
 \n\nAPI versions for stability
 \n\nDefault configurations following Azure best practices
 \n\nSecurity settings and policies
-# Parameter File Usage:
+
+## Parameter File Usage
+
 Create a `main.bicepparam` file that provides environment-specific values following this pattern:
 
 \n\nUse the 'using' declaration to reference 'main.bicep'
@@ -777,14 +805,18 @@ _NOTE: For this implementation, the bicepparam file is being used as a placehold
 \n\n**Compliance**: Azure Policy-ready configurations and audit trails
 
 \n\n1.12.4.8 Validation and Testing
-# Bicep Validation Script Implementation:
+
+## Bicep Validation Script Implementation
+
 Create a PowerShell script (`validate-bicep.ps1`) that validates Bicep templates before deployment:
 
 \n\nUse the Azure CLI command `az bicep build --file main.bicep` to validate templates
 \n\nCheck the exit code ($LASTEXITCODE) to determine success or failure
 \n\nDisplay "Bicep validation successful!" message in Green color for success
 \n\nDisplay "Bicep validation failed!" message in Red color and exit with code 1 for failure
-# Deployment Mode Instructions:
+
+## Deployment Mode Instructions
+
 Configure deployment modes to support different execution patterns:
 
 \n\n**Plan-Only Mode**: Implement using `--what-if` parameter for preview without making changes
@@ -800,7 +832,9 @@ Implement comprehensive cleanup procedures for complete environment reset and re
 **App Service and App Service Plan Cleanup** (Required for rollback operations):
 
 Since App Service Plan and App Service resources are deployed imperatively using Azure CLI commands (not through the Bicep deployment stack), they require explicit cleanup during rollback operations. Create a cleanup procedure that removes these compute resources separately:
-# Implementation Instructions:
+
+## Implementation Instructions
+
 \n\n**Status Output**: Display informational message "Cleaning up App Service and App Service Plan resources..." for audit trail and troubleshooting
 \n\n**App Service Deletion**:
 \n\nOutput deletion message with specific resource name using the pattern "Deleting App Service: ${{ env.appServicePrefix }}-${{ env.deployRndSuffix }}"
@@ -809,12 +843,16 @@ Since App Service Plan and App Service resources are deployed imperatively using
 \n\nOutput deletion message with specific resource name using the pattern "Deleting App Service Plan: ${{ env.appServicePlanPrefix }}-${{ env.deployRndSuffix }}"
 \n\nImplement Azure CLI App Service Plan deletion command that targets the plan by name and resource group using the established environment variable naming pattern
 \n\n**Completion Confirmation**: Display success message "Rollback completed successfully. Resources have been deleted." for operation verification
-# Critical Implementation Notes:
+
+## Critical Implementation Notes
+
 \n\n**Deletion Order**: Always delete App Service before App Service Plan to avoid dependency conflicts
 \n\n**Resource Independence**: These resources must be deleted separately since they exist outside the deployment stack lifecycle
 \n\n**Error Handling**: Include appropriate error handling for cases where resources may not exist or deletion fails. The following ERROR may appear during a rollback operation and can be safely ignored as a false-positive, where the deployment may have to be manually deleted from the portal:
 
-```bash
+```
+
+bash
 
 Run echo "Rolling back deployment..."
 
@@ -832,13 +870,15 @@ Code: DeploymentStackDeleteResourcesFailed
 
 Message: One or more resources could not be deleted. Correlation id: '<guid>'.
 
-Exception Details:(DeploymentStackDeleteResourcesFailed) An error occurred while deleting resources. These resources are still present in the stack but can be deleted manually. Please see the FailedResources property for specific error information. Deletion failures that are known limitations are documented here: https://aka.ms/DeploymentStacksKnownLimitations
+Exception Details:(DeploymentStackDeleteResourcesFailed) An error occurred while deleting resources. These resources are still present in the stack but can be deleted manually. Please see the FailedResources property for specific error information. Deletion failures that are known limitations are documented here: <https://aka.ms/DeploymentStacksKnownLimitations>
 
 Code: DeploymentStackDeleteResourcesFailed
 
-Message: An error occurred while deleting resources. These resources are still present in the stack but can be deleted manually. Please see the FailedResources property for specific error information. Deletion failures that are known limitations are documented here: https://aka.ms/DeploymentStacksKnownLimitations
+Message: An error occurred while deleting resources. These resources are still present in the stack but can be deleted manually. Please see the FailedResources property for specific error information. Deletion failures that are known limitations are documented here: <https://aka.ms/DeploymentStacksKnownLimitations>
 
-```text
+```
+
+text
 text
 
 \n\n**Naming Consistency**: Use the same environment variable pattern for resource names as used during deployment

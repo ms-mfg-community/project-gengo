@@ -1,3 +1,5 @@
+# Create Basic Calculator Dotnet.Prompt
+
 ---
 
 description: Create a .NET 8 console calculator application with xUnit testing framework, following best practices for testability, maintainability, and proper error handling.
@@ -26,6 +28,7 @@ Create a .NET 8 console calculator application with xUnit unit testing that supp
 \n\nApplication Structure
 
 \n\n.NET 8 console application using C# top-level statements
+
 \n\nSeparate xUnit test project with comprehensive test coverage
 \n\nWell-organized solution following .NET project conventions
 \n\nAll arithmetic operations implemented as separate, testable methods
@@ -44,6 +47,7 @@ Create a .NET 8 console calculator application with xUnit unit testing that supp
 \n\nCode Quality Standards
 
 \n\nFollow C# best practices and coding conventions (PascalCase for variables/functions)
+
 \n\nInclude comprehensive JSDoc/XML documentation comments for all methods
 \n\nImplement input validation and early returns for error conditions
 \n\nUse meaningful variable names

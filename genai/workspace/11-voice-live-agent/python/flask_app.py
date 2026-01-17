@@ -224,7 +224,7 @@ class BasicVoiceAssistant:
         self.state_callback = state_callback or (lambda *_: None)
 
     async def start(self):
-        Import Voice Live SDK components needed for establishing connection and configuring session
+        # Import Voice Live SDK components needed for establishing connection and configuring session
         from azure.ai.voicelive.aio import connect  # type: ignore
         from azure.ai.voicelive.models import (
             RequestSession,

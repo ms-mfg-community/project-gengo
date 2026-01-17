@@ -1,3 +1,5 @@
+# Gpt 5 Mini Beast.Agent
+
 ---
 
 name: "gpt-5-mini-beast"

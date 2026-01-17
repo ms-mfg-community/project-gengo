@@ -7,24 +7,35 @@ A modern, web-based calculator application built with TypeScript, featuring comp
 ### Core Calculator Functionality
 
 - ✅ Basic arithmetic operations (addition, subtraction, multiplication, division)
+
 - ✅ Advanced operations (modulo %, exponentiation ^)
+
 - ✅ User-friendly web interface with colorized keypad
+
 - ✅ Error handling and input validation
+
 - ✅ Keyboard input support
 
 ### Multi-language Support
 
 - 🌍 **English**: Complete documentation and interface
+
 - 🇩🇪 **German**: Vollständige Dokumentation und Benutzeroberfläche
+
 - 🇮🇳 **Hindi**: पूर्ण दस्तावेज़ीकरण और इंटरफ़ेस
+
 - 🇯🇵 **Japanese**: 完全なドキュメントとインターフェース
 
 ### Development Features
 
 - 📦 TypeScript implementation with strict mode
+
 - 🧪 Comprehensive Jest testing suite (80%+ coverage)
+
 - 🎨 Responsive CSS design with color-coded interface
+
 - ⌨️ Full keyboard support
+
 - 🛠️ Visual Studio Code integration
 
 ## Quick Start
@@ -33,18 +44,26 @@ A modern, web-based calculator application built with TypeScript, featuring comp
 
 Ensure you have Node.js installed on your system:
 
-```powershell
-# Windows 11 - Install Node.js via winget
+```
+
+powershell
+
+## Windows 11 - Install Node.js via winget
+
 winget install OpenJS.NodeJS
 
-```text
+```
+
+text
 text
 
 ### Installation
 
 1. **Clone or navigate to the calculator directory**
 
-   ```bash
+   ```
+
+bash
    cd calculator/
    ```
 
@@ -72,48 +91,73 @@ bash
 
 Execute the comprehensive test suite:
 
-```text
+```
+
+text
 bash
-# Run all tests
+
+## Run all tests
+
 npm test
 
-# Run tests in watch mode
+## Run tests in watch mode
+
 npm run test:watch
 
-# Run tests with coverage report
+## Run tests with coverage report
+
 npm test -- --coverage
 
-```text
+```
+
+text
 
 ### Development Mode
 
 For development with automatic TypeScript compilation:
 
-```text
+```
+
+text
 bash
 npm run dev
 
-```text
+```
+
+text
 
 ## Project Structure
 
-```text
+```
+
+text
 text
 calculator/
 ├── index.html              # Main application interface
+
 ├── calculator.css          # Styling and visual presentation
+
 ├── package.json            # Node.js dependencies and scripts
+
 ├── tsconfig.json           # TypeScript configuration
+
 ├── jest.config.js          # Jest testing configuration
+
 ├── .gitignore             # Git ignore patterns
+
 ├── src/
 │   └── calculator.ts       # TypeScript source code
+
 ├── tests/
 │   └── calculator.test.ts  # Jest test suite
+
 ├── dist/                   # Compiled JavaScript output
+
 └── README.md              # This file
 
-```text
+```
+
+text
 
 ## Usage Guide
 
@@ -155,38 +199,55 @@ The calculator includes a comprehensive test suite covering:
 ### Test Categories
 
 - ✅ Basic arithmetic operations
+
 - ✅ Advanced operations (modulo, exponentiation)
+
 - ✅ Display operations (append, clear, delete)
+
 - ✅ Complex calculations with order of operations
+
 - ✅ Error handling and edge cases
+
 - ✅ Multi-language documentation verification
 
 ### Coverage Requirements
 
 - **Minimum 80% code coverage** (as specified in PRD)
+
 - **All critical paths tested**
+
 - **Edge cases and error scenarios covered**
 
 ### Running Specific Tests
 
-```text
+```
+
+text
 bash
-# Run tests with verbose output
+
+## Run tests with verbose output
+
 npm test -- --verbose
 
-# Run specific test file
+## Run specific test file
+
 npm test calculator.test.ts
 
-# Run tests matching pattern
+## Run tests matching pattern
+
 npm test -- --testNamePattern="arithmetic"
 
-```text
+```
+
+text
 
 ## Multi-language Code Documentation
 
 The calculator features comprehensive multi-language documentation:
 
-```text
+```
+
+text
 typescript
 /**
  * English: Function to add two numbers
@@ -198,7 +259,9 @@ function add(a: number, b: number): number {
   return a + b;
 }
 
-```text
+```
+
+text
 
 ## Development Environment
 
@@ -226,7 +289,9 @@ bash
 
 The project uses strict TypeScript configuration for maximum type safety:
 
-```text
+```
+
+text
 json
 {
   "compilerOptions": {
@@ -236,21 +301,28 @@ json
   }
 }
 
-```text
+```
+
+text
 
 ## Browser Compatibility
 
 ✅ **Supported Browsers**:
 
 - Chrome (latest 2 versions)
+
 - Firefox (latest 2 versions)
+
 - Safari (latest 2 versions)
+
 - Edge (latest 2 versions)
 
 ## Performance
 
 - ⚡ **Response Time**: < 100ms for calculations
+
 - 🚀 **Load Time**: < 2 seconds on standard browsers
+
 - 💾 **Memory Usage**: < 50MB browser memory
 
 ## Alternative Testing Frameworks
@@ -271,49 +343,76 @@ While this project uses Jest, other testing frameworks were evaluated:
 
 **TypeScript compilation errors**:
 
-```text
+```
+
+text
 bash
-# Clean and rebuild
+
+## Clean and rebuild
+
 rm -rf dist/
 npm run build
 
-```text
+```
+
+text
 
 **Jest test failures**:
 
-```text
+```
+
+text
 bash
-# Clear Jest cache
+
+## Clear Jest cache
+
 npm test -- --clearCache
 
-```text
+```
+
+text
 
 **Module not found errors**:
 
-```text
+```
+
+text
 bash
-# Reinstall dependencies
+
+## Reinstall dependencies
+
 rm -rf node_modules/
 npm install
 
-```text
+```
+
+text
 
 ### Package Management
 
 **Remove a package**:
 
-```text
+```
+
+text
 bash
 npm uninstall {package_name}
 
-```text
+```
+
+text
 
 **Update dependencies**:
 
-```text
+```
+
+text
 bash
 npm update
-```text
+
+```
+
+text
 
 ## Contributing
 
@@ -326,9 +425,13 @@ npm update
 ### Code Style Guidelines
 
 - Use TypeScript strict mode
+
 - Maintain 80%+ test coverage
+
 - Include multi-language documentation for new functions
+
 - Follow existing naming conventions
+
 - Add comprehensive error handling
 
 ## Future Enhancements
@@ -336,23 +439,33 @@ npm update
 ### Potential Features
 
 - 📱 Mobile responsive design optimization
+
 - 🔬 Scientific calculator functions (trigonometry, logarithms)
+
 - 💾 History and memory functions
+
 - ⌨️ Enhanced keyboard shortcuts
+
 - 🎨 Theme customization options
 
 ### Platform Expansion
 
 - 📦 Progressive Web App (PWA) conversion
+
 - 🖥️ Electron desktop application
+
 - 📱 React Native mobile application
+
 - 🐍 Python Flask web application alternative
 
 ### Internationalization Expansion
 
 - 🌐 Additional language support (Spanish, French, Chinese)
+
 - ↔️ Right-to-left language support (Arabic, Hebrew)
+
 - 🌍 Cultural number formatting
+
 - 💱 Currency and unit conversion features
 
 ## License
@@ -378,4 +491,5 @@ Ein umfassender TypeScript-Rechner mit Tests und mehrsprachiger Unterstützung.
 テストと多言語サポートを備えた包括的なTypeScript電卓。
 
 ---
-# Built with ❤️ using TypeScript, Jest, and modern web technologies
+
+## Built with ❤️ using TypeScript, Jest, and modern web technologies

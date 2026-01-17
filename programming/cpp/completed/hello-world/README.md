@@ -6,11 +6,12 @@ A simple C++ application that prints "Hello, World!" to the console.
 
 \n\nUsing CMake
 
-```bash
+```
+
+bash
 \n\nCreate a build directory
 
 mkdir build && cd build
-
 
 \n\nConfigure and build
 
@@ -18,27 +19,34 @@ cmake ..
 
 cmake --build .
 
-```text
+```
+
+text
 text
 
 \n\nUsing G++
 
-```bash
+```
+
+bash
 
 g++ -std=c++11 src/main.cpp -o hello_world
 
-```text
+```
+
+text
 text
 
 \n\nRunning the Application
 
-```bash
+```
+
+bash
 \n\nIf built with CMake
 
 ./HelloWorld  # Linux/Mac
 
 .\HelloWorld.exe  # Windows
-
 
 \n\nIf built with G++
 
@@ -46,7 +54,9 @@ text
 
 .\hello_world.exe  # Windows
 
-```text
+```
+
+text
 text
 
 \n\nRequirements

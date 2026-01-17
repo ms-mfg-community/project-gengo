@@ -1,3 +1,5 @@
+# Calculator Typescript Vs2022
+
 Creating a basic calculator app with TypeScript in Visual Studio 2022 is a great way to get started with both TypeScript and Visual Studio. Here's a step-by-step guide:
 
 1. **Set Up Your Project**:
@@ -10,73 +12,103 @@ Creating a basic calculator app with TypeScript in Visual Studio 2022 is a great
    - Right-click on your project in the Solution Explorer and select "Add" > "New Item".
    - Choose "TypeScript JSON Configuration File" and name it `tsconfig.json`. This file will configure the TypeScript compiler options.
 
-     ```json
-     {
-       "compilerOptions": {
-         "target": "es5",
-         "module": "commonjs",
-         "strict": true,
-         "esModuleInterop": true,
-         "skipLibCheck": true,
-         "forceConsistentCasingInFileNames": true
-       }
-     }
-     ```
+```text
+ ```
+```
+
+json
+
+```text
+ {
+   "compilerOptions": {
+     "target": "es5",
+     "module": "commonjs",
+     "strict": true,
+     "esModuleInterop": true,
+     "skipLibCheck": true,
+     "forceConsistentCasingInFileNames": true
+   }
+ }
+ ```
+```
 
 1. **Create the Calculator App**:
    - Add a new TypeScript file to your project. Right-click on your project, select "Add" > "New Item", and choose "TypeScript File". Name it `calculator.ts`.
 
-     ```
+```text
+ ```
+```
 
 typescript
-     class Calculator {
-       add(a: number, b: number): number {
-         return a + b;
-       }
 
-       subtract(a: number, b: number): number {
-         return a - b;
-       }
+```text
+ class Calculator {
+   add(a: number, b: number): number {
+     return a + b;
+   }
+```
 
-       multiply(a: number, b: number): number {
-         return a * b;
-       }
+```text
+   subtract(a: number, b: number): number {
+     return a - b;
+   }
+```
 
-       divide(a: number, b: number): number {
-         if (b === 0) {
-           throw new Error("Division by zero is not allowed.");
-         }
-         return a / b;
-       }
+```text
+   multiply(a: number, b: number): number {
+     return a * b;
+   }
+```
+
+```text
+   divide(a: number, b: number): number {
+     if (b === 0) {
+       throw new Error("Division by zero is not allowed.");
      }
+     return a / b;
+   }
+ }
+```
 
-     // Example usage
-     const calculator = new Calculator();
-     console.log(calculator.add(2, 3)); // Output: 5
-     console.log(calculator.subtract(5, 2)); // Output: 3
-     console.log(calculator.multiply(4, 3)); // Output: 12
-     console.log(calculator.divide(10, 2)); // Output: 5
-     ```
+```text
+ // Example usage
+ const calculator = new Calculator();
+ console.log(calculator.add(2, 3)); // Output: 5
+ console.log(calculator.subtract(5, 2)); // Output: 3
+ console.log(calculator.multiply(4, 3)); // Output: 12
+ console.log(calculator.divide(10, 2)); // Output: 5
+ ```
+```
 
 1. **Compile TypeScript to JavaScript**:
    - Open the terminal in Visual Studio (View > Terminal) and run the TypeScript compiler:
 
-     ```
+```text
+ ```
+```
 
 sh
-     tsc
-     ```
+
+```text
+ tsc
+ ```
+```
 
    This will compile your TypeScript code to JavaScript.
 
 1. **Run Your App**:
    - You can run the compiled JavaScript file using Node.js. In the terminal, run:
 
-     ```
+```text
+ ```
+```
 
 sh
-     node calculator.js
-     ```
+
+```text
+ node calculator.js
+ ```
+```
 
    This will execute your calculator app and display the results in the terminal.
 
@@ -91,86 +123,123 @@ To test your TypeScript calculator app with Vitest in Visual Studio 2022, follow
    - Open the terminal in Visual Studio (View > Terminal) and navigate to your project directory.
    - Install Vitest as a development dependency:
 
-     ```
+```text
+ ```
+```
 
 sh
-     npm install --save-dev vitest
-     ```
+
+```text
+ npm install --save-dev vitest
+ ```
+```
 
 1. **Configure Vitest**:
    - Add a `vitest.config.ts` file to your project root with the following content:
 
-     ```
+```text
+ ```
+```
 
 typescript
-     import { defineConfig } from "vitest/config";
 
-     export default defineConfig({
-       test: {
-         globals: true,
-         environment: "node",
-       },
-     });
-     ```
+```text
+ import { defineConfig } from "vitest/config";
+```
+
+```text
+ export default defineConfig({
+   test: {
+     globals: true,
+     environment: "node",
+   },
+ });
+ ```
+```
 
 1. **Create Test Cases**:
    - Create a new file named `calculator.test.ts` in your project directory and add your test cases:
 
-     ```
+```text
+ ```
+```
 
 typescript
-     import { describe, it, expect } from "vitest";
-     import { Calculator } from "./calculator";
 
-     describe("Calculator", () => {
-       it("should add two numbers", () => {
-         const calculator = new Calculator();
-         expect(calculator.add(2, 3)).toBe(5);
-       });
+```text
+ import { describe, it, expect } from "vitest";
+ import { Calculator } from "./calculator";
+```
 
-       it("should subtract two numbers", () => {
-         const calculator = new Calculator();
-         expect(calculator.subtract(5, 2)).toBe(3);
-       });
+```text
+ describe("Calculator", () => {
+   it("should add two numbers", () => {
+     const calculator = new Calculator();
+     expect(calculator.add(2, 3)).toBe(5);
+   });
+```
 
-       it("should multiply two numbers", () => {
-         const calculator = new Calculator();
-         expect(calculator.multiply(4, 3)).toBe(12);
-       });
+```text
+   it("should subtract two numbers", () => {
+     const calculator = new Calculator();
+     expect(calculator.subtract(5, 2)).toBe(3);
+   });
+```
 
-       it("should divide two numbers", () => {
-         const calculator = new Calculator();
-         expect(calculator.divide(10, 2)).toBe(5);
-       });
+```text
+   it("should multiply two numbers", () => {
+     const calculator = new Calculator();
+     expect(calculator.multiply(4, 3)).toBe(12);
+   });
+```
 
-       it("should throw an error when dividing by zero", () => {
-         const calculator = new Calculator();
-         expect(() => calculator.divide(1, 0)).toThrow(
-           "Division by zero is not allowed.",
-         );
-       });
-     });
-     ```
+```text
+   it("should divide two numbers", () => {
+     const calculator = new Calculator();
+     expect(calculator.divide(10, 2)).toBe(5);
+   });
+```
+
+```text
+   it("should throw an error when dividing by zero", () => {
+     const calculator = new Calculator();
+     expect(() => calculator.divide(1, 0)).toThrow(
+       "Division by zero is not allowed.",
+     );
+   });
+ });
+ ```
+```
 
 1. **Add Test Script**:
    - Open your `package.json` file and add the following script:
 
-     ```
+```text
+ ```
+```
 
 json
-     "scripts": {
-       "test": "vitest"
-     }
-     ```
+
+```text
+ "scripts": {
+   "test": "vitest"
+ }
+ ```
+```
 
 1. **Run Your Tests**:
    - In the terminal, run the following command to execute your tests:
 
-     ```
+```text
+ ```
+```
 
 sh
-     npm run test
-     ```
+
+```text
+ npm run test
+ ```
+```
 
    - Visual Studio will execute the tests and display the results in the terminal.
 

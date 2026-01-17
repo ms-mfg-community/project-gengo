@@ -2,42 +2,58 @@
 
 \n\n?? Location
 
-```text
+```
+
+text
 
 C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\experimental\calculator-xunit-testing\CalculatorWeb.sln
 
-```text
+```
+
+text
 text
 
 \n\n?? Quick Commands
 
 \n\nBuild
 
-```powershell
+```
+
+powershell
 
 cd C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\experimental\calculator-xunit-testing
 
 dotnet build CalculatorWeb.sln
 
-```text
+```
+
+text
 text
 
 \n\nRun
 
-```powershell
+```
+
+powershell
 
 dotnet run --project CalculatorBlazor\CalculatorBlazor.csproj
 
-```text
+```
+
+text
 text
 
 \n\nOpen in Browser
 
-```text
+```
 
-https://localhost:7264
+text
 
-```text
+<https://localhost:7264>
+
+```
+
+text
 text
 
 \n\n?? Solution Contents
@@ -86,7 +102,7 @@ See `CALCULATORWEB_SOLUTION.md` for detailed information.
 
 \n\nBuild: `dotnet build CalculatorWeb.sln`
 \n\nRun: `dotnet run --project CalculatorBlazor\CalculatorBlazor.csproj`
-\n\nTest: Open https://localhost:7264
+\n\nTest: Open <https://localhost:7264>
 \n\nCalculate: Use the interactive calculator UI
 
 \n\n?? Tips

@@ -1,3 +1,5 @@
+# Temp Converter C Vscode
+
 Sure! Here's how you can create a simple temperature conversion program in C and write unit tests using Unity in Visual Studio Code:
 
 \n\nStep 1: Set Up Your Project
@@ -20,13 +22,13 @@ Sure! Here's how you can create a simple temperature conversion program in C and
 \n\nOpen Visual Studio Code and create a new file named `temp_converter.c`.
 \n\nAdd the following code:
 
-     ```c
+     ```
+
+c
 
      // temp_converter.c
 
      #include <stdio.h>
-
-
 
      // Function to convert Fahrenheit to Celsius
 
@@ -36,13 +38,9 @@ Sure! Here's how you can create a simple temperature conversion program in C and
 
      }
 
-
-
      int main() {
 
          float fahrenheit, celsius;
-
-
 
          // Prompt the user to enter a temperature in Fahrenheit
 
@@ -50,25 +48,17 @@ Sure! Here's how you can create a simple temperature conversion program in C and
 
          scanf("%f", &fahrenheit);
 
-
-
          // Convert the temperature to Celsius
 
          celsius = fahrenheitToCelsius(fahrenheit);
-
-
 
          // Display the input temperature in Fahrenheit and the converted temperature in Celsius
 
          printf("%.2f Fahrenheit is %.2f Celsius\n", fahrenheit, celsius);
 
-
-
          return 0;
 
      }
-
-
 
      /*
 
@@ -103,23 +93,17 @@ c
 
      #include "temp_converter.c"
 
-
-
      void setUp(void) {
 
          // Set up code if needed
 
      }
 
-
-
      void tearDown(void) {
 
          // Tear down code if needed
 
      }
-
-
 
      void test_fahrenheitToCelsius(void) {
 
@@ -134,8 +118,6 @@ c
          TEST_ASSERT_FLOAT_WITHIN(0.01, 37.78, fahrenheitToCelsius(100.0));
 
      }
-
-
 
      int main(void) {
 

@@ -7,6 +7,7 @@ Create a Python notebook that demonstrates how to use the Hugging Face Transform
 ### Required Imports
 
 - Import `AutoModelForCausalLM`, `AutoTokenizer`, and `pipeline` from the transformers library
+
 - Import `GenerationConfig` from transformers
 
 ### Model Loading
@@ -35,16 +36,19 @@ Create a Python notebook that demonstrates how to use the Hugging Face Transform
 ### User Query
 
 - Create a messages list containing a single user query: "Why did the scarecrow win an award?"
+
 - Format it as a dictionary with "role" and "content" keys
 
 ### Response Generation
 
 - Pass the messages to the generator pipeline to create a response
+
 - Print the generated text from the model's output
 
 ### Documentation
 
 - Include clear, descriptive comments for each major component and parameter
+
 - Explain the purpose of key parameters in the pipeline configuration
 
 The notebook should be well-structured, thoroughly commented, and ready to execute for anyone wanting to interact with the Phi-3 model.

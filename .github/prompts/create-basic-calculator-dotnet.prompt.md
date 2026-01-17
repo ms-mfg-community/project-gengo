@@ -21,6 +21,7 @@ Create a .NET 8 console calculator application with xUnit unit testing that supp
 \n\nApplication Structure
 
 \n\n.NET 8 console application using C# (not necessarily top-level statements)
+
 \n\nSeparate xUnit test project with comprehensive test coverage
 \n\nWell-organized solution following .NET project conventions
 \n\nAll arithmetic operations implemented as separate, testable methods
@@ -39,6 +40,7 @@ Create a .NET 8 console calculator application with xUnit unit testing that supp
 \n\nCode Quality Standards
 
 \n\nFollow C# best practices and coding conventions (PascalCase for variables/functions)
+
 \n\nInclude comprehensive XML documentation comments for all methods
 \n\nImplement input validation and early returns for error conditions
 \n\nUse meaningful variable names
@@ -67,16 +69,16 @@ Use PowerShell script for rapid, consistent initialization:
 
 cd programming/dotnet/csharp/workspace
 
-
 \n\nExecute setup script (creates full structure automatically)
 
 .\Set-DotnetSlnForCalculator.ps1
 
-
 \n\nVerify structure created correctly
 
 ```text
-# What the script does:
+
+# What the script does
+
 \n\nCreates `calculator-xunit-testing` directory
 \n\nInitializes .NET 8 solution (.slnx format)
 \n\nCreates console application project (`calculator`)
@@ -96,11 +98,9 @@ mkdir calculator-xunit-testing
 
 cd calculator-xunit-testing
 
-
 \n\nCreate solution
 
 dotnet new sln -n calculator
-
 
 \n\nCreate projects
 
@@ -108,11 +108,9 @@ dotnet new console -n calculator --framework net8.0
 
 dotnet new xunit -n calculator.tests --framework net8.0
 
-
 \n\nAdd projects to solution
 
 dotnet sln calculator.slnx add calculator/calculator.csproj calculator.tests/calculator.tests.csproj
-
 
 \n\nConfigure references
 
@@ -134,8 +132,11 @@ Implement each operation as a separate public method:
 \n\n`Modulo(double, double) → double` - throws `ArgumentException` if divisor is 0
 \n\n`Power(double, double) → double`
 \n\n`Operate(double, double, string operator) → double` - universal dispatcher
-# Key Implementation Details:
+
+## Key Implementation Details
+
 \n\nUse C# switch expressions for clean operator dispatch
+
 \n\nAdd XML documentation (`///`) to all public members
 \n\nInclude parameter descriptions and return value documentation
 \n\nDocument exceptions that can be thrown
@@ -247,8 +248,6 @@ public void Operations_WithNegativeNumbers_ReturnsCorrectResult()
 
     double multiplyResult = _calculator.Multiply(-4, -3);
 
-
-
     // Assert individual results
 
     Assert.Equal(-15, addResult);
@@ -273,23 +272,22 @@ bash
 
 dotnet build
 
-
 \n\nRun tests
 
 dotnet test
 
-
 \n\nRun specific test file
 
 dotnet test calculator.tests
-
 
 \n\nRun with verbose output
 
 dotnet test --verbosity detailed
 
 ```text
-# Success Indicators:
+
+## Success Indicators
+
 \n\nBuild: `Build succeeded. 0 Warning(s) 0 Error(s)`
 \n\nTests: `Passed! - Failed: 0, Passed: 40+, Skipped: 0`
 
@@ -302,7 +300,6 @@ bash
 \n\nUse cleanup script
 
 .\Remove-DotnetSlnForCalculator.ps1
-
 
 \n\nOr manually
 
@@ -333,8 +330,6 @@ public double Operate(double firstOperand, double secondOperand, string operator
     if (string.IsNullOrWhiteSpace(operatorSymbol))
 
         throw new ArgumentException("Operator cannot be null or empty.");
-
-
 
     return operatorSymbol switch
 
@@ -376,8 +371,6 @@ private static double GetNumericInput(string prompt)
 
         string? input = Console.ReadLine();
 
-
-
         if (string.IsNullOrWhiteSpace(input))
 
         {
@@ -388,13 +381,9 @@ private static double GetNumericInput(string prompt)
 
         }
 
-
-
         if (double.TryParse(input, out double result))
 
             return result;
-
-
 
         Console.WriteLine("Invalid input. Please enter a valid number.");
 
@@ -441,8 +430,6 @@ Build Status:
     0 Warning(s)
 
     0 Error(s)
-
-
 
 Test Results:
 

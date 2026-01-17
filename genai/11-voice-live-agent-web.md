@@ -37,25 +37,37 @@ In this section of the exercise you download the a zipped file containing the ba
 
 \n\nRun the following commands in the **Bash** shell to create a project folder, and download and unzip the exercise files.
 
-```bash
+```
+
+bash
 
 mkdir voice-live-web && cd voice-live-web
 
-```text
+```
+
+text
 text
 
-```bash
+```
 
-wget https://github.com/MicrosoftLearning/mslearn-ai-language/raw/refs/heads/main/downloads/python/voice-live-web.zip
+bash
 
-```text
+wget <https://github.com/MicrosoftLearning/mslearn-ai-language/raw/refs/heads/main/downloads/python/voice-live-web.zip>
+
+```
+
+text
 text
 
-```text
+```
+
+text
 
 unzip voice-live-web.zip
 
-```text
+```
+
+text
 text
 
 \n\nAdd code to complete the web app
@@ -66,11 +78,15 @@ Now that the exercise files are downloaded, the the next step is to add code to 
 
 Run the following command to change into the _src_ directory before you continue with the exercise.
 
-```bash
+```
+
+bash
 
 cd src
 
-```text
+```
+
+text
 text
 
 \n\nAdd code to implement the voice live assistant
@@ -79,16 +95,22 @@ In this section you add code to implement the voice live assistant. The **\_\_in
 
 \n\nRun the following command to open the _flask_app.py_ file for editing.
 
-```bash
+```
+
+bash
 
 code flask_app.py
 
-```text
+```
+
+text
 text
 
 \n\nSearch for the **# BEGIN VOICE LIVE ASSISTANT IMPLEMENTATION - ALIGN CODE WITH COMMENT** comment in the code. Copy the code below and enter it just below the comment. Be sure to check the indentation.
 
-```python
+```
+
+python
 
 def __init__(
 
@@ -120,8 +142,6 @@ def __init__(
 
     self.instructions = instructions
 
-
-
     # Initialize runtime state - connection established in start()
 
     self.connection = None
@@ -131,8 +151,6 @@ def __init__(
     self._stopping = False  # Signals graceful shutdown
 
     self.state_callback = state_callback or (lambda *_: None)
-
-
 
 async def start(self):
 
@@ -156,7 +174,9 @@ async def start(self):
 
     )  # type: ignore
 
-```text
+```
+
+text
 text
 
 \n\nEnter **ctrl+s** to save your changes and keep the editor open for the next section.
@@ -167,7 +187,9 @@ In this section you add code to configure the voice live session. This specifies
 
 \n\nSearch for the **# BEGIN CONFIGURE VOICE LIVE SESSION - ALIGN CODE WITH COMMENT** comment in the code. Copy the code below and enter it just below the comment. Be sure to check the indentation.
 
-```python
+```
+
+python
 
 # Configure VoiceLive session with audio/text modalities and voice activity detection
 
@@ -189,7 +211,9 @@ session_config = RequestSession(
 
 await conn.session.update(session=session_config)
 
-```text
+```
+
+text
 text
 
 \n\nEnter **ctrl+s** to save your changes and keep the editor open for the next section.
@@ -200,7 +224,9 @@ In this section you add code to add event handlers for the voice live session. T
 
 \n\nSearch for the **# BEGIN HANDLE SESSION EVENTS - ALIGN CODE WITH COMMENT** comment in the code. Copy the code below and enter it just below the comment, be sure to check the indentation.
 
-```python
+```
+
+python
 
 async def _handle_event(self, event, conn, verbose=False):
 
@@ -210,15 +236,11 @@ async def _handle_event(self, event, conn, verbose=False):
 
     from azure.ai.voicelive.models import ServerEventType
 
-
-
     event_type = event.type
 
     if verbose:
 
         _broadcast({"type": "log", "level": "debug", "event_type": str(event_type)})
-
-
 
     # Route Voice Live server events to appropriate handlers
 
@@ -252,15 +274,11 @@ async def _handle_event(self, event, conn, verbose=False):
 
         await self._handle_error(event)
 
-
-
 async def _handle_session_updated(self):
 
     """Session is ready for conversation."""
 
     self.state_callback("ready", "Session ready. You can start speaking now.")
-
-
 
 async def _handle_speech_started(self, conn):
 
@@ -268,15 +286,11 @@ async def _handle_speech_started(self, conn):
 
     self.state_callback("listening", "Listening… speak now")
 
-
-
     try:
 
         # Stop any ongoing audio playback on the client side
 
         _broadcast({"type": "control", "action": "stop_playback"})
-
-
 
         # If assistant is currently speaking or processing, cancel the response to allow interruption
 
@@ -304,15 +318,11 @@ async def _handle_speech_started(self, conn):
 
                   "msg": f"Exception in speech handler: {e}"})
 
-
-
 async def _handle_speech_stopped(self):
 
     """User stopped speaking - processing input."""
 
     self.state_callback("processing", "Processing your input…")
-
-
 
 async def _handle_audio_delta(self, event):
 
@@ -322,15 +332,11 @@ async def _handle_audio_delta(self, event):
 
         return  # Skip cancelled responses
 
-
-
     # Update state when assistant starts speaking
 
     if assistant_state.get("state") != "assistant_speaking":
 
         self.state_callback("assistant_speaking", "Assistant speaking…")
-
-
 
     # Extract and broadcast Voice Live audio delta as base64 to WebSocket clients
 
@@ -342,8 +348,6 @@ async def _handle_audio_delta(self, event):
 
         _broadcast({"type": "audio", "audio": audio_b64})
 
-
-
 async def _handle_audio_done(self):
 
     """Assistant finished speaking."""
@@ -351,8 +355,6 @@ async def _handle_audio_done(self):
     self._response_cancelled = False
 
     self.state_callback("ready", "Assistant finished. You can speak again.")
-
-
 
 async def _handle_error(self, event):
 
@@ -364,13 +366,13 @@ async def _handle_error(self, event):
 
     self.state_callback("error", f"Error: {message}")
 
-
-
 def request_stop(self):
 
     self._stopping = True
 
-```text
+```
+
+text
 text
 
 \n\nEnter **ctrl+s** to save your changes and keep the editor open for the next section.
@@ -393,29 +395,41 @@ There are only two values you should change at the top of the **azdeploy.sh** de
 
 \n\nThe **location** value sets the region for the deployment. The _gpt-4o_ model used in the exercise can be deployed to other regions, but there can be limits in any particular region. If the deployment fails in your chosen region, try **eastus2** or **swedencentral**.
 
-```text
+```
+
+text
 
 rg="rg-voicelive" # Replace with your resource group
 
 location="eastus2" # Or a location near you
 
-```text
+```
+
+text
 text
 
 \n\nRun the following commands in the Cloud Shell to begin editing the deployment script.
 
-```bash
+```
+
+bash
 
 cd ~/voice-live-web
 
-```text
+```
+
+text
 text
 
-```bash
+```
+
+bash
 
 code azdeploy.sh
 
-```text
+```
+
+text
 text
 
 \n\nUpdate the values for **rg** and **location** to meet your needs and then enter **ctrl+s** to save your changes and **ctrl+q** to exit the editor.
@@ -426,11 +440,15 @@ The deployment script deploys the AI model and creates the necessary resources i
 
 \n\nRun the following command in the Cloud Shell to begin deploying the Azure resources and the application.
 
-```bash
+```
+
+bash
 
 bash azdeploy.sh
 
-```text
+```
+
+text
 text
 
 \n\nSelect **option 1** for the initial deployment.
@@ -460,11 +478,15 @@ Troubleshooting:
 
 Run the following command in the Cloud Shell to remove all of the resources deployed for this exercise. You will be prompted to confirm the resource deletion.
 
-```text
+```
+
+text
 
 azd down --purge
 
-```text
+```
+
+text
 text
 
 \n

@@ -59,14 +59,22 @@ Manual SQL query writing is time-consuming and error-prone. GitHub Copilot can s
 \n\n5. Connection Details
 
 \n\n5.1 Database Connection Information
-# Connection String:
-```text
+
+## Connection String
+
+```
+
+text
 
 Server=tcp:<redacted>.database.windows.net,1433;Initial Catalog=demos;Persist Security Info=False;User ID=<redacted>;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
 
-```text
+```
+
 text
-# Connection Parameters:
+text
+
+## Connection Parameters
+
 \n\n**Server:** svr-ghc-01.database.windows.net
 \n\n**Port:** 1433 (default)
 \n\n**Database:** demos
@@ -175,19 +183,27 @@ text
 \n\n9.2 Schema Discovery (5 minutes)
 
 **Objective:** Understand the `demos` table structure
-# Operations:
+
+## Operations
+
 \n\nQuery system tables to get column definitions
 \n\nExport schema to CSV for reference
 \n\nDocument primary keys, data types, and constraints
 \n\nAdd schema file to context for subsequent operations
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Generate a query to retrieve the complete schema for the demos table including column names, data types, nullable status, and constraints
 
 -- Save results to table_schema.csv
 
-```text
+```
+
+text
 text
 
 \n\n9.3 READ Operations (10 minutes)
@@ -195,48 +211,78 @@ text
 **Objective:** Demonstrate various SELECT query patterns
 
 \n\nExample 1: Basic SELECT
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Show all records from the demos table
 
-```text
+```
+
+text
 text
 
 \n\nExample 2: Filtered SELECT
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Find all demos where category is 'programming' and confidence_percent is greater than 70
 
-```text
+```
+
+text
 text
 
 \n\nExample 3: Sorted and Limited Results
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Show top 10 demos ordered by confidence_percent descending
 
-```text
+```
+
+text
 text
 
 \n\nExample 4: Pattern Matching
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Find all demos where scenario contains 'GitHub Copilot' (case-insensitive)
 
-```text
+```
+
+text
 text
 
 \n\nExample 5: Aggregation
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Show the average confidence_percent grouped by category
 
-```text
+```
+
+text
 text
 
 \n\n9.4 CREATE Operations (10 minutes)
@@ -244,8 +290,12 @@ text
 **Objective:** Demonstrate INSERT operations with various patterns
 
 \n\nExample 1: Single Record Insert with Auto-Increment ID
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Insert a new demo record for a Python data science workshop
 
@@ -253,34 +303,54 @@ text
 
 -- Set category='programming', language='python', scenario='Data Science with Pandas', confidence_percent=85
 
-```text
+```
+
+text
 text
 
 \n\nExample 2: Insert and Return Inserted Record
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Insert a new C# demo and immediately return the inserted record with its generated ID
 
-```text
+```
+
+text
 text
 
 \n\nExample 3: Bulk Insert
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Insert multiple demo records in a single statement for JavaScript, TypeScript, and Go workshops
 
-```text
+```
+
+text
 text
 
 \n\nExample 4: Insert with Transaction
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Insert a new demo within a transaction with error handling and rollback capability
 
-```text
+```
+
+text
 text
 
 \n\n9.5 UPDATE Operations (10 minutes)
@@ -288,41 +358,65 @@ text
 **Objective:** Demonstrate safe UPDATE patterns with verification
 
 \n\nExample 1: Single Record Update
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Update the confidence_percent to 90 for demo with ID 5
 
 -- Include a verification SELECT before and after the update
 
-```text
+```
+
+text
 text
 
 \n\nExample 2: Multi-Column Update
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Update demo ID 5 to set confidence_percent=75, notes='Updated after workshop feedback', points=45
 
-```text
+```
+
+text
 text
 
 \n\nExample 3: Conditional Bulk Update
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Increase confidence_percent by 10 for all demos where category='databases' and confidence_percent < 80
 
-```text
+```
+
+text
 text
 
 \n\nExample 4: Update with Calculation
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- For all demos with confidence_percent below 60, increase it by 15% of its current value
 
-```text
+```
+
+text
 text
 
 \n\n9.6 DELETE Operations (10 minutes)
@@ -330,39 +424,63 @@ text
 **Objective:** Demonstrate safe DELETE patterns with verification
 
 \n\nExample 1: Safe Single Record Delete
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Delete demo with ID 5 but first show what will be deleted for verification
 
-```text
+```
+
+text
 text
 
 \n\nExample 2: Conditional Delete with Backup
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Before deleting demos with confidence_percent < 30, save their IDs to a temporary table for audit
 
-```text
+```
+
+text
 text
 
 \n\nExample 3: Soft Delete Pattern
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Instead of hard deleting, show how to add an 'is_deleted' flag and update it rather than removing the record
 
-```text
+```
+
+text
 text
 
 \n\nExample 4: Delete with Transaction
-# GitHub Copilot Prompt:
-```sql
+
+## GitHub Copilot Prompt
+
+```
+
+sql
 
 -- Delete all demos where language='obsolete' within a transaction with rollback capability
 
-```text
+```
+
+text
 text
 
 \n\n10. GitHub Copilot Best Practices
@@ -371,24 +489,32 @@ text
 
 \n\nPattern 1: Descriptive Comments
 
-```sql
+```
+
+sql
 
 -- [Action] [Target] [Conditions] [Additional Requirements]
 
 -- Example: Find all Python demos with confidence above 80% sorted by scenario name
 
-```text
+```
+
+text
 text
 
 \n\nPattern 2: Contextual References
 
-```sql
+```
+
+sql
 
 -- In the demos table, show me...
 
 -- For the demos database, create a query that...
 
-```text
+```
+
+text
 text
 
 \n\nPattern 3: Incremental Complexity
@@ -400,7 +526,9 @@ text
 
 \n\nPattern 4: Safety-First Language
 
-```sql
+```
+
+sql
 
 -- Safely delete... (verify first)
 
@@ -408,7 +536,9 @@ text
 
 -- Show what would be affected before...
 
-```text
+```
+
+text
 text
 
 \n\n10.2 Common Prompting Mistakes to Avoid
@@ -498,7 +628,9 @@ text
 
 \n\nStep 1: Set Password Variable (PowerShell)
 
-```powershell
+```
+
+powershell
 
 $password = Read-Host "Enter database password" -AsSecureString
 
@@ -506,41 +638,54 @@ $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($password)
 
 $plainPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
 
-```text
+```
+
+text
 text
 
 \n\nStep 2: Test Connection
 
-```powershell
+```
+
+powershell
 
 sqlcmd -S tcp:svr-ghc-01.database.windows.net,1433 -d demos -U sqladmin -P $plainPassword -Q "SELECT @@VERSION"
 
-```text
+```
+
+text
 text
 
 \n\nStep 3: Run Examples from SQL File
 
-```powershell
+```
+
+powershell
 \n\nExecute the examples SQL file
 
 sqlcmd -S tcp:svr-ghc-01.database.windows.net,1433 -d demos -U sqladmin -P $plainPassword -i "dmo-azure-sql-data-lifecycle.sql" -o "results.txt"
 
-```text
+```
+
+text
 text
 
 \n\n14.2 Interactive sqlcmd Session
 
-```powershell
+```
+
+powershell
 \n\nStart interactive session
 
 sqlcmd -S tcp:svr-ghc-01.database.windows.net,1433 -d demos -U sqladmin -P $plainPassword
-
 
 \n\nInside sqlcmd, run queries interactively
 \n\nType GO after each query to execute
 \n\nType EXIT to quit
 
-```text
+```
+
+text
 text
 
 \n\n15. Security Considerations
@@ -578,14 +723,18 @@ text
 \n\n16.1 Connection Issues
 
 **Problem:** "Cannot connect to server"
-# Solutions:
+
+## Solutions
+
 \n\nVerify firewall rules allow your IP address
 \n\nCheck connection string format
 \n\nVerify server name and port
 \n\nTest network connectivity with `Test-NetConnection`
 
 **Problem:** "Login failed for user 'sqladmin'"
-# Solutions:
+
+## Solutions
+
 \n\nVerify password is correct
 \n\nCheck if account is locked or disabled
 \n\nVerify SQL authentication is enabled on the server
@@ -594,13 +743,17 @@ text
 \n\n16.2 Query Execution Issues
 
 **Problem:** "Invalid object name 'demos'"
-# Solutions:
+
+## Solutions
+
 \n\nVerify you're connected to the correct database
 \n\nCheck table name spelling and schema (use `dbo.demos`)
 \n\nConfirm table exists with `SELECT * FROM INFORMATION_SCHEMA.TABLES`
 
 **Problem:** "Transaction deadlock"
-# Solutions:
+
+## Solutions
+
 \n\nImplement retry logic with exponential backoff
 \n\nOptimize query order to reduce lock contention
 \n\nKeep transactions short and focused

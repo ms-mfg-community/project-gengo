@@ -1,3 +1,5 @@
+# Pnd Calculator Java Vs2022
+
 Certainly! Here's a step-by-step guide to create the simple calculator application in Java using Visual Studio 2022:
 
 \n\n** [] Step 1: Set Up Visual Studio 2022**
@@ -24,19 +26,17 @@ Certainly! Here's a step-by-step guide to create the simple calculator applicati
 \n\n**Write the Calculator Code**:
 \n\nReplace the existing code with the following:
 
-```java
+```
+
+java
 
 import java.util.Scanner;
-
-
 
 public class Calculator {
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-
-
 
         while (true) {
 
@@ -56,8 +56,6 @@ public class Calculator {
 
             int choice = scanner.nextInt();
 
-
-
             if (choice == 5) {
 
                 System.out.println("Goodbye!");
@@ -66,8 +64,6 @@ public class Calculator {
 
             }
 
-
-
            Enter first number: ");
 
             double num1 = scanner.nextDouble();
@@ -75,8 +71,6 @@ public class Calculator {
             System.out.print("Enter second number: ");
 
             double num2 = scanner.nextDouble();
-
-
 
             double result = 0;
 
@@ -126,15 +120,15 @@ public class Calculator {
 
         }
 
-
-
         scanner.close();
 
     }
 
 }
 
-```text
+```
+
+text
 text
 
 \n\n**Step 5: Run the Program**

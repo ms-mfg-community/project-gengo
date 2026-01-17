@@ -58,36 +58,50 @@ To generate the required PowerShell script, use the following prompts:
 
 \n\nPrompt 1: Basic Script Structure
 
-```text
+```
+
+text
 
 Create a PowerShell script named New-CodeQLAnalysisForPython.ps1 that will use the CodeQL CLI to analyze Python code for security vulnerabilities. Include a reference comment linking to GitHub's documentation about the CodeQL CLI.
 
 Place the script in the current repository at the path: "$(git rev-parse --show-toplevel)/ghas/workspace"
 
-```text
+```
+
+text
 text
 
 \n\nPrompt 2: Showing Available Languages
 
-```text
+```
+
+text
 
 Add a command to the PowerShell script that will display all available languages for CodeQL analysis using the 'codeql resolve languages' command with better JSON formatting for easier reading.
 
-```text
+```
+
+text
 text
 
 \n\nPrompt 3: Database Creation
 
-```text
+```
+
+text
 
 Add a command to create a CodeQL database for Python code. The database should be named 'codeql-dbs' and should use the git repository root as the source directory. Use the --language parameter to specify Python as the target language.
 
-```text
+```
+
+text
 text
 
 \n\nPrompt 4: Database Analysis
 
-```text
+```
+
+text
 
 Add a command to analyze the created database using standard Python security queries. The command should:
 \n\nDownload queries from the codeql/python-queries package
@@ -96,12 +110,16 @@ Add a command to analyze the created database using standard Python security que
 \n\nCategorize the results as 'python'
 \n\nSave the output to a file named 'python-results.sarif'
 
-```text
+```
+
+text
 text
 
 \n\nPrompt 5: Results Upload
 
-```text
+```
+
+text
 
 Add a command to upload the SARIF results to GitHub. The command should:
 \n\nUse a GitHub token stored in the GITHUB_TOKEN environment variable
@@ -111,7 +129,9 @@ Add a command to upload the SARIF results to GitHub. The command should:
 \n\nUse the current git commit hash
 \n\nReference the generated SARIF file
 
-```text
+```
+
+text
 text
 
 \n\nExpected Output

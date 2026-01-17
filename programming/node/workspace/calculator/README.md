@@ -5,9 +5,13 @@ A simple calculator application built using Vite, React, TypeScript, and Server-
 ## Features
 
 - Server-Side Rendering (SSR) for improved performance and SEO
+
 - Hot Module Replacement (HMR) for a fast development experience
+
 - TypeScript support for type safety
+
 - SWC compiler for faster builds
+
 - Basic calculator functionality (addition, subtraction, multiplication, division)
 
 ## Getting Started
@@ -15,6 +19,7 @@ A simple calculator application built using Vite, React, TypeScript, and Server-
 ### Prerequisites
 
 - Node.js (v16 or higher)
+
 - npm (v7 or higher)
 
 ### Installation
@@ -22,20 +27,28 @@ A simple calculator application built using Vite, React, TypeScript, and Server-
 1. Clone the repository
 1. Install dependencies:
 
-```bash
+```
+
+bash
 npm install
 
-```text
+```
+
+text
 text
 
 ### Development
 
 To start the development server with HMR:
 
-```bash
+```
+
+bash
 npm run dev
 
-```text
+```
+
+text
 text
 
 This will start the SSR server with hot module replacement at `http://localhost:3000`.
@@ -44,10 +57,14 @@ This will start the SSR server with hot module replacement at `http://localhost:
 
 To build the application for production:
 
-```bash
+```
+
+bash
 npm run build
 
-```text
+```
+
+text
 text
 
 This will create optimized client and server bundles in the `dist` directory.
@@ -56,17 +73,26 @@ This will create optimized client and server bundles in the `dist` directory.
 
 To run the application in production mode:
 
-```bash
+```
+
+bash
 npm run start
 
-```text
+```
+
+text
 text
 
 or
 
-```bash
+```
+
+bash
 npm run preview
-```text
+
+```
+
+text
 text
 
 This will serve the application using the built files at `http://localhost:3000`.
@@ -74,17 +100,24 @@ This will serve the application using the built files at `http://localhost:3000`
 ## Project Structure
 
 - `server/` - Server-side code for SSR implementation
+
 - `src/`
   - `pages/` - Page components and routes
   - `renderer/` - Client and server renderers for SSR
   - `components/` - Reusable React components
+
 - `public/` - Static assets
 
 ## Technologies
 
 - [Vite](https://vitejs.dev/) - Frontend tooling
+
 - [React](https://reactjs.org/) - UI library
+
 - [TypeScript](https://www.typescriptlang.org/) - Type safety
+
 - [SWC](https://swc.rs/) - Fast compiler
+
 - [vite-plugin-ssr](https://vite-plugin-ssr.com/) - Server-side rendering implementation
+
 - [Express](https://expressjs.com/) - Web server framework

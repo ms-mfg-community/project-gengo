@@ -70,16 +70,22 @@ Refactor the existing console calculator into a Blazor Server web application wi
 \n\nHover and active states for visual feedback
 
 \n\nServices
+
 # CalculatorService
+
 \n\nState management: display, pending operand, operator
 \n\nEvents: OnDisplayChanged, OnCalculationCompleted
 \n\nSupport for chained calculations
-# HistoryService
+
+## HistoryService
+
 \n\nFIFO queue with max 50 items (newest-first ordering)
 \n\nReplay functionality
 \n\nEvent: OnHistoryChanged
 \n\nSession-only storage (no persistence)
-# ThemeService
+
+## ThemeService
+
 \n\nLight/Dark mode toggle
 \n\nCSS class generation
 \n\nSession state management
@@ -163,7 +169,7 @@ calculator.tests/
 \n\nTest keyboard input (all bindings)
 \n\nTest theme toggle persistence (session)
 \n\nTest history functionality (50 item limit, replay)
-\n\nVerify application runs at https://localhost:7056
+\n\nVerify application runs at <https://localhost:7056>
 
 \n\nGuidelines
 
@@ -187,7 +193,7 @@ calculator.tests/
 
 ✅ All 32 unit tests pass without modification
 
-✅ Web app accessible at https://localhost:7056 and http://localhost:5136
+✅ Web app accessible at <https://localhost:7056> and <http://localhost:5136>
 
 ✅ All operator symbols render correctly (÷, ×, −, +)
 
@@ -222,9 +228,8 @@ dotnet build
 
 dotnet run --project calculator.web/calculator.web.csproj
 
-
 \n\nAccess application
-\n\nhttps://localhost:7056 or http://localhost:5136
+\n\nhttps://localhost:7056 or <http://localhost:5136>
 
 ```text
 \n\nOutput Format

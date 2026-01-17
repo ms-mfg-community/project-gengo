@@ -6,18 +6,24 @@
 
 \n\n?? Solution Location
 
-```text
+```
+
+text
 
 C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\experimental\calculator-xunit-testing\CalculatorWeb.sln
 
-```text
+```
+
+text
 text
 
 \n\n? Verification Results
 
 \n\nBuild Test - Debug Configuration
 
-```text
+```
+
+text
 
 ? Calculator.Core     - Succeeded (2.6s)
 
@@ -25,12 +31,16 @@ text
 
 Result: Build succeeded in 2.6s
 
-```text
+```
+
+text
 text
 
 \n\nBuild Test - Release Configuration
 
-```text
+```
+
+text
 
 ? Calculator.Core     - Succeeded (2.9s)
 
@@ -38,18 +48,24 @@ text
 
 Result: Build succeeded in 6.1s
 
-```text
+```
+
+text
 text
 
 \n\nProject List
 
-```text
+```
+
+text
 
 ? Calculator.Core\Calculator.Core.csproj
 
 ? CalculatorBlazor\CalculatorBlazor.csproj
 
-```text
+```
+
+text
 text
 
 \n\n?? Solution Contents
@@ -77,45 +93,63 @@ text
 
 \n\n1. Navigate to Solution Directory
 
-```powershell
+```
+
+powershell
 
 cd C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\experimental\calculator-xunit-testing
 
-```text
+```
+
+text
 text
 
 \n\n2. Build the Solution
 
-```powershell
+```
+
+powershell
 
 dotnet build CalculatorWeb.sln
 
-```text
+```
+
+text
 text
 
 \n\n3. Run the Application
 
-```powershell
+```
+
+powershell
 
 dotnet run --project CalculatorBlazor\CalculatorBlazor.csproj
 
-```text
+```
+
+text
 text
 
 \n\n4. Open in Browser
 
-```text
+```
 
-https://localhost:7264
+text
 
-```text
+<https://localhost:7264>
+
+```
+
+text
 text
 
 \n\n?? Build Output Artifacts
 
 \n\nDebug Build
 
-```text
+```
+
+text
 
 Calculator.Core\bin\Debug\net8.0\
 
@@ -125,8 +159,6 @@ Calculator.Core\bin\Debug\net8.0\
 
 ??? Calculator.Core.xml
 
-
-
 CalculatorBlazor\bin\Debug\net8.0\
 
 ??? CalculatorBlazor.dll
@@ -135,12 +167,16 @@ CalculatorBlazor\bin\Debug\net8.0\
 
 ??? Calculator.Core.dll (dependency)
 
-```text
+```
+
+text
 text
 
 \n\nRelease Build
 
-```text
+```
+
+text
 
 Calculator.Core\bin\Release\net8.0\
 
@@ -150,8 +186,6 @@ Calculator.Core\bin\Release\net8.0\
 
 ??? Calculator.Core.xml
 
-
-
 CalculatorBlazor\bin\Release\net8.0\
 
 ??? CalculatorBlazor.dll
@@ -160,7 +194,9 @@ CalculatorBlazor\bin\Release\net8.0\
 
 ??? Calculator.Core.dll (dependency)
 
-```text
+```
+
+text
 text
 
 \n\n?? Solution Configuration
@@ -176,13 +212,16 @@ Both projects configured with:
 
 \n\n**.NET Version:** 8.0
 \n\n**Language Version:** latest (C# 12)
+
 \n\n**Implicit Usings:** Enabled
 \n\n**Nullable:** Enabled
 \n\n**Documentation:** Enabled
 
 \n\n?? Solution File Details
 
-```xml
+```
+
+xml
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 \n\nVisual Studio Version 17
@@ -191,8 +230,6 @@ VisualStudioVersion = 17.0.31903.59
 
 MinimumVisualStudioVersion = 10.0.40219.1
 
-
-
 Projects:
 \n\nCalculator.Core
 
@@ -200,25 +237,30 @@ Projects:
 
   Path: Calculator.Core\Calculator.Core.csproj
 
-
 \n\nCalculatorBlazor
 
   GUID: {6F9E2C1D-2333-4A58-8936-D00047ECD1CF}
 
   Path: CalculatorBlazor\CalculatorBlazor.csproj
 
-```text
+```
+
+text
 text
 
 \n\n?? Usage Scenarios
 
 \n\nScenario 1: Development Build
 
-```powershell
+```
+
+powershell
 
 dotnet build CalculatorWeb.sln --configuration Debug
 
-```text
+```
+
+text
 text
 
 \n\nIncludes debugging symbols (.pdb files)
@@ -228,11 +270,15 @@ text
 
 \n\nScenario 2: Production Build
 
-```powershell
+```
+
+powershell
 
 dotnet build CalculatorWeb.sln --configuration Release
 
-```text
+```
+
+text
 text
 
 \n\nOptimized for performance
@@ -242,13 +288,17 @@ text
 
 \n\nScenario 3: Clean and Rebuild
 
-```powershell
+```
+
+powershell
 
 dotnet clean CalculatorWeb.sln
 
 dotnet build CalculatorWeb.sln
 
-```text
+```
+
+text
 text
 
 \n\nRemoves all build artifacts
@@ -257,11 +307,15 @@ text
 
 \n\nScenario 4: Publish for Deployment
 
-```powershell
+```
+
+powershell
 
 dotnet publish CalculatorWeb.sln --configuration Release --output ./publish
 
-```text
+```
+
+text
 text
 
 \n\nCreates deployment package
@@ -330,7 +384,7 @@ text
 
 \n\n? Build: `dotnet build CalculatorWeb.sln`
 \n\n? Run: `dotnet run --project CalculatorBlazor\CalculatorBlazor.csproj`
-\n\n? Test: Open https://localhost:7264
+\n\n? Test: Open <https://localhost:7264>
 
 \n\nRecommended (Optional)
 
@@ -356,24 +410,32 @@ text
 
 \n\n**Build the entire solution at once**
 
-```powershell
+```
+
+powershell
 
 dotnet build CalculatorWeb.sln
 
-```text
+```
+
+text
 text
 
 \n\n**Run the web application**
 
-```powershell
+```
+
+powershell
 
 dotnet run --project CalculatorBlazor\CalculatorBlazor.csproj
 
-```text
+```
+
+text
 text
 
 \n\n**Use the calculator**
-\n\nOpen: https://localhost:7264
+\n\nOpen: <https://localhost:7264>
 \n\nPerform calculations
 \n\nSee real-time results
 
@@ -392,7 +454,9 @@ CalculatorWeb.sln successfully combines Calculator.Core and CalculatorBlazor int
 
 **What's Next:** Start building and running!
 
-```powershell
+```
+
+powershell
 
 cd C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\experimental\calculator-xunit-testing
 
@@ -400,9 +464,11 @@ dotnet build CalculatorWeb.sln
 
 dotnet run --project CalculatorBlazor\CalculatorBlazor.csproj
 
-```text
+```
+
+text
 text
 
-Then open https://localhost:7264 to use your consolidated calculator application! ??
+Then open <https://localhost:7264> to use your consolidated calculator application! ??
 
 \n

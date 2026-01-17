@@ -30,18 +30,24 @@ The project consists of the following files:
 
 \n\nClone the repository:
 
-```text
+```
+
+text
 
 git clone <repository-url>
 
 cd inventory-management-system
 
-```text
+```
+
+text
 text
 
 \n\nBuild using CMake:
 
-```text
+```
+
+text
 
 mkdir build
 
@@ -51,27 +57,37 @@ cmake ..
 
 make
 
-```text
+```
+
+text
 text
 
 Or, if using the Makefile:
 
-```text
+```
+
+text
 
 make
 
-```text
+```
+
+text
 text
 
 \n\nRunning the Application
 
 After building the project, you can run the application with the following command:
 
-```text
+```
+
+text
 
 ./inventory_management_system
 
-```text
+```
+
+text
 text
 
 \n\nUsage

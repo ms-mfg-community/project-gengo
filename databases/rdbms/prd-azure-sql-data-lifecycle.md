@@ -50,7 +50,9 @@ This document outlines a demonstration scenario for GitHub Copilot workshops, fo
 \n\n**Tested Limitations:** No significant limitations observed; Copilot effectively handled complex queries and provided relevant suggestions based on context.
 
 \n\n2. Connection Details
-# Connection Information:
+
+## Connection Information
+
 \n\n**Server:** svr-ghc-01.database.windows.net
 \n\n**Database:** demos
 \n\n**Username:** sqladmin

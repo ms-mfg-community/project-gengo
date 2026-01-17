@@ -46,25 +46,37 @@ Developers often struggle to get precise, contextually relevant responses from A
 \n\n1. Content: Information Provided to Help GHCP Understand the Task Better
 
 **Definition:** Content refers to all contextual information, constraints, requirements, and background knowledge included in the prompt to guide the AI's understanding.
-# Key Elements:
+
+## Key Elements
+
 \n\n**Context:** Domain knowledge, existing code patterns, architectural constraints
 \n\n**Requirements:** Functional and non-functional requirements
 \n\n**Constraints:** Technology stack, libraries to use/avoid, performance requirements
 \n\n**Examples:** Sample inputs/outputs, existing code snippets
 \n\n**Environment:** Language version, framework version, platform (web/mobile/desktop)
-# Examples:
+
+## Examples
+
 ❌ **Poor Content (Insufficient Context):**
-# Prompt:
-```text
+
+## Prompt
+
+```
+
+text
 
 Create a function to validate data.
 
-```text
+```
+
+text
 text
 
 **Result:** `validateData.js`
 
-```javascript
+```
+
+javascript
 function validateData(data) {
   if (!data) {
     return false;
@@ -73,9 +85,13 @@ function validateData(data) {
   return true;
 }
 
-```text
+```
+
 text
-# Problems with this result:
+text
+
+## Problems with this result
+
 \n\nNo type safety - accepts any data type
 \n\nOnly checks if data exists, not what's in it
 \n\nNo actual validation logic for specific fields
@@ -84,8 +100,12 @@ text
 \n\nNo documentation or usage examples
 
 ✅ **Good Content (Rich Context):**
-# Prompt:
-```text
+
+## Prompt
+
+```
+
+text
 
 Create a TypeScript function to validate user registration data for a React application using Zod schema validation. The function should:
 \n\nAccept an object with email, password, and username fields
@@ -93,12 +113,18 @@ Create a TypeScript function to validate user registration data for a React appl
 \n\nUse Zod v3.22 library
 \n\nFollow the existing validation pattern used in src/validators/loginValidator.ts
 
-```text
+```
+
+text
 text
 
 **Result:** `validateDataGood.ts` (150+ lines)
-# Key highlights from the generated code:
-```typescript
+
+## Key highlights from the generated code
+
+```
+
+typescript
 import { z } from "zod";
 
 export interface ValidationResult {
@@ -175,9 +201,13 @@ export function validateUserRegistration(
   }
 }
 
-```text
+```
+
 text
-# Benefits of this result:
+text
+
+## Benefits of this result
+
 \n\n✅ Full TypeScript type safety with interfaces and type guards
 \n\n✅ Uses Zod v3.22 library as specified
 \n\n✅ Comprehensive validation rules for each field
@@ -186,7 +216,9 @@ text
 \n\n✅ Includes JSDoc documentation with usage examples
 \n\n✅ Additional helper functions (type guards, safe wrapper)
 \n\n✅ Professional error handling for edge cases
-# Comparison:
+
+## Comparison
+
 | Aspect | Poor Prompt (`validateData.js`) | Good Prompt (`validateDataGood.ts`) |
 
 | ----------------------- | ------------------------------- | --------------------------------------- |
@@ -210,24 +242,34 @@ text
 \n\n2. Intent: The Specific Goal or Purpose of the Prompt
 
 **Definition:** Intent is the explicit statement of what you want to achieve—the desired outcome, deliverable, or action you expect from GitHub Copilot.
-# Key Elements:
+
+## Key Elements
+
 \n\n**Action Verb:** Create, refactor, debug, explain, optimize, test, document
 \n\n**Deliverable:** Function, class, test suite, configuration file, documentation
 \n\n**Outcome:** Working code, explanation, comparison, recommendation
 \n\n**Success Criteria:** What "done" looks like
-# Examples:
+
+## Examples
+
 ❌ **Poor Intent (Vague Goal):**
 
-```text
+```
+
+text
 
 Something with database connections.
 
-```text
+```
+
+text
 text
 
 ✅ **Good Intent (Clear Goal):**
 
-```text
+```
+
+text
 
 Create a reusable database connection pool manager for PostgreSQL that:
 \n\nInitializes a connection pool on application startup
@@ -235,75 +277,96 @@ Create a reusable database connection pool manager for PostgreSQL that:
 \n\nIncludes error handling and connection retry logic
 \n\nExports a singleton instance for use across the application
 
-```text
+```
+
+text
 text
 
 \n\n3. Clarity: Ease of Understanding
 
 **Definition:** Clarity measures how easily GitHub Copilot (and humans) can understand your request without ambiguity or confusion.
-# Key Elements:
+
+## Key Elements
+
 \n\n**Simple Language:** Avoid jargon when plain terms suffice
 \n\n**Logical Structure:** Organize requests with clear sections or bullet points
 \n\n**One Primary Task:** Focus on a single main objective per prompt
 \n\n**Unambiguous Terms:** Use precise terminology without conflicting meanings
 \n\n**Consistent Terminology:** Use the same terms throughout the prompt
-# Examples:
+
+## Examples
+
 ❌ **Poor Clarity (Confusing and Ambiguous):**
 
-```text
+```
+
+text
 
 Make a thing that does stuff with the API and handles the errors but also needs to work with the other thing we talked about before and maybe use async or callbacks depending on what works better and it should probably log things too.
 
-```text
+```
+
+text
 text
 
 ✅ **Good Clarity (Clear and Structured):**
 
-```text
+```
+
+text
 
 Create an API client wrapper with the following features:
-
 
 \n\nError Handling:
 \n\nCatch network errors and return user-friendly messages
 \n\nRetry failed requests up to 3 times with exponential backoff
 
-
 \n\nAsync Implementation:
 \n\nUse async/await pattern (not callbacks)
 \n\nReturn Promises for all API calls
-
 
 \n\nLogging:
 \n\nLog all requests and responses to console in development mode
 \n\nInclude timestamp and endpoint in log messages
 
-```text
+```
+
+text
 text
 
 \n\n4. Specificity: The Level of Detail and Precision
 
 **Definition:** Specificity determines how detailed and precise your requirements are, providing exact constraints, formats, names, and implementation details.
-# Key Elements:
+
+## Key Elements
+
 \n\n**Exact Names:** Variable names, function names, file names, class names
 \n\n**Data Types:** Specific types (string, number, boolean, custom interfaces)
 \n\n**Format Requirements:** Date formats, naming conventions, code style
 \n\n**Numeric Constraints:** Max length, min value, array size, timeout values
 \n\n**Technology Versions:** Library versions, language versions, framework versions
 \n\n**Edge Cases:** Specific scenarios to handle or avoid
-# Examples:
+
+## Examples
+
 ❌ **Poor Specificity (Generic and Vague):**
 
-```text
+```
+
+text
 
 Create a function to format dates nicely.
 
-```text
+```
+
+text
 text
 
 ✅ **Good Specificity (Detailed and Precise):**
 
-```text
+```
+
+text
 
 Create a TypeScript function named `formatDateForDisplay` that:
 \n\nAccepts a Date object or ISO 8601 string as input
@@ -313,20 +376,28 @@ Create a TypeScript function named `formatDateForDisplay` that:
 \n\nIncludes JSDoc comments with @param and @returns tags
 \n\nExport as a named export from src/utils/dateFormatter.ts
 
-```text
+```
+
+text
 text
 
 \n\nCombining All Four Concepts: Complete Prompt Example
 
 \n\nPoor Prompt (Lacking All Four Pillars)
 
-```text
+```
+
+text
 
 Make a login function.
 
-```text
+```
+
 text
-# Analysis:
+text
+
+## Analysis
+
 \n\n❌ **Content:** No context about authentication method, technology stack, or requirements
 \n\n❌ **Intent:** Unclear what "make" means—create, refactor, test, document?
 \n\n❌ **Clarity:** Too vague, no structure
@@ -334,14 +405,16 @@ text
 
 \n\nExcellent Prompt (Demonstrating All Four Pillars)
 
-```text
+```
+
+text
 
 **Context:** I'm building a Node.js REST API using Express and JWT authentication. The existing codebase uses bcrypt for password hashing and stores users in a PostgreSQL database via Prisma ORM.
 
-
-
 **Intent:** Create an async login function that authenticates users and returns a JWT token.
-# Requirements:
+
+## Requirements
+
 \n\nFunction name: `authenticateUser`
 \n\nAccept email and password as parameters (both strings)
 \n\nQuery the database using Prisma to find user by email
@@ -355,14 +428,20 @@ text
 \n\nInclude TypeScript types for return value
 \n\nAdd error handling for database errors
 \n\nUse environment variable JWT_SECRET for token signing
-# Style:
+
+## Style
+
 \n\nUse async/await (not callbacks)
 \n\nFollow existing error handling patterns in src/middleware/errorHandler.ts
 \n\nAdd JSDoc comments
 
-```text
+```
+
 text
-# Analysis:
+text
+
+## Analysis
+
 \n\n✅ **Content:** Rich context about tech stack, existing patterns, and architecture
 \n\n✅ **Intent:** Clear goal—create an authentication function with specific behavior
 \n\n✅ **Clarity:** Well-structured with sections, numbered requirements, easy to parse
@@ -377,7 +456,9 @@ text
 **I want** to provide effective prompts to GitHub Copilot
 
 **So that** I receive production-ready code that matches my project's standards without extensive iteration
-# Acceptance Criteria:
+
+## Acceptance Criteria
+
 \n\nDeveloper can identify missing Content, Intent, Clarity, or Specificity in their prompt
 \n\nGenerated code matches project architecture and coding standards
 \n\nFirst suggestion requires minimal modifications (< 20% changes)
@@ -389,7 +470,9 @@ text
 **I want** to clearly communicate refactoring intent with sufficient context
 
 **So that** GitHub Copilot suggests modern patterns while preserving business logic
-# Acceptance Criteria:
+
+## Acceptance Criteria
+
 \n\nPrompt includes legacy code snippet for context
 \n\nIntent specifies "refactor" vs "rewrite" vs "modernize"
 \n\nSpecificity includes which patterns to apply and which to avoid
@@ -401,7 +484,9 @@ text
 **I want** a framework for evaluating prompt quality
 
 **So that** my team can consistently get high-quality suggestions and reduce review cycles
-# Acceptance Criteria:
+
+## Acceptance Criteria
+
 \n\nTeam members can score prompts on 4-pillar scale (1-5 for each pillar)
 \n\nDocumentation includes examples of good/poor prompts
 \n\nPrompts with scores < 3 in any pillar are revised before submission
@@ -459,7 +544,9 @@ Use this rubric to evaluate prompt effectiveness:
 | **Clarity** | Confusing, ambiguous, or rambling | Understandable with minor ambiguities | Crystal clear with logical structure and precise terminology |
 
 | **Specificity** | Generic with no details | Some details (names or types) | Comprehensive details including names, types, formats, values, and edge cases |
-# Total Score Interpretation:
+
+## Total Score Interpretation
+
 \n\n**16-20:** Excellent prompt—likely to produce high-quality results on first attempt
 \n\n**12-15:** Good prompt—may require minor refinements
 \n\n**8-11:** Acceptable prompt—will likely need iteration
@@ -470,39 +557,45 @@ Use this rubric to evaluate prompt effectiveness:
 \n\nAnti-Pattern 1: The "Make It Work" Prompt
 
 ❌ **Example:** "Fix this code"
-# Problems:
+
+## Problems
+
 \n\nNo intent specified (debug? refactor? optimize?)
 \n\nNo content about what's broken or expected behavior
 \n\nNo specificity about constraints or requirements
 
 ✅ **Solution:**
 
-```text
+```
+
+text
 
 Debug this TypeScript function that's throwing a "Cannot read property 'length' of undefined" error.
 
-
-
 [Include code snippet]
-
-
 
 Expected behavior: Function should return the length of the input array, or 0 if array is null/undefined.
 
-```text
+```
+
+text
 text
 
 \n\nAnti-Pattern 2: The "Do Everything" Prompt
 
 ❌ **Example:** "Create a complete authentication system with login, signup, password reset, email verification, OAuth, 2FA, session management, and admin panel"
-# Problems:
+
+## Problems
+
 \n\nViolates clarity principle (too many tasks)
 \n\nImpossible to complete in one interaction
 \n\nLacks specificity for each feature
 
 ✅ **Solution:** Break into multiple focused prompts:
 
-```text
+```
+
+text
 
 Prompt 1: Create a user registration function with email and password
 
@@ -512,24 +605,28 @@ Prompt 3: Create a password reset request handler
 
 [etc.]
 
-```text
+```
+
+text
 text
 
 \n\nAnti-Pattern 3: The "Assumed Context" Prompt
 
 ❌ **Example:** "Add that validation we discussed earlier to the form"
-# Problems:
+
+## Problems
+
 \n\nAssumes AI remembers previous conversation context
 \n\nNo content about which validation or which form
 \n\nUnclear intent and specificity
 
 ✅ **Solution:**
 
-```text
+```
+
+text
 
 Add email format validation to the ContactForm component in src/components/ContactForm.tsx.
-
-
 
 Requirements:
 \n\nUse Zod schema validation
@@ -537,23 +634,28 @@ Requirements:
 \n\nDisplay error message below email input field
 \n\nPrevent form submission if email is invalid
 
-```text
+```
+
+text
 text
 
 \n\nAnti-Pattern 4: The "Jargon Overload" Prompt
 
 ❌ **Example:** "Implement a DAL with CQRS pattern using the repository pattern and UoW for the aggregate roots in the bounded context"
-# Problems:
+
+## Problems
+
 \n\nViolates clarity with excessive jargon
 \n\nAssumes AI interprets jargon exactly as intended
 \n\nMissing specificity about actual implementation
 
 ✅ **Solution:**
 
-```text
+```
+
+text
 
 Create a data access layer for the User entity with separate read and write operations:
-
 
 \n\nCreate UserRepository class with:
 \n\ngetById(id): User - Read single user
@@ -561,12 +663,13 @@ Create a data access layer for the User entity with separate read and write oper
 \n\ncreate(user): void - Write new user
 \n\nupdate(user): void - Update existing user
 
-
 \n\nUse the repository pattern to abstract database operations
 \n\nImplement unit of work pattern to manage transactions
 \n\nTarget entity: User (properties: id, email, name, createdAt)
 
-```text
+```
+
+text
 text
 
 \n\nSuccess Criteria / KPIs
@@ -616,42 +719,52 @@ Before submitting a prompt to GitHub Copilot, verify:
 
 \n\nTemplate for Complex Prompts
 
-```text
+```
+
+text
 
 **Context:** [Technology stack, existing code patterns, architectural constraints]
 
-
-
 **Intent:** [Action verb] + [deliverable type] that [main purpose]
-# Requirements:
+
+## Requirements
+
 \n\n[Specific requirement with details]
 \n\n[Specific requirement with details]
 \n\n[Edge case or constraint]
-# Technical Details:
+
+## Technical Details
+
 \n\nFunction/Class name: [exact name]
 \n\nParameters: [types and names]
 \n\nReturn type: [exact type]
 \n\nLibraries: [name and version]
-# Style:
+
+## Style
+
 \n\n[Coding conventions to follow]
 \n\n[Error handling approach]
 \n\n[Documentation requirements]
 
-```text
+```
+
+text
 text
 
 \n\nExamples Across Common Scenarios
 
 \n\nScenario 1: Creating a New Feature
 
-```text
+```
+
+text
 
 **Context:** Building a React e-commerce app using TypeScript, Redux Toolkit, and React Router v6.
 
-
-
 **Intent:** Create a product search component with real-time filtering.
-# Requirements:
+
+## Requirements
+
 \n\nComponent name: ProductSearchBar
 \n\nAccept products array as prop (type: Product[])
 \n\nFilter products by name and description as user types
@@ -659,50 +772,66 @@ text
 \n\nDisplay filtered results in a dropdown list below input
 \n\nEmit onProductSelect event when user clicks a result
 \n\nUse existing styling from src/styles/searchBar.module.css
-# Technical Details:
+
+## Technical Details
+
 \n\nUse React hooks (useState, useEffect, useMemo)
 \n\nUse lodash.debounce for input debouncing
 \n\nProduct interface: { id: number; name: string; description: string; price: number }
 
-```text
+```
+
+text
 text
 
 \n\nScenario 2: Debugging Existing Code
 
-```text
+```
+
+text
 
 **Context:** Node.js API using Express. The endpoint `/api/users/:id` is returning 500 errors intermittently.
 
-
-
 **Intent:** Debug and fix the getUserById function to handle edge cases properly.
-# Current Code:
+
+## Current Code
+
 [Include code snippet]
-# Observed Behavior:
+
+## Observed Behavior
+
 \n\nWorks for valid user IDs
 \n\nThrows "Cannot read property 'name' of null" when user doesn't exist
 \n\nSometimes returns 500 instead of 404
-# Expected Behavior:
+
+## Expected Behavior
+
 \n\nReturn 404 with message "User not found" when ID doesn't exist
 \n\nReturn 400 with message "Invalid ID format" for non-numeric IDs
 \n\nReturn 200 with user data for valid requests
 \n\nNever return 500 errors for these cases
 
-```text
+```
+
+text
 text
 
 \n\nScenario 3: Refactoring Legacy Code
 
-```text
+```
+
+text
 
 **Context:** Refactoring a legacy JavaScript module to modern TypeScript. Current code uses callbacks and var declarations.
 
-
-
 **Intent:** Modernize the authentication module while preserving exact business logic.
-# Current Code:
+
+## Current Code
+
 [Include legacy code]
-# Modernization Requirements:
+
+## Modernization Requirements
+
 \n\nConvert to TypeScript with strict typing
 \n\nReplace callbacks with async/await
 \n\nReplace var with const/let
@@ -710,29 +839,37 @@ text
 \n\nExtract hard-coded values to constants
 \n\nAdd JSDoc comments
 \n\nDo NOT change business logic or validation rules
-# Constraints:
+
+## Constraints
+
 \n\nMust remain compatible with existing API consumers
 \n\nKeep function signature public API identical (input/output)
 
-```text
+```
+
+text
 text
 
 \n\nScenario 4: Writing Tests
 
-```text
+```
+
+text
 
 **Context:** Jest + React Testing Library project. Need tests for the LoginForm component.
 
-
-
 **Intent:** Create comprehensive unit tests for the LoginForm component covering success, error, and edge cases.
-# Component Behavior:
+
+## Component Behavior
+
 \n\nAccepts onSubmit callback prop
 \n\nHas email and password input fields
 \n\nHas submit button disabled when fields are empty
 \n\nShows validation errors below fields when invalid
 \n\nCalls onSubmit with { email, password } when valid
-# Test Requirements:
+
+## Test Requirements
+
 \n\nTest file name: LoginForm.test.tsx
 \n\nTest cases to cover:
 \n\nRenders all form elements
@@ -742,12 +879,16 @@ text
 \n\nShows error for password < 8 characters
 \n\nCalls onSubmit with correct data on valid submission
 \n\nPrevents submission when Enter pressed on invalid form
-# Style:
+
+## Style
+
 \n\nUse React Testing Library best practices (avoid testID when possible)
 \n\nUse user-event library for interactions
 \n\nFollow AAA pattern (Arrange, Act, Assert)
 
-```text
+```
+
+text
 text
 
 \n\nKey Takeaways
@@ -773,7 +914,9 @@ text
 \n\n**Iterate and Improve:** Track your first-suggestion acceptance rate and iteration cycles over the next 2 weeks
 
 ---
-# Document Version History:
+
+## Document Version History
+
 | Version | Date | Author | Changes |
 
 | ------- | ----------- | -------------- | ------------------------------------------------------------------- |

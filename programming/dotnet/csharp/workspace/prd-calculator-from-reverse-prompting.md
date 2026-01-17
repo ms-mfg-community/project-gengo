@@ -25,13 +25,17 @@ Many command-line calculators lack proper error handling, clear user interfaces,
 \n\nDemonstrate test-driven development with comprehensive unit tests
 
 \n\n5. Scope
-# In Scope:
+
+## In Scope
+
 \n\nConsole-based calculator interface
 \n\nSix operations: addition, subtraction, multiplication, division, modulo, power
 \n\nInput validation and error handling
 \n\nRepeatable calculation flow
 \n\nUnit test coverage for all operations
-# Out of Scope:
+
+## Out of Scope
+
 \n\nAdvanced mathematical functions (trigonometry, logarithms, etc.)
 \n\nMemory functions (store/recall)
 \n\nGUI interface
@@ -228,11 +232,15 @@ Many command-line calculators lack proper error handling, clear user interfaces,
 
 \n\n13.1 Starting the Application
 
-```text
+```
+
+text
 
 dotnet run
 
-```text
+```
+
+text
 text
 
 \n\n13.2 Performing Calculations

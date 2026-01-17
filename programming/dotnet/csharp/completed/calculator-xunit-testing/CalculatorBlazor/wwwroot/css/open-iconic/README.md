@@ -21,11 +21,15 @@
 
 We like SVGs and we think they're the way to display icons on the web. Since Open Iconic are just basic SVGs, we suggest you display them like you would any other image (don't forget the `alt` attribute).
 
-```text
+```
+
+text
 
 <img src="/open-iconic/svg/icon-name.svg" alt="icon name">
 
-```text
+```
+
+text
 text
 
 \n\nUsing Open Iconic's SVG Sprite
@@ -34,7 +38,9 @@ Open Iconic also comes in a SVG sprite which allows you to display all the icons
 
 Adding an icon from an SVG sprite is a little different than what you're used to, but it's still a piece of cake. _Tip: To make your icons easily style able, we suggest adding a general class to the_ `<svg>` _tag and a unique class name for each different icon in the_ `<use>` _tag._
 
-```text
+```
+
+text
 
 <svg class="icon">
 
@@ -42,12 +48,16 @@ Adding an icon from an SVG sprite is a little different than what you're used to
 
 </svg>
 
-```text
+```
+
+text
 text
 
 Sizing icons only needs basic CSS. All the icons are in a square format, so just set the `<svg>` tag with equal width and height dimensions.
 
-```text
+```
+
+text
 
 .icon {
 
@@ -57,12 +67,16 @@ Sizing icons only needs basic CSS. All the icons are in a square format, so just
 
 }
 
-```text
+```
+
+text
 text
 
 Coloring icons is even easier. All you need to do is set the `fill` rule on the `<use>` tag.
 
-```text
+```
+
+text
 
 .icon-account-login {
 
@@ -70,7 +84,9 @@ Coloring icons is even easier. All you need to do is set the `fill` rule on the 
 
 }
 
-```text
+```
+
+text
 text
 
 To learn more about SVG Sprites, read [Chris Coyier's guide](http://css-tricks.com/svg-sprites-use-better-icon-fonts/).
@@ -81,54 +97,78 @@ To learn more about SVG Sprites, read [Chris Coyier's guide](http://css-tricks.c
 
 You can find our Bootstrap stylesheets in `font/css/open-iconic-bootstrap.{css, less, scss, styl}`
 
-```text
+```
+
+text
 
 <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
 
-```text
+```
+
+text
 text
 
-```text
+```
+
+text
 
 <span class="oi oi-icon-name" title="icon name" aria-hidden="true"></span>
 
-```text
+```
+
+text
 text
 
 \n\n…with Foundation
 
 You can find our Foundation stylesheets in `font/css/open-iconic-foundation.{css, less, scss, styl}`
 
-```text
+```
+
+text
 
 <link href="/open-iconic/font/css/open-iconic-foundation.css" rel="stylesheet">
 
-```text
+```
+
+text
 text
 
-```text
+```
+
+text
 
 <span class="fi-icon-name" title="icon name" aria-hidden="true"></span>
 
-```text
+```
+
+text
 text
 
 \n\n…on its own
 
 You can find our default stylesheets in `font/css/open-iconic.{css, less, scss, styl}`
 
-```text
+```
+
+text
 
 <link href="/open-iconic/font/css/open-iconic.css" rel="stylesheet">
 
-```text
+```
+
+text
 text
 
-```text
+```
+
+text
 
 <span class="oi" data-glyph="icon-name" title="icon name" aria-hidden="true"></span>
 
-```text
+```
+
+text
 text
 
 \n\nLicense

@@ -47,29 +47,43 @@ This document contains prompts to guide you through creating a simple Flask API 
 
 ## Sample Data for Testing
 
-```json
+```
+
+json
 [
   { "id": 1, "title": "Buy groceries", "done": false },
   { "id": 2, "title": "Walk the dog", "done": false },
   { "id": 3, "title": "Finish Flask API project", "done": false }
 ]
 
-```text
+```
+
+text
 text
 
 ## Example cURL Commands for Testing
 
-```bash
-# Get all tasks
-curl -X GET http://localhost:5000/tasks
+```
 
-# Add a new task
-curl -X POST http://localhost:5000/tasks -H "Content-Type: application/json" -d '{"title": "Learn Flask"}'
+bash
 
-# Mark a task as complete
-curl -X PUT http://localhost:5000/tasks/1
+## Get all tasks
 
-# Delete a task
-curl -X DELETE http://localhost:5000/tasks/2
-```text
+curl -X GET <http://localhost:5000/tasks>
+
+## Add a new task
+
+curl -X POST <http://localhost:5000/tasks> -H "Content-Type: application/json" -d '{"title": "Learn Flask"}'
+
+## Mark a task as complete
+
+curl -X PUT <http://localhost:5000/tasks/1>
+
+## Delete a task
+
+curl -X DELETE <http://localhost:5000/tasks/2>
+
+```
+
+text
 text
