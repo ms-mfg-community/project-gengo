@@ -509,7 +509,7 @@ Reference:[Sunsetting Create React App](https://react.dev/blog/2025/02/14/sunset
 Python
 
 Follow the PEP 8 style guide.
-
+<!--  -->
 **Always use venv virtual environments to manage dependencies** - this is mandatory for all Python projects.
 
 Include comprehensive docstrings for functions and classes.
