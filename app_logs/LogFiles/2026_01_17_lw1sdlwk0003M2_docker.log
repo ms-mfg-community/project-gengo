@@ -1,0 +1,715 @@
+2026-01-17T11:47:42.4696305Z Container start method called.
+2026-01-17T11:47:42.5202593Z Establishing network.
+2026-01-17T11:47:42.5295507Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v1.
+2026-01-17T11:48:52.3047245Z Image prestopa2058acr.azurecr.io/rt-voice:v1 is pulled from registry prestopa2058acr.azurecr.io
+2026-01-17T11:48:52.5002289Z Container is starting.
+2026-01-17T11:48:52.5074305Z Establishing user namespace if not established already.
+2026-01-17T11:48:52.5191170Z Establishing network if not established already.
+2026-01-17T11:48:52.5215902Z Mounting volumes.
+2026-01-17T11:48:52.5647276Z Nested mountpoint volatile/logs
+2026-01-17T11:48:52.6576745Z Nested mountpoint 
+2026-01-17T11:48:53.1830992Z Creating container.
+2026-01-17T11:48:53.1848578Z Creating pipes for streaming container io.
+2026-01-17T11:48:53.1956469Z Creating stdout named pipe at /podr/container/pipe/0e1edf00d865_prestopa-webapp-2058-0235/stdout_a3ec95824faf463dba96c1ae50468517.
+2026-01-17T11:48:53.2057347Z Successfully created stdout named pipe at: /podr/container/pipe/0e1edf00d865_prestopa-webapp-2058-0235/stdout_a3ec95824faf463dba96c1ae50468517.
+2026-01-17T11:48:53.2231787Z Opening named pipe /podr/container/pipe/0e1edf00d865_prestopa-webapp-2058-0235/stdout_a3ec95824faf463dba96c1ae50468517 for reading in non-blocking mode.
+2026-01-17T11:48:53.2236119Z Successfully opened named pipe: /podr/container/pipe/0e1edf00d865_prestopa-webapp-2058-0235/stdout_a3ec95824faf463dba96c1ae50468517.
+2026-01-17T11:48:53.2256050Z Successfully removed non-blocking flag from /podr/container/pipe/0e1edf00d865_prestopa-webapp-2058-0235/stdout_a3ec95824faf463dba96c1ae50468517.
+2026-01-17T11:48:53.2258113Z Creating stderr named pipe at /podr/container/pipe/0e1edf00d865_prestopa-webapp-2058-0235/stderr_7157900bedb74bfeaffe1d279fff22f6.
+2026-01-17T11:48:53.2448186Z Successfully created stderr named pipe at: /podr/container/pipe/0e1edf00d865_prestopa-webapp-2058-0235/stderr_7157900bedb74bfeaffe1d279fff22f6.
+2026-01-17T11:48:53.2454917Z Opening named pipe /podr/container/pipe/0e1edf00d865_prestopa-webapp-2058-0235/stderr_7157900bedb74bfeaffe1d279fff22f6 for reading in non-blocking mode.
+2026-01-17T11:48:53.2459388Z Successfully opened named pipe: /podr/container/pipe/0e1edf00d865_prestopa-webapp-2058-0235/stderr_7157900bedb74bfeaffe1d279fff22f6.
+2026-01-17T11:48:53.2539536Z Successfully removed non-blocking flag from /podr/container/pipe/0e1edf00d865_prestopa-webapp-2058-0235/stderr_7157900bedb74bfeaffe1d279fff22f6.
+2026-01-17T11:48:53.2944179Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T11:48:54.1921323Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T11:48:54.1930890Z Setting value of PORT variable to 5000
+2026-01-17T11:48:54.2042695Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v1 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v1
+2026-01-17T11:48:57.9780758Z Starting container: 0e1edf00d865_prestopa-webapp-2058-0235.
+2026-01-17T11:48:58.7136071Z Starting watchers and probes.
+2026-01-17T11:48:58.9347670Z Starting metrics collection.
+2026-01-17T11:48:59.1053964Z Container is running.
+2026-01-17T11:49:00.2514798Z Container start method finished after 77769 ms.
+2026-01-17T11:49:03.4239923Z Container has finished running with exit code: 3.
+2026-01-17T11:49:03.4627391Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T11:49:03.5037249Z Stop and delete container. Retry count = 0
+2026-01-17T11:49:03.5056910Z Stopping container: 0e1edf00d865_prestopa-webapp-2058-0235.
+2026-01-17T11:49:03.7964848Z Deleting container: 0e1edf00d865_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T11:49:04.2207328Z Container spec TerminationMessagePolicy  path 
+2026-01-17T11:49:04.2316018Z Container is terminated. Total time elapsed: 766 ms.
+2026-01-17T11:49:04.2392145Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T11:49:04.3139054Z Site startup probe failed after 3.6604511 seconds.
+2026-01-17T11:49:04.5933239Z Failed to start site. Revert by stopping site.
+2026-01-17T11:49:04.6517726Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T11:49:13.9383749Z Container start method called.
+2026-01-17T11:49:13.9393053Z Establishing network.
+2026-01-17T11:49:13.9398300Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v1.
+2026-01-17T11:49:15.3106026Z Container is starting.
+2026-01-17T11:49:15.3111599Z Establishing user namespace if not established already.
+2026-01-17T11:49:15.3114452Z Establishing network if not established already.
+2026-01-17T11:49:15.3116530Z Mounting volumes.
+2026-01-17T11:49:15.3123544Z Nested mountpoint volatile/logs
+2026-01-17T11:49:15.3423317Z Nested mountpoint 
+2026-01-17T11:49:15.5031308Z Creating container.
+2026-01-17T11:49:15.5043697Z Creating pipes for streaming container io.
+2026-01-17T11:49:15.5056874Z Creating stdout named pipe at /podr/container/pipe/0e2899ec6970_prestopa-webapp-2058-0235/stdout_e8ecdd04bd844c3bbe30d216f1d4d52a.
+2026-01-17T11:49:15.5136031Z Successfully created stdout named pipe at: /podr/container/pipe/0e2899ec6970_prestopa-webapp-2058-0235/stdout_e8ecdd04bd844c3bbe30d216f1d4d52a.
+2026-01-17T11:49:15.5150430Z Opening named pipe /podr/container/pipe/0e2899ec6970_prestopa-webapp-2058-0235/stdout_e8ecdd04bd844c3bbe30d216f1d4d52a for reading in non-blocking mode.
+2026-01-17T11:49:15.5156972Z Successfully opened named pipe: /podr/container/pipe/0e2899ec6970_prestopa-webapp-2058-0235/stdout_e8ecdd04bd844c3bbe30d216f1d4d52a.
+2026-01-17T11:49:15.5238951Z Successfully removed non-blocking flag from /podr/container/pipe/0e2899ec6970_prestopa-webapp-2058-0235/stdout_e8ecdd04bd844c3bbe30d216f1d4d52a.
+2026-01-17T11:49:15.5244776Z Creating stderr named pipe at /podr/container/pipe/0e2899ec6970_prestopa-webapp-2058-0235/stderr_21a5c7d3c4fb494cb134fa6335491f54.
+2026-01-17T11:49:15.5256524Z Successfully created stderr named pipe at: /podr/container/pipe/0e2899ec6970_prestopa-webapp-2058-0235/stderr_21a5c7d3c4fb494cb134fa6335491f54.
+2026-01-17T11:49:15.5337496Z Opening named pipe /podr/container/pipe/0e2899ec6970_prestopa-webapp-2058-0235/stderr_21a5c7d3c4fb494cb134fa6335491f54 for reading in non-blocking mode.
+2026-01-17T11:49:15.5338656Z Successfully opened named pipe: /podr/container/pipe/0e2899ec6970_prestopa-webapp-2058-0235/stderr_21a5c7d3c4fb494cb134fa6335491f54.
+2026-01-17T11:49:15.5339554Z Successfully removed non-blocking flag from /podr/container/pipe/0e2899ec6970_prestopa-webapp-2058-0235/stderr_21a5c7d3c4fb494cb134fa6335491f54.
+2026-01-17T11:49:15.5532764Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T11:49:15.6557341Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T11:49:15.6573244Z Setting value of PORT variable to 5000
+2026-01-17T11:49:15.6639624Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v1 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v1
+2026-01-17T11:49:16.4205536Z Starting container: 0e2899ec6970_prestopa-webapp-2058-0235.
+2026-01-17T11:49:16.5510000Z Starting watchers and probes.
+2026-01-17T11:49:16.5718323Z Starting metrics collection.
+2026-01-17T11:49:16.5720893Z Container is running.
+2026-01-17T11:49:16.7108420Z Container start method finished after 2772 ms.
+2026-01-17T11:49:20.0751294Z Container has finished running with exit code: 3.
+2026-01-17T11:49:20.0800047Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T11:49:20.0808382Z Stop and delete container. Retry count = 0
+2026-01-17T11:49:20.0819000Z Stopping container: 0e2899ec6970_prestopa-webapp-2058-0235.
+2026-01-17T11:49:20.1901721Z Deleting container: 0e2899ec6970_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T11:49:20.5722699Z Container spec TerminationMessagePolicy  path 
+2026-01-17T11:49:20.5732963Z Container is terminated. Total time elapsed: 493 ms.
+2026-01-17T11:49:20.5740145Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T11:49:20.5856972Z Site startup probe failed after 3.8722217 seconds.
+2026-01-17T11:49:20.9579524Z Failed to start site. Revert by stopping site.
+2026-01-17T11:49:20.9661346Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T11:49:21.7157321Z Site: prestopa-webapp-2058-0235 will be blocked for 1 minutes till 01/17/2026 11:50:21
+2026-01-17T11:50:13.9441703Z Start site prohibitted because the site is being blocked.
+2026-01-17T11:50:19.3005502Z Start site prohibitted because the site is being blocked.
+2026-01-17T11:50:21.7209685Z Site: prestopa-webapp-2058-0235 is unblocked.
+2026-01-17T11:50:27.1050915Z Container start method called.
+2026-01-17T11:50:27.1136499Z Establishing network.
+2026-01-17T11:50:27.1147954Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v1.
+2026-01-17T11:50:27.9708089Z Container is starting.
+2026-01-17T11:50:28.0005809Z Establishing user namespace if not established already.
+2026-01-17T11:50:28.0026317Z Establishing network if not established already.
+2026-01-17T11:50:28.0106850Z Mounting volumes.
+2026-01-17T11:50:28.0321394Z Nested mountpoint volatile/logs
+2026-01-17T11:50:28.1008983Z Nested mountpoint 
+2026-01-17T11:50:28.2334919Z Creating container.
+2026-01-17T11:50:28.2343320Z Creating pipes for streaming container io.
+2026-01-17T11:50:28.2426330Z Creating stdout named pipe at /podr/container/pipe/f5e5768dc2d4_prestopa-webapp-2058-0235/stdout_91202bd7e18f45cfa19d33c18d139835.
+2026-01-17T11:50:28.2434916Z Successfully created stdout named pipe at: /podr/container/pipe/f5e5768dc2d4_prestopa-webapp-2058-0235/stdout_91202bd7e18f45cfa19d33c18d139835.
+2026-01-17T11:50:28.2436064Z Opening named pipe /podr/container/pipe/f5e5768dc2d4_prestopa-webapp-2058-0235/stdout_91202bd7e18f45cfa19d33c18d139835 for reading in non-blocking mode.
+2026-01-17T11:50:28.2437276Z Successfully opened named pipe: /podr/container/pipe/f5e5768dc2d4_prestopa-webapp-2058-0235/stdout_91202bd7e18f45cfa19d33c18d139835.
+2026-01-17T11:50:28.2437982Z Successfully removed non-blocking flag from /podr/container/pipe/f5e5768dc2d4_prestopa-webapp-2058-0235/stdout_91202bd7e18f45cfa19d33c18d139835.
+2026-01-17T11:50:28.2438921Z Creating stderr named pipe at /podr/container/pipe/f5e5768dc2d4_prestopa-webapp-2058-0235/stderr_ee11faf58806452db615ceb03f18b87e.
+2026-01-17T11:50:28.2440274Z Successfully created stderr named pipe at: /podr/container/pipe/f5e5768dc2d4_prestopa-webapp-2058-0235/stderr_ee11faf58806452db615ceb03f18b87e.
+2026-01-17T11:50:28.2441043Z Opening named pipe /podr/container/pipe/f5e5768dc2d4_prestopa-webapp-2058-0235/stderr_ee11faf58806452db615ceb03f18b87e for reading in non-blocking mode.
+2026-01-17T11:50:28.2522234Z Successfully opened named pipe: /podr/container/pipe/f5e5768dc2d4_prestopa-webapp-2058-0235/stderr_ee11faf58806452db615ceb03f18b87e.
+2026-01-17T11:50:28.2523356Z Successfully removed non-blocking flag from /podr/container/pipe/f5e5768dc2d4_prestopa-webapp-2058-0235/stderr_ee11faf58806452db615ceb03f18b87e.
+2026-01-17T11:50:28.2646488Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T11:50:28.4729033Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T11:50:28.4751050Z Setting value of PORT variable to 5000
+2026-01-17T11:50:28.4839517Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v1 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v1
+2026-01-17T11:50:30.0291092Z Starting container: f5e5768dc2d4_prestopa-webapp-2058-0235.
+2026-01-17T11:50:30.2199190Z Starting watchers and probes.
+2026-01-17T11:50:30.2506116Z Starting metrics collection.
+2026-01-17T11:50:30.2598019Z Container is running.
+2026-01-17T11:50:30.4033343Z Container start method finished after 3297 ms.
+2026-01-17T11:50:33.9436818Z Container has finished running with exit code: 3.
+2026-01-17T11:50:33.9446112Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T11:50:33.9459483Z Stop and delete container. Retry count = 0
+2026-01-17T11:50:33.9467664Z Stopping container: f5e5768dc2d4_prestopa-webapp-2058-0235.
+2026-01-17T11:50:34.2379465Z Deleting container: f5e5768dc2d4_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T11:50:34.6827233Z Container spec TerminationMessagePolicy  path 
+2026-01-17T11:50:34.6911692Z Container is terminated. Total time elapsed: 745 ms.
+2026-01-17T11:50:34.6924441Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T11:50:34.7248088Z Site startup probe failed after 4.1971392 seconds.
+2026-01-17T11:50:34.9133611Z Failed to start site. Revert by stopping site.
+2026-01-17T11:50:34.9535535Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T11:50:35.5169610Z Site: prestopa-webapp-2058-0235 will be blocked for 1 minutes till 01/17/2026 11:51:35
+2026-01-17T11:51:35.5542686Z Site: prestopa-webapp-2058-0235 is unblocked.
+2026-01-17T11:53:00.0026422Z Container start method called.
+2026-01-17T11:53:00.0119431Z Establishing network.
+2026-01-17T11:53:00.0339248Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v1.
+2026-01-17T11:53:00.9654786Z Container is starting.
+2026-01-17T11:53:00.9668129Z Establishing user namespace if not established already.
+2026-01-17T11:53:00.9669584Z Establishing network if not established already.
+2026-01-17T11:53:00.9673393Z Mounting volumes.
+2026-01-17T11:53:00.9793681Z Nested mountpoint volatile/logs
+2026-01-17T11:53:01.0234114Z Nested mountpoint 
+2026-01-17T11:53:01.1346819Z Creating container.
+2026-01-17T11:53:01.1362760Z Creating pipes for streaming container io.
+2026-01-17T11:53:01.1443662Z Creating stdout named pipe at /podr/container/pipe/a343b924df07_prestopa-webapp-2058-0235/stdout_c43ea57a4cf442b09f1cb7148841dd64.
+2026-01-17T11:53:01.1461360Z Successfully created stdout named pipe at: /podr/container/pipe/a343b924df07_prestopa-webapp-2058-0235/stdout_c43ea57a4cf442b09f1cb7148841dd64.
+2026-01-17T11:53:01.1464251Z Opening named pipe /podr/container/pipe/a343b924df07_prestopa-webapp-2058-0235/stdout_c43ea57a4cf442b09f1cb7148841dd64 for reading in non-blocking mode.
+2026-01-17T11:53:01.1543332Z Successfully opened named pipe: /podr/container/pipe/a343b924df07_prestopa-webapp-2058-0235/stdout_c43ea57a4cf442b09f1cb7148841dd64.
+2026-01-17T11:53:01.1547849Z Successfully removed non-blocking flag from /podr/container/pipe/a343b924df07_prestopa-webapp-2058-0235/stdout_c43ea57a4cf442b09f1cb7148841dd64.
+2026-01-17T11:53:01.1558890Z Creating stderr named pipe at /podr/container/pipe/a343b924df07_prestopa-webapp-2058-0235/stderr_cdd682e1c2e44508aac6d1009f4b593c.
+2026-01-17T11:53:01.1566100Z Successfully created stderr named pipe at: /podr/container/pipe/a343b924df07_prestopa-webapp-2058-0235/stderr_cdd682e1c2e44508aac6d1009f4b593c.
+2026-01-17T11:53:01.1644726Z Opening named pipe /podr/container/pipe/a343b924df07_prestopa-webapp-2058-0235/stderr_cdd682e1c2e44508aac6d1009f4b593c for reading in non-blocking mode.
+2026-01-17T11:53:01.1645955Z Successfully opened named pipe: /podr/container/pipe/a343b924df07_prestopa-webapp-2058-0235/stderr_cdd682e1c2e44508aac6d1009f4b593c.
+2026-01-17T11:53:01.1646812Z Successfully removed non-blocking flag from /podr/container/pipe/a343b924df07_prestopa-webapp-2058-0235/stderr_cdd682e1c2e44508aac6d1009f4b593c.
+2026-01-17T11:53:01.1738064Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T11:53:01.3762671Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T11:53:01.3772161Z Setting value of PORT variable to 5000
+2026-01-17T11:53:01.3777335Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v1 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v1
+2026-01-17T11:53:02.9059174Z Starting container: a343b924df07_prestopa-webapp-2058-0235.
+2026-01-17T11:53:03.2521763Z Starting watchers and probes.
+2026-01-17T11:53:03.3768721Z Starting metrics collection.
+2026-01-17T11:53:03.3954334Z Container is running.
+2026-01-17T11:53:03.6048660Z Container start method finished after 3561 ms.
+2026-01-17T11:53:08.4256645Z Container has finished running with exit code: 3.
+2026-01-17T11:53:08.4266579Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T11:53:08.4374710Z Stop and delete container. Retry count = 0
+2026-01-17T11:53:08.4546556Z Stopping container: a343b924df07_prestopa-webapp-2058-0235.
+2026-01-17T11:53:08.6976653Z Deleting container: a343b924df07_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T11:53:09.3997132Z Container spec TerminationMessagePolicy  path 
+2026-01-17T11:53:09.4026615Z Container is terminated. Total time elapsed: 973 ms.
+2026-01-17T11:53:09.4040412Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T11:53:09.4422454Z Site startup probe failed after 5.711192 seconds.
+2026-01-17T11:53:09.6437021Z Failed to start site. Revert by stopping site.
+2026-01-17T11:53:09.7081092Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T11:53:10.6623346Z Site: prestopa-webapp-2058-0235 will be blocked for 2 minutes till 01/17/2026 11:55:10
+2026-01-17T11:53:37.2263425Z Start site prohibitted because the site is being blocked.
+2026-01-17T11:53:42.4343509Z Start site prohibitted because the site is being blocked.
+2026-01-17T11:53:47.5697695Z Start site prohibitted because the site is being blocked.
+2026-01-17T11:53:52.7283581Z Start site prohibitted because the site is being blocked.
+2026-01-17T11:54:54.0291097Z Start site prohibitted because the site is being blocked.
+2026-01-17T11:54:59.3759072Z Start site prohibitted because the site is being blocked.
+2026-01-17T11:55:04.5873633Z Start site prohibitted because the site is being blocked.
+2026-01-17T11:55:09.8504475Z Start site prohibitted because the site is being blocked.
+2026-01-17T11:55:10.6630702Z Site: prestopa-webapp-2058-0235 is unblocked.
+2026-01-17T11:55:17.2728448Z Container start method called.
+2026-01-17T11:55:17.2931292Z Establishing network.
+2026-01-17T11:55:17.3035822Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v1.
+2026-01-17T11:55:18.8917833Z Container is starting.
+2026-01-17T11:55:18.8999097Z Establishing user namespace if not established already.
+2026-01-17T11:55:18.9013973Z Establishing network if not established already.
+2026-01-17T11:55:18.9021941Z Mounting volumes.
+2026-01-17T11:55:18.9113399Z Nested mountpoint volatile/logs
+2026-01-17T11:55:18.9221877Z Nested mountpoint 
+2026-01-17T11:55:19.1432305Z Creating container.
+2026-01-17T11:55:19.1434622Z Creating pipes for streaming container io.
+2026-01-17T11:55:19.1439440Z Creating stdout named pipe at /podr/container/pipe/86ea7328333b_prestopa-webapp-2058-0235/stdout_3429731ef019414992c555b5326a6ce6.
+2026-01-17T11:55:19.1523354Z Successfully created stdout named pipe at: /podr/container/pipe/86ea7328333b_prestopa-webapp-2058-0235/stdout_3429731ef019414992c555b5326a6ce6.
+2026-01-17T11:55:19.1524911Z Opening named pipe /podr/container/pipe/86ea7328333b_prestopa-webapp-2058-0235/stdout_3429731ef019414992c555b5326a6ce6 for reading in non-blocking mode.
+2026-01-17T11:55:19.1528000Z Successfully opened named pipe: /podr/container/pipe/86ea7328333b_prestopa-webapp-2058-0235/stdout_3429731ef019414992c555b5326a6ce6.
+2026-01-17T11:55:19.1529148Z Successfully removed non-blocking flag from /podr/container/pipe/86ea7328333b_prestopa-webapp-2058-0235/stdout_3429731ef019414992c555b5326a6ce6.
+2026-01-17T11:55:19.1530052Z Creating stderr named pipe at /podr/container/pipe/86ea7328333b_prestopa-webapp-2058-0235/stderr_49d66faa315f4ee6913b3c8c67171c4f.
+2026-01-17T11:55:19.1531376Z Successfully created stderr named pipe at: /podr/container/pipe/86ea7328333b_prestopa-webapp-2058-0235/stderr_49d66faa315f4ee6913b3c8c67171c4f.
+2026-01-17T11:55:19.1532045Z Opening named pipe /podr/container/pipe/86ea7328333b_prestopa-webapp-2058-0235/stderr_49d66faa315f4ee6913b3c8c67171c4f for reading in non-blocking mode.
+2026-01-17T11:55:19.1532929Z Successfully opened named pipe: /podr/container/pipe/86ea7328333b_prestopa-webapp-2058-0235/stderr_49d66faa315f4ee6913b3c8c67171c4f.
+2026-01-17T11:55:19.1533633Z Successfully removed non-blocking flag from /podr/container/pipe/86ea7328333b_prestopa-webapp-2058-0235/stderr_49d66faa315f4ee6913b3c8c67171c4f.
+2026-01-17T11:55:19.1623153Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T11:55:19.2647922Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T11:55:19.2663234Z Setting value of PORT variable to 5000
+2026-01-17T11:55:19.2715519Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v1 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v1
+2026-01-17T11:55:20.3149129Z Starting container: 86ea7328333b_prestopa-webapp-2058-0235.
+2026-01-17T11:55:20.5047841Z Starting watchers and probes.
+2026-01-17T11:55:20.5124925Z Starting metrics collection.
+2026-01-17T11:55:20.5210668Z Container is running.
+2026-01-17T11:55:20.6119820Z Container start method finished after 3328 ms.
+2026-01-17T11:55:24.3869133Z Container has finished running with exit code: 3.
+2026-01-17T11:55:24.3933208Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T11:55:24.4018027Z Stop and delete container. Retry count = 0
+2026-01-17T11:55:24.4018979Z Stopping container: 86ea7328333b_prestopa-webapp-2058-0235.
+2026-01-17T11:55:24.4844157Z Deleting container: 86ea7328333b_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T11:55:24.7441169Z Container spec TerminationMessagePolicy  path 
+2026-01-17T11:55:24.7649178Z Container is terminated. Total time elapsed: 370 ms.
+2026-01-17T11:55:24.7650355Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T11:55:24.7942806Z Site startup probe failed after 4.0811611 seconds.
+2026-01-17T11:55:24.9472696Z Failed to start site. Revert by stopping site.
+2026-01-17T11:55:24.9877625Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T11:56:17.2476915Z Container start method called.
+2026-01-17T11:56:17.2478288Z Establishing network.
+2026-01-17T11:56:17.2479286Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v1.
+2026-01-17T11:56:17.4892458Z Container is starting.
+2026-01-17T11:56:17.4894993Z Establishing user namespace if not established already.
+2026-01-17T11:56:17.4896310Z Establishing network if not established already.
+2026-01-17T11:56:17.4897778Z Mounting volumes.
+2026-01-17T11:56:17.4899566Z Nested mountpoint volatile/logs
+2026-01-17T11:56:17.5705722Z Nested mountpoint 
+2026-01-17T11:56:17.5810142Z Creating container.
+2026-01-17T11:56:17.5813874Z Creating pipes for streaming container io.
+2026-01-17T11:56:17.5817598Z Creating stdout named pipe at /podr/container/pipe/ccc8f0103162_prestopa-webapp-2058-0235/stdout_a5953086b41047b3a42e6080b5d6f9b9.
+2026-01-17T11:56:17.5894470Z Successfully created stdout named pipe at: /podr/container/pipe/ccc8f0103162_prestopa-webapp-2058-0235/stdout_a5953086b41047b3a42e6080b5d6f9b9.
+2026-01-17T11:56:17.5900307Z Opening named pipe /podr/container/pipe/ccc8f0103162_prestopa-webapp-2058-0235/stdout_a5953086b41047b3a42e6080b5d6f9b9 for reading in non-blocking mode.
+2026-01-17T11:56:17.5904230Z Successfully opened named pipe: /podr/container/pipe/ccc8f0103162_prestopa-webapp-2058-0235/stdout_a5953086b41047b3a42e6080b5d6f9b9.
+2026-01-17T11:56:17.5908696Z Successfully removed non-blocking flag from /podr/container/pipe/ccc8f0103162_prestopa-webapp-2058-0235/stdout_a5953086b41047b3a42e6080b5d6f9b9.
+2026-01-17T11:56:17.5910086Z Creating stderr named pipe at /podr/container/pipe/ccc8f0103162_prestopa-webapp-2058-0235/stderr_22c81862c4654e56af0ca782965281cb.
+2026-01-17T11:56:17.5921822Z Successfully created stderr named pipe at: /podr/container/pipe/ccc8f0103162_prestopa-webapp-2058-0235/stderr_22c81862c4654e56af0ca782965281cb.
+2026-01-17T11:56:17.6303889Z Opening named pipe /podr/container/pipe/ccc8f0103162_prestopa-webapp-2058-0235/stderr_22c81862c4654e56af0ca782965281cb for reading in non-blocking mode.
+2026-01-17T11:56:17.6306844Z Successfully opened named pipe: /podr/container/pipe/ccc8f0103162_prestopa-webapp-2058-0235/stderr_22c81862c4654e56af0ca782965281cb.
+2026-01-17T11:56:17.6308448Z Successfully removed non-blocking flag from /podr/container/pipe/ccc8f0103162_prestopa-webapp-2058-0235/stderr_22c81862c4654e56af0ca782965281cb.
+2026-01-17T11:56:17.6309770Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T11:56:17.7121136Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T11:56:17.7128608Z Setting value of PORT variable to 5000
+2026-01-17T11:56:17.7203714Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v1 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v1
+2026-01-17T11:56:18.7129150Z Starting container: ccc8f0103162_prestopa-webapp-2058-0235.
+2026-01-17T11:56:18.9046858Z Starting watchers and probes.
+2026-01-17T11:56:18.9057630Z Starting metrics collection.
+2026-01-17T11:56:18.9061398Z Container is running.
+2026-01-17T11:56:19.6481455Z Container start method finished after 2400 ms.
+2026-01-17T11:56:24.1333314Z Container has finished running with exit code: 3.
+2026-01-17T11:56:24.1338523Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T11:56:24.1341829Z Stop and delete container. Retry count = 0
+2026-01-17T11:56:24.1343288Z Stopping container: ccc8f0103162_prestopa-webapp-2058-0235.
+2026-01-17T11:56:24.2842080Z Deleting container: ccc8f0103162_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T11:56:24.7770697Z Container spec TerminationMessagePolicy  path 
+2026-01-17T11:56:24.7786645Z Container is terminated. Total time elapsed: 644 ms.
+2026-01-17T11:56:24.7865755Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T11:56:24.8073013Z Site startup probe failed after 5.1478528 seconds.
+2026-01-17T11:56:25.0588962Z Failed to start site. Revert by stopping site.
+2026-01-17T11:56:25.0678950Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T11:56:32.4491608Z Container start method called.
+2026-01-17T11:56:32.4493719Z Establishing network.
+2026-01-17T11:56:32.4575992Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v1.
+2026-01-17T11:56:32.6686367Z Container is starting.
+2026-01-17T11:56:32.6691601Z Establishing user namespace if not established already.
+2026-01-17T11:56:32.6692828Z Establishing network if not established already.
+2026-01-17T11:56:32.6703709Z Mounting volumes.
+2026-01-17T11:56:32.6706863Z Nested mountpoint volatile/logs
+2026-01-17T11:56:32.7383360Z Nested mountpoint 
+2026-01-17T11:56:32.7897267Z Creating container.
+2026-01-17T11:56:32.7909899Z Creating pipes for streaming container io.
+2026-01-17T11:56:32.8006817Z Creating stdout named pipe at /podr/container/pipe/cef5a1ad6db7_prestopa-webapp-2058-0235/stdout_e5ee1c348737430b92718e0969742345.
+2026-01-17T11:56:32.8008614Z Successfully created stdout named pipe at: /podr/container/pipe/cef5a1ad6db7_prestopa-webapp-2058-0235/stdout_e5ee1c348737430b92718e0969742345.
+2026-01-17T11:56:32.8009432Z Opening named pipe /podr/container/pipe/cef5a1ad6db7_prestopa-webapp-2058-0235/stdout_e5ee1c348737430b92718e0969742345 for reading in non-blocking mode.
+2026-01-17T11:56:32.8010317Z Successfully opened named pipe: /podr/container/pipe/cef5a1ad6db7_prestopa-webapp-2058-0235/stdout_e5ee1c348737430b92718e0969742345.
+2026-01-17T11:56:32.8011017Z Successfully removed non-blocking flag from /podr/container/pipe/cef5a1ad6db7_prestopa-webapp-2058-0235/stdout_e5ee1c348737430b92718e0969742345.
+2026-01-17T11:56:32.8011850Z Creating stderr named pipe at /podr/container/pipe/cef5a1ad6db7_prestopa-webapp-2058-0235/stderr_301c9d8673d145e6bb9a3ffcc5991618.
+2026-01-17T11:56:32.8012885Z Successfully created stderr named pipe at: /podr/container/pipe/cef5a1ad6db7_prestopa-webapp-2058-0235/stderr_301c9d8673d145e6bb9a3ffcc5991618.
+2026-01-17T11:56:32.8013684Z Opening named pipe /podr/container/pipe/cef5a1ad6db7_prestopa-webapp-2058-0235/stderr_301c9d8673d145e6bb9a3ffcc5991618 for reading in non-blocking mode.
+2026-01-17T11:56:32.8210303Z Successfully opened named pipe: /podr/container/pipe/cef5a1ad6db7_prestopa-webapp-2058-0235/stderr_301c9d8673d145e6bb9a3ffcc5991618.
+2026-01-17T11:56:32.8292684Z Successfully removed non-blocking flag from /podr/container/pipe/cef5a1ad6db7_prestopa-webapp-2058-0235/stderr_301c9d8673d145e6bb9a3ffcc5991618.
+2026-01-17T11:56:32.8300780Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T11:56:32.8998199Z Container get mounts received unexpected exception.
+2026-01-17T11:56:32.9115533Z Container get processes received unexpected exception.
+2026-01-17T11:56:32.9293832Z Container get mounts received unexpected exception.
+2026-01-17T11:56:33.0124500Z Container get processes received unexpected exception.
+2026-01-17T11:56:33.7037278Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T11:56:33.7038806Z Setting value of PORT variable to 5000
+2026-01-17T11:56:33.7040618Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v1 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v1
+2026-01-17T11:56:34.2543441Z Starting container: cef5a1ad6db7_prestopa-webapp-2058-0235.
+2026-01-17T11:56:34.3648455Z Starting watchers and probes.
+2026-01-17T11:56:34.3651482Z Starting metrics collection.
+2026-01-17T11:56:34.3652428Z Container is running.
+2026-01-17T11:56:34.4981408Z Container start method finished after 2047 ms.
+2026-01-17T11:56:36.6070287Z Container has finished running with exit code: 3.
+2026-01-17T11:56:36.6073549Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T11:56:36.6079392Z Stop and delete container. Retry count = 0
+2026-01-17T11:56:36.6082705Z Stopping container: cef5a1ad6db7_prestopa-webapp-2058-0235.
+2026-01-17T11:56:36.7830896Z Deleting container: cef5a1ad6db7_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T11:56:37.1704593Z Container spec TerminationMessagePolicy  path 
+2026-01-17T11:56:37.1785344Z Container is terminated. Total time elapsed: 570 ms.
+2026-01-17T11:56:37.1786458Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T11:56:37.1805325Z Site startup probe failed after 2.6633137 seconds.
+2026-01-17T11:56:37.3117444Z Failed to start site. Revert by stopping site.
+2026-01-17T11:56:37.3315510Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T12:06:05.9718159Z Container start method called.
+2026-01-17T12:06:05.9824275Z Establishing network.
+2026-01-17T12:06:05.9825383Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v1.
+2026-01-17T12:06:06.6181101Z Container is starting.
+2026-01-17T12:06:06.6264001Z Establishing user namespace if not established already.
+2026-01-17T12:06:06.6275490Z Establishing network if not established already.
+2026-01-17T12:06:06.6286471Z Mounting volumes.
+2026-01-17T12:06:06.6293045Z Nested mountpoint volatile/logs
+2026-01-17T12:06:06.6386256Z Nested mountpoint 
+2026-01-17T12:06:06.8072416Z Creating container.
+2026-01-17T12:06:06.8079021Z Creating pipes for streaming container io.
+2026-01-17T12:06:06.8083957Z Creating stdout named pipe at /podr/container/pipe/dd886b2b7654_prestopa-webapp-2058-0235/stdout_91c543d01f9a486c93e887688b47fee7.
+2026-01-17T12:06:06.8285143Z Successfully created stdout named pipe at: /podr/container/pipe/dd886b2b7654_prestopa-webapp-2058-0235/stdout_91c543d01f9a486c93e887688b47fee7.
+2026-01-17T12:06:06.8293077Z Opening named pipe /podr/container/pipe/dd886b2b7654_prestopa-webapp-2058-0235/stdout_91c543d01f9a486c93e887688b47fee7 for reading in non-blocking mode.
+2026-01-17T12:06:06.8300685Z Successfully opened named pipe: /podr/container/pipe/dd886b2b7654_prestopa-webapp-2058-0235/stdout_91c543d01f9a486c93e887688b47fee7.
+2026-01-17T12:06:06.8379004Z Successfully removed non-blocking flag from /podr/container/pipe/dd886b2b7654_prestopa-webapp-2058-0235/stdout_91c543d01f9a486c93e887688b47fee7.
+2026-01-17T12:06:06.8382360Z Creating stderr named pipe at /podr/container/pipe/dd886b2b7654_prestopa-webapp-2058-0235/stderr_1ae10207ee644d80bf0373252a55ef51.
+2026-01-17T12:06:06.8388732Z Successfully created stderr named pipe at: /podr/container/pipe/dd886b2b7654_prestopa-webapp-2058-0235/stderr_1ae10207ee644d80bf0373252a55ef51.
+2026-01-17T12:06:06.8394537Z Opening named pipe /podr/container/pipe/dd886b2b7654_prestopa-webapp-2058-0235/stderr_1ae10207ee644d80bf0373252a55ef51 for reading in non-blocking mode.
+2026-01-17T12:06:06.8397859Z Successfully opened named pipe: /podr/container/pipe/dd886b2b7654_prestopa-webapp-2058-0235/stderr_1ae10207ee644d80bf0373252a55ef51.
+2026-01-17T12:06:06.8401361Z Successfully removed non-blocking flag from /podr/container/pipe/dd886b2b7654_prestopa-webapp-2058-0235/stderr_1ae10207ee644d80bf0373252a55ef51.
+2026-01-17T12:06:06.8481173Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T12:06:06.9181341Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T12:06:06.9183182Z Setting value of PORT variable to 5000
+2026-01-17T12:06:06.9184801Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v1 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v1
+2026-01-17T12:06:07.9652013Z Starting container: dd886b2b7654_prestopa-webapp-2058-0235.
+2026-01-17T12:06:08.0584969Z Starting watchers and probes.
+2026-01-17T12:06:08.0662637Z Starting metrics collection.
+2026-01-17T12:06:08.0665614Z Container is running.
+2026-01-17T12:06:08.2974223Z Container start method finished after 2315 ms.
+2026-01-17T12:06:11.0027044Z Container has finished running with exit code: 3.
+2026-01-17T12:06:11.0038405Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T12:06:11.0113139Z Stop and delete container. Retry count = 0
+2026-01-17T12:06:11.0114223Z Stopping container: dd886b2b7654_prestopa-webapp-2058-0235.
+2026-01-17T12:06:11.0846584Z Deleting container: dd886b2b7654_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T12:06:11.3881457Z Container spec TerminationMessagePolicy  path 
+2026-01-17T12:06:11.3965376Z Container is terminated. Total time elapsed: 392 ms.
+2026-01-17T12:06:11.3967236Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T12:06:11.4386984Z Site startup probe failed after 2.9875789 seconds.
+2026-01-17T12:06:11.7306014Z Failed to start site. Revert by stopping site.
+2026-01-17T12:06:11.7382943Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T12:06:13.8551839Z Container start method called.
+2026-01-17T12:06:13.8553207Z Establishing network.
+2026-01-17T12:06:13.8554201Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v1.
+2026-01-17T12:06:13.9768456Z Container is starting.
+2026-01-17T12:06:13.9849788Z Establishing user namespace if not established already.
+2026-01-17T12:06:13.9863440Z Establishing network if not established already.
+2026-01-17T12:06:13.9869476Z Mounting volumes.
+2026-01-17T12:06:13.9875048Z Nested mountpoint volatile/logs
+2026-01-17T12:06:14.0058545Z Nested mountpoint 
+2026-01-17T12:06:14.0756876Z Creating container.
+2026-01-17T12:06:14.0763477Z Creating pipes for streaming container io.
+2026-01-17T12:06:14.0766258Z Creating stdout named pipe at /podr/container/pipe/7773ff13bbc3_prestopa-webapp-2058-0235/stdout_92a7ee832b7148deb9a716ece036a92e.
+2026-01-17T12:06:14.0769743Z Successfully created stdout named pipe at: /podr/container/pipe/7773ff13bbc3_prestopa-webapp-2058-0235/stdout_92a7ee832b7148deb9a716ece036a92e.
+2026-01-17T12:06:14.0772049Z Opening named pipe /podr/container/pipe/7773ff13bbc3_prestopa-webapp-2058-0235/stdout_92a7ee832b7148deb9a716ece036a92e for reading in non-blocking mode.
+2026-01-17T12:06:14.1161624Z Successfully opened named pipe: /podr/container/pipe/7773ff13bbc3_prestopa-webapp-2058-0235/stdout_92a7ee832b7148deb9a716ece036a92e.
+2026-01-17T12:06:14.1165958Z Successfully removed non-blocking flag from /podr/container/pipe/7773ff13bbc3_prestopa-webapp-2058-0235/stdout_92a7ee832b7148deb9a716ece036a92e.
+2026-01-17T12:06:14.1168698Z Creating stderr named pipe at /podr/container/pipe/7773ff13bbc3_prestopa-webapp-2058-0235/stderr_a1c5948b7aed446c8da0125439e6edc8.
+2026-01-17T12:06:14.1180909Z Successfully created stderr named pipe at: /podr/container/pipe/7773ff13bbc3_prestopa-webapp-2058-0235/stderr_a1c5948b7aed446c8da0125439e6edc8.
+2026-01-17T12:06:14.1359322Z Opening named pipe /podr/container/pipe/7773ff13bbc3_prestopa-webapp-2058-0235/stderr_a1c5948b7aed446c8da0125439e6edc8 for reading in non-blocking mode.
+2026-01-17T12:06:14.1365518Z Successfully opened named pipe: /podr/container/pipe/7773ff13bbc3_prestopa-webapp-2058-0235/stderr_a1c5948b7aed446c8da0125439e6edc8.
+2026-01-17T12:06:14.1370791Z Successfully removed non-blocking flag from /podr/container/pipe/7773ff13bbc3_prestopa-webapp-2058-0235/stderr_a1c5948b7aed446c8da0125439e6edc8.
+2026-01-17T12:06:14.1375806Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T12:06:14.1867719Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T12:06:14.1875402Z Setting value of PORT variable to 5000
+2026-01-17T12:06:14.1882438Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v1 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v1
+2026-01-17T12:06:14.7404959Z Starting container: 7773ff13bbc3_prestopa-webapp-2058-0235.
+2026-01-17T12:06:14.8006025Z Starting watchers and probes.
+2026-01-17T12:06:14.8008091Z Starting metrics collection.
+2026-01-17T12:06:14.8009131Z Container is running.
+2026-01-17T12:06:14.8907481Z Container start method finished after 1035 ms.
+2026-01-17T12:06:17.3449159Z Container has finished running with exit code: 3.
+2026-01-17T12:06:17.3461871Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T12:06:17.3551447Z Stop and delete container. Retry count = 0
+2026-01-17T12:06:17.3553057Z Stopping container: 7773ff13bbc3_prestopa-webapp-2058-0235.
+2026-01-17T12:06:17.4164298Z Deleting container: 7773ff13bbc3_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T12:06:17.6475286Z Container spec TerminationMessagePolicy  path 
+2026-01-17T12:06:17.6558527Z Container is terminated. Total time elapsed: 301 ms.
+2026-01-17T12:06:17.6570271Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T12:06:17.6681695Z Site startup probe failed after 2.7762732 seconds.
+2026-01-17T12:06:17.8181263Z Failed to start site. Revert by stopping site.
+2026-01-17T12:06:17.8192166Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T12:15:06.4065355Z Container start method called.
+2026-01-17T12:15:06.4101939Z Establishing network.
+2026-01-17T12:15:06.4117560Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v1.
+2026-01-17T12:16:10.5702868Z Image prestopa2058acr.azurecr.io/rt-voice:v1 is pulled from registry prestopa2058acr.azurecr.io
+2026-01-17T12:16:10.5915671Z Container is starting.
+2026-01-17T12:16:10.6156573Z Establishing user namespace if not established already.
+2026-01-17T12:16:10.6207966Z Establishing network if not established already.
+2026-01-17T12:16:10.6241224Z Mounting volumes.
+2026-01-17T12:16:10.6516708Z Nested mountpoint volatile/logs
+2026-01-17T12:16:10.8008623Z Nested mountpoint 
+2026-01-17T12:16:11.0635056Z Creating container.
+2026-01-17T12:16:11.0638390Z Creating pipes for streaming container io.
+2026-01-17T12:16:11.0642841Z Creating stdout named pipe at /podr/container/pipe/15d0b225acb6_prestopa-webapp-2058-0235/stdout_2aea1845814e4411b1b4db874bf4b5f4.
+2026-01-17T12:16:11.0652776Z Successfully created stdout named pipe at: /podr/container/pipe/15d0b225acb6_prestopa-webapp-2058-0235/stdout_2aea1845814e4411b1b4db874bf4b5f4.
+2026-01-17T12:16:11.0663449Z Opening named pipe /podr/container/pipe/15d0b225acb6_prestopa-webapp-2058-0235/stdout_2aea1845814e4411b1b4db874bf4b5f4 for reading in non-blocking mode.
+2026-01-17T12:16:11.0735017Z Successfully opened named pipe: /podr/container/pipe/15d0b225acb6_prestopa-webapp-2058-0235/stdout_2aea1845814e4411b1b4db874bf4b5f4.
+2026-01-17T12:16:11.0740250Z Successfully removed non-blocking flag from /podr/container/pipe/15d0b225acb6_prestopa-webapp-2058-0235/stdout_2aea1845814e4411b1b4db874bf4b5f4.
+2026-01-17T12:16:11.0746595Z Creating stderr named pipe at /podr/container/pipe/15d0b225acb6_prestopa-webapp-2058-0235/stderr_2dac974fe9e04a86b2add26c7dc107cd.
+2026-01-17T12:16:11.0753936Z Successfully created stderr named pipe at: /podr/container/pipe/15d0b225acb6_prestopa-webapp-2058-0235/stderr_2dac974fe9e04a86b2add26c7dc107cd.
+2026-01-17T12:16:11.0757999Z Opening named pipe /podr/container/pipe/15d0b225acb6_prestopa-webapp-2058-0235/stderr_2dac974fe9e04a86b2add26c7dc107cd for reading in non-blocking mode.
+2026-01-17T12:16:11.0762777Z Successfully opened named pipe: /podr/container/pipe/15d0b225acb6_prestopa-webapp-2058-0235/stderr_2dac974fe9e04a86b2add26c7dc107cd.
+2026-01-17T12:16:11.0833610Z Successfully removed non-blocking flag from /podr/container/pipe/15d0b225acb6_prestopa-webapp-2058-0235/stderr_2dac974fe9e04a86b2add26c7dc107cd.
+2026-01-17T12:16:11.0865299Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T12:16:11.4569614Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T12:16:11.4577865Z Setting value of PORT variable to 5000
+2026-01-17T12:16:11.4787479Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v1 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v1
+2026-01-17T12:16:12.6398687Z Starting container: 15d0b225acb6_prestopa-webapp-2058-0235.
+2026-01-17T12:16:12.8070177Z Starting watchers and probes.
+2026-01-17T12:16:12.8217613Z Starting metrics collection.
+2026-01-17T12:16:12.8305471Z Container is running.
+2026-01-17T12:16:13.6935837Z Container start method finished after 67285 ms.
+2026-01-17T12:16:16.6966533Z Container has finished running with exit code: 3.
+2026-01-17T12:16:16.7050594Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T12:16:16.7090918Z Stop and delete container. Retry count = 0
+2026-01-17T12:16:16.7139305Z Stopping container: 15d0b225acb6_prestopa-webapp-2058-0235.
+2026-01-17T12:16:16.8163879Z Deleting container: 15d0b225acb6_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T12:16:17.2374059Z Container spec TerminationMessagePolicy  path 
+2026-01-17T12:16:17.2390097Z Container is terminated. Total time elapsed: 531 ms.
+2026-01-17T12:16:17.2398309Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T12:16:17.2991550Z Site startup probe failed after 3.4010021 seconds.
+2026-01-17T12:16:17.6593687Z Failed to start site. Revert by stopping site.
+2026-01-17T12:16:17.6711126Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T12:32:55.6848996Z Container start method called.
+2026-01-17T12:32:55.7132067Z Establishing network.
+2026-01-17T12:32:55.7349371Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v1.
+2026-01-17T12:33:52.8146824Z Image prestopa2058acr.azurecr.io/rt-voice:v1 is pulled from registry prestopa2058acr.azurecr.io
+2026-01-17T12:33:52.8921697Z Container is starting.
+2026-01-17T12:33:52.9028168Z Establishing user namespace if not established already.
+2026-01-17T12:33:52.9362111Z Establishing network if not established already.
+2026-01-17T12:33:52.9464198Z Mounting volumes.
+2026-01-17T12:33:52.9876923Z Nested mountpoint volatile/logs
+2026-01-17T12:33:53.2270483Z Nested mountpoint 
+2026-01-17T12:33:53.4315261Z Creating container.
+2026-01-17T12:33:53.4385069Z Creating pipes for streaming container io.
+2026-01-17T12:33:53.4390222Z Creating stdout named pipe at /podr/container/pipe/2acc13650e76_prestopa-webapp-2058-0235/stdout_a8839c437a684a62921c9b23d640f1f0.
+2026-01-17T12:33:53.4506531Z Successfully created stdout named pipe at: /podr/container/pipe/2acc13650e76_prestopa-webapp-2058-0235/stdout_a8839c437a684a62921c9b23d640f1f0.
+2026-01-17T12:33:53.4510271Z Opening named pipe /podr/container/pipe/2acc13650e76_prestopa-webapp-2058-0235/stdout_a8839c437a684a62921c9b23d640f1f0 for reading in non-blocking mode.
+2026-01-17T12:33:53.4604199Z Successfully opened named pipe: /podr/container/pipe/2acc13650e76_prestopa-webapp-2058-0235/stdout_a8839c437a684a62921c9b23d640f1f0.
+2026-01-17T12:33:53.4702176Z Successfully removed non-blocking flag from /podr/container/pipe/2acc13650e76_prestopa-webapp-2058-0235/stdout_a8839c437a684a62921c9b23d640f1f0.
+2026-01-17T12:33:53.4807264Z Creating stderr named pipe at /podr/container/pipe/2acc13650e76_prestopa-webapp-2058-0235/stderr_80a55e072f7b46d2b7156270b68d1fe7.
+2026-01-17T12:33:53.4896127Z Successfully created stderr named pipe at: /podr/container/pipe/2acc13650e76_prestopa-webapp-2058-0235/stderr_80a55e072f7b46d2b7156270b68d1fe7.
+2026-01-17T12:33:53.4906390Z Opening named pipe /podr/container/pipe/2acc13650e76_prestopa-webapp-2058-0235/stderr_80a55e072f7b46d2b7156270b68d1fe7 for reading in non-blocking mode.
+2026-01-17T12:33:53.4909332Z Successfully opened named pipe: /podr/container/pipe/2acc13650e76_prestopa-webapp-2058-0235/stderr_80a55e072f7b46d2b7156270b68d1fe7.
+2026-01-17T12:33:53.4910258Z Successfully removed non-blocking flag from /podr/container/pipe/2acc13650e76_prestopa-webapp-2058-0235/stderr_80a55e072f7b46d2b7156270b68d1fe7.
+2026-01-17T12:33:53.5207675Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T12:33:54.0166779Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T12:33:54.0180752Z Setting value of PORT variable to 5000
+2026-01-17T12:33:54.0315866Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v1 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v1
+2026-01-17T12:33:57.4037681Z Starting container: 2acc13650e76_prestopa-webapp-2058-0235.
+2026-01-17T12:33:57.5609345Z Starting watchers and probes.
+2026-01-17T12:33:57.5866472Z Starting metrics collection.
+2026-01-17T12:33:57.5886213Z Container is running.
+2026-01-17T12:33:57.7455433Z Container start method finished after 62057 ms.
+2026-01-17T12:33:58.1701054Z Container has finished running with exit code: 1.
+2026-01-17T12:33:58.1885950Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T12:33:58.2281952Z Stop and delete container. Retry count = 0
+2026-01-17T12:33:58.2287794Z Stopping container: 2acc13650e76_prestopa-webapp-2058-0235.
+2026-01-17T12:33:58.9597196Z Deleting container: 2acc13650e76_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T12:33:59.2115082Z Container spec TerminationMessagePolicy  path 
+2026-01-17T12:33:59.2137790Z Container is terminated. Total time elapsed: 1000 ms.
+2026-01-17T12:33:59.2219196Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T12:33:59.3037035Z Site startup probe failed after 1.3803346 seconds.
+2026-01-17T12:33:59.4947143Z Failed to start site. Revert by stopping site.
+2026-01-17T12:33:59.5252494Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T12:39:14.4877420Z Container start method called.
+2026-01-17T12:39:14.4884101Z Establishing network.
+2026-01-17T12:39:14.4885671Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v2.
+2026-01-17T12:40:06.9101066Z Image prestopa2058acr.azurecr.io/rt-voice:v2 is pulled from registry prestopa2058acr.azurecr.io
+2026-01-17T12:40:06.9715392Z Container is starting.
+2026-01-17T12:40:06.9905358Z Establishing user namespace if not established already.
+2026-01-17T12:40:06.9914002Z Establishing network if not established already.
+2026-01-17T12:40:06.9920371Z Mounting volumes.
+2026-01-17T12:40:07.0031168Z Nested mountpoint volatile/logs
+2026-01-17T12:40:07.0204594Z Nested mountpoint 
+2026-01-17T12:40:07.1937669Z Creating container.
+2026-01-17T12:40:07.1944287Z Creating pipes for streaming container io.
+2026-01-17T12:40:07.1945223Z Creating stdout named pipe at /podr/container/pipe/61c7d7aa7fc6_prestopa-webapp-2058-0235/stdout_28fb4afca26a422fa6811e1866429129.
+2026-01-17T12:40:07.2131203Z Successfully created stdout named pipe at: /podr/container/pipe/61c7d7aa7fc6_prestopa-webapp-2058-0235/stdout_28fb4afca26a422fa6811e1866429129.
+2026-01-17T12:40:07.2137608Z Opening named pipe /podr/container/pipe/61c7d7aa7fc6_prestopa-webapp-2058-0235/stdout_28fb4afca26a422fa6811e1866429129 for reading in non-blocking mode.
+2026-01-17T12:40:07.2151314Z Successfully opened named pipe: /podr/container/pipe/61c7d7aa7fc6_prestopa-webapp-2058-0235/stdout_28fb4afca26a422fa6811e1866429129.
+2026-01-17T12:40:07.2222803Z Successfully removed non-blocking flag from /podr/container/pipe/61c7d7aa7fc6_prestopa-webapp-2058-0235/stdout_28fb4afca26a422fa6811e1866429129.
+2026-01-17T12:40:07.2223876Z Creating stderr named pipe at /podr/container/pipe/61c7d7aa7fc6_prestopa-webapp-2058-0235/stderr_af105dbab5034571b4f6e989024d3f41.
+2026-01-17T12:40:07.2225220Z Successfully created stderr named pipe at: /podr/container/pipe/61c7d7aa7fc6_prestopa-webapp-2058-0235/stderr_af105dbab5034571b4f6e989024d3f41.
+2026-01-17T12:40:07.2226134Z Opening named pipe /podr/container/pipe/61c7d7aa7fc6_prestopa-webapp-2058-0235/stderr_af105dbab5034571b4f6e989024d3f41 for reading in non-blocking mode.
+2026-01-17T12:40:07.2227060Z Successfully opened named pipe: /podr/container/pipe/61c7d7aa7fc6_prestopa-webapp-2058-0235/stderr_af105dbab5034571b4f6e989024d3f41.
+2026-01-17T12:40:07.2227765Z Successfully removed non-blocking flag from /podr/container/pipe/61c7d7aa7fc6_prestopa-webapp-2058-0235/stderr_af105dbab5034571b4f6e989024d3f41.
+2026-01-17T12:40:07.2228643Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T12:40:07.4856883Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T12:40:07.4869029Z Setting value of PORT variable to 5000
+2026-01-17T12:40:07.4945780Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v2 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v2
+2026-01-17T12:40:08.1908240Z Starting container: 61c7d7aa7fc6_prestopa-webapp-2058-0235.
+2026-01-17T12:40:08.2932462Z Starting watchers and probes.
+2026-01-17T12:40:08.2945271Z Starting metrics collection.
+2026-01-17T12:40:08.2954499Z Container is running.
+2026-01-17T12:40:09.4109728Z Container start method finished after 54922 ms.
+2026-01-17T12:40:15.5131149Z Site startup probe succeeded after 6.0836455 seconds.
+2026-01-17T12:40:15.6986456Z Site started.
+2026-01-17T12:48:09.8185537Z Failed to start site. Revert by stopping site.
+2026-01-17T12:48:09.9784931Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T12:48:30.8334055Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T12:48:30.9069107Z Stop and delete container. Retry count = 0
+2026-01-17T12:48:30.9076720Z Stopping container: 61c7d7aa7fc6_prestopa-webapp-2058-0235.
+2026-01-17T12:48:36.4567129Z Deleting container: 61c7d7aa7fc6_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T12:48:37.1447283Z Container spec TerminationMessagePolicy  path 
+2026-01-17T12:48:37.1468244Z Container is terminated. Total time elapsed: 6310 ms.
+2026-01-17T12:48:37.1858138Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T12:48:59.0849659Z Container start method called.
+2026-01-17T12:48:59.0854016Z Establishing network.
+2026-01-17T12:48:59.0863006Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v3.
+2026-01-17T12:49:51.3669426Z Image prestopa2058acr.azurecr.io/rt-voice:v3 is pulled from registry prestopa2058acr.azurecr.io
+2026-01-17T12:49:51.3759752Z Container is starting.
+2026-01-17T12:49:51.3957293Z Establishing user namespace if not established already.
+2026-01-17T12:49:51.3967532Z Establishing network if not established already.
+2026-01-17T12:49:51.4045971Z Mounting volumes.
+2026-01-17T12:49:51.5150800Z Nested mountpoint volatile/logs
+2026-01-17T12:49:52.0318660Z Nested mountpoint 
+2026-01-17T12:49:52.1118747Z Creating container.
+2026-01-17T12:49:52.1218015Z Creating pipes for streaming container io.
+2026-01-17T12:49:52.1303045Z Creating stdout named pipe at /podr/container/pipe/1e37ae930983_prestopa-webapp-2058-0235/stdout_59c6e36df95449d6981c95fa55053a16.
+2026-01-17T12:49:52.1503855Z Successfully created stdout named pipe at: /podr/container/pipe/1e37ae930983_prestopa-webapp-2058-0235/stdout_59c6e36df95449d6981c95fa55053a16.
+2026-01-17T12:49:52.1507636Z Opening named pipe /podr/container/pipe/1e37ae930983_prestopa-webapp-2058-0235/stdout_59c6e36df95449d6981c95fa55053a16 for reading in non-blocking mode.
+2026-01-17T12:49:52.1514579Z Successfully opened named pipe: /podr/container/pipe/1e37ae930983_prestopa-webapp-2058-0235/stdout_59c6e36df95449d6981c95fa55053a16.
+2026-01-17T12:49:52.1521200Z Successfully removed non-blocking flag from /podr/container/pipe/1e37ae930983_prestopa-webapp-2058-0235/stdout_59c6e36df95449d6981c95fa55053a16.
+2026-01-17T12:49:52.1603752Z Creating stderr named pipe at /podr/container/pipe/1e37ae930983_prestopa-webapp-2058-0235/stderr_c8387d20d5eb4735b96c9a1e3e9188d2.
+2026-01-17T12:49:52.1615072Z Successfully created stderr named pipe at: /podr/container/pipe/1e37ae930983_prestopa-webapp-2058-0235/stderr_c8387d20d5eb4735b96c9a1e3e9188d2.
+2026-01-17T12:49:52.1624154Z Opening named pipe /podr/container/pipe/1e37ae930983_prestopa-webapp-2058-0235/stderr_c8387d20d5eb4735b96c9a1e3e9188d2 for reading in non-blocking mode.
+2026-01-17T12:49:52.1704024Z Successfully opened named pipe: /podr/container/pipe/1e37ae930983_prestopa-webapp-2058-0235/stderr_c8387d20d5eb4735b96c9a1e3e9188d2.
+2026-01-17T12:49:52.1704971Z Successfully removed non-blocking flag from /podr/container/pipe/1e37ae930983_prestopa-webapp-2058-0235/stderr_c8387d20d5eb4735b96c9a1e3e9188d2.
+2026-01-17T12:49:52.1706402Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T12:49:52.4536417Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T12:49:52.4547535Z Setting value of PORT variable to 5000
+2026-01-17T12:49:52.4627724Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v3 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v3
+2026-01-17T12:49:53.3671657Z Starting container: 1e37ae930983_prestopa-webapp-2058-0235.
+2026-01-17T12:49:53.5023946Z Starting watchers and probes.
+2026-01-17T12:49:53.5098028Z Starting metrics collection.
+2026-01-17T12:49:53.5105043Z Container is running.
+2026-01-17T12:49:53.5767993Z Container start method finished after 54491 ms.
+2026-01-17T12:50:00.9363003Z Site startup probe succeeded after 7.194247 seconds.
+2026-01-17T12:50:01.1298093Z Site started.
+2026-01-17T13:06:14.6217902Z Container start method called.
+2026-01-17T13:06:14.6253447Z Establishing network.
+2026-01-17T13:06:14.6266504Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v4.
+2026-01-17T13:06:27.1032537Z Container pull image interrupted. Revert by terminate.
+2026-01-17T13:06:27.1076751Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T13:06:27.1102625Z Container spec TerminationMessagePolicy  path 
+2026-01-17T13:06:27.1171100Z Container is terminated. Total time elapsed: 7 ms.
+2026-01-17T13:06:27.1182874Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T13:06:27.2091300Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T13:06:48.0692396Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T13:06:48.0913239Z Stop and delete container. Retry count = 0
+2026-01-17T13:06:48.0919288Z Stopping container: 1e37ae930983_prestopa-webapp-2058-0235.
+2026-01-17T13:06:51.3159191Z Deleting container: 1e37ae930983_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T13:06:51.6907160Z Container spec TerminationMessagePolicy  path 
+2026-01-17T13:06:51.7087091Z Container is terminated. Total time elapsed: 3621 ms.
+2026-01-17T13:06:51.7192440Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T13:07:15.3721609Z Container start method called.
+2026-01-17T13:07:15.3724022Z Establishing network.
+2026-01-17T13:07:15.3726309Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v4.
+2026-01-17T13:08:18.8383301Z Image prestopa2058acr.azurecr.io/rt-voice:v4 is pulled from registry prestopa2058acr.azurecr.io
+2026-01-17T13:08:18.8786496Z Container is starting.
+2026-01-17T13:08:18.8809685Z Establishing user namespace if not established already.
+2026-01-17T13:08:18.8874419Z Establishing network if not established already.
+2026-01-17T13:08:18.8883119Z Mounting volumes.
+2026-01-17T13:08:18.9130739Z Nested mountpoint volatile/logs
+2026-01-17T13:08:18.9613500Z Nested mountpoint 
+2026-01-17T13:08:19.1606189Z Creating container.
+2026-01-17T13:08:19.1613493Z Creating pipes for streaming container io.
+2026-01-17T13:08:19.1620268Z Creating stdout named pipe at /podr/container/pipe/6159cbb4eb5d_prestopa-webapp-2058-0235/stdout_af40ed0702ac495e920618a3feb75c42.
+2026-01-17T13:08:19.1727601Z Successfully created stdout named pipe at: /podr/container/pipe/6159cbb4eb5d_prestopa-webapp-2058-0235/stdout_af40ed0702ac495e920618a3feb75c42.
+2026-01-17T13:08:19.1736268Z Opening named pipe /podr/container/pipe/6159cbb4eb5d_prestopa-webapp-2058-0235/stdout_af40ed0702ac495e920618a3feb75c42 for reading in non-blocking mode.
+2026-01-17T13:08:19.1811488Z Successfully opened named pipe: /podr/container/pipe/6159cbb4eb5d_prestopa-webapp-2058-0235/stdout_af40ed0702ac495e920618a3feb75c42.
+2026-01-17T13:08:19.1821241Z Successfully removed non-blocking flag from /podr/container/pipe/6159cbb4eb5d_prestopa-webapp-2058-0235/stdout_af40ed0702ac495e920618a3feb75c42.
+2026-01-17T13:08:19.1823208Z Creating stderr named pipe at /podr/container/pipe/6159cbb4eb5d_prestopa-webapp-2058-0235/stderr_d58860748aa4400a85f924ce5ad273c5.
+2026-01-17T13:08:19.1825243Z Successfully created stderr named pipe at: /podr/container/pipe/6159cbb4eb5d_prestopa-webapp-2058-0235/stderr_d58860748aa4400a85f924ce5ad273c5.
+2026-01-17T13:08:19.1826365Z Opening named pipe /podr/container/pipe/6159cbb4eb5d_prestopa-webapp-2058-0235/stderr_d58860748aa4400a85f924ce5ad273c5 for reading in non-blocking mode.
+2026-01-17T13:08:19.1828873Z Successfully opened named pipe: /podr/container/pipe/6159cbb4eb5d_prestopa-webapp-2058-0235/stderr_d58860748aa4400a85f924ce5ad273c5.
+2026-01-17T13:08:19.1829998Z Successfully removed non-blocking flag from /podr/container/pipe/6159cbb4eb5d_prestopa-webapp-2058-0235/stderr_d58860748aa4400a85f924ce5ad273c5.
+2026-01-17T13:08:19.2014546Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T13:08:19.8363527Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T13:08:19.8626252Z Setting value of PORT variable to 5000
+2026-01-17T13:08:19.8641385Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v4 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v4
+2026-01-17T13:08:21.0191998Z Starting container: 6159cbb4eb5d_prestopa-webapp-2058-0235.
+2026-01-17T13:08:21.1533704Z Starting watchers and probes.
+2026-01-17T13:08:21.1630910Z Starting metrics collection.
+2026-01-17T13:08:21.1654439Z Container is running.
+2026-01-17T13:08:22.3413693Z Container start method finished after 66961 ms.
+2026-01-17T13:08:29.2083665Z Site startup probe succeeded after 6.7832444 seconds.
+2026-01-17T13:08:29.5319622Z Site started.
+2026-01-17T13:22:27.9715928Z Container start method called.
+2026-01-17T13:22:28.0251366Z Establishing network.
+2026-01-17T13:22:28.0630572Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v4.
+2026-01-17T13:22:29.4019435Z Container is starting.
+2026-01-17T13:22:29.4115361Z Establishing user namespace if not established already.
+2026-01-17T13:22:29.4213044Z Establishing network if not established already.
+2026-01-17T13:22:29.4228772Z Mounting volumes.
+2026-01-17T13:22:29.4333129Z Nested mountpoint volatile/logs
+2026-01-17T13:22:29.5637203Z Nested mountpoint 
+2026-01-17T13:22:29.6237669Z Creating container.
+2026-01-17T13:22:29.6437744Z Creating pipes for streaming container io.
+2026-01-17T13:22:29.6442916Z Creating stdout named pipe at /podr/container/pipe/f0e354ca0967_prestopa-webapp-2058-0235/stdout_743e6b90e8c5479ca0f56b67566c7995.
+2026-01-17T13:22:29.6517680Z Successfully created stdout named pipe at: /podr/container/pipe/f0e354ca0967_prestopa-webapp-2058-0235/stdout_743e6b90e8c5479ca0f56b67566c7995.
+2026-01-17T13:22:29.6518516Z Opening named pipe /podr/container/pipe/f0e354ca0967_prestopa-webapp-2058-0235/stdout_743e6b90e8c5479ca0f56b67566c7995 for reading in non-blocking mode.
+2026-01-17T13:22:29.6522846Z Successfully opened named pipe: /podr/container/pipe/f0e354ca0967_prestopa-webapp-2058-0235/stdout_743e6b90e8c5479ca0f56b67566c7995.
+2026-01-17T13:22:29.6523874Z Successfully removed non-blocking flag from /podr/container/pipe/f0e354ca0967_prestopa-webapp-2058-0235/stdout_743e6b90e8c5479ca0f56b67566c7995.
+2026-01-17T13:22:29.6524677Z Creating stderr named pipe at /podr/container/pipe/f0e354ca0967_prestopa-webapp-2058-0235/stderr_5e7c668c88674ffab481d4f9df0c7867.
+2026-01-17T13:22:29.6525879Z Successfully created stderr named pipe at: /podr/container/pipe/f0e354ca0967_prestopa-webapp-2058-0235/stderr_5e7c668c88674ffab481d4f9df0c7867.
+2026-01-17T13:22:29.6526543Z Opening named pipe /podr/container/pipe/f0e354ca0967_prestopa-webapp-2058-0235/stderr_5e7c668c88674ffab481d4f9df0c7867 for reading in non-blocking mode.
+2026-01-17T13:22:29.6527370Z Successfully opened named pipe: /podr/container/pipe/f0e354ca0967_prestopa-webapp-2058-0235/stderr_5e7c668c88674ffab481d4f9df0c7867.
+2026-01-17T13:22:29.6528085Z Successfully removed non-blocking flag from /podr/container/pipe/f0e354ca0967_prestopa-webapp-2058-0235/stderr_5e7c668c88674ffab481d4f9df0c7867.
+2026-01-17T13:22:29.6536746Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T13:22:29.7705789Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T13:22:29.7716084Z Setting value of PORT variable to 5000
+2026-01-17T13:22:29.7723407Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v4 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v4
+2026-01-17T13:22:30.5951005Z Starting container: f0e354ca0967_prestopa-webapp-2058-0235.
+2026-01-17T13:22:30.7156822Z Starting watchers and probes.
+2026-01-17T13:22:30.7224787Z Starting metrics collection.
+2026-01-17T13:22:30.7321879Z Container is running.
+2026-01-17T13:22:31.0217145Z Container start method finished after 2996 ms.
+2026-01-17T13:22:34.9126256Z Site startup probe failed after 3.7400251 seconds.
+2026-01-17T13:22:35.4534882Z Failed to start site. Revert by stopping site.
+2026-01-17T13:22:35.4945391Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T13:22:35.6135030Z Stop and delete container. Retry count = 0
+2026-01-17T13:22:35.6148641Z Stopping container: f0e354ca0967_prestopa-webapp-2058-0235.
+2026-01-17T13:22:40.7678951Z Deleting container: f0e354ca0967_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T13:22:41.0193182Z Container spec TerminationMessagePolicy  path 
+2026-01-17T13:22:41.0206087Z Container is terminated. Total time elapsed: 5506 ms.
+2026-01-17T13:22:41.0207172Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T13:22:41.0785770Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T13:23:01.9653947Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T13:23:01.9974292Z Stop and delete container. Retry count = 0
+2026-01-17T13:23:01.9977760Z Stopping container: 6159cbb4eb5d_prestopa-webapp-2058-0235.
+2026-01-17T13:23:03.5601198Z Deleting container: 6159cbb4eb5d_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T13:23:03.7810756Z Container spec TerminationMessagePolicy  path 
+2026-01-17T13:23:03.7819131Z Container is terminated. Total time elapsed: 1815 ms.
+2026-01-17T13:23:03.7823560Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T13:23:26.3640111Z Container start method called.
+2026-01-17T13:23:26.3740028Z Establishing network.
+2026-01-17T13:23:26.3741546Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v5.
+2026-01-17T13:24:26.3019022Z Image prestopa2058acr.azurecr.io/rt-voice:v5 is pulled from registry prestopa2058acr.azurecr.io
+2026-01-17T13:24:26.3314350Z Container is starting.
+2026-01-17T13:24:26.3417664Z Establishing user namespace if not established already.
+2026-01-17T13:24:26.3505429Z Establishing network if not established already.
+2026-01-17T13:24:26.3517182Z Mounting volumes.
+2026-01-17T13:24:26.3524748Z Nested mountpoint volatile/logs
+2026-01-17T13:24:26.3825825Z Nested mountpoint 
+2026-01-17T13:24:26.6121680Z Creating container.
+2026-01-17T13:24:26.6131773Z Creating pipes for streaming container io.
+2026-01-17T13:24:26.6139252Z Creating stdout named pipe at /podr/container/pipe/56e901fd9421_prestopa-webapp-2058-0235/stdout_2a96b9eb7cd24693ae7b2e13e6e48f32.
+2026-01-17T13:24:26.6228516Z Successfully created stdout named pipe at: /podr/container/pipe/56e901fd9421_prestopa-webapp-2058-0235/stdout_2a96b9eb7cd24693ae7b2e13e6e48f32.
+2026-01-17T13:24:26.6236995Z Opening named pipe /podr/container/pipe/56e901fd9421_prestopa-webapp-2058-0235/stdout_2a96b9eb7cd24693ae7b2e13e6e48f32 for reading in non-blocking mode.
+2026-01-17T13:24:26.6246381Z Successfully opened named pipe: /podr/container/pipe/56e901fd9421_prestopa-webapp-2058-0235/stdout_2a96b9eb7cd24693ae7b2e13e6e48f32.
+2026-01-17T13:24:26.6323090Z Successfully removed non-blocking flag from /podr/container/pipe/56e901fd9421_prestopa-webapp-2058-0235/stdout_2a96b9eb7cd24693ae7b2e13e6e48f32.
+2026-01-17T13:24:26.6324171Z Creating stderr named pipe at /podr/container/pipe/56e901fd9421_prestopa-webapp-2058-0235/stderr_2fceb2cfb02143fabf4078d640bf88f1.
+2026-01-17T13:24:26.6333405Z Successfully created stderr named pipe at: /podr/container/pipe/56e901fd9421_prestopa-webapp-2058-0235/stderr_2fceb2cfb02143fabf4078d640bf88f1.
+2026-01-17T13:24:26.6334403Z Opening named pipe /podr/container/pipe/56e901fd9421_prestopa-webapp-2058-0235/stderr_2fceb2cfb02143fabf4078d640bf88f1 for reading in non-blocking mode.
+2026-01-17T13:24:26.6335457Z Successfully opened named pipe: /podr/container/pipe/56e901fd9421_prestopa-webapp-2058-0235/stderr_2fceb2cfb02143fabf4078d640bf88f1.
+2026-01-17T13:24:26.6336198Z Successfully removed non-blocking flag from /podr/container/pipe/56e901fd9421_prestopa-webapp-2058-0235/stderr_2fceb2cfb02143fabf4078d640bf88f1.
+2026-01-17T13:24:26.6423445Z Overriding PORT environment variable with port exposed by container image.
+2026-01-17T13:24:26.7425596Z Container image exposes ports: ContainerExposedPort { Port = 5000, Protocol = TCP }. Sanitized list of ports is: 5000. Resolved main port to 5000.
+2026-01-17T13:24:26.7434134Z Setting value of PORT variable to 5000
+2026-01-17T13:24:26.7441332Z Creating container with image: prestopa2058acr.azurecr.io/rt-voice:v5 from registry: prestopa2058acr.azurecr.io and fully qualified image name: prestopa2058acr.azurecr.io/rt-voice:v5
+2026-01-17T13:24:27.2763635Z Starting container: 56e901fd9421_prestopa-webapp-2058-0235.
+2026-01-17T13:24:27.3887701Z Starting watchers and probes.
+2026-01-17T13:24:27.4170890Z Starting metrics collection.
+2026-01-17T13:24:27.4276543Z Container is running.
+2026-01-17T13:24:27.4975085Z Container start method finished after 61132 ms.
+2026-01-17T13:24:33.6015956Z Site startup probe succeeded after 6.0525175 seconds.
+2026-01-17T13:24:35.7277106Z Site started.
+2026-01-17T13:59:16.3964348Z Container start method called.
+2026-01-17T13:59:16.3994295Z Establishing network.
+2026-01-17T13:59:16.4010727Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v5.
+2026-01-17T13:59:24.4754542Z Container pull image failed with reason: ImagePullFailure. Revert by terminate.
+2026-01-17T13:59:24.4840907Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T13:59:24.4936689Z Container spec TerminationMessagePolicy  path 
+2026-01-17T13:59:24.4952108Z Container is terminated. Total time elapsed: 10 ms.
+2026-01-17T13:59:24.4955920Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T13:59:24.6156695Z Failed to start site. Revert by stopping site.
+2026-01-17T13:59:24.6768819Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T13:59:46.0638752Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T13:59:46.1075658Z Stop and delete container. Retry count = 0
+2026-01-17T13:59:46.1123820Z Stopping container: 56e901fd9421_prestopa-webapp-2058-0235.
+2026-01-17T13:59:49.5905037Z Deleting container: 56e901fd9421_prestopa-webapp-2058-0235. Retry count = 0
+2026-01-17T13:59:49.9812942Z Container spec TerminationMessagePolicy  path 
+2026-01-17T13:59:49.9899100Z Container is terminated. Total time elapsed: 3924 ms.
+2026-01-17T13:59:49.9914794Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T14:01:57.9566321Z Container start method called.
+2026-01-17T14:01:57.9737125Z Establishing network.
+2026-01-17T14:01:57.9738341Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v7.
+2026-01-17T14:02:05.7197943Z Container pull image failed with reason: ImagePullFailure. Revert by terminate.
+2026-01-17T14:02:05.7211877Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T14:02:05.7276166Z Container spec TerminationMessagePolicy  path 
+2026-01-17T14:02:05.7377172Z Container is terminated. Total time elapsed: 15 ms.
+2026-01-17T14:02:05.7466298Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T14:02:05.8983182Z Failed to start site. Revert by stopping site.
+2026-01-17T14:02:05.9120878Z Site: prestopa-webapp-2058-0235 stopped.
+2026-01-17T14:03:40.2140511Z Container start method called.
+2026-01-17T14:03:40.2161549Z Establishing network.
+2026-01-17T14:03:40.2170352Z Pulling image: prestopa2058acr.azurecr.io/rt-voice:v7.
+2026-01-17T14:03:47.0213092Z Container pull image failed with reason: ImagePullFailure. Revert by terminate.
+2026-01-17T14:03:47.0221833Z Container is terminating. Grace period: 5 seconds.
+2026-01-17T14:03:47.0305010Z Container spec TerminationMessagePolicy  path 
+2026-01-17T14:03:47.0501436Z Container is terminated. Total time elapsed: 27 ms.
+2026-01-17T14:03:47.0515663Z Site container: prestopa-webapp-2058-0235 terminated during site startup.
+2026-01-17T14:03:47.1058346Z Failed to start site. Revert by stopping site.
+2026-01-17T14:03:47.1198683Z Site: prestopa-webapp-2058-0235 stopped.

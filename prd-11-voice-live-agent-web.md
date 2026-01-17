@@ -528,9 +528,62 @@ Should application support message history persistence?
 ## Document Version History
 
 | Version | Date | Author | Changes |
-
 |---|---|---|---|
-
 | 1.0 | 2026-01-16 | GitHub Copilot | Initial PRD created from lab exercise |
+| 1.1 | 2026-01-17 | GitHub Copilot | Added deployment caveats and lessons learned from production deployment |
 
-\n
+## 1.17 Known Issues and Deployment Caveats
+
+### BLOCKING ISSUES (Must Fix)
+
+#### Issue: Jinja2 Template Variable Undefined
+- **Severity**: CRITICAL
+- **Trigger**: Any HTML template using `{{ variable_name }}` without corresponding context passed to `render_template()`
+- **Error Message**: `jinja2.exceptions.UndefinedError: 'variable_name' is undefined`
+- **Root Cause**: Flask templates expect variables to be passed in the context dictionary
+- **Solution**: Pass all template variables explicitly:
+  ```python
+  return render_template("template.html", env={'VOICE_LIVE_MODEL': os.environ.get('VOICE_LIVE_MODEL')})
+  ```
+- **Prevention**: Test templates locally with `flask run` before container deployment
+
+#### Issue: Container Exit Code 3 (Silent Crash)
+- **Severity**: CRITICAL  
+- **Trigger**: Importing `azure.ai.voicelive` at module level when SDK has unmet environmental dependencies
+- **Symptoms**: Container starts, pulls image successfully, initializes, then exits within 3-4 seconds with no error logs
+- **Root Cause**: Beta SDK import fails before `logging.basicConfig()` is executed, causing silent exception
+- **Solution**: Defer beta SDK imports to route handlers (lazy loading)
+  ```python
+  # Move imports inside route handlers, not at module level
+  @app.route("/start", methods=["POST"])
+  def start():
+      from azure.ai.voicelive import VoiceLiveConnector  # Import here
+      ...
+  ```
+- **Prevention**: Test app import locally: `python -c "import src.flask_app"` should complete without errors
+
+#### Issue: Missing Environment Variable Context
+- **Severity**: HIGH
+- **Trigger**: Required environment variables not set in App Service settings before container restart
+- **Symptoms**: `/ready` returns 503, `/status` shows missing variables
+- **Root Cause**: App Service restart before environment variables are configured
+- **Solution**: Set all environment variables BEFORE restarting the web app
+  ```powershell
+  az webapp config appsettings set --name app-name --resource-group rg \
+    --settings AZURE_VOICE_LIVE_ENDPOINT=https://... VOICE_LIVE_MODEL=gpt-4o
+  az webapp restart --name app-name --resource-group rg
+  ```
+- **Prevention**: Use deployment script to set variables and restart atomically
+
+### INFORMATIONAL ISSUES (Not Blocking)
+
+#### Issue: Azure CLI Charmap Encoding Error on Windows
+- **Severity**: LOW (Display issue only)
+- **Trigger**: Running `az acr build` on Windows PowerShell
+- **Error**: `UnicodeEncodeError: 'charmap' codec can't encode characters`
+- **Root Cause**: Windows console encoding (cp1252) cannot display build output
+- **Impact**: Build usually succeeds despite error message
+- **Verification**: Check build status: `az acr repository show-tags --name registry --repository image`
+- **Prevention**: Ignore console error; always verify with show-tags command
+
+---
