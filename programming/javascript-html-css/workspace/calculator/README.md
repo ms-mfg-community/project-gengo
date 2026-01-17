@@ -36,7 +36,9 @@ Ensure you have Node.js installed on your system:
 ```powershell
 # Windows 11 - Install Node.js via winget
 winget install OpenJS.NodeJS
-```
+
+```text
+text
 
 ### Installation
 
@@ -46,19 +48,23 @@ winget install OpenJS.NodeJS
    cd calculator/
    ```
 
-2. **Install dependencies**
+1. **Install dependencies**
 
-   ```bash
+   ```
+
+bash
    npm install
    ```
 
-3. **Build the TypeScript code**
+1. **Build the TypeScript code**
 
-   ```bash
+   ```
+
+bash
    npm run build
    ```
 
-4. **Open the calculator**
+1. **Open the calculator**
    - Open `index.html` in your web browser, or
    - Use Visual Studio Code Live Server extension
 
@@ -66,7 +72,8 @@ winget install OpenJS.NodeJS
 
 Execute the comprehensive test suite:
 
-```bash
+```text
+bash
 # Run all tests
 npm test
 
@@ -75,19 +82,23 @@ npm run test:watch
 
 # Run tests with coverage report
 npm test -- --coverage
-```
+
+```text
 
 ### Development Mode
 
 For development with automatic TypeScript compilation:
 
-```bash
+```text
+bash
 npm run dev
-```
+
+```text
 
 ## Project Structure
 
-```
+```text
+text
 calculator/
 ├── index.html              # Main application interface
 ├── calculator.css          # Styling and visual presentation
@@ -101,7 +112,8 @@ calculator/
 │   └── calculator.test.ts  # Jest test suite
 ├── dist/                   # Compiled JavaScript output
 └── README.md              # This file
-```
+
+```text
 
 ## Usage Guide
 
@@ -157,7 +169,8 @@ The calculator includes a comprehensive test suite covering:
 
 ### Running Specific Tests
 
-```bash
+```text
+bash
 # Run tests with verbose output
 npm test -- --verbose
 
@@ -166,13 +179,15 @@ npm test calculator.test.ts
 
 # Run tests matching pattern
 npm test -- --testNamePattern="arithmetic"
-```
+
+```text
 
 ## Multi-language Code Documentation
 
 The calculator features comprehensive multi-language documentation:
 
-```typescript
+```text
+typescript
 /**
  * English: Function to add two numbers
  * German: Funktion zum Addieren zweier Zahlen
@@ -182,7 +197,8 @@ The calculator features comprehensive multi-language documentation:
 function add(a: number, b: number): number {
   return a + b;
 }
-```
+
+```text
 
 ## Development Environment
 
@@ -193,13 +209,15 @@ function add(a: number, b: number): number {
    - Jest Runner
    - Live Server
 
-2. **Open project in VS Code**:
+1. **Open project in VS Code**:
 
-   ```bash
+   ```
+
+bash
    code .
    ```
 
-3. **Run and debug**:
+1. **Run and debug**:
    - Use `Ctrl+Shift+P` → "TypeScript: Build"
    - Open `index.html` with Live Server
    - Use integrated terminal for npm commands
@@ -208,7 +226,8 @@ function add(a: number, b: number): number {
 
 The project uses strict TypeScript configuration for maximum type safety:
 
-```json
+```text
+json
 {
   "compilerOptions": {
     "strict": true,
@@ -216,7 +235,8 @@ The project uses strict TypeScript configuration for maximum type safety:
     "module": "commonjs"
   }
 }
-```
+
+```text
 
 ## Browser Compatibility
 
@@ -251,48 +271,57 @@ While this project uses Jest, other testing frameworks were evaluated:
 
 **TypeScript compilation errors**:
 
-```bash
+```text
+bash
 # Clean and rebuild
 rm -rf dist/
 npm run build
-```
+
+```text
 
 **Jest test failures**:
 
-```bash
+```text
+bash
 # Clear Jest cache
 npm test -- --clearCache
-```
+
+```text
 
 **Module not found errors**:
 
-```bash
+```text
+bash
 # Reinstall dependencies
 rm -rf node_modules/
 npm install
-```
+
+```text
 
 ### Package Management
 
 **Remove a package**:
 
-```bash
+```text
+bash
 npm uninstall {package_name}
-```
+
+```text
 
 **Update dependencies**:
 
-```bash
+```text
+bash
 npm update
-```
+```text
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make changes with appropriate multi-language documentation
-4. Ensure all tests pass (`npm test`)
-5. Submit a pull request
+1. Create a feature branch
+1. Make changes with appropriate multi-language documentation
+1. Ensure all tests pass (`npm test`)
+1. Submit a pull request
 
 ### Code Style Guidelines
 
@@ -349,5 +378,4 @@ Ein umfassender TypeScript-Rechner mit Tests und mehrsprachiger Unterstützung.
 テストと多言語サポートを備えた包括的なTypeScript電卓。
 
 ---
-
-**Built with ❤️ using TypeScript, Jest, and modern web technologies**
+# Built with ❤️ using TypeScript, Jest, and modern web technologies

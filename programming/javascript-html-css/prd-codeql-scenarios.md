@@ -51,9 +51,7 @@ While CodeQL provides comprehensive out-of-the-box security analysis with 200+ s
 ### Approach 1: Direct Custom Query Files (Simple Workshop Integration)
 
 **Use Case:** Single custom security query for specific vulnerability detection
-
-**Implementation Steps:**
-
+# Implementation Steps:
 1. **Create Custom Query File** (`custom-security.ql`)
 
 ```ql
@@ -77,17 +75,19 @@ where prop.getPropertyName() = "innerHTML"
   and assign.getLhs() = prop
   and exists(assign.getRhs())
 select assign, "Potential XSS: innerHTML assignment detected."
-```
 
-2. **PowerShell Script Integration (Enhanced v2.0)**
+```text
+text
+
+1. **PowerShell Script Integration (Enhanced v2.0)**
 
 ```powershell
 # NEW: Enhanced parameter support with three query approaches
 .\codeql-javascript.ps1 -useCustomQL -customQueryPath ".\custom-queries\custom-security.ql"
-```
 
-**Workshop Advantages:**
-
+```text
+text
+# Workshop Advantages:
 - Quick implementation for targeted security checks
 - Perfect for demonstrating specific vulnerability patterns
 - Easy to understand and modify during live workshops
@@ -95,9 +95,7 @@ select assign, "Potential XSS: innerHTML assignment detected."
 ### Approach 2: Comprehensive Custom Query Suites (.qls files)
 
 **Use Case:** Enterprise-scale organization combining standard and custom queries
-
-**Implementation Steps:**
-
+# Implementation Steps:
 1. **Create Comprehensive Suite File** (`workshop-security-suite.qls`)
 
 ```yaml
@@ -124,17 +122,19 @@ select assign, "Potential XSS: innerHTML assignment detected."
     id: js/unused-local-variable
 - exclude:
     id: js/useless-assignment-to-local
-```
 
-2. **Enhanced PowerShell Script Integration**
+```text
+text
+
+1. **Enhanced PowerShell Script Integration**
 
 ```powershell
 # NEW: Enhanced comprehensive query suite approach
 .\codeql-javascript.ps1 -useCustomQLS -customQuerySuitePath ".\custom-queries\workshop-security-suite.qls"
-```
 
-**Workshop Advantages:**
-
+```text
+text
+# Workshop Advantages:
 - Demonstrates enterprise-scale query organization
 - Shows comprehensive security coverage
 - Combines standard and custom queries effectively
@@ -143,9 +143,7 @@ select assign, "Potential XSS: innerHTML assignment detected."
 ### Approach 3: Selective Pattern-Based Query Suites (NEW)
 
 **Use Case:** Targeted analysis using pattern-matched custom queries for focused workshops
-
-**Implementation Steps:**
-
+# Implementation Steps:
 1. **Create Selective Suite File** (`workshop-selected-query-suites.qls`)
 
 ```yaml
@@ -173,17 +171,19 @@ select assign, "Potential XSS: innerHTML assignment detected."
   queries: Expressions/
 - from: codeql/javascript-queries
   queries: Declarations/
-```
 
-2. **NEW: Selective Query Suite Integration**
+```text
+text
+
+1. **NEW: Selective Query Suite Integration**
 
 ```powershell
 # NEW: Pattern-based selective query approach
 .\codeql-javascript.ps1 -useSelectiveQLS -selectiveQuerySuitePath ".\custom-queries\workshop-selected-query-suites.qls"
-```
 
-**Workshop Advantages:**
-
+```text
+text
+# Workshop Advantages:
 - Perfect for focused security training sessions
 - Demonstrates advanced query filtering with wildcards
 - Reduces noise while maintaining security focus
@@ -192,9 +192,7 @@ select assign, "Potential XSS: innerHTML assignment detected."
 ### Approach 4: Enhanced Parameterized Integration (Updated)
 
 **Use Case:** Flexible script allowing workshop participants to experiment with all query approaches
-
-**Implementation:**
-
+# Implementation:
 ```powershell
 param(
     [string]$sourcePath = "..\workspace\calculator",
@@ -231,10 +229,10 @@ if ($useCustomQL) {
     Write-Host "🔧 Using standard query suite" -ForegroundColor Cyan
     # Standard analysis fallback
 }
-```
 
-**Enhanced Workshop Usage Examples:**
-
+```text
+text
+# Enhanced Workshop Usage Examples:
 ```powershell
 # Scenario 1: Single targeted query (Basic)
 .\codeql-javascript.ps1 -useCustomQL
@@ -250,7 +248,9 @@ if ($useCustomQL) {
 
 # Scenario 5: Force new alerts with comprehensive suite
 .\codeql-javascript.ps1 -useCustomQLS -injectReDoSVulnerability -forceNewAlerts -uploadToGitHub
-```
+
+```text
+text
 
 ## Workshop Demonstration Scenarios
 
@@ -279,12 +279,12 @@ from CallExpr call
 where call.getCallee().(GlobalVarAccess).getName() = "eval"
   and call.getParent*() instanceof Function
 select call, "Unsafe eval() usage detected. Consider using safer alternatives like Function constructor with validation."
-```
+
+```text
+text
 
 **Expected Finding:** Will detect the `eval(display.innerText)` in `calculateResult()` function
-
-**Workshop Discussion Points:**
-
+# Workshop Discussion Points:
 - Why `eval()` is dangerous
 - Alternative approaches (math expression parsers)
 - Input validation strategies
@@ -313,7 +313,9 @@ where s.getValue().regexpMatch("(?i).*(api[_-]?key|token|secret|password|auth[_-
   and s.getValue().length() > 8
   and not s.getParent*() instanceof Comment
 select s, "Potential hardcoded credential: " + s.getValue()
-```
+
+```text
+text
 
 **Workshop Exercise:** Add intentional hardcoded values to calculator for detection
 
@@ -339,7 +341,9 @@ from CallExpr call
 where call.getCallee().(PropAccess).getPropertyName() = "log"
   and call.getCallee().(PropAccess).getBase().(GlobalVarAccess).getName() = "console"
 select call, "Console.log statement found - consider removing for production deployment."
-```
+
+```text
+text
 
 ### Scenario 4: DOM Manipulation Security
 
@@ -365,7 +369,9 @@ where member.getPropertyName() = "innerHTML"
   and call.getCallee() = member
   and not call.getArgument(0) instanceof StringLiteral
 select call, "Dynamic innerHTML assignment detected. Verify input sanitization."
-```
+
+```text
+text
 
 ## Workshop Exercise Structure
 
@@ -374,12 +380,10 @@ select call, "Dynamic innerHTML assignment detected. Verify input sanitization."
 **Objective:** Implement single custom query with enhanced PowerShell script
 
 1. Create `custom-security.ql` with XSS detection pattern
-2. Run analysis using: `.\codeql-javascript.ps1 -useCustomQL`
-3. Review SARIF results with improved parsing (no "Level: warning warning" duplication)
-4. Discuss findings and remediation approaches
-
-**Enhanced Features Demonstrated:**
-
+1. Run analysis using: `.\codeql-javascript.ps1 -useCustomQL`
+1. Review SARIF results with improved parsing (no "Level: warning warning" duplication)
+1. Discuss findings and remediation approaches
+# Enhanced Features Demonstrated:
 - Single query execution with proper error handling
 - Improved SARIF parsing and display
 - Clean query organization with `qlpack.yml` dependencies
@@ -389,12 +393,10 @@ select call, "Dynamic innerHTML assignment detected. Verify input sanitization."
 **Objective:** Build enterprise-scale query suite combining standard and custom queries
 
 1. Examine `workshop-security-suite.qls` configuration
-2. Run comprehensive analysis: `.\codeql-javascript.ps1 -useCustomQLS`
-3. Compare results with standard analysis
-4. Review query inclusion/exclusion patterns
-
-**Enhanced Features Demonstrated:**
-
+1. Run comprehensive analysis: `.\codeql-javascript.ps1 -useCustomQLS`
+1. Compare results with standard analysis
+1. Review query inclusion/exclusion patterns
+# Enhanced Features Demonstrated:
 - Enterprise query organization patterns
 - Comprehensive security coverage
 - Query filtering and exclusion capabilities
@@ -405,12 +407,10 @@ select call, "Dynamic innerHTML assignment detected. Verify input sanitization."
 **Objective:** Demonstrate advanced pattern-matching for targeted security analysis
 
 1. Examine `workshop-selected-query-suites.qls` with wildcard patterns
-2. Run selective analysis: `.\codeql-javascript.ps1 -useSelectiveQLS`
-3. Compare performance and results with comprehensive suite
-4. Modify patterns to include/exclude different query types
-
-**NEW Enhanced Features Demonstrated:**
-
+1. Run selective analysis: `.\codeql-javascript.ps1 -useSelectiveQLS`
+1. Compare performance and results with comprehensive suite
+1. Modify patterns to include/exclude different query types
+# NEW Enhanced Features Demonstrated:
 - Pattern-based query selection (`*security*.ql`, `*console*.ql`, `*eval*.ql`)
 - Focused workshop scenarios with reduced noise
 - Advanced query filtering for targeted training
@@ -421,12 +421,10 @@ select call, "Dynamic innerHTML assignment detected. Verify input sanitization."
 **Objective:** Configure advanced PowerShell script parameters and automation
 
 1. Test all three query approaches with parameter validation
-2. Configure vulnerability injection with `injectReDoSVulnerability`
-3. Upload results to GitHub with enhanced SARIF categories
-4. Review automation possibilities with `forceNewAlerts`
-
-**Enhanced Features Demonstrated:**
-
+1. Configure vulnerability injection with `injectReDoSVulnerability`
+1. Upload results to GitHub with enhanced SARIF categories
+1. Review automation possibilities with `forceNewAlerts`
+# Enhanced Features Demonstrated:
 - Multi-approach parameter validation
 - Advanced vulnerability injection patterns
 - Enhanced GitHub integration with proper error handling
@@ -437,13 +435,11 @@ select call, "Dynamic innerHTML assignment detected. Verify input sanitization."
 **Objective:** Create new security patterns and integrate with enhanced system
 
 1. Identify new security pattern in calculator application
-2. Write custom CodeQL query with proper metadata
-3. Test query using all three approaches (single, comprehensive, selective)
-4. Add to selective suite using pattern matching
-5. Validate with enhanced SARIF parsing
-
-**Enhanced Features Demonstrated:**
-
+1. Write custom CodeQL query with proper metadata
+1. Test query using all three approaches (single, comprehensive, selective)
+1. Add to selective suite using pattern matching
+1. Validate with enhanced SARIF parsing
+# Enhanced Features Demonstrated:
 - Professional query development workflow
 - Multi-approach testing and validation
 - Pattern-based integration
@@ -515,18 +511,18 @@ select call, "Dynamic innerHTML assignment detected. Verify input sanitization."
 ### Query Development Guidelines
 
 1. Start with simple patterns and gradually increase complexity
-2. Always include comprehensive metadata in query headers
-3. Use descriptive query IDs following organizational conventions
-4. Test queries against known positive and negative cases
-5. Document expected findings and remediation approaches
+1. Always include comprehensive metadata in query headers
+1. Use descriptive query IDs following organizational conventions
+1. Test queries against known positive and negative cases
+1. Document expected findings and remediation approaches
 
 ### Workshop Facilitation Tips
 
 1. Provide pre-configured development environment
-2. Have backup scenarios ready for different skill levels
-3. Encourage experimentation with query modifications
-4. Use live coding demonstrations for complex concepts
-5. Include real-world examples from participants' organizations
+1. Have backup scenarios ready for different skill levels
+1. Encourage experimentation with query modifications
+1. Use live coding demonstrations for complex concepts
+1. Include real-world examples from participants' organizations
 
 ## Additional Resources
 
@@ -554,30 +550,25 @@ document.getElementById("display").innerHTML = userInput;
 function advancedCalculate(expr) {
   return eval("Math." + expr);
 }
-```
+```text
+text
 
 ## Conclusion
 
 This enhanced PRD provides a comprehensive framework for conducting an advanced GHAS workshop focused on professional-grade custom CodeQL query development. The scenarios now progress from basic implementation through advanced enterprise patterns, including our NEW selective pattern-based approach that demonstrates cutting-edge query organization techniques.
 
 ### Key Enhancements Delivered
-
-**Enhanced PowerShell Integration (v2.0):**
-
+# Enhanced PowerShell Integration (v2.0):
 - Three distinct query approaches: `-useCustomQL`, `-useCustomQLS`, and `-useSelectiveQLS`
 - Improved SARIF parsing eliminating "Level: warning warning" duplication
 - Professional parameter validation preventing conflicting options
 - Enhanced error handling and fallback mechanisms
-
-**Advanced Query Organization:**
-
+# Advanced Query Organization:
 - Pattern-based selective queries using wildcards (`*security*.ql`, `*console*.ql`, `*eval*.ql`)
 - Comprehensive enterprise suite combining standard and custom queries
 - Proper dependency management with `qlpack.yml` configuration
 - Clean separation of concerns between different query approaches
-
-**Professional Workshop Structure:**
-
+# Professional Workshop Structure:
 - Five progressive exercises building from basic to advanced concepts
 - Enhanced technical validation checkpoints
 - Real-world integration scenarios with vulnerability injection
@@ -598,10 +589,10 @@ The calculator application continues to serve as an ideal teaching platform, con
 Workshop participants should:
 
 1. Practice all three implementation approaches
-2. Develop custom queries relevant to their organization's codebase
-3. Plan integration strategy for their existing CI/CD pipelines
-4. Establish governance processes for custom query management
-5. Share learnings with their security and development teams
+1. Develop custom queries relevant to their organization's codebase
+1. Plan integration strategy for their existing CI/CD pipelines
+1. Establish governance processes for custom query management
+1. Share learnings with their security and development teams
 
 ---
 

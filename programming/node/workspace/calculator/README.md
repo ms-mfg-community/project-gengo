@@ -20,11 +20,13 @@ A simple calculator application built using Vite, React, TypeScript, and Server-
 ### Installation
 
 1. Clone the repository
-2. Install dependencies:
+1. Install dependencies:
 
 ```bash
 npm install
-```
+
+```text
+text
 
 ### Development
 
@@ -32,7 +34,9 @@ To start the development server with HMR:
 
 ```bash
 npm run dev
-```
+
+```text
+text
 
 This will start the SSR server with hot module replacement at `http://localhost:3000`.
 
@@ -42,7 +46,9 @@ To build the application for production:
 
 ```bash
 npm run build
-```
+
+```text
+text
 
 This will create optimized client and server bundles in the `dist` directory.
 
@@ -52,13 +58,16 @@ To run the application in production mode:
 
 ```bash
 npm run start
-```
+
+```text
+text
 
 or
 
 ```bash
 npm run preview
-```
+```text
+text
 
 This will serve the application using the built files at `http://localhost:3000`.
 

@@ -10,7 +10,9 @@ This document provides a step-by-step guide to creating a catalog form UI with R
 
 ```bash
 Create a new React TypeScript project named "demo-catalog-ui" using Vite as the build tool. Set up ESLint for TypeScript and include React dependencies.
-```
+
+```text
+text
 
 - Install dependencies: React, React DOM, TypeScript, Vite, ESLint
 - Configure TypeScript for strict type checking
@@ -22,7 +24,9 @@ Create a new React TypeScript project named "demo-catalog-ui" using Vite as the 
 
 ```bash
 Create a basic React application structure with an App component that displays a header and some placeholder content.
-```
+
+```text
+text
 
 - Create App.tsx with a functional component
 - Add basic styling with App.css
@@ -36,7 +40,9 @@ Create a basic React application structure with an App component that displays a
 
 ```bash
 Install react-router-dom and implement basic routing in the application with a home page and a separate page for the catalog form.
-```
+
+```text
+text
 
 - Install react-router-dom
 - Set up BrowserRouter in main entry point
@@ -47,7 +53,9 @@ Install react-router-dom and implement basic routing in the application with a h
 
 ```bash
 Create separate page components for the Home page and the CatalogForm page. Move existing content from App.tsx to these components.
-```
+
+```text
+text
 
 - Create src/pages/HomePage.tsx
 - Create src/pages/CatalogFormPage.tsx
@@ -59,7 +67,9 @@ Create separate page components for the Home page and the CatalogForm page. Move
 
 ```bash
 Implement routing in the App component with Routes and Route components. Add navigation links between pages.
-```
+
+```text
+text
 
 ```typescript
 <Router>
@@ -77,7 +87,9 @@ Implement routing in the App component with Routes and Route components. Add nav
     </Routes>
   </div>
 </Router>
-```
+
+```text
+text
 
 ### 2.4. Style the Navigation
 
@@ -85,7 +97,9 @@ Implement routing in the App component with Routes and Route components. Add nav
 
 ```bash
 Add CSS styles for the navigation links and overall layout to make the multi-page application visually appealing and functional.
-```
+
+```text
+text
 
 - Style the navigation bar, links, and layout
 - Add responsive design elements
@@ -99,7 +113,9 @@ Add CSS styles for the navigation links and overall layout to make the multi-pag
 
 ```bash
 Create a CatalogForm component with a basic form structure that includes various input fields for collecting catalog entries.
-```
+
+```text
+text
 
 - Create src/components/CatalogForm.tsx
 - Set up form with submit handler
@@ -111,7 +127,9 @@ Create a CatalogForm component with a basic form structure that includes various
 
 ```bash
 Implement form state management using React useState hook to track all form fields including text inputs, numbers, and a checkbox.
-```
+
+```text
+text
 
 ```typescript
 const [formData, setFormData] = useState({
@@ -134,7 +152,9 @@ const [formData, setFormData] = useState({
   reference: "",
   data_source: "",
 });
-```
+
+```text
+text
 
 ### 3.3. Form Input Handlers
 
@@ -142,7 +162,9 @@ const [formData, setFormData] = useState({
 
 ```bash
 Create change handlers for the form inputs that update the form state when users interact with the fields.
-```
+
+```text
+text
 
 ```typescript
 const handleChange = (
@@ -154,7 +176,9 @@ const handleChange = (
     [name]: value,
   });
 };
-```
+
+```text
+text
 
 ### 3.4. Form Submission Handler
 
@@ -162,7 +186,9 @@ const handleChange = (
 
 ```bash
 Implement a form submission handler that sends the form data to a backend API endpoint.
-```
+
+```text
+text
 
 ```typescript
 const handleSubmit = async (e: React.FormEvent) => {
@@ -180,7 +206,9 @@ const handleSubmit = async (e: React.FormEvent) => {
     alert("Failed to submit data");
   }
 };
-```
+
+```text
+text
 
 ## 4. Enhancing Form Usability and Accessibility
 
@@ -190,7 +218,9 @@ const handleSubmit = async (e: React.FormEvent) => {
 
 ```bash
 Add descriptive labels to each form field to improve usability and accessibility.
-```
+
+```text
+text
 
 - Wrap each input in a form group
 - Add labels with htmlFor attributes that match input IDs
@@ -202,14 +232,18 @@ Add descriptive labels to each form field to improve usability and accessibility
 
 ```bash
 Add tooltip descriptions to each form field that appear when the user hovers over labels, providing more detailed information about what each field expects.
-```
+
+```text
+text
 
 ```typescript
 <label htmlFor="points">
   Points: <span className="info-icon">ⓘ</span>
   <span className="tooltip-text">Score value using the SAFe modified Fibonacci sequence: [1, 2, 3, 5, 8, 13, 20, 40, 100]</span>
 </label>
-```
+
+```text
+text
 
 ### 4.3. Styling Tooltips with CSS
 
@@ -217,7 +251,9 @@ Add tooltip descriptions to each form field that appear when the user hovers ove
 
 ```bash
 Style the tooltips to make them visually appealing and properly positioned when they appear on hover.
-```
+
+```text
+text
 
 ```css
 .form-group label .tooltip-text {
@@ -241,7 +277,9 @@ Style the tooltips to make them visually appealing and properly positioned when 
   visibility: visible;
   opacity: 1;
 }
-```
+
+```text
+text
 
 ### 4.4. Adding Semantic Icons
 
@@ -249,14 +287,18 @@ Style the tooltips to make them visually appealing and properly positioned when 
 
 ```bash
 Add semantic icons to each form field to provide visual cues about the type of information expected.
-```
+
+```text
+text
 
 ```typescript
 <label htmlFor="id">
   <span className="semantic-icon">🆔</span> ID: <span className="info-icon">ⓘ</span>
   <span className="tooltip-text">Unique identifier for this entry</span>
 </label>
-```
+
+```text
+text
 
 ### 4.5. Styling the Form Layout
 
@@ -264,7 +306,9 @@ Add semantic icons to each form field to provide visual cues about the type of i
 
 ```bash
 Style the form with a responsive grid layout that works well on different screen sizes.
-```
+
+```text
+text
 
 ```css
 .catalog-form {
@@ -275,7 +319,9 @@ Style the form with a responsive grid layout that works well on different screen
   gap: 1rem;
   text-align: left;
 }
-```
+
+```text
+text
 
 ## 5. Implementing Accessibility Features
 
@@ -285,7 +331,9 @@ Style the form with a responsive grid layout that works well on different screen
 
 ```bash
 Optimize the color scheme for accessibility, ensuring sufficient contrast for users with color blindness or low vision.
-```
+
+```text
+text
 
 - Update heading colors for better contrast
 - Use WCAG-compliant color combinations
@@ -297,14 +345,18 @@ Optimize the color scheme for accessibility, ensuring sufficient contrast for us
 
 ```bash
 Add additional visual cues beyond color to improve accessibility, such as text decoration and iconography.
-```
+
+```text
+text
 
 ```css
 .nav-links a:hover {
   background-color: rgba(0, 80, 158, 0.1);
   text-decoration: underline;
 }
-```
+
+```text
+text
 
 ### 5.3. Form Control Accessibility
 
@@ -312,7 +364,9 @@ Add additional visual cues beyond color to improve accessibility, such as text d
 
 ```bash
 Enhance form controls for accessibility by adding appropriate ARIA attributes and ensuring keyboard navigability.
-```
+
+```text
+text
 
 - Add required attributes for mandatory fields
 - Ensure logical tab order
@@ -326,7 +380,9 @@ Enhance form controls for accessibility by adding appropriate ARIA attributes an
 
 ```bash
 Apply consistent styling across the application to create a cohesive user experience.
-```
+
+```text
+text
 
 - Standardize margins, paddings, and spacing
 - Use a consistent color palette
@@ -338,7 +394,9 @@ Apply consistent styling across the application to create a cohesive user experi
 
 ```bash
 Enhance responsive design to ensure the application works well on mobile devices, tablets, and desktops.
-```
+
+```text
+text
 
 - Test and optimize layout for different screen sizes
 - Adjust form layout for smaller screens
@@ -350,7 +408,9 @@ Enhance responsive design to ensure the application works well on mobile devices
 
 ```bash
 Test the application for accessibility, usability, and functionality across different browsers and devices.
-```
+
+```text
+text
 
 - Validate HTML/CSS using appropriate tools
 - Test with screen readers and accessibility tools
@@ -364,7 +424,9 @@ Test the application for accessibility, usability, and functionality across diff
 
 ```bash
 Organize the project following React best practices with appropriate file structure and component organization.
-```
+
+```text
+text
 
 ```text
 demo-catalog-ui/
@@ -378,7 +440,9 @@ demo-catalog-ui/
 │   ├── App.tsx
 │   ├── App.css
 │   └── main.tsx
-```
+
+```text
+text
 
 ### 7.2. TypeScript Type Safety
 
@@ -386,7 +450,9 @@ demo-catalog-ui/
 
 ```bash
 Ensure proper TypeScript typing throughout the application to maintain type safety and developer experience.
-```
+
+```text
+text
 
 - Define interfaces for component props
 - Use proper event types for handlers
@@ -398,7 +464,8 @@ Ensure proper TypeScript typing throughout the application to maintain type safe
 
 ```bash
 Document the application with appropriate comments and documentation to make it maintainable.
-```
+```text
+text
 
 - Add JSDoc comments for components and functions
 - Document complex logic and algorithm choices
@@ -407,4 +474,3 @@ Document the application with appropriate comments and documentation to make it 
 ---
 
 This implementation guide provides a structured approach to creating a responsive, accessible, and feature-rich catalog form UI using React and TypeScript. Each section includes practical prompts that can be used to implement specific parts of the application incrementally.
-

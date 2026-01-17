@@ -4,7 +4,7 @@ A modern, full-stack calculator application built with React (TypeScript fronten
 
 ## Architecture
 
-```
+```text
 calculator-ts/
 ├── frontend/              # React + TypeScript (Vite)
 │   ├── src/
@@ -27,7 +27,9 @@ calculator-ts/
 │   └── tsconfig.json
 ├── package.json           # Monorepo root (npm workspaces)
 └── README.md
-```
+
+```text
+text
 
 ## Features
 
@@ -97,42 +99,48 @@ calculator-ts/
 
 ```bash
 cd C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\typescript-react\calculator-ts
-```
 
-2. Install dependencies:
+```text
+text
+
+1. Install dependencies:
 
 ```bash
 npm install
-```
+
+```text
+text
 
 ### Development
-
-**Run full stack (frontend + backend):**
-
+# Run full stack (frontend + backend):
 ```bash
 npm run dev
-```
+
+```text
+text
 
 Frontend: http://localhost:3000
 Backend: http://localhost:5000
-
-**Run frontend only:**
-
+# Run frontend only:
 ```bash
 npm run dev --workspace=frontend
-```
 
-**Run backend only:**
-
+```text
+text
+# Run backend only:
 ```bash
 npm run dev --workspace=backend
-```
+
+```text
+text
 
 ### Build
 
 ```bash
 npm run build
-```
+
+```text
+text
 
 Outputs:
 
@@ -143,7 +151,9 @@ Outputs:
 
 ```bash
 npm run test
-```
+
+```text
+text
 
 ## Frontend Structure
 
@@ -189,7 +199,7 @@ npm run test
 
 ### History
 
-```
+```text
 GET /history              - Get all calculations
 POST /history             - Create calculation
   Body: {
@@ -203,13 +213,17 @@ POST /history             - Create calculation
 DELETE /history           - Clear all history
 GET /history/:id          - Get calculation by ID
 DELETE /history/:id       - Delete calculation
-```
+
+```text
+text
 
 ### Health
 
-```
+```text
 GET /health               - Service health status
-```
+
+```text
+text
 
 ## Deployment to Azure
 
@@ -228,19 +242,19 @@ GET /health               - Service health status
    - Application Insights
    - Key Vault (secrets management)
 
-2. **Configure Backend**
+1. **Configure Backend**
    - Update connection string in .env
    - Run database migrations
    - Register Application Insights
 
-3. **Build & Publish**
+1. **Build & Publish**
 
    ```bash
    npm run build
    # Publish to Azure App Service
    ```
 
-4. **Monitor**
+1. **Monitor**
    - Application Insights dashboard
    - Set up alerts for errors/performance
 
@@ -248,7 +262,8 @@ GET /health               - Service health status
 
 Create `.env` file in backend root:
 
-```env
+```text
+env
 # Server
 PORT=5000
 NODE_ENV=development
@@ -265,7 +280,7 @@ APPINSIGHTS_INSTRUMENTATIONKEY=your-key
 
 # CORS
 CORS_ORIGIN=http://localhost:3000
-```
+```text
 
 ## Performance Characteristics
 

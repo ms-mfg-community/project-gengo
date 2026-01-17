@@ -4,7 +4,7 @@ Developing a basic TypeScript calculator app in WebStorm is straightforward. Her
    - Open WebStorm and create a new project.
    - Select "Empty Project" and choose a location to save your project.
 
-2. **Add TypeScript Support**:
+1. **Add TypeScript Support**:
    - Right-click on your project in the Project Explorer and select `New` > `File`.
    - Name the file `tsconfig.json` and add the following configuration:
 
@@ -21,10 +21,12 @@ Developing a basic TypeScript calculator app in WebStorm is straightforward. Her
      }
      ```
 
-3. **Create the Calculator App**:
+1. **Create the Calculator App**:
    - Add a new TypeScript file to your project. Right-click on your project, select `New` > `File`, and name it `calculator.ts`.
 
-     ```typescript
+     ```
+
+typescript
      class Calculator {
        add(a: number, b: number): number {
          return a + b;
@@ -54,19 +56,23 @@ Developing a basic TypeScript calculator app in WebStorm is straightforward. Her
      console.log(calculator.divide(10, 2)); // Output: 5
      ```
 
-4. **Compile TypeScript to JavaScript**:
+1. **Compile TypeScript to JavaScript**:
    - Open the terminal in WebStorm (View > Tool Windows > Terminal) and run the TypeScript compiler:
 
-     ```sh
+     ```
+
+sh
      tsc
      ```
 
    This will compile your TypeScript code to JavaScript.
 
-5. **Run Your App**:
+1. **Run Your App**:
    - You can run the compiled JavaScript file using Node.js. In the terminal, run:
 
-     ```sh
+     ```
+
+sh
      node calculator.js
      ```
 
@@ -79,18 +85,22 @@ To test your TypeScript calculator app with Vitest in WebStorm, follow these ste
 1. **Set Up Your Project**:
    - Ensure you have Node.js installed. If not, download and install it from nodejs.org.
 
-2. **Install Vitest**:
+1. **Install Vitest**:
    - Open the terminal in WebStorm (View > Tool Windows > Terminal) and navigate to your project directory.
    - Install Vitest as a development dependency:
 
-     ```sh
+     ```
+
+sh
      npm install --save-dev vitest
      ```
 
-3. **Configure Vitest**:
+1. **Configure Vitest**:
    - Add a `vitest.config.ts` file to your project root with the following content:
 
-     ```typescript
+     ```
+
+typescript
      import { defineConfig } from "vitest/config";
 
      export default defineConfig({
@@ -101,10 +111,12 @@ To test your TypeScript calculator app with Vitest in WebStorm, follow these ste
      });
      ```
 
-4. **Create Test Cases**:
+1. **Create Test Cases**:
    - Create a new file named `calculator.test.ts` in your project directory and add your test cases:
 
-     ```typescript
+     ```
+
+typescript
      import { describe, it, expect } from "vitest";
      import { Calculator } from "./calculator";
 
@@ -138,20 +150,24 @@ To test your TypeScript calculator app with Vitest in WebStorm, follow these ste
      });
      ```
 
-5. **Add Test Script**:
+1. **Add Test Script**:
    - Open your `package.json` file and add the following script:
 
-     ```json
+     ```
+
+json
      "scripts": {
        "test": "vitest"
      }
      ```
 
-6. **Run Your Tests**:
+1. **Run Your Tests**:
    - In WebStorm, you can run your tests directly from the editor. Right-click on your test file or a specific test case and select `Run 'calculator.test.ts'`.
    - Alternatively, you can run the tests from the terminal by executing:
 
-     ```sh
+     ```
+
+sh
      npm run test
      ```
 

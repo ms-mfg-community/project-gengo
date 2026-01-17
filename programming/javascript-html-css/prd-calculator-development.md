@@ -177,7 +177,9 @@ calculator/
 ├── tests/              # Test files directory
 │   └── calculator.test.ts
 └── .gitignore          # Git ignore patterns
-```
+
+```text
+text
 
 ### Component Architecture
 
@@ -195,13 +197,13 @@ calculator/
    - Configure Visual Studio Code for TypeScript development
    - Initialize project structure with required files
 
-2. **Basic Calculator Implementation**
+1. **Basic Calculator Implementation**
    - Create HTML interface with calculator layout
    - Implement CSS styling with color-coded keypad
    - Develop TypeScript logic for basic arithmetic operations
    - Add modulo and exponentiation functionality
 
-3. **Visual Enhancement**
+1. **Visual Enhancement**
    - Apply variety of colors to keypad (numbers and operations)
    - Implement darker green styling for equal sign
    - Ensure responsive design principles
@@ -213,13 +215,13 @@ calculator/
    - Configure TypeScript support for Jest
    - Set up test directory structure
 
-2. **Test Development**
+1. **Test Development**
    - Create comprehensive test suite for calculator functions
    - Implement unit tests for individual operations
    - Add integration tests for complete calculation workflows
    - Achieve target code coverage
 
-3. **Alternative Testing Evaluation**
+1. **Alternative Testing Evaluation**
    - Research and document findings on Mocha, Jasmine, Karma, AVA
    - Provide recommendations for different use cases
 
@@ -231,7 +233,7 @@ calculator/
    - Develop Japanese documentation support
    - Create framework for additional languages
 
-2. **Code Enhancement**
+1. **Code Enhancement**
    - Ensure code is well-documented in multiple languages
    - Add inline comments explaining functionality
    - Create language-specific documentation files
@@ -244,7 +246,7 @@ calculator/
    - Document findings and recommendations
    - Assess feasibility for different deployment targets
 
-2. **Deployment Preparation**
+1. **Deployment Preparation**
    - Configure build scripts for production deployment
    - Set up proper .gitignore for Node.js projects: `node_modules/`
    - Optimize application for web deployment
@@ -366,7 +368,8 @@ calculator/
 function add(a: number, b: number): number {
   return a + b;
 }
-```
+```text
+text
 
 ---
 

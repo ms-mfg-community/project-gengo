@@ -9,11 +9,13 @@
 
 ### 📁 Folder Structure
 
-```
+```text
 todo_api/
 ├── app.py
 └── requirements.txt
-```
+
+```text
+text
 
 ---
 
@@ -25,7 +27,9 @@ If you haven’t yet:
 
 ```bash
 pip install Flask
-```
+
+```text
+text
 
 ---
 
@@ -77,7 +81,9 @@ def delete_task(task_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
-```
+
+```text
+text
 
 ---
 

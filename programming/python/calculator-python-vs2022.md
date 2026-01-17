@@ -5,7 +5,7 @@ Creating a basic calculator program in Python with Visual Studio 2022 is a great
    - Select "Python Application" from the project templates and click "Next".
    - Name your project and choose a location to save it, then click "Create".
 
-2. **Write the Calculator Code**:
+1. **Write the Calculator Code**:
    - In the `main.py` file (or any other Python file you create), write the code for your basic calculator. Here's an example:
 
      ```python
@@ -33,14 +33,16 @@ Creating a basic calculator program in Python with Visual Studio 2022 is a great
          print("Division: ", calculator.divide(10, 2))     # Output: 5
      ```
 
-3. **Run Your Program**:
+1. **Run Your Program**:
    - To run your program, press `Ctrl + F5` or click on the "Start Without Debugging" button in the toolbar.
    - The output will be displayed in the terminal window within Visual Studio.
 
-4. **Add Error Handling and User Input** (Optional):
+1. **Add Error Handling and User Input** (Optional):
    - You can enhance your calculator by adding error handling and allowing user input. Here's an example:
 
-     ```python
+     ```
+
+python
      class Calculator:
          def add(self, a, b):
              return a + b
@@ -97,14 +99,18 @@ To test your Python calculator program with pytest in Visual Studio 2022, follow
 1. **Set Up Your Project**:
    - Ensure you have Python and pytest installed. If not, you can install pytest using pip:
 
-     ```sh
+     ```
+
+sh
      pip install pytest
      ```
 
-2. **Create Your Calculator Program**:
+1. **Create Your Calculator Program**:
    - In Visual Studio 2022, create a new Python project and add your calculator code. For example, in `calculator.py`:
 
-     ```python
+     ```
+
+python
      class Calculator:
          def add(self, a, b):
              return a + b
@@ -121,10 +127,12 @@ To test your Python calculator program with pytest in Visual Studio 2022, follow
              return a / b
      ```
 
-3. **Create Test Cases**:
+1. **Create Test Cases**:
    - Create a new file named `test_calculator.py` in your project directory and add your test cases:
 
-     ```python
+     ```
+
+python
      import pytest
      from calculator import Calculator
 
@@ -150,12 +158,12 @@ To test your Python calculator program with pytest in Visual Studio 2022, follow
              calculator.divide(1, 0)
      ```
 
-4. **Configure pytest in Visual Studio**:
+1. **Configure pytest in Visual Studio**:
    - Right-click on your project in Solution Explorer and select `Properties`.
    - Go to the `Test` tab and select `pytest` as the test framework.
    - Save the settings.
 
-5. **Run Your Tests**:
+1. **Run Your Tests**:
    - Open the Test Explorer (Test > Test Explorer).
    - Click on `Run All` to execute your tests.
    - Visual Studio will run the tests and display the results in the Test Explorer.

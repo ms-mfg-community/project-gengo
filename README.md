@@ -53,7 +53,9 @@ programming/          # Multi-language programming examples
 ├── node/              # Node.js applications
 ├── python/            # Python scripts and projects
 └── typescript-react/       # React/TypeScript applications
-```
+
+```text
+text
 
 ### Specialized Domains
 
@@ -94,7 +96,9 @@ programming/          # Multi-language programming examples
 ```bash
 git clone https://github.com/ms-mfg-community/project-gengo.git
 cd project-gengo
-```
+
+```text
+text
 
 ### Explore a Specific Technology
 
@@ -112,7 +116,9 @@ cd iac
 
 # GenAI demonstrations
 cd genai
-```
+
+```text
+text
 
 Each folder contains its own documentation and examples.
 
@@ -232,16 +238,16 @@ See: [.github/copilot-instructions.md](.github/copilot-instructions.md).
 ### For Beginners
 
 1. Choose a technology that interests you.
-2. Navigate to the corresponding folder in `programming/`.
-3. Look for a `README.md` or `GETTING_STARTED.md` file.
-4. Follow the setup instructions.
+1. Navigate to the corresponding folder in `programming/`.
+1. Look for a `README.md` or `GETTING_STARTED.md` file.
+1. Follow the setup instructions.
 
 ### For Advanced Users
 
 1. Review the infrastructure templates in `iac/`.
-2. Explore the CI/CD workflows in `.github/workflows/`.
-3. Check the custom Copilot agents in `.github/agents/`.
-4. Examine the best practices in `.github/instructions/`.
+1. Explore the CI/CD workflows in `.github/workflows/`.
+1. Check the custom Copilot agents in `.github/agents/`.
+1. Examine the best practices in `.github/instructions/`.
 
 ### For Cloud Practitioners
 
@@ -261,11 +267,11 @@ See: [.github/copilot-instructions.md](.github/copilot-instructions.md).
 Contributions are welcome! Please follow these guidelines:
 
 1. **Respect the Repository Structure:** Add code to appropriate language/domain folders.
-2. **Follow Coding Standards:** Adhere to language-specific style guides (see `.github/copilot-instructions.md`).
-3. **Write Tests:** Include unit tests for new functionality.
-4. **Document Your Work:** Add meaningful comments and update relevant README files.
-5. **Keep Files Focused:** Aim for 100-200 lines per file; refactor if exceeding this.
-6. **Commit Messages:** Use the format: `topic(subtopic): description`.
+1. **Follow Coding Standards:** Adhere to language-specific style guides (see `.github/copilot-instructions.md`).
+1. **Write Tests:** Include unit tests for new functionality.
+1. **Document Your Work:** Add meaningful comments and update relevant README files.
+1. **Keep Files Focused:** Aim for 100-200 lines per file; refactor if exceeding this.
+1. **Commit Messages:** Use the format: `topic(subtopic): description`.
 
 For detailed contribution guidelines, see [SECURITY.md](SECURITY.md).
 
@@ -345,7 +351,9 @@ project-gengo/
 ├── .devcontainer/       # Dev container setup
 ├── calculator*/         # Calculator app demonstrations
 └── README.md            # This file
-```
+
+```text
+text
 
 ---
 
@@ -365,9 +373,9 @@ project-gengo/
 For questions, issues, or suggestions:
 
 1. Check existing documentation in relevant folders.
-2. Review the [GitHub Discussions](https://github.com/ms-mfg-community/project-gengo/discussions).
-3. Search for similar issues.
-4. Create a new issue with detailed context.
+1. Review the [GitHub Discussions](https://github.com/ms-mfg-community/project-gengo/discussions).
+1. Search for similar issues.
+1. Create a new issue with detailed context.
 
 ---
 
@@ -426,7 +434,7 @@ This repository serves as:
 
 ### Core Technology Areas
 
-```
+```text
 programming/          # Multi-language programming examples
 ├── c/               # C language projects
 ├── cpp/             # C++ applications
@@ -438,7 +446,9 @@ programming/          # Multi-language programming examples
 ├── python/          # Python scripts and projects
 ├── typescript-html-css/    # TypeScript/Web development
 └── typescript-react/       # React/TypeScript applications
-```
+
+```text
+text
 
 ### Specialized Domains
 
@@ -479,7 +489,9 @@ programming/          # Multi-language programming examples
 ```bash
 git clone https://github.com/ms-mfg-community/project-gengo.git
 cd project-gengo
-```
+
+```text
+text
 
 ### Explore a Specific Technology
 
@@ -497,7 +509,9 @@ cd iac
 
 # GenAI demonstrations
 cd genai
-```
+
+```text
+text
 
 Each folder contains its own documentation and examples.
 
@@ -617,16 +631,16 @@ See: [`.github/copilot-instructions.md`](.github/copilot-instructions.md)
 ### For Beginners
 
 1. Choose a technology that interests you
-2. Navigate to the corresponding folder in `programming/`
-3. Look for a `README.md` or `GETTING_STARTED.md` file
-4. Follow the setup instructions
+1. Navigate to the corresponding folder in `programming/`
+1. Look for a `README.md` or `GETTING_STARTED.md` file
+1. Follow the setup instructions
 
 ### For Advanced Users
 
 1. Review the infrastructure templates in `iac/`
-2. Explore the CI/CD workflows in `.github/workflows/`
-3. Check the custom Copilot agents in `.github/agents/`
-4. Examine the best practices in `.github/instructions/`
+1. Explore the CI/CD workflows in `.github/workflows/`
+1. Check the custom Copilot agents in `.github/agents/`
+1. Examine the best practices in `.github/instructions/`
 
 ### For Cloud Practitioners
 
@@ -646,11 +660,11 @@ See: [`.github/copilot-instructions.md`](.github/copilot-instructions.md)
 Contributions are welcome! Please follow these guidelines:
 
 1. **Respect the Repository Structure:** Add code to appropriate language/domain folders
-2. **Follow Coding Standards:** Adhere to language-specific style guides (see `.github/copilot-instructions.md`)
-3. **Write Tests:** Include unit tests for new functionality
-4. **Document Your Work:** Add meaningful comments and update relevant README files
-5. **Keep Files Focused:** Aim for 100-200 lines per file; refactor if exceeding this
-6. **Commit Messages:** Use the format: `topic(subtopic): description`
+1. **Follow Coding Standards:** Adhere to language-specific style guides (see `.github/copilot-instructions.md`)
+1. **Write Tests:** Include unit tests for new functionality
+1. **Document Your Work:** Add meaningful comments and update relevant README files
+1. **Keep Files Focused:** Aim for 100-200 lines per file; refactor if exceeding this
+1. **Commit Messages:** Use the format: `topic(subtopic): description`
 
 For detailed contribution guidelines, see [SECURITY.md](SECURITY.md).
 
@@ -714,7 +728,7 @@ For security concerns, please refer to [SECURITY.md](SECURITY.md).
 
 ## Directory Quick Reference
 
-```
+```text
 project-gengo/
 ├── programming/          # Multi-language examples
 ├── genai/               # AI/LLM demonstrations
@@ -730,7 +744,8 @@ project-gengo/
 ├── .devcontainer/       # Dev container setup
 ├── calculator*/         # Calculator app demonstrations
 └── README.md            # This file
-```
+```text
+text
 
 ---
 
@@ -750,9 +765,9 @@ project-gengo/
 For questions, issues, or suggestions:
 
 1. Check existing documentation in relevant folders
-2. Review the [GitHub Discussions](https://github.com/ms-mfg-community/project-gengo/discussions)
-3. Search for similar issues
-4. Create a new issue with detailed context
+1. Review the [GitHub Discussions](https://github.com/ms-mfg-community/project-gengo/discussions)
+1. Search for similar issues
+1. Create a new issue with detailed context
 
 ---
 

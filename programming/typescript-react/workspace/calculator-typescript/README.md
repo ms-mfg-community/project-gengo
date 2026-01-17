@@ -21,7 +21,7 @@ A simple TypeScript calculator console application that performs basic arithmeti
 
 ## Project Structure
 
-```
+```text
 calculator-typescript/
 ├── src/
 │   ├── calculator.ts    # Calculator class with arithmetic operations
@@ -30,7 +30,9 @@ calculator-typescript/
 ├── package.json        # Project dependencies and scripts
 ├── tsconfig.json       # TypeScript compiler configuration
 └── README.md          # This file
-```
+
+```text
+text
 
 ## Prerequisites
 
@@ -45,8 +47,10 @@ calculator-typescript/
    cd programming/typescript-react/workspace/calculator-typescript
    ```
 
-2. Install dependencies:
-   ```bash
+1. Install dependencies:
+   ```
+
+bash
    npm install
    ```
 
@@ -56,31 +60,39 @@ calculator-typescript/
 
 To start the interactive calculator:
 
-```bash
+```text
+bash
 npm start
-```
+
+```text
 
 or
 
-```bash
+```text
+bash
 npm run dev
-```
+
+```text
 
 ### Running Tests
 
 To run the basic test suite:
 
-```bash
+```text
+bash
 npm test
-```
+
+```text
 
 ### Building the Project
 
 To compile TypeScript to JavaScript:
 
-```bash
+```text
+bash
 npm run build
-```
+
+```text
 
 The compiled JavaScript files will be in the `dist` directory.
 
@@ -88,7 +100,8 @@ The compiled JavaScript files will be in the `dist` directory.
 
 When you run the calculator, you'll see a menu like this:
 
-```
+```text
+text
 === Simple Calculator ===
 
 Enter first operand: 10
@@ -98,7 +111,8 @@ Enter operator (+, -, *, /, %, ^): +
 Result: 10 + 5 = 15
 
 Do you want to perform another calculation? (yes/no):
-```
+
+```text
 
 Simply follow the prompts to perform calculations. Enter `yes` or `y` to continue, or `no` or `n` to exit.
 
@@ -113,86 +127,85 @@ The `Calculator` class provides static methods for performing arithmetic operati
 ##### `add(first: number, second: number): number`
 
 Adds two numbers and returns the sum.
-
-**Example:**
-
-```typescript
+# Example:
+```text
+typescript
 import { Calculator } from "./calculator";
 const result = Calculator.add(10, 5); // 15
-```
+
+```text
 
 ##### `subtract(first: number, second: number): number`
 
 Subtracts the second number from the first and returns the difference.
-
-**Example:**
-
-```typescript
+# Example:
+```text
+typescript
 const result = Calculator.subtract(10, 5); // 5
-```
+
+```text
 
 ##### `multiply(first: number, second: number): number`
 
 Multiplies two numbers and returns the product.
-
-**Example:**
-
-```typescript
+# Example:
+```text
+typescript
 const result = Calculator.multiply(10, 5); // 50
-```
+
+```text
 
 ##### `divide(first: number, second: number): number`
 
 Divides the first number by the second and returns the quotient. Returns `NaN` if dividing by zero.
-
-**Example:**
-
-```typescript
+# Example:
+```text
+typescript
 const result = Calculator.divide(10, 5); // 2
 const error = Calculator.divide(10, 0); // NaN (with error message)
-```
+
+```text
 
 ##### `modulo(first: number, second: number): number`
 
 Returns the remainder when dividing the first number by the second. Returns `NaN` if dividing by zero.
-
-**Example:**
-
-```typescript
+# Example:
+```text
+typescript
 const result = Calculator.modulo(10, 3); // 1
 const error = Calculator.modulo(10, 0); // NaN (with error message)
-```
+
+```text
 
 ##### `exponent(first: number, second: number): number`
 
 Raises the first number to the power of the second number.
-
-**Example:**
-
-```typescript
+# Example:
+```text
+typescript
 const result = Calculator.exponent(2, 3); // 8
-```
+
+```text
 
 ##### `performCalculation(first: number, operator: string, second: number): number`
 
 Performs a calculation based on the provided operator. Returns `NaN` for invalid operators.
-
-**Example:**
-
-```typescript
+# Example:
+```text
+typescript
 const result = Calculator.performCalculation(10, "+", 5); // 15
-```
+
+```text
 
 ##### `isValidOperator(operator: string): boolean`
 
 Validates if a string is a valid operator (+, -, \*, /, %, ^).
-
-**Example:**
-
-```typescript
+# Example:
+```text
+typescript
 const valid = Calculator.isValidOperator("+"); // true
 const invalid = Calculator.isValidOperator("?"); // false
-```
+```text
 
 ## Error Handling
 

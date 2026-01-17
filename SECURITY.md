@@ -13,8 +13,7 @@ If you discover a potential security vulnerability, please follow these guidelin
 - **Do NOT report security vulnerabilities through public GitHub issues, discussions, or pull requests.**
 - Email your findings to: [prestopa@microsoft.com](mailto:prestopa@microsoft.com).
 - If possible, encrypt your message using our PGP key, available from the [Microsoft Security PGP Key](https://www.microsoft.com/en-us/msrc/pgp-key-msrc).
-
-**Response Expectation:**  
+# Response Expectation:
 You should receive a response within 24 hours. If you do not receive a timely reply, please follow up to ensure your message was received.
 
 ### Please Include (if possible):
