@@ -14,7 +14,7 @@ Write code that takes into account the different environments, for example; dev,
 
 <!-- - Only make changes that are requested unless you are confident, the context is well understood and related to the change being requested. -->
 
-When fixing an issue or bug, do not introduce a new pattern or technology without first exhausting all options for the existing implementation. If however, you must still introduce a new pattern, make sure to please remove the old implementation afterwards so we don't have duplicate logic.
+<!-- When fixing an issue or bug, do not introduce a new pattern or technology without first exhausting all options for the existing implementation. If however, you must still introduce a new pattern, make sure to please remove the old implementation afterwards so we don't have duplicate logic. -->
 
 Keep the codebase clean and organized
 
