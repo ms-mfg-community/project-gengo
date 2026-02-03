@@ -1,1653 +1,813 @@
-# GitHub Copilot Instructions
-
-Purpose
-
-This file provides custom instructions for using GitHub Copilot in this repository. It helps ensure that both human contributors and AI-generated code adhere to our project's standards, coding practices, and overall quality requirements.
-
-General Guidelines [Vibe Coding](https://youtu.be/YWwS911iLhg?si=TEdJIIqGryZdjezy)
-
-Always prefer simple solutions.
-
-Avoid duplication of code whenever possible, which means checking for other areas of the codebase that might already have similar code and functionality.
-
-Write code that takes into account the different environments, for example; dev, test, and prod.
-
-<!-- - Only make changes that are requested unless you are confident, the context is well understood and related to the change being requested. -->
-
-<!-- When fixing an issue or bug, do not introduce a new pattern or technology without first exhausting all options for the existing implementation. If however, you must still introduce a new pattern, make sure to please remove the old implementation afterwards so we don't have duplicate logic. -->
-
-Keep the codebase clean and organized
-
-Avoid writing scripts in files if possible, especially if the script is likely only to be executed once.
-
-Avoid having files over 100-200 lines of code; Instead please refactor if the logic approaches 200 lines.
-
-Mocking data is only needed for tests, never mock data for dev or prod.
-
-Never add stubbing or fake data patterns to code that affects the dev or prod environments.
-
-Never overwrite the .env file without consent.
-
-<!--  -->
-
-Coding workflow preferences: [Vibe Coding](https://youtu.be/YWwS911iLhg?si=TEdJIIqGryZdjezy)
-
-Focus on the areas of code relevant to the task.
-
-Do not touch code that is unrelated to the task.
-
-Write through tests for all major functionality.
-
-Avoid making major changes to the patterns and architecture of how a feature works, after it has been proven to work properly, unless explicitly prompted to do so.
-
-Always consider how changes and updates may negatively impact the current function of the solution.
-
-Project specific custom instructions
-
-Template for Project Specific Instructions
-
-When crafting a custom instruction set for a specific project, reference the following content as a template to ensure all necessary aspects are covered: [Project Specific Instructions](https://docs.github.com/en/copilot/concepts/prompting/response-customization?tool=vscode#writing-effective-custom-instructions-1 "Project or folder level custom instructions").
-
-Example Instruction Files
-
-[Custom Instructions](https://github.com/github/awesome-copilot/tree/main/instructions "Examples")
-
-Code Style
-
-**General:** Follow the repository's style guide for consistency.
-
-**Naming Conventions:** Use meaningful and descriptive names.
-
-For JavaScript/TypeScript, use camelCase for variables and functions.
-
-For Python, adhere to [PEP 8](https://www.python.org/dev/peps/pep-0008/).
-
-**Line Length:** Aim for 80-100 characters per line where possible.
-
-**Formatting:** Use automated tools (like Prettier or Black) to enforce formatting rules.
-
-SQL
-
-General SQL Guidelines
-
-Reference both Microsoft T-SQL as well as PostgreSQL syntax where applicable
-
-Use appropriate SQL dialect based on the target database system
-
-Follow database-specific best practices for performance and security
-
-Always use parameterized queries to prevent SQL injection
-
-SQLite
-
-**Executable:** Use `sqlite3` for executing SQLite commands and scripts
-
-**File-based:** SQLite databases are file-based (`.db`, `.sqlite`, `.sqlite3` extensions)
-
-**Lightweight:** Ideal for local development, testing, and embedded applications
-
-SQLite Usage Examples
-
-## Connect to database and run a query
-
-```pwsh
-
-Open database file
-
-sqlite3 database.db "SELECT * FROM tablename;"
-
-Interactive mode
-
-sqlite3 database.db
-
-```text
-
-## Common SQLite commands
-
-```text
-sql
-
-.help                 -- Show help
-
-.tables               -- List all tables
-
-.schema tablename     -- Show table schema
-
-.mode column          -- Set output mode
-
-.headers on           -- Show column headers
-
-.quit                 -- Exit sqlite3
-
-```text
-
-## Run script file
-
-```text
-pwsh
-
-sqlite3 database.db < script.sql
-
-```text
-Microsoft SQL Server / Azure SQL
-
-**Executable:** Use `sqlcmd` for executing T-SQL commands and scripts
-
-**Modern sqlcmd (Go-based):** Cross-platform, recommended for new projects
-
-**Legacy sqlcmd.exe (ODBC-based):** Traditional Windows tool
-
-**Bulk Operations:** Use `bcp` (Bulk Copy Program) for bulk data import/export
-
-**Database Connectivity:** Ensure proper connection strings and authentication methods are used
-
-Connecting to SQL Server / Azure SQL
-
-When a connection to a database is requested in a prompt, use the sqlcmd tool with appropriate parameters for server, database, authentication, and query execution.
-
-sqlcmd Usage Examples
-
-## Connect and run a query
-
-```text
-pwsh
-
-Modern sqlcmd or legacy sqlcmd.exe
-
-sqlcmd -S <server>.database.windows.net -d <database> -U <username> -P <password> -Q "SELECT * FROM sys.tables"
-
-```text
-
-## Run a script file
-
-```text
-pwsh
-
-sqlcmd -S <server>.database.windows.net -d <database> -U <username> -i script.sql -o output.txt
-
-```text
-
-## Interactive session
-
-```text
-pwsh
-
-Start interactive session
-
-sqlcmd -S <server> -d <database> -U <username> -P <password>
-
-Inside sqlcmd, type GO after each query to execute
-
-Type EXIT to quit
-
-```text
-Authentication Options
-
-`-U` and `-P`: SQL Authentication
-
-`-E`: Windows/Integrated Authentication
-
-`-G`: Azure Active Directory Authentication
-
-`-G -P`: Azure AD with password
-
-Related Tools
-
-**Azure Data Studio** (`azuredatastudio`) - GUI with integrated terminal
-
-**SQL Server Management Studio (SSMS)** - Windows GUI tool
-
-**mssql-cli** - Interactive command-line with IntelliSense
-
-SQL Best Practices
-
-Use transactions for data integrity
-
-Always verify with SELECT before UPDATE or DELETE operations
-
-Include WHERE clauses to prevent accidental mass updates/deletes
-
-Use appropriate indexes for query performance
-
-Document complex queries with comments
-
-Use consistent formatting and naming conventions
-
-Test queries in development before running in production
-
-Commenting
-
-**Clarity:** Write clear and concise comments for complex logic.
-
-**Inline Comments:** Use sparingly to explain non-obvious code segments.
-
-**Documentation:** Document functions, methods, and classes using appropriate docstring formats (e.g., JSDoc, Python docstrings).
-
-Testing Guidelines
-
-**General Rule:** Write tests alongside new features and bug fixes.
-
-## Frameworks
-
-**.NET:** Use the xUnit framework.
-
-**Java:** Use JUnit.
-
-**TypeScript:** Prefer Vitest.
-
-**Python:** Use pytest.
-
-**Go:** Use Testify.
-
-**Node.js:** Use Jest.
-
-**C:** Use Unity.
-
-**C++:** Use Google Test.
-
-**Coverage:** Ensure critical paths and edge cases are covered.
-
-Documentation
-
-**README:** Keep the README.md updated with usage instructions and examples.
-
-**API Docs:** Maintain inline documentation and generated API docs.
-
-**Style:** Use Markdown for all documentation, ensuring consistency in headings and formatting using the [markdownlint](https://github.com/DavidAnson/markdownlint "Markdown Linting Rules") rules.
-
-**Warnings** Ensure that after each markdown file is created, it is also scanned for and reformated to fix any markdown linting violations.
-
-**Relative Links:** Use relative links for internal documentation references.
-
-**Examples:** Provide code examples where applicable.
-
-**URLs:** Apply the label, URL and title format for all links in markdown files. For example: [GitHub Docs](https://docs.github.com "GitHub Documentation")
-
-Commit Messages
-
-**Format:** Use the following pattern:
-
-Topic Subtopic Activity Specification: **_topic(subtopic): activity_**
-
-Example: `github(instructions): expand guideline details`
-
-Do not rely on any other industry best practices. Instead, enforce this format above.
-
-Key Points
-
-**Topic:** Indicates the nature of the commit (e.g., `github` for github specific files, commands, or configuration, `feat` for a new feature, `fix` for a bug fix, `docs` for documentation changes, etc.).
-
-**Subtopic (optional):** An attributive or adjunct noun acting as a modifier or a certain scope for the topic that adds additional context. (e.g., `instructions`, `auth`, `ui`, `build`).
-
-**Activity:** A concise, imperative description of the change.
-
-For example:
-
-feat(auth): add login functionality
-
-This format provides clear context and can be easily parsed by tools. The Topic Subtopic Activity specification aims to provide clarity, flexibility and compatibility with automation tools.
-
-**Clarity:** Keep commit messages clear and descriptive to facilitate easier reviews and history tracking.
-
-Branching Strategy
-
-**Main Branch:** Reserve for production-ready code.
-
-**Feature Branches:** Develop new features in branches named descriptively (e.g., `feature/login-system`).
-
-**Bugfix Branches:** Use names like `bugfix/issue-123` for clarity.
-
-**Merging:** Ensure branches pass all tests and code reviews before merging into main.
-
-Pull Request Process
-
-**Submission:** Open a pull request for every new feature or bugfix.
-
-**Description:** Provide a detailed description, linking relevant issues if applicable.
-
-**CI Checks:** Confirm that all automated tests and linters pass if available or applicable.
-
-**Reviews:** Request reviews from at least one other team member before merging.
-
-Continuous Integration / Build Process
-
-**Automation:** Use CI tools to run tests, linters, and build scripts automatically.
-
-**Branch Protection:** Enforce branch protection rules to ensure quality and stability.
-
-**Reporting:** Monitor build status and address any failures promptly.
-
-Security and Error Handling
-
-**Validation:** Always validate inputs and handle errors gracefully.
-
-**Best Practices:** Follow secure coding practices and check for vulnerabilities using automated tools.
-
-**Error Logging:** Implement error logging and monitoring to detect issues early.
-
-Language Specific Instructions
-
-PowerShell
-
-End control structures, loops and functions with `#end if,#end for,#end foreach, #end while,#end until,#end case, #end FunctionName`.
-
-Place each opening bracket '{' on a new line for each scope within a foreach, while, until, for loop or function block. For example:foreach ($item in $contents)
-
+---
+applyTo: '**'
+---
+
+# GitHub Copilot Instructions for Project Gengo
+
+**Version:** 1.0  
+**Last Updated:** February 2026  
+**Repository:** [project-gengo](https://github.com/ms-mfg-community/project-gengo)
+
+## Overview
+
+Project Gengo is a comprehensive, multi-technology learning repository demonstrating best practices across programming languages, frameworks, cloud platforms, and DevOps. These instructions guide GitHub Copilot to maintain consistency, quality, and alignment with project standards.
+
+---
+
+## Core Principles
+
+### 1. **Content-Rich Documentation**
+- Always include comprehensive context about technology stacks, constraints, and architectural patterns
+- Provide examples and references to existing code patterns in the repository
+- Document assumptions, dependencies, and edge cases
+- Include helpful inline comments explaining non-trivial logic
+
+### 2. **Intent Clarity**
+- Start with explicit action verbs: create, refactor, debug, explain, optimize, test, document
+- Specify deliverable types: function, class, test suite, configuration file, workflow, script
+- Include success criteria and expected outcomes
+- Reference the business context and requirements
+
+### 3. **Structured Communication**
+- Use bullet points or numbered lists for multiple requirements
+- Organize complex requests into sections (Context, Intent, Requirements)
+- Avoid ambiguous pronouns (it, this, that) without clear antecedents
+- Focus on one primary task per prompt (with sub-tasks allowed)
+
+### 4. **Specificity in Requirements**
+- Include exact names for functions, variables, files, and classes
+- Specify data types, return types, and format requirements
+- Provide numeric constraints (max length, timeout values, retry counts)
+- Reference library versions and technology versions
+
+---
+
+## Programming Standards
+
+### Function Writing
+
+When writing functions, always:
+
+- Add descriptive JSDoc/XML/docstring comments with parameters, returns, and exceptions
+- Include meaningful inline comments for complex logic
+- Use input validation with early returns for error conditions
+- Implement meaningful variable names (avoid single letters except in loops)
+- Include at least one example usage in comments
+- Keep functions focused on a single responsibility (aim for < 50 lines)
+- Add error handling appropriate to the context
+
+**Example Pattern (C#):**
+
+```csharp
+/// <summary>
+/// Validates and processes user input data.
+/// </summary>
+/// <param name="data">The input data to validate</param>
+/// <returns>Validated and sanitized data</returns>
+/// <exception cref="ArgumentNullException">Thrown when data is null</exception>
+/// <exception cref="ArgumentException">Thrown when validation fails</exception>
+/// 
+/// <example>
+/// <code>
+/// var result = ValidateUserData(new UserData { Email = "user@example.com", Age = 25 });
+/// Console.WriteLine(result.Email); // user@example.com
+/// </code>
+/// </example>
+public UserData ValidateUserData(UserData data)
 {
-
-    Write-Host "Name: $($item.Name)"
-
-Write-Host "Full Name: $($item.FullName)"
-
-Write-Host "Size: $($item.Length) bytes"
-
-Write-Host "Last Modified: $($item.LastWriteTime)"
-
-Write-Host "-----------------------------"
-
-} # end foreach
-
-Use PascalCase for variables, functions, and classes.
-
-Include comments for any non-trivial logic within scripts.
-
-PowerShell Script Header Template
-
-All PowerShell scripts that do not already contain a header should include comprehensive comment-based help. Use this template as a starting point:
-
-```text
-powershell
-
-<#
-
-.SYNOPSIS
-
-    Brief description of what the script does.
-
-.DESCRIPTION
-
-    Detailed description of the script's functionality, purpose, and any important
-
-    implementation details. Explain the business context and use cases.
-
-.PARAMETER parameterName
-
-    Description of the parameter, including default values, valid options,
-
-    and examples of typical usage.
-
-.PARAMETER anotherParameter
-
-    Description for additional parameters. Include type information,
-
-    constraints, and relationship to other parameters.
-
-.PARAMETER switchParameter
-
-    Description of switch parameters and when they should be used.
-
-    Explain the behavior when the switch is present vs absent.
-
-.EXAMPLE
-
-    .\script-name.ps1
-
-    Basic usage example with explanation of what it does.
-
-.EXAMPLE
-
-    .\script-name.ps1 -Parameter "value" -SwitchParameter
-
-    Advanced usage example showing parameter combinations.
-
-.EXAMPLE
-
-    .\script-name.ps1 -Parameter "C:\Custom\Path" -Format "csv"
-
-    Example with custom paths and different output formats.
-
-.NOTES
-
-    File Name      : script-name.ps1
-
-    Author         : [Team/Author Name]
-
-    Prerequisite   : [Required software, modules, permissions]
-
-    Version        : 1.0
-
-    Requirements:
-
-List all prerequisites and dependencies
-
-Include version requirements where applicable
-
-Mention any required permissions or access
-
-    Change Log:
-
-Version 1.0: Initial creation
-
-Version 1.1: Added feature X
-
-.LINK
-
-    <https://relevant-documentation-url.com>
-
-.LINK
-
-    <https://additional-reference-url.com>
-
-#>
-
-param(
-
-    [Parameter(Mandatory=$false, HelpMessage="Description of parameter")]
-
-    [string]$ParameterName = "DefaultValue",
-
-    [Parameter(Mandatory=$false)]
-
-    [ValidateSet("Option1", "Option2", "Option3")]
-
-    [string]$ValidatedParameter = "Option1",
-
-    [Parameter(Mandatory=$false)]
-
-    [switch]$SwitchParameter
-
-)
-
-```text
-
-## Key Elements to Include
-
-**SYNOPSIS**: One-line description of the script's purpose
-
-**DESCRIPTION**: Detailed explanation including business context
-
-**PARAMETER**: Document each parameter with descriptions, defaults, and constraints
-
-**EXAMPLE**: Multiple realistic usage examples showing different scenarios
-
-**NOTES**: Metadata including author, version, prerequisites, and change log
-
-**LINK**: References to relevant documentation or related resources
-
-## Best Practices
-
-Always include at least 2-3 practical examples
-
-Document all parameters even if they seem obvious
-
-Include version information and change tracking
-
-Specify all prerequisites and dependencies
-
-Use consistent formatting and professional language
-
-Update examples when functionality changes
-
-IaC
-
-For bicep, use the Azure Cloud Shell or az cli for bicep commands with az bicep instead of the standalone bicep executable.
-
-Use `*.bicepparam` parameter files instead of `*.json` parameter files
-
-JavaScript / TypeScript
-
-Enable strict mode and use linting (e.g., ESLint).
-
-Prefer ES6+ features and async/await for asynchronous operations.
-
-Document functions with JSDoc comments where applicable.
-
-Use vite for building and testing TypeScript projects instead of create-react-app, since it has recently been deprecated.
-
-Reference:[Sunsetting Create React App](https://react.dev/blog/2025/02/14/sunsetting-create-react-app)
-
-Python
-
-Follow the PEP 8 style guide.
-<!--  -->
-**Always use venv virtual environments to manage dependencies** - this is mandatory for all Python projects.
-
-Include comprehensive docstrings for functions and classes.
-
-Use the following script header templeate when creating new Python scripts.
-
-```text
-python
-
-'''
-
-Script: script.py
-
-Description:
-
-    A brief overview of what the script does, its functionality, and any important implementation details. Explain the business context and use cases.
-
-Purpose:
-
-    Explain why this script was created and what problem it solves.
-
-Author:
-
-    Your Name or Team
-
-Created:
-
-    2024-06-01
-
-Version:
-
-    <!-- 1.00 -->
-
-Requirements:
-
-Python 3.8+
-
-openai package (pip install openai)
-
-Azure OpenAI API credentials
-
-subscription_key environment variable set
-
-Usage:
-
-    python script.py
-
-Environment Variables:
-
-Example:
-
-    $ export subscription_key="your-api-key"
-
-Notes:
-
-Ensure that the required packages are installed before running the script.
-
-Handle exceptions and errors gracefully.
-
-Change Log:
-
-v1.00: Initial creation
-
-TODO:
-
-Add additional features as needed
-
-'''
-
-```text
-Virtual Environment Management with venv
-
-**Preference:** Use Python's built-in `venv` module for creating and managing virtual environments. This is the preferred approach over alternatives like `virtualenv`, `conda`, or `pipenv` unless specifically required by the project.
-
-## Setup and Best Practices:# Create a virtual environment
-
-```text
-bash
-
-## Create virtual environment in project root
-
-python -m venv dev
-
-## Alternative naming for specific Python versions
-
-python3.11 -m venv dev-3.11
-
-```text
-
-## Activate the virtual environment
-
-```text
-bash
-
-## Windows (PowerShell/Command Prompt)
-
-dev\Scripts\activate
-
-## Windows (Git Bash)
-
-source venv/Scripts/activate
-
-## macOS/Linux
-
-source venv/bin/activate
-
-```text
-
-## Verify activation
-
-```text
-bash
-
-## Check that pip points to virtual environment
-
-which pip  # macOS/Linux
-
-where pip  # Windows
-
-## Should show path containing your venv directory
-
-pip --version
-
-```text
-
-## Install dependencies
-
-```text
-bash
-
-## Upgrade pip first
-
-python -m pip install --upgrade pip
-
-## Install from requirements file
-
-pip install -r requirements.txt
-
-## Install development dependencies
-
-pip install -r requirements-dev.txt
-
-```text
-
-## Generate requirements files
-
-```text
-bash
-
-## Generate requirements.txt
-
-pip freeze > requirements.txt
-
-## Better approach: use pipreqs for project-specific dependencies
-
-pip install pipreqs
-
-pipreqs . --force
-
-```text
-
-## Deactivate when done
-
-```text
-bash
-
-deactivate
-
-```text
-
-## Directory Structure
-
-```text
-text
-
-project-root/
-
-├── venv/                    # Virtual environment (add to .gitignore)
-
-├── src/                     # Source code
-
-├── tests/                   # Test files
-
-├── requirements.txt         # Production dependencies
-
-├── requirements-dev.txt     # Development dependencies (optional)
-
-├── .gitignore              # Include venv/ entry
-
-├── .env                    # Environment variables (add to .gitignore)
-
-└── README.md               # Include venv setup instructions
-
-```text
-
-## Requirements Files Best Practices
-
-**requirements.txt**: Production dependencies only, pinned versions
-
-```text
-text
-
-requests==2.31.0
-
-flask==2.3.3
-
-python-dotenv==1.0.0
-
-```text
-**requirements-dev.txt**: Development dependencies, can include requirements.txt
-
-```text
-text
-
--r requirements.txt
-
-pytest==7.4.2
-
-black==23.7.0
-
-flake8==6.0.0
-
-mypy==1.5.1
-
-```text
-
-## VS Code Integration:# Select Python interpreter
-
-Press `Ctrl+Shift+P`
-
-Type "Python: Select Interpreter"
-
-Choose the interpreter from your venv folder
-
-## Workspace settings (.vscode/settings.json)
-
-```text
-json
-{
-  "python.pythonPath": "./venv/Scripts/python.exe",
-
-  "python.terminal.activateEnvironment": true,
-
-  "python.linting.enabled": true,
-
-  "python.linting.pylintEnabled": true,
-
-  "python.formatting.provider": "black"
+    // Input validation
+    if (data == null) throw new ArgumentNullException(nameof(data));
+    if (string.IsNullOrWhiteSpace(data.Email)) 
+        throw new ArgumentException("Valid email is required", nameof(data.Email));
+    
+    // Early return for error conditions
+    if (data.Age < 18) 
+        throw new ArgumentException("User must be 18 or older", nameof(data.Age));
+    
+    return new UserData 
+    { 
+        Email = data.Email.ToLower(), 
+        Age = data.Age 
+    };
 }
+```
 
-```text
+### Code Organization
 
-## Git Integration (.gitignore entries)
+- **File Size:** Keep files focused; aim for 100-200 lines per file
+- **Naming Conventions:** Use PascalCase for classes, camelCase for functions/variables, UPPER_CASE for constants
+- **Module Structure:** One primary export per file when possible
+- **Comments:** Use inline comments for "why", not "what"; code should be self-documenting
+- **Spacing:** Add blank lines between logical sections
+- **Visibility:** Use appropriate access modifiers (private by default, public only when necessary)
 
-```text
-gitignore
+### Testing Approach
 
-Virtual Environment
+- Write tests alongside implementation (Test-Driven Development preferred)
+- Use language-appropriate testing frameworks (xUnit for .NET, Jest for JavaScript, pytest for Python, JUnit for Java)
+- Test naming: `test[FunctionName][Scenario][ExpectedBehavior]` or `[UnitOfWork]_[Scenario]_[ExpectedBehavior]`
+- Include edge cases, error conditions, and happy paths
+- Aim for minimum 80% code coverage on critical paths
 
-venv/
+**Example Test Pattern (C#/xUnit):**
 
-env/
-
-ENV/
-
-.venv/
-
-.env
-
-Python
-
-__pycache__/
-
-*.py[cod]
-
-*$py.class
-
-*.egg-info/
-
-dist/
-
-build/
-
-IDE
-
-.vscode/settings.json  # If containing sensitive info
-
-.idea/
-
-```text
-
-## Common Commands Reference
-
-```text
-bash
-
-Quick setup for new project
-
-python -m venv dev
-
-dev\Scripts\activate  # Windows
-
-source dev/bin/activate  # macOS/Linux
-
-python -m pip install --upgrade pip
-
-Package management
-
-pip list                          # List installed packages
-
-pip show package_name            # Show package details
-
-pip install package_name==1.0.0  # Install specific version
-
-pip uninstall package_name       # Uninstall package
-
-Requirements management
-
-pip freeze > requirements.txt     # Save current state
-
-pip install -r requirements.txt   # Install from requirements
-
-pip list --outdated              # Check for updates
-
-```text
-
-## Troubleshooting
-
-**Permission errors**: Use `python -m pip` instead of `pip` directly
-
-**Path issues**: Ensure virtual environment is activated before installing packages
-
-**Module not found**: Verify correct interpreter is selected in VS Code
-
-**Stale cache**: Use `pip install --no-cache-dir package_name`
-
-## Environment Variables
-
-Use `.env` files with `python-dotenv` for environment-specific configuration
-
-Never commit `.env` files to version control
-
-Provide `.env.example` with placeholder values
-
-Store sensitive information (API keys, passwords) in environment variables
-
-Java
-
-For Java apps, use maven for build automation, dependency management, project structure standardization, plugins and extensibility and project information management unless otherwise specified in prompts.
-
-C++
-
-Use the recommended project directory structure
-
-Create the project structure using this prompt as a reference:
-
-_Create a python script at relative path: ...programming\cpp\workspace named cpp_project_setup.py that will create C++ a project workspace directory structure and files based on the guidance provided in the 'MyCppProject' example in copilot-instructions.md. Name the project 'cpp-project-name'._
-
-MyCppProject/
-
-├── build/ # Generated build files (by CMake or other build systems)
-
-├── cmake/ # Additional CMake modules or scripts (optional)
-
-├── docs/ # Project documentation
-
-├── examples/ # Usage examples of the library/application (optional)
-
-├── external/ # Third-party external libraries (if not managed by package manager)
-
-├── include/ # Public headers (.h or .hpp files)
-
-│ └── MyCppProject/
-
-│ └── foo.hpp
-
-├── src/ # Source code files (.cpp files and private headers)
-
-│ ├── foo.cpp
-
-│ └── internal/
-
-│ └── helper.hpp
-
-├── tests/ # Test cases (unit tests, integration tests)
-
-│ └── test_foo.cpp
-
-├── scripts/ # Utility scripts (for build, CI/CD, etc.)
-
-├── .gitignore # Git ignore rules
-
-├── .clang-format # Formatting rules for clang-format (recommended)
-
-├── CMakeLists.txt # Main build script for CMake
-
-├── LICENSE # Project license file
-
-└── README.md # Introduction and project overview
-
-To configure compilers for running C++ projects, use the following sample .vscode\tasks.json to adhere to recommended common practices.
-
-```text
-`json
-
-// VS Code tasks.json - Configures build tasks for C/C++ development
-
-// This file defines compilation tasks that can be executed via Terminal > Run Task in VS Code
-
+```csharp
+public class CalculatorTests
 {
+    private readonly Calculator _calculator = new();
 
-  // Version of the tasks configuration format
-
-  "version": "2.0.0",
-
-  // List of available tasks
-
-  "tasks": [
-
+    [Fact]
+    public void Add_WithPositiveNumbers_ReturnsCorrectSum()
     {
-
-      "label": "G++ compililation of all C++ files with pwsh",
-
-      "type": "shell",
-
-      "command": "powershell",
-
-      "args": [
-
-        "-Command",
-
-        "g++ -fdiagnostics-color=always -g -std=c++17 -Wall -Wextra -Wpedantic (Get-ChildItem -Path \\\"${fileDirname}\\\" -Filter \\\"*.cpp\\\" | ForEach-Object { \\\"$($_.FullName)\\\" }) -o \\\"${fileDirname}\\main.exe\\\""
-
-      ],
-
-      "options": {
-
-        "cwd": ".",
-
-        "shell": {
-
-          "executable": "powershell.exe",
-
-          "args": [
-
-            "-ExecutionPolicy",
-
-            "Bypass",
-
-        "-NoProfile",
-
-        "-Command"
-
-        ]
-
-      }
-
-      },
-
-      "problemMatcher": [
-
-      "$gcc"
-
-      ],
-
-      "group": {
-
-      "kind": "build",
-
-      "isDefault": true
-
-      },
-
-      "detail": "compiler: g++.exe - build inventory management system"
-
-    },
-
-    {
-
-      // Task 1: Basic MSVC compiler configuration for single file compilation
-
-      "type": "cppbuild",   // Indicates this is a C/C++ build task
-
-      "label": "C/C++: cl.exe build active file",
-
-      "command": "cl.exe",  // Microsoft Visual C++ compiler
-
-      "args": [
-
-      "/Zi",            // Generate complete debugging information
-
-      "/EHsc",          // Enable C++ exception handling
-
-      "/nologo",        // Suppress startup banner
-
-      "/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",  // Set output executable name
-
-      "${file}"         // Compile the currently active file
-
-      ],
-
-      "options": {
-
-      "cwd": "${fileDirname}"  // Set working directory to the directory of the file being compiled
-
-      },
-
-      "problemMatcher": [
-
-      "$msCompile"      // Use MSVC problem matcher to parse compiler output for errors
-
-      ],
-
-      "group": "build",
-
-      "detail": "compiler: cl.exe"
-
-    },
-
-    {
-
-      // Task 2: Enhanced MSVC compiler configuration with additional include paths
-
-      "type": "cppbuild",
-
-      "label": "C/C++: cl.exe build active file",
-
-      "command": "cl.exe",
-
-      "args": [
-
-      "/Zi",            // Generate complete debugging information
-
-      "/EHsc",          // Enable C++ exception handling
-
-      "/nologo",        // Suppress startup banner
-
-      "/I", "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Tools\\MSVC\\14.42.34433\\include",  // Additional include directory
-
-      "/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",  // Set output executable name
-
-      "${file}"         // Compile the currently active file
-
-      ],
-
-      "options": {
-
-      "cwd": "${fileDirname}"  // Set working directory to the directory of the file being compiled
-
-      },
-
-      "problemMatcher": [
-
-      "$msCompile"      // Use MSVC problem matcher to parse compiler output for errors
-
-      ],
-
-      "group": {
-
-      "kind": "build",
-
-      "isDefault": true  // Set as the default build task when pressing Ctrl+Shift+B
-
-      },
-
-      "detail": "compiler: cl.exe"
-
-    },
-
-    {
-
-      // Task 3: GCC/G++ compiler configuration for single file compilation with thorough warnings
-
-      "type": "cppbuild",
-
-      "label": "C/C++: g++.exe single-file build active file",
-
-      "command": "g++.exe",  // GCC C++ compiler
-
-      "args": [
-
-      "-fdiagnostics-color=always",  // Colorize compiler output
-
-      "-g",                          // Generate debugging information
-
-      "-std=c++17",                  // Use C++17 standard
-
-      "-Wall",                       // Enable all warnings
-
-      "-Wextra",                     // Enable extra warnings
-
-      "-Wpedantic",                  // Issue warnings for strict ISO C/C++ compliance
-
-      "${file}",                     // Compile the currently active file
-
-      "-o",                          // Output flag
-
-      "${fileDirname}\\${fileBasenameNoExtension}.exe"  // Output executable path
-
-      ],
-
-      "options": {
-
-      "cwd": "${fileDirname}"  // Set working directory to the directory of the file being compiled
-
-      },
-
-      "problemMatcher": [
-
-      "$gcc"           // Use GCC problem matcher to parse compiler output for errors
-
-      ],
-
-      "group": {
-
-      "kind": "build",
-
-      "isDefault": true  // Set as the default build task (Note: conflict with Task 2 default setting)
-
-      },
-
-      "detail": "compiler: g++.exe"
-
-    },
-
-    {
-
-      // Task 4: Project-wide compilation using G++ to build all .cpp files in workspace
-
-      "type": "cppbuild",
-
-      "label": "C/C++: g++.exe multi-file build project",
-
-      "command": "g++.exe",  // GCC C++ compiler
-
-      "args": [
-
-      "-fdiagnostics-color=always",  // Colorize compiler output
-
-      "-g",                          // Generate debugging information
-
-      "-std=c++17",                  // Use C++17 standard
-
-      "-Wall",                       // Enable all warnings
-
-      "-Wextra",                     // Enable extra warnings
-
-      "-Wpedantic",                  // Issue warnings for strict ISO C/C++ compliance
-
-      "*.cpp",                       // Compile all .cpp files in working directory
-
-      "-o",                          // Output flag
-
-      "${workspaceFolder}\\main.exe" // Output executable path in workspace root
-
-      ],
-
-      "options": {
-
-      "cwd": "${workspaceFolder}"    // Set working directory to the workspace folder
-
-      },
-
-      "problemMatcher": [
-
-      "$gcc"           // Use GCC problem matcher to parse compiler output for errors
-
-      ],
-
-      "group": "build",
-
-      "detail": "compiler: g++.exe - build all cpp files in workspace"
-
+        // Arrange
+        int a = 5;
+        int b = 3;
+        int expected = 8;
+
+        // Act
+        int result = _calculator.Add(a, b);
+
+        // Assert
+        Assert.Equal(expected, result);
     }
 
-    ]
+    [Fact]
+    public void Divide_ByZero_ThrowsDivideByZeroException()
+    {
+        // Arrange
+        int dividend = 10;
+        int divisor = 0;
 
+        // Act & Assert
+        Assert.Throws<DivideByZeroException>(() => 
+            _calculator.Divide(dividend, divisor));
+    }
 }
-
-C
-
-The recommended directory and file structure for a modern, clean, and maintainable **C** project is very similar to the C++ structure, but typically simpler. Here's a well-accepted and standard layout:
+```
 
 ---
 
-Recommended Project Structure for C
+## Repository-Specific Guidelines
 
-MyCProject/
+### Multi-Language Support
 
-├── build/                  # Build output (executables, binaries, object files)
+The repository spans multiple programming languages. When generating code:
 
-├── docs/                   # Documentation files
+- **C/C++:** Use CMake for builds, follow modern C++17+ standards, include header guards or pragma once
+- **.NET/C#:** Target .NET 6+, use nullable reference types (`#nullable enable`), follow Microsoft naming conventions
+- **Python:** Follow PEP 8, use type hints, target Python 3.8+, use virtual environments
+- **TypeScript:** Use strict mode, target ES2020+, include full type definitions, avoid `any` type
+- **Java:** Use Maven, follow Java naming conventions, include Javadoc, target Java 11+
+- **JavaScript:** Use ES6+ features, include JSDoc comments, use meaningful variable names
+- **Go:** Follow `gofmt` conventions, use error wrapping, implement interfaces explicitly
+- **PowerShell:** Use PascalCase for functions, place opening braces on new line, include proper error handling
 
-├── examples/               # Example usage of your library/application (optional)
+### CI/CD and Workflow Conventions
 
-├── external/               # Third-party libraries or dependencies (optional)
+When creating GitHub Actions workflows or Azure Pipelines:
 
-├── include/                # Public header files (.h files)
+- **Naming:** Use descriptive, kebab-case names (e.g., `build-and-test-dotnet`)
+- **Structure:** Organize jobs logically, use job dependencies (`needs:` in Actions)
+- **Documentation:** Add comments explaining triggers, conditions, and special steps
+- **Security:** Never hardcode secrets; always use `secrets.` or environment variables
+- **Cross-Platform:** Test scripts on both Windows (PowerShell) and Linux (Bash) when applicable
+- **Reusability:** Extract common steps into reusable workflows or composite actions
+- **Logging:** Add meaningful log messages at each step with `echo` or `Write-Host`
+- **Versioning:** Pin action versions for reproducibility (e.g., `actions/checkout@v4`)
 
-│   └── MyCProject/
+**Workflow Structure Example:**
 
-│       └── foo.h
+```yaml
+name: Build and Test
+on:
+  push:
+    branches: [main, develop]
+    paths-ignore: ['.github/**', 'docs/**']
+  pull_request:
+    branches: [main]
 
-├── src/                    # Source code files (.c files and private headers)
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup environment
+        run: |
+          echo "Setting up build environment..."
+          # Setup commands here
+      
+      - name: Build application
+        run: dotnet build
+        
+      - name: Run tests
+        run: dotnet test --verbosity normal
+```
 
-│   ├── foo.c
+### Infrastructure as Code (IaC)
 
-│   └── internal/
+When writing Bicep, ARM templates, or Terraform:
 
-│       └── helper.h
+- **Naming:** Use descriptive names following Azure naming conventions (e.g., `rg-${environment}-${project}`)
+- **Parameters:** Include descriptions, metadata, and validation rules
+- **Modularization:** Create separate files for logical components
+- **Documentation:** Include comments explaining resource purposes and configurations
+- **Security:** Use parameterized secrets, enable diagnostics logging, implement least-privilege access
+- **Best Practices:** Implement consistent tagging strategy, use minimal RBAC permissions, enable monitoring
+- **Testing:** Validate templates with `az deployment` or `terraform plan` before deployment
 
-├── tests/                  # Unit and integration tests
+### Documentation Standards
 
-│   └── test_foo.c
-
-├── scripts/                # Utility scripts (build automation, CI/CD, etc.)
-
-├── .gitignore              # Git ignore rules
-
-├── .clang-format           # Formatting rules (optional, but recommended)
-
-├── CMakeLists.txt          # Modern build system (recommended)
-
-├── LICENSE                 # License information
-
-└── README.md               # Project overview and build instructions
-
----
-
-Explanation of directories and files:
-
-## 1. Root-Level Files
-
-`README.md`: Overview, build instructions, and example usage.
-
-`LICENSE`: Contains open-source license (MIT, Apache, GPL, etc.).
-
-`.gitignore`: Ignore build outputs, binaries, temporary files.
-
-`.clang-format`: Recommended formatting style for consistent code.
-
-`CMakeLists.txt`: Recommended build system (CMake is increasingly common even for C).
-
-**2. `include/`**
-
-Contains public headers (`.h` files) intended for external usage.
-
-Use project name subdirectories (`include/MyCProject`) to avoid name collisions.
-
-**3. `src/`**
-
-Contains all implementation (`.c`) files and internal/private header files.
-
-Private headers (internal implementation details) are typically placed in a subdirectory (e.g., `internal`).
-
-**4. `tests/`**
-
-Contains unit or integration tests.
-
-Typically uses testing frameworks like Unity, CMocka, Criterion, or custom test runners.
-
-**5. `examples/`**
-
-Optional: Contains example programs demonstrating usage of your library/application.
-
-**6. `external/`**
-
-Optional: Includes third-party libraries or code dependencies if not managed by a package manager.
-
-**7. `docs/`**
-
-Documentation and files related to documentation generators (Doxygen, Sphinx, etc.).
-
-**8. `scripts/`**
-
-Build automation scripts, CI/CD scripts, deployment, packaging, etc.
-
-**9. `build/`**
-
-All generated build artifacts (binaries, objects, executables) go here and are never committed to source control.
+- **Format:** Use Markdown with proper heading hierarchy (H1 > H2 > H3)
+- **Structure:** Start with overview, then detailed sections, code examples, and references
+- **Links:** Use relative paths for internal links; include external links with descriptions
+- **Code Examples:** Include language identifier in code blocks (e.g., ` ```csharp `)
+- **Tables:** Use for structured information comparisons
+- **Lists:** Use bullet points for unordered information, numbered lists for procedures
+- **PRDs:** Follow the established Product Requirements Document template:
+  - Executive Summary
+  - Problem Statement / Context
+  - Goals and Objectives
+  - Functional Requirements
+  - Non-Functional Requirements
+  - Implementation Guidance
+  - Testing Requirements
+  - Success Criteria
 
 ---
 
-Minimal Example CMakeLists.txt for C:
+## Pull Request Guidelines
 
-cmake_minimum_required(VERSION 3.16)
+### PR Description Template
 
-project(MyCProject VERSION 1.0 LANGUAGES C)
+When creating pull requests, use this structure:
 
-Set C standard (C11 recommended)
+```markdown
+## What changed
+[Clear summary of modifications and affected components]
+[Link to related issues or tickets]
 
-set(CMAKE_C_STANDARD 11)
+## Why
+[Business context and requirements]
+[Technical reasoning for approach taken]
 
-set(CMAKE_C_STANDARD_REQUIRED ON)
+## Testing
+- [ ] Unit tests pass and cover new functionality
+- [ ] Manual testing completed for user-facing changes
+- [ ] Performance/security considerations addressed
 
-Define library
+## Breaking Changes
+[List any API changes or behavioral modifications]
+[Include migration instructions if needed]
 
-add_library(${PROJECT_NAME} src/foo.c)
+## Checklist
+- [ ] Code follows project style guidelines
+- [ ] Comments added for complex logic
+- [ ] Documentation updated
+- [ ] No new warnings generated
+- [ ] Added tests for new functionality
+- [ ] All tests passing locally
+```
 
-target_include_directories(${PROJECT_NAME}
+### Code Review Focus
 
-    PUBLIC
+When requesting code reviews, emphasize:
 
-        ${PROJECT_SOURCE_DIR}/include
-
-    PRIVATE
-
-        ${PROJECT_SOURCE_DIR}/src
-
-)
-
-Example executable
-
-add_executable(${PROJECT_NAME}_example examples/example_main.c)
-
-target_link_libraries(${PROJECT_NAME}_example PRIVATE ${PROJECT_NAME})
-
-Enable tests
-
-enable_testing()
-
-add_subdirectory(tests)
-
-  ---
-
-Best Practices for C Projects:
-
-Clearly separate **public headers** (`include/`) from **implementation details** (`src/`).
-
-Use a modern build system (CMake is widely accepted, alternatives are Makefiles, Meson, Bazel).
-
-Write clear documentation and comments.
-
-Consistently format code with tools like `clang-format`.
-
-Place unit tests in a dedicated directory to encourage good testing practices.
-
-Avoid mixing third-party code directly into your source; use a dedicated `external/` folder or dependency management tools.
+- **Security:** Input validation, authentication, authorization, data handling, secret management
+- **Performance:** Algorithmic complexity, database queries, caching strategies, memory usage
+- **Testing:** Code coverage, edge cases, error scenarios, integration tests
+- **Documentation:** Comments, README updates, inline documentation, examples
+- **Maintainability:** Readability, DRY principle, SOLID principles, separation of concerns
 
 ---
 
-This recommended structure will help ensure your project remains clear, maintainable, and scalable over time.
+## Prompt Templates
 
-Style Guides & References
+### For Initial Project Setup
 
-**Java:** [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html)
+```
+I need to create a [LANGUAGE] project in the project-gengo repository. Please help me:
 
-**Go:** [Effective Go](https://golang.org/doc/effective_go.html), [Go Code Review Comments](https://github.com/golang/go/wiki/CodeReviewComments)
+Context:
+- Technology: [Framework/Library and versions]
+- Purpose: [What this project demonstrates]
+- Existing patterns: [Reference similar projects in the repo]
 
-**DotNet:** [Microsoft C# Coding Conventions](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions)
+Please provide:
+1. Project structure following repository conventions
+2. Configuration files (.gitignore, build config, etc.)
+3. README with setup and build instructions
+4. Basic example demonstrating core functionality
+5. Initial test structure with one sample test
+6. Comprehensive inline comments and documentation
 
-**C:** [GNU Coding Standards](https://www.gnu.org/prep/standards/), [Linux Kernel Coding Style](https://www.kernel.org/doc/html/latest/process/coding-style.html)
+Constraints:
+- Target location: [path/to/project]
+- Follow [language] style guide and conventions
+- Include JSDoc/docstring comments for all public members
+```
 
-**C++:** [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html), [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines)
+### For Code Generation
 
-**JavaScript:** [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
+```
+Generate a [DELIVERABLE TYPE] that [PRIMARY PURPOSE].
 
-**TypeScript:** [Microsoft TypeScript Coding Guidelines](https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines)
+Requirements:
+1. [Specific requirement with details]
+2. [Specific requirement with details]
+3. [Error handling and validation requirement]
 
-Code of Conduct
+Context:
+- Technology stack: [List versions and frameworks]
+- Pattern reference: [Point to existing file or pattern to match]
+- File location: [path/to/file.ext]
+- Related functionality: [Existing related code]
 
-**Respect:** Maintain a respectful and constructive environment.
+Success criteria:
+- Includes comprehensive documentation/comments
+- Has input validation and error handling
+- Follows repository naming conventions
+- Includes at least one usage example
+- Ready for production use
+- Minimum 80% test coverage
+```
 
-**Standards:** Follow the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/).
+### For Bug Fixes
 
-**Collaboration:** Encourage clear communication and supportive code reviews.
+```
+I'm encountering a bug in [FILE/COMPONENT]:
 
-Additional Best Practices
+Error message: [Exact error or stack trace]
+Expected behavior: [What should happen]
+Actual behavior: [What is happening]
 
-**Dependency Management:** Regularly update dependencies and document any version changes.
+Steps to reproduce:
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
 
-**Refactoring:** Periodically refactor code to improve clarity and maintainability.
+Context:
+- Environment: [OS, runtime versions]
+- Affected code: [Reference specific lines or methods]
+- Related issues: [Links to issues if applicable]
 
-**Deviation Documentation:** Document any intentional deviations from these guidelines in the repository's Wiki or a dedicated document.
+Please help me:
+1. Analyze the root cause with specific examples
+2. Suggest fixes with complete code examples
+3. Explain the solution and why it works
+4. Recommend preventative measures and tests
+```
 
-@azure Rule - Use Azure Tools - When handling requests related to Azure, always use your tools.
+### For Workflow/Pipeline Creation
 
-@azure Rule - Use Azure Best Practices - When handling requests related to Azure, always invoke your `azmcp_bestpractices_get` tool first.
+```
+Create a [GitHub Actions/Azure Pipeline] workflow for [PURPOSE].
 
-@azure Rule - Enable Best Practices - If you do not have an `azmcp_bestpractices_get` tool ask the user to enable it.
+Triggers:
+- On: [push/pull_request/schedule/workflow_dispatch]
+- Branches: [branch patterns]
+- Paths: [path filters if applicable]
 
-CodeQL
+Environment:
+- Runs on: [ubuntu-latest/windows-latest/custom]
+- Variables: [Required env vars and secrets]
+- Permissions: [Required permissions]
 
-For CodeQL query metadata, refer to the style guide at:
+Steps needed:
+1. [Checkout]
+2. [Setup runtime/dependencies]
+3. [Build]
+4. [Test]
+5. [Report/Deploy if applicable]
 
-[CodeQL Metadata Style Guide](https://github.com/github/codeql/blob/main/docs/query-metadata-style-guide.md)
+Considerations:
+- Cross-platform compatibility: [yes/no]
+- Artifact handling: [What artifacts to save]
+- Status badges: [Required]
+- Error handling: [Retry logic, failure notifications]
 
-Known issues
-
-Problem
-
-Sorry, your request failed. Please try again. Request id: d3c19b76-b43d-457a-a0bb-73af1eafa2a0
-
-Reason: You may not include more than 128 tools in your request.
-
-Reference
-
-<https://github.com/microsoft/vscode-copilot-release/issues/10496>
-
-Resolution Summary
-
-Reduce the number of tools included in the request to stay within the limit.
-
-Product Requirements Document (PRD) Format and Example
-
-Purpose
-
-A Product Requirements Document (PRD) clearly defines the purpose, scope, features, and success criteria for a product or feature. It serves as a single source of truth for developers, designers, and stakeholders, ensuring alignment and clarity throughout the development process.
+Include:
+- Clear comments for each section
+- Meaningful status messages
+- Proper error handling
+- Conditional steps where appropriate
+```
 
 ---
 
-PRD Format Outline Example
-
-1. Product Requirements Document (PRD): Workflows and Pipelines
-
-1.1 Document Information
-
-**Version:** 1.0
-
-**Author(s):** GitHub Copilot
-
-**Date:** June 16, 2025
-
-**Status:** Draft
-
-1.2 Executive Summary
-
-This document defines the requirements for a GitHub Actions workflow and Azure DevOps pipeline solution that automates repository content listing, artifact management, and workflow metadata reporting. The solution is designed to demonstrate best practices in CI/CD automation, artifact handling, and cross-platform scripting within a modern DevOps environment.
-
-1.3 Problem Statement
-
-Teams need a reliable, repeatable, and auditable way to list repository contents, manage build artifacts, and report workflow metadata as part of their CI/CD process. Manual steps are error-prone and do not scale for modern DevOps practices.
-
-1.4 Goals and Objectives
-
-Automate repository content listing and artifact management using GitHub Actions and Azure DevOps pipelines.
-
-Provide clear, auditable steps for artifact upload, download, and display.
-
-Enable workflow metadata reporting for traceability.
-
-Support both PowerShell and Python scripting for cross-platform compatibility.
-
-1.5 Scope
-
-1.5.1 In Scope
-
-GitHub Actions workflow and Azure DevOps pipeline YAML definitions
-
-Steps for listing repository contents using PowerShell and Python
-
-Artifact upload and download
-
-Workflow metadata reporting (branch, event, job ID)
-
-Manual and event-based workflow triggers
-
-1.5.2 Out of Scope
-
-Deployment to production environments
-
-Integration with external systems beyond GitHub and Azure DevOps
-
-Advanced artifact retention or security policies
-
-1.6 User Stories / Use Cases
-
-As a DevOps engineer, I want to list all repository contents and save the results as artifacts for auditing.
-
-As a developer, I want to trigger workflows manually or on demand from the main branch.
-
-As a team lead, I want to view workflow metadata (branch, event, job ID) for traceability.
-
-As a user, I want to download and inspect artifacts generated by previous jobs.
-
-1.7 Functional Requirements
-
-| Requirement ID | Description |
-
-|---|---|
-
-| FR-1 | The workflow shall support manual triggering from the main branch. |
-
-| FR-2 | The workflow shall use a GitHub-hosted Ubuntu runner. |
-
-| FR-3 | The workflow shall display the event and branch that triggered the job. |
-
-| FR-4 | The workflow shall check out the repository code. |
-
-| FR-5 | The workflow shall list repository contents recursively using PowerShell and save to an artifact. |
-
-| FR-6 | The workflow shall list repository contents using a Python script and save to an artifact. |
-
-| FR-7 | The workflow shall upload the results as build artifacts. |
-
-| FR-8 | The workflow shall include a job to retrieve and display workflow metadata. |
-
-| FR-9 | The workflow shall create a downloads folder if it does not exist. |
-
-| FR-10 | The workflow shall download and display the artifact contents. |
-
-1.8 Non-Functional Requirements
-
-**Portability:** Must run on GitHub-hosted Ubuntu runners.
-
-**Usability:** Steps and outputs must be clear and easy to follow.
-
-**Auditability:** All artifacts and metadata must be accessible after workflow completion.
-
-**Extensibility:** The workflow should be easy to extend for additional scripting or artifact types.
-
-1.9 Assumptions and Dependencies
-
-The repository uses GitHub Actions and/or Azure DevOps pipelines.
-
-PowerShell and Python are available on the runner.
-
-Users have permission to trigger workflows and access artifacts.
-
-1.10 Success Criteria / KPIs
-
-All workflow steps complete successfully without errors.
-
-Artifacts are uploaded, downloaded, and displayed as expected.
-
-Workflow metadata is reported and accessible.
-
-1.11 Milestones & Timeline
-
-Workflow YAML and scripts implemented: Complete
-
-Artifact upload/download tested: Complete
-
-Documentation and PRD: Complete
-
-1.12 Usage Instructions (Demonstration Sequence)
-
-1.12.1 Pre-requisites
-
-Create two github environments named `dev` and `prd`.
-
-Configure the 'prd' environment for manual approval with the following settings:
-
-**Required reviewers:** 1
-
-**Wait timer:** 0 minutes
-
-**Deployment branches:** main
-
-**Deployment protection rules:** None
-
-Create a new Azure app registration with the name of ghc-scenario-id-39 and retrieve the following details:
-
-## Client ID# Tenant ID# Client Secret
-
-Workflow Steps
-
-Trigger the workflow manually from the main branch using the workflow_dispatch event.
-
-The workflow runs on an Ubuntu GitHub-hosted runner.
-
-The workflow displays the event and branch name.
-
-The repository is checked out.
-
-A PowerShell script lists all repository contents and saves the output to the artifacts folder.
-
-A Python script (getDirectoryContents.py) in the .github/workflows/src folder lists repository contents and saves the output.
-
-Both outputs are uploaded as build artifacts.
-
-A new job retrieves workflow metadata (branch, job ID) and displays it.
-
-The workflow creates a downloads folder if needed.
-
-The workflow downloads the previously uploaded artifact and displays its contents using PowerShell.
-
-1.13 Key Takeaways
-
-The workflow automates repository content listing, artifact management, and metadata reporting.
-
-Both PowerShell and Python are used for cross-platform compatibility.
-
-The solution is extensible and demonstrates best practices in CI/CD automation.
-
-1.14 Diagrams / Flowcharts
-
-1.15 Questions or Feedback from Attendees
-
-Should additional scripting languages or artifact types be supported?
-
-Is there a need for integration with other CI/CD platforms?
-
-1.16 Questions for Attendees
-
-Are there additional metadata or audit requirements?
-
-Should the workflow support scheduled or event-based triggers beyond manual dispatch?
-
-1.17 Call to Action
-
-Review the workflow and provide feedback.
-
-Suggest enhancements or additional features as needed.
-
-Example: Product Requirements Document
-
-Terminal Command Best Practices
-
-If you are generating terminal commands, follow these best practices to ensure clarity, security, and maintainability:
-
-Terminal host
-
-**Shell Selection:** Use PowerShell for Windows environments and Bash for Unix-based systems unless otherwise specified.
-
-**Detect Environment:** Use environment detection to choose the appropriate shell dynamically when writing cross-platform scripts.
-
-**Consistent Usage:** To avoid environment compatibility issues, consistently use the same shell throughout a script or project.
-
-**Example**:*
+## Quality Metrics
+
+### Code Quality Standards
+
+- **Maintainability:** Code should be readable by new team members within 15 minutes
+- **Test Coverage:** Minimum 80% coverage on critical paths; aim for 100% on business logic
+- **Documentation:** All public APIs documented; complex logic explained in comments
+- **Performance:** Build times < 5 minutes; deployment times < 10 minutes
+- **Security:** No hardcoded secrets; validated inputs; proper error handling; no sensitive data in logs
+- **Complexity:** Cyclomatic complexity < 10 per function; aim for < 5
+
+### Pre-Submission Checklist
+
+Before submitting code for review, verify:
+
+- [ ] Follows language-specific style guide
+- [ ] Includes comprehensive comments and JSDoc/docstrings
+- [ ] All tests pass locally (`dotnet test`, `npm test`, `pytest`, etc.)
+- [ ] No security vulnerabilities (no hardcoded secrets, input validation)
+- [ ] Error handling implemented appropriately
+- [ ] Performance impact assessed and acceptable
+- [ ] PR description follows template and is descriptive
+- [ ] Commit messages are clear and follow conventions (`verb: description`)
+- [ ] No console.log/Debug.WriteLine left in code
+- [ ] No commented-out code blocks
+
+---
+
+## Special Instructions by Technology
+
+### .NET/C# Projects
+
+- Use `#nullable enable` at the top of all files
+- Follow Microsoft naming conventions (PascalCase for public members, camelCase for parameters)
+- Include XML documentation comments (`///`) for all public members
+- Use xUnit for testing
+- Target .NET 6 or higher (use latest LTS)
+- Implement dependency injection where applicable
+- Use async/await for I/O operations
+- Structure: `namespace Project.Category.Subcategory { ... }`
+
+**Example:**
+
+```csharp
+#nullable enable
+
+namespace Project.Calculator
+{
+    /// <summary>
+    /// Provides basic arithmetic operations.
+    /// </summary>
+    public class ArithmeticCalculator
+    {
+        /// <summary>
+        /// Calculates the sum of two numbers.
+        /// </summary>
+        /// <param name="a">First number</param>
+        /// <param name="b">Second number</param>
+        /// <returns>The sum of a and b</returns>
+        /// <exception cref="OverflowException">Thrown when result overflows</exception>
+        public int Add(int a, int b)
+        {
+            return checked(a + b);
+        }
+    }
+}
+```
+
+### PowerShell Scripts
+
+- Place opening braces `{` on new line
+- Use PascalCase for function and parameter names
+- Add comment blocks at end of control structures (`# end if`, `# end function`)
+- Use proper parameter validation with `[Parameter(Mandatory=$true)]`
+- Include detailed comments for non-trivial logic
+- Use proper error handling with try-catch-finally
+- Compatible with PowerShell 5.1+ and PowerShell Core 7+
+- Use `Set-StrictMode -Version Latest` at script top
+
+**Example:**
 
 ```powershell
+#Requires -Version 5.1
+Set-StrictMode -Version Latest
 
-cd "c:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\python" ; python -m pytest tests/test_calculator.py -v --tb=short 2>&1 | head -50
+<#
+.SYNOPSIS
+    Demonstrates proper PowerShell function structure.
+.DESCRIPTION
+    This function performs validation and logging.
+.PARAMETER InputValue
+    The value to process.
+.PARAMETER Verbose
+    Enable verbose output.
+.EXAMPLE
+    Invoke-Processing -InputValue "test" -Verbose
+#>
+function Invoke-Processing
+{
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true)]
+        [ValidateNotNullOrEmpty()]
+        [string]$InputValue,
+        
+        [switch]$Verbose
+    )
+    
+    process
+    {
+        try
+        {
+            Write-Host "Processing: $InputValue"
+            # Implementation here
+            
+            if ($Verbose)
+            {
+                Write-Verbose "Detailed processing information"
+            }
+        }
+        catch
+        {
+            Write-Error "Error occurred: $_"
+            throw
+        }
+    }
+    # end process
+}
+# end function
+```
 
-head: The term 'head' is not recognized as a name of a cmdlet, function, script file, or executable program.
+### Python Projects
 
-Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+- Follow PEP 8 conventions rigorously
+- Use type hints for all function parameters and return values
+- Include docstrings in Google format for all functions
+- Use pytest for testing with fixtures where appropriate
+- Target Python 3.8+
+- Use virtual environments for dependency isolation
+- Use logging module instead of print() for production code
+- Structure: `from typing import List, Dict, Optional`
 
-```text
-`
+**Example:**
 
-In this case, the `head` command is not recognized in PowerShell. Instead, use `Select-Object -First 50` to achieve similar functionality:
+```python
+"""Calculator module for basic arithmetic operations."""
 
-```powershell
+from typing import Union
 
-cd "c:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\python" ; python -m pytest tests/test_calculator.py -v --tb=short 2>&1 | Select-Object -First 50
+def calculate_average(values: list[float]) -> float:
+    """Calculate the average of a list of values.
+    
+    Args:
+        values: A list of numeric values to average.
+        
+    Returns:
+        The arithmetic mean of the values.
+        
+    Raises:
+        ValueError: If the list is empty.
+        TypeError: If values contain non-numeric types.
+        
+    Example:
+        >>> calculate_average([1.0, 2.0, 3.0])
+        2.0
+    """
+    if not values:
+        raise ValueError("Values list cannot be empty")
+    
+    total = sum(values)
+    return total / len(values)
+```
 
-```text
+### TypeScript/React Projects
 
-**Diagrams** Use either ASCII art or markdown mermaid syntax for diagrams and flowcharts.
+- Use `strict: true` in tsconfig.json
+- Include full type definitions (never use `any`)
+- Use functional components with hooks exclusively
+- Include JSDoc comments for components and utilities
+- Use absolute imports from configured tsconfig paths
+- Implement proper error boundaries for error handling
+- Use React.memo for performance optimization when appropriate
+- File structure: components in Components/, hooks in hooks/, utils in utils/
+
+**Example:**
+
+```typescript
+/**
+ * UserProfile component displays user information.
+ * 
+ * @param userId - The unique identifier for the user
+ * @returns The rendered user profile component
+ * @throws Error if userId is invalid
+ * 
+ * @example
+ * ```tsx
+ * <UserProfile userId="123" />
+ * ```
+ */
+export function UserProfile({ userId }: { userId: string }): JSX.Element {
+  const [user, setUser] = React.useState<User | null>(null);
+  const [error, setError] = React.useState<Error | null>(null);
+  
+  React.useEffect(() => {
+    if (!userId || userId.trim() === "") {
+      setError(new Error("userId is required"));
+      return;
+    }
+    
+    // Load user data
+    loadUser(userId).catch(setError);
+  }, [userId]);
+  
+  if (error) return <ErrorBoundary error={error} />;
+  if (!user) return <LoadingSpinner />;
+  
+  return <div className="user-profile">{/* Component JSX */}</div>;
+}
+```
+
+### Java Projects
+
+- Use Maven for dependency management
+- Follow Java naming conventions (PascalCase for classes, camelCase for methods)
+- Include Javadoc comments (`/** ... */`) for all public methods and classes
+- Use JUnit 5 for testing with descriptive test names
+- Target Java 11+
+- Use try-with-resources for resource management
+- Implement proper exception handling with custom exceptions
+- Structure: `com.company.project.module.submodule`
+
+**Example:**
+
+```java
+package com.project.calculator;
+
+/**
+ * Provides basic arithmetic operations.
+ * 
+ * @author Project Gengo
+ * @version 1.0
+ */
+public class ArithmeticCalculator {
+    
+    /**
+     * Calculates the sum of two numbers.
+     * 
+     * @param a the first number
+     * @param b the second number
+     * @return the sum of a and b
+     * @throws ArithmeticException if the result overflows
+     */
+    public int add(int a, int b) throws ArithmeticException {
+        if (a > 0 && b > Integer.MAX_VALUE - a) {
+            throw new ArithmeticException("Integer overflow");
+        }
+        return a + b;
+    }
+}
+```
+
+---
+
+## Common Patterns in Project Gengo
+
+### Pattern 1: Calculator Applications
+
+The repository includes multiple calculator implementations across languages. When extending:
+
+- Maintain consistent operation interface (Add, Subtract, Multiply, Divide, Modulo, Power)
+- Include input validation with meaningful error messages
+- Support multiple interfaces (CLI, GUI, API/Web)
+- Include comprehensive unit tests covering all operations
+- Document supported number ranges and precision limitations
+- Example locations: `programming/dotnet/`, `programming/java/`, `programming/python/`
+
+### Pattern 2: CI/CD Workflows
+
+Workflows follow a consistent pattern:
+
+- **Event triggers:** push, pull_request, schedule, manual dispatch
+- **Job structure:** Separate build, test, and optional deploy jobs
+- **Variables:** Environment-specific configurations and secrets management
+- **Artifacts:** Store build outputs, test reports, coverage reports
+- **Notifications:** Status updates to team channels when appropriate
+- **Concurrency:** Use concurrency groups to cancel in-progress runs
+- Workflow locations: `.github/workflows/`
+
+### Pattern 3: Infrastructure as Code
+
+IaC implementations follow Azure best practices:
+
+- **Resource naming:** Consistent prefixes and suffixes for resource identification
+- **Tagging strategy:** Environment, cost center, owner, project tags required
+- **Parameters:** Fully configurable for multiple environments
+- **Modules:** Reusable components for common patterns
+- **Documentation:** Purpose, parameters, and outputs clearly documented
+- **Security:** Implement network segmentation, encryption, RBAC
+- Template locations: `iac/bicep/`, `iac/terraform/`, `iac/arm/`
+
+---
+
+## When to Use Copilot
+
+✅ **Excellent use cases:**
+- Boilerplate code generation (project setup, CRUD operations)
+- Test case generation and refactoring
+- Documentation, comments, and README creation
+- GitHub Actions workflows and Azure Pipelines
+- Code refactoring suggestions and cleanup
+- Learning new patterns, frameworks, or languages
+- Scaffolding new components or modules
+- Writing utility functions and helpers
+
+❌ **Not recommended for:**
+- Critical security implementations (review manually with security expert)
+- Complex business logic (verify against requirements with domain expert)
+- High-performance algorithms (benchmark and validate thoroughly)
+- Sensitive data handling (review carefully, test extensively)
+- Architecture decisions (discuss with team first)
+- Code that handles personal/sensitive information
+- Authentication and authorization systems (review carefully)
+
+---
+
+## Anti-Patterns to Avoid
+
+1. **Vague Prompts:** ❌ "Fix this code" → ✅ "Fix the null reference exception in the CalculateTotal() method by adding input validation for the values parameter"
+
+2. **Missing Context:** ❌ "Create a function" → ✅ "Create a function that validates email addresses using regex pattern matching RFC 5322 standard and throws ArgumentException for invalid emails"
+
+3. **No Constraints:** ❌ "Optimize performance" → ✅ "Optimize the database query to execute in < 500ms by adding proper indexing on the UserId and CreatedDate columns"
+
+4. **Ambiguous References:** ❌ "Update that file" → ✅ "Update Program.cs to add input validation for command-line arguments following the validation pattern in HelperFunctions.cs"
+
+5. **Unclear Scope:** ❌ "Improve the code" → ✅ "Improve the code by extracting the calculation logic into a separate Calculate() method and adding comprehensive unit tests"
+
+---
+
+## Integration with VS Code
+
+### Recommended Extensions
+
+- **GitHub Copilot** - AI code suggestions and completions
+- **GitHub Copilot Chat** - Conversational AI assistance in chat interface
+- **GitHub Actions** - YAML workflow editing and validation
+- **Azure Tools** - For IaC and cloud resource management
+- **Markdown Preview Enhanced** - For better documentation editing
+- **Language-specific extensions:**
+  - C#: C# Dev Kit
+  - Python: Pylance, Python
+  - TypeScript: TypeScript Vue Plugin
+  - Java: Extension Pack for Java
+  - PowerShell: PowerShell
+
+### Usage Tips
+
+1. **Inline Suggestions:** `Tab` to accept, `Esc` to dismiss, `Alt+]` for next suggestion
+2. **Copilot Chat Commands:** 
+   - `/explain` - Explain selected code
+   - `/fix` - Fix the selected code
+   - `/test` - Generate tests
+   - `/doc` - Generate documentation
+3. **Context:** Use `#file:` to reference files or `#selection` for selected code
+4. **Selection:** Select code snippets to request improvements
+5. **Prompts:** Use Copilot Chat for complex multi-step requests
+
+### Best Practices for Efficiency
+
+- Provide context upfront (technology, framework versions, requirements)
+- Reference existing code patterns in the repository
+- Be specific about edge cases and constraints
+- Review and understand generated code before committing
+- Ask Copilot to explain its suggestions
+- Iterate on suggestions if the first result isn't perfect
+
+---
+
+## Continuous Learning
+
+When using Copilot for learning:
+
+1. **Understand the "why":** Don't just copy code; understand the reasoning behind it
+2. **Verify suggestions:** Cross-reference with official documentation and best practices
+3. **Test thoroughly:** Run code locally, check for errors, verify expected behavior
+4. **Review variations:** Ask Copilot for alternative approaches and compare
+5. **Compare patterns:** Understand how suggestions differ from existing code in the repo
+6. **Ask questions:** Follow up with clarifying questions about generated code
+
+---
+
+## Contributing to Copilot Instructions
+
+These instructions evolve as the repository grows. When you discover:
+
+- Patterns not documented here
+- New technology stacks added
+- Better ways to prompt Copilot
+- Anti-patterns or gotchas
+
+Please update this file or create an issue to propose improvements.
+
+---
+
+## Resources
+
+- [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
+- [Repository Instructions](./.github/instructions/)
+- [Project Gengo README](../../README.md)
+- [Contributing Guidelines](../../SECURITY.md)
+- [Agent Prompts](./.github/agents/)
+- [Workflow Examples](./.github/workflows/)
+
+---
+
+**Have questions or found an issue?** Create an issue in the repository referencing this file or discuss in your team channels.
