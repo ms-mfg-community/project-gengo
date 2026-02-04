@@ -5,19 +5,19 @@ using Xunit;
 /// <summary>
 /// Comprehensive xUnit tests for the calculator application.
 /// Tests cover normal cases, edge cases, and error conditions.
-/// Test data is sourced from a CSV file for better maintainability and organization.
+/// Test data is sourced from a SQLite database for better maintainability and organization.
 /// </summary>
 public class CalculatorTest
 {
-    #region CSV-Based Theory Tests
+    #region SQLite-Based Theory Tests
 
     /// <summary>
-    /// Theory test that loads test data from CSV file.
+    /// Theory test that loads test data from SQLite database.
     /// Tests all operations (Add, Subtract, Multiply, Divide, Modulo, Exponent).
     /// </summary>
     [Theory]
     [MemberData(nameof(CalculatorTestDataLoader.GetTestData), MemberType = typeof(CalculatorTestDataLoader))]
-    public void CalculatorOperations_WithCSVData_ReturnsExpectedResults(
+    public void CalculatorOperations_WithSQLiteData_ReturnsExpectedResults(
         double firstNumber, 
         double secondNumber, 
         string operation, 
@@ -38,7 +38,7 @@ public class CalculatorTest
 
         // Assert
         Assert.Equal(expectedValue, result);
-    } // end CalculatorOperations_WithCSVData_ReturnsExpectedResults
+    } // end CalculatorOperations_WithSQLiteData_ReturnsExpectedResults
 
     #endregion
 
