@@ -5,6 +5,9 @@ namespace calculator.tests;
 /// <summary>
 /// Utility class to migrate test data from CSV to SQLite database.
 /// This is a one-time migration tool that can be run to create the initial database.
+/// Note: This implementation uses simple CSV parsing (comma-delimited) and expects
+/// that Description fields do not contain commas. For production use with complex
+/// CSV data, consider using a proper CSV parsing library like CsvHelper.
 /// </summary>
 public class TestDataMigration
 {
@@ -49,16 +52,40 @@ public class TestDataMigration
 
             // Read CSV and insert data
             var lines = File.ReadAllLines(csvPath).Skip(1); // Skip header row
+            int count = 0;
+            int lineNumber = 1; // Start at 1 for header
 
             foreach (var line in lines)
             {
+                lineNumber++;
+                
+                // Skip empty lines
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    continue;
+                } // end if
+                
                 var parts = line.Split(',');
                 if (parts.Length >= 5)
                 {
-                    double.TryParse(parts[0], out double firstNumber);
-                    double.TryParse(parts[1], out double secondNumber);
+                    // Parse and validate numeric values
+                    if (!double.TryParse(parts[0], out double firstNumber))
+                    {
+                        throw new FormatException($"Line {lineNumber}: Invalid FirstNumber value '{parts[0]}'");
+                    } // end if
+                    
+                    if (!double.TryParse(parts[1], out double secondNumber))
+                    {
+                        throw new FormatException($"Line {lineNumber}: Invalid SecondNumber value '{parts[1]}'");
+                    } // end if
+                    
                     var operation = parts[2].Trim();
-                    double.TryParse(parts[3], out double expectedValue);
+                    
+                    if (!double.TryParse(parts[3], out double expectedValue))
+                    {
+                        throw new FormatException($"Line {lineNumber}: Invalid ExpectedValue '{parts[3]}'");
+                    } // end if
+                    
                     var description = parts[4].Trim();
 
                     var insertCommand = connection.CreateCommand();
@@ -72,7 +99,12 @@ public class TestDataMigration
                     insertCommand.Parameters.AddWithValue("$expectedValue", expectedValue);
                     insertCommand.Parameters.AddWithValue("$description", description);
                     insertCommand.ExecuteNonQuery();
-                } // end if
+                    count++;
+                }
+                else
+                {
+                    throw new FormatException($"Line {lineNumber}: Expected at least 5 columns, found {parts.Length}");
+                } // end else
             } // end foreach
         } // end using
 

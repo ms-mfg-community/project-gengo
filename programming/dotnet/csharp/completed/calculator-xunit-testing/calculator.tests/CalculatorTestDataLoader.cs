@@ -36,7 +36,7 @@ public class CalculatorTestDataLoader
         using var connection = new SqliteConnection(connectionString);
         connection.Open();
 
-        var command = connection.CreateCommand();
+        using var command = connection.CreateCommand();
         command.CommandText = @"
             SELECT FirstNumber, SecondNumber, Operation, ExpectedValue, Description
             FROM CalculatorTestData
