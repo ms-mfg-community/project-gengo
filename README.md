@@ -296,6 +296,8 @@ See: [.github/copilot-instructions.md](.github/copilot-instructions.md).
 
 - Architecture decision records (ADRs).
 
+- README required sections: Overview, Installation, Usage, Contributing, License.
+
 ---
 
 ## Getting Started
@@ -797,6 +799,8 @@ See: [`.github/copilot-instructions.md`](.github/copilot-instructions.md)
 - API documentation examples
 
 - Architecture decision records (ADRs)
+
+- README required sections: Overview, Installation, Usage, Contributing, License
 
 ---
 
