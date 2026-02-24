@@ -1,0 +1,25 @@
+{
+  "name": "calculator-typescript",
+  "version": "1.0.0",
+  "description": "A simple TypeScript calculator console application with arithmetic operations",
+  "main": "dist/cli.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/cli.ts",
+    "dev": "ts-node src/cli.ts",
+    "test": "ts-node src/test.ts"
+  },
+  "keywords": [
+    "calculator",
+    "typescript",
+    "console",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}

@@ -1,231 +1,254 @@
 # Product Requirements Document: Azure SQL Database Operations Demo
 
-## Document Information
+\n\nDocument Information
 
-**Version:** 1.0  
-**Author:** GitHub Copilot Workshop Team  
-**Date:** 2023-07-20  
-**Status:** Draft  
+**Version:** 1.0
 
-## 1. Executive Summary
+**Author:** GitHub Copilot Workshop Team
+
+**Date:** 2023-07-20
+
+**Status:** Draft
+
+\n\n1. Executive Summary
 
 This document outlines a demonstration scenario for GitHub Copilot workshops, focusing on basic database CRUD operations using Azure SQL. The demo will showcase how GitHub Copilot can assist with generating SQL queries for a table named `demos` in the Azure SQL database.
 
-### 1.1 Models Tested
+\n\n1.1 Models Tested
 
-#### 1.1.1 Gemini 2.5 Pro
+\n\n1.1.1 Gemini 2.5 Pro
 
-- **Date Tested:** 14jun2025
-- **Tested By:** GitHub Copilot Workshop Team
-- **Tested On:** Azure SQL Database
-- **Tested With:** T-SQL queries
-- **Tested Features:** CRUD operations, query generation, and safety practices
-- **Tested Prompts:** Natural language prompts for SQL generation
-- **Tested Results:** Successful generation of SQL queries for all CRUD operations with appropriate safety measures and context awareness.
-- **Tested Limitations:** No significant limitations observed; Copilot effectively handled complex queries and provided relevant suggestions based on context.
+\n\n**Date Tested:** 14jun2025
+\n\n**Tested By:** GitHub Copilot Workshop Team
+\n\n**Tested On:** Azure SQL Database
+\n\n**Tested With:** T-SQL queries
+\n\n**Tested Features:** CRUD operations, query generation, and safety practices
+\n\n**Tested Prompts:** Natural language prompts for SQL generation
+\n\n**Tested Results:** Successful generation of SQL queries for all CRUD operations with appropriate safety measures and context awareness.
+\n\n**Tested Limitations:** No significant limitations observed; Copilot effectively handled complex queries and provided relevant suggestions based on context.
 
-#### 1.1.2 OpenAI GPT-4.1
+\n\n1.1.2 OpenAI GPT-4.1
 
-- **Date Tested:** 14jun2025
-- **Tested By:** GitHub Copilot Workshop Team
-- **Tested On:** Azure SQL Database
-- **Tested With:** T-SQL queries
-- **Tested Features:** CRUD operations, query generation, and safety practices
-- **Tested Prompts:** Natural language prompts for SQL generation
-- **Tested Results:** Successful generation of SQL queries for all CRUD operations with appropriate safety measures and context awareness. **NOTE**: GPT-4.1 was the fasted model tested.
-- **Tested Limitations:** No significant limitations observed; Copilot effectively handled complex queries and provided relevant suggestions based on context. 
+\n\n**Date Tested:** 14jun2025
+\n\n**Tested By:** GitHub Copilot Workshop Team
+\n\n**Tested On:** Azure SQL Database
+\n\n**Tested With:** T-SQL queries
+\n\n**Tested Features:** CRUD operations, query generation, and safety practices
+\n\n**Tested Prompts:** Natural language prompts for SQL generation
+\n\n**Tested Results:** Successful generation of SQL queries for all CRUD operations with appropriate safety measures and context awareness. **NOTE**: GPT-4.1 was the fasted model tested.
+\n\n**Tested Limitations:** No significant limitations observed; Copilot effectively handled complex queries and provided relevant suggestions based on context.
 
-#### 1.1.3 Claude 3.7 Sonnet
+\n\n1.1.3 Claude 3.7 Sonnet
 
-- **Date Tested:** 14jun2025
-- **Tested By:** GitHub Copilot Workshop Team
-- **Tested On:** Azure SQL Database
-- **Tested With:** T-SQL queries
-- **Tested Features:** CRUD operations, query generation, and safety practices
-- **Tested Prompts:** Natural language prompts for SQL generation
-- **Tested Results:** Successful generation of SQL queries for all CRUD operations with appropriate safety measures and context awareness. **NOTE**: Claude 3.7 Sonnet was the most explainable model tested with detailed explanations of SQL syntax and logic.
-- **Tested Limitations:** No significant limitations observed; Copilot effectively handled complex queries and provided relevant suggestions based on context. 
- 
-## 2. Connection Details
+\n\n**Date Tested:** 14jun2025
+\n\n**Tested By:** GitHub Copilot Workshop Team
+\n\n**Tested On:** Azure SQL Database
+\n\n**Tested With:** T-SQL queries
+\n\n**Tested Features:** CRUD operations, query generation, and safety practices
+\n\n**Tested Prompts:** Natural language prompts for SQL generation
+\n\n**Tested Results:** Successful generation of SQL queries for all CRUD operations with appropriate safety measures and context awareness. **NOTE**: Claude 3.7 Sonnet was the most explainable model tested with detailed explanations of SQL syntax and logic.
+\n\n**Tested Limitations:** No significant limitations observed; Copilot effectively handled complex queries and provided relevant suggestions based on context.
 
-**Connection Information:**
-- **Server:** svr-ghc-01.database.windows.net
-- **Database:** demos
-- **Username:** sqladmin
-- **Authentication:** SQL Authentication
-- **Port:** 1433
+\n\n2. Connection Details
 
-## 3. Demo Scenario: "Workshop Content Management System"
+## Connection Information
 
-### 3.1 Overview
+\n\n**Server:** svr-ghc-01.database.windows.net
+\n\n**Database:** demos
+\n\n**Username:** sqladmin
+\n\n**Authentication:** SQL Authentication
+\n\n**Port:** 1433
 
-As an instructor managing GitHub Copilot workshops, you maintain a database of demonstration scenarios in the `demos` table. 
+\n\n3. Demo Scenario: "Workshop Content Management System"
+
+\n\n3.1 Overview
+
+As an instructor managing GitHub Copilot workshops, you maintain a database of demonstration scenarios in the `demos` table.
+
 During the workshop, you'll showcase how GitHub Copilot helps you manage this content through basic database operations.
 
-### 3.2 Table Structure
+\n\n3.2 Table Structure
 
 The `demos` table contains information about different demonstration scenarios used in workshops:
+
 -- Table structure reference
+
 -- Key columns include:
+
 -- id: Unique identifier
+
 -- category: Main topic category (e.g., 'programming', 'databases')
+
 -- language: Programming language used (e.g., 'csharp', 'python')
+
 -- scenario: Description of the demonstration
+
 -- confidence_percent: Success rate of the demo
 
-### 3.3 Demo Sequence
+\n\n3.3 Demo Sequence
 
-#### 3.3.1 Exploring Data (READ)
+\n\n3.3.1 Exploring Data (READ)
 
 **Scenario:** "Let's see what demonstrations we have available for our workshop."
+
 -- Basic SELECT query
+
 -- Filtering data
+
 -- Searching with pattern matching
 
-
-#### 3.3.2 Adding New Content (CREATE)
+\n\n3.3.2 Adding New Content (CREATE)
 
 **Scenario:** "We need to add a new demonstration for our upcoming workshop."
+
 -- INSERT statement
 
-#### 3.3.3 Updating Content (UPDATE)
+\n\n3.3.3 Updating Content (UPDATE)
 
 **Scenario:** "We need to update the confidence score for one of our demonstrations based on feedback."
+
 -- UPDATE statement
 
-#### 3.3.4 Removing Content (DELETE)
+\n\n3.3.4 Removing Content (DELETE)
 
 **Scenario:** "Let's implement a safe removal process for outdated demonstrations."
+
 -- Safe DELETE with verification
+
 -- First, identify what would be deleted
 
-## 4. Teaching Points for GitHub Copilot
+\n\n4. Teaching Points for GitHub Copilot
 
-### 4.1 Key Demonstration Elements
+\n\n4.1 Key Demonstration Elements
 
-1. **Contextual Awareness:**
-   - Show how Copilot understands SQL syntax
-   - Demonstrate context from previous queries
-   - Show how Copilot helps with table column suggestions
+\n\n**Contextual Awareness:**
+\n\nShow how Copilot understands SQL syntax
+\n\nDemonstrate context from previous queries
+\n\nShow how Copilot helps with table column suggestions
 
-2. **Safety Practices:**
-   - Highlight safety measures in DELETEs (using WHERE clauses)
-   - Show transaction handling recommendations
-   - Demonstrate verification steps before modifications
+\n\n**Safety Practices:**
+\n\nHighlight safety measures in DELETEs (using WHERE clauses)
+\n\nShow transaction handling recommendations
+\n\nDemonstrate verification steps before modifications
 
-3. **Pattern Recognition:**
-   - Start with simple queries and extend complexity
-   - Show how patterns in one query translate to others
-   - Demonstrate comment-driven query generation
+\n\n**Pattern Recognition:**
+\n\nStart with simple queries and extend complexity
+\n\nShow how patterns in one query translate to others
+\n\nDemonstrate comment-driven query generation
 
-4. **Error Prevention:**
-   - Identify potential syntax errors
-   - Suggest proper data types for column values
-   - Provide guidance on JOIN conditions and filtering
+\n\n**Error Prevention:**
+\n\nIdentify potential syntax errors
+\n\nSuggest proper data types for column values
+\n\nProvide guidance on JOIN conditions and filtering
 
-## 5. Workshop Flow
+\n\n5. Workshop Flow
 
-1. **Introduction** (2 minutes)
-   - Explain the demo table and its purpose
-   - Set context for database operations
+\n\n**Introduction** (2 minutes)
+\n\nExplain the demo table and its purpose
+\n\nSet context for database operations
 
-2. **READ Operations** (5 minutes)
-   - Basic SELECT queries
-   - Filtering and sorting
-   - Search functionality
+\n\n**READ Operations** (5 minutes)
+\n\nBasic SELECT queries
+\n\nFiltering and sorting
+\n\nSearch functionality
 
-3. **CREATE Operation** (3 minutes)
-   - Adding new workshop content
-   - Handling ID generation
+\n\n**CREATE Operation** (3 minutes)
+\n\nAdding new workshop content
+\n\nHandling ID generation
 
-4. **UPDATE Operation** (3 minutes)
-   - Modifying existing content
-   - Audit trail techniques
+\n\n**UPDATE Operation** (3 minutes)
+\n\nModifying existing content
+\n\nAudit trail techniques
 
-5. **DELETE Operation** (2 minutes)
-   - Safe deletion practices
-   - Verification steps
+\n\n**DELETE Operation** (2 minutes)
+\n\nSafe deletion practices
+\n\nVerification steps
 
-6. **Q&A and Discussion** (5 minutes)
-   - Review generated SQL
-   - Discuss alternatives
-   - Address questions
+\n\n**Q&A and Discussion** (5 minutes)
+\n\nReview generated SQL
+\n\nDiscuss alternatives
+\n\nAddress questions
 
-## 6. Success Criteria
+\n\n6. Success Criteria
 
-- Attendees understand how GitHub Copilot assists with SQL query generation
-- All CRUD operations are successfully demonstrated
-- Safety practices are emphasized throughout
-- Participants gain confidence in using Copilot for database operations
+\n\nAttendees understand how GitHub Copilot assists with SQL query generation
+\n\nAll CRUD operations are successfully demonstrated
+\n\nSafety practices are emphasized throughout
+\n\nParticipants gain confidence in using Copilot for database operations
 
-## 7. Sample Natural Language Prompts and Expected T-SQL Code
+\n\n7. Sample Natural Language Prompts and Expected T-SQL Code
 
 This section provides example prompts that can be given to GitHub Copilot during the workshop, along with the expected T-SQL code that Copilot should generate.
 
-### 7.1 READ Operation Prompts
+\n\n7.1 READ Operation Prompts
 
-#### Prompt 0: (System Prompt) You are an expert SQL developer and GitHub Copilot instructor. 
+\n\nPrompt 0: (System Prompt) You are an expert SQL developer and GitHub Copilot instructor.
 
-#### You will be given a series of natural language prompts to generate SQL queries for the `demos` table in the Azure SQL database
+\n\nYou will be given a series of natural language prompts to generate SQL queries for the `demos` table in the Azure SQL database
 
-#### The table contains information about various programming demos, including their categories, languages, and confidence scores.
+\n\nThe table contains information about various programming demos, including their categories, languages, and confidence scores.
 
-#### For each prompt, generate the appropriate T-SQL code that fulfills the request and place it only in the active *.sql context file so we can immediately run the query and see the results. To discover the table structure, you perform the following operations
+\n\nFor each prompt, generate the appropriate T-SQL code that fulfills the request and place it only in the active \*.sql context file so we can immediately run the query and see the results. To discover the table structure, you perform the following operations
 
-#### Generate the T-SQL code to show the demos database schema, as well as how to execute it and save the results as a reference .csv file in the same directory as the active .sql file
+\n\nGenerate the T-SQL code to show the demos database schema, as well as how to execute it and save the results as a reference .csv file in the same directory as the active .sql file
 
-- Use the name `table_schema.csv`
-- Then add this results file to the context window that will be used as a reference to inform subsequent prompts for any relevant database tables.
-- Use semantic search to actually construct the best relevant query such that it can be immediately executed without any further manual modification"
+\n\nUse the name `table_schema.csv`
+\n\nThen add this results file to the context window that will be used as a reference to inform subsequent prompts for any relevant database tables.
+\n\nUse semantic search to actually construct the best relevant query such that it can be immediately executed without any further manual modification"
 
-#### Prompt 1: "Show me the top 10 demos in the database with their categories and languages."
+\n\nPrompt 1: "Show me the top 10 demos in the database with their categories and languages."
 
-#### Prompt 2: "Find all csharp programming demos with confidence over 60% sorted by highest confidence"
+\n\nPrompt 2: "Find all csharp programming demos with confidence over 60% sorted by highest confidence"
 
-#### 
+####
 
-### 7.2 CREATE Operation Prompts
+\n\n7.2 CREATE Operation Prompts
 
-#### Prompt 1: "Write code to add a new demo for a TypeScript web application workshop." 
+\n\nPrompt 1: "Write code to add a new demo for a TypeScript web application workshop."
+
 "Calculate and automatically increment the ID for the new demo, set the category to 'web development', language to 'typescript', and confidence_percent to 80."
 
-#### Prompt 2: "Write code to select and display the new Typescript web application workshop record that was just created"
+\n\nPrompt 2: "Write code to select and display the new Typescript web application workshop record that was just created"
 
-#### Prompt 3: "Write code to remove the new demo for a TypeScript web application workshop"
+\n\nPrompt 3: "Write code to remove the new demo for a TypeScript web application workshop"
 
-#### Prompt 4: "Create a stored procedure that adds a new demo with minimal required parameters"
+\n\nPrompt 4: "Create a stored procedure that adds a new demo with minimal required parameters"
 
-### 7.3 UPDATE Operation Prompts
+\n\n7.3 UPDATE Operation Prompts
 
-#### Prompt 1: "Update the confidence score and notes for demo ID 5"
+\n\nPrompt 1: "Update the confidence score and notes for demo ID 5"
 
-#### Prompt 2: "Update the demo ID 5 to use the following values; confidence_percent = 70, notes = 'update notes for id 5' and points = 40"
+\n\nPrompt 2: "Update the demo ID 5 to use the following values; confidence_percent = 70, notes = 'update notes for id 5' and points = 40"
 
-#### Prompt 3: "Reset the confidence score by removing the notes and reducing the confidence_percent by 5 for demo ID 5"
+\n\nPrompt 3: "Reset the confidence score by removing the notes and reducing the confidence_percent by 5 for demo ID 5"
 
-#### Prompt 4: "Write a query to increase all database demo confidence scores by 5% if they're below 80%"
+\n\nPrompt 4: "Write a query to increase all database demo confidence scores by 5% if they're below 80%"
 
-#### Prompt 5: "Write a query to decrease (reset) all database demo confidence scores by 5% if they're below 80%"
+\n\nPrompt 5: "Write a query to decrease (reset) all database demo confidence scores by 5% if they're below 80%"
 
-### 7.4 DELETE Operation Prompts
+\n\n7.4 DELETE Operation Prompts
 
-#### Prompt 1: (Ask mode prompt) "Create a safe way to delete demo ID 5 with verification"
+\n\nPrompt 1: (Ask mode prompt) "Create a safe way to delete demo ID 5 with verification"
 
-#### Prompt 2: (Ask mode prompt) "How can I remove all demos with confidence below 30% and save their IDs"
+\n\nPrompt 2: (Ask mode prompt) "How can I remove all demos with confidence below 30% and save their IDs"
 
-#### Prompt 3: (Ask mode prompt) "Is there a way to soft delete scenario records instead of hard deleting them?"
+\n\nPrompt 3: (Ask mode prompt) "Is there a way to soft delete scenario records instead of hard deleting them?"
 
-## 8. Tips for Effective GitHub Copilot Prompts
+\n\n8. Tips for Effective GitHub Copilot Prompts
 
 When crafting prompts for SQL generation during the workshop, consider these practices:
 
-1. **Be specific about the table name**: Always mention "demos table" or "dbo.demos" in your prompt
-2. **Include key column names**: Reference specific columns like "category", "language", or "confidence_percent" to help Copilot generate more accurate queries
-3. **Describe the business intent**: Rather than asking for "a SELECT query", ask for "a query to find Java demos with high confidence ratings"
-4. **Use descriptive comments**: Start with a comment that describes what the SQL should accomplish
-5. **Build incrementally**: Start with a simple prompt, then add complexity step by step
-6. **Leverage natural language**: You can use phrases like "Show me...", "Find all...", or "Update the..." rather than technical jargon
+\n\n**Be specific about the table name**: Always mention "demos table" or "dbo.demos" in your prompt
+\n\n**Include key column names**: Reference specific columns like "category", "language", or "confidence_percent" to help Copilot generate more accurate queries
+\n\n**Describe the business intent**: Rather than asking for "a SELECT query", ask for "a query to find Java demos with high confidence ratings"
+\n\n**Use descriptive comments**: Start with a comment that describes what the SQL should accomplish
+\n\n**Build incrementally**: Start with a simple prompt, then add complexity step by step
+\n\n**Leverage natural language**: You can use phrases like "Show me...", "Find all...", or "Update the..." rather than technical jargon
 
-For example, instead of typing:SELECT * FROM demos WHERE confidence_percent > 80
+For example, instead of typing:SELECT \* FROM demos WHERE confidence_percent > 80
+
 Try a prompt like:-- Find all demos with a confidence percentage greater than 80%
+
 GitHub Copilot will often generate the complete and optimized SQL query based on these natural language descriptions.
+
+\n

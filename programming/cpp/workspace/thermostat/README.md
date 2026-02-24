@@ -1,50 +1,88 @@
 # thermostat
 
-## Overview
+\n\nOverview
+
 A C++ thermostat control system project.
 
-## Features
-- Feature 1
-- Feature 2
+\n\nFeatures
 
-## Building the Project
+\n\nFeature 1
+\n\nFeature 2
 
-### Prerequisites
-- C++17 compatible compiler
-- CMake (version 3.14 or higher)
-- Git
+\n\nBuilding the Project
 
-### Build Instructions
-```bash
-# Clone the repository
+\n\nPrerequisites
+
+\n\nC++17 compatible compiler
+\n\nCMake (version 3.14 or higher)
+\n\nGit
+
+\n\nBuild Instructions
+
+```
+
+bash
+\n\nClone the repository
+
 git clone <repository-url>
+
 cd thermostat
 
-# Create build directory
+\n\nCreate build directory
+
 mkdir build && cd build
 
-# Configure with CMake
+\n\nConfigure with CMake
+
 cmake ..
 
-# Build
+\n\nBuild
+
 cmake --build .
+
 ```
 
-### Running Tests
-```bash
+text
+text
+
+\n\nRunning Tests
+
+```
+
+bash
+
 cd build
+
 ctest
+
 ```
 
-## Usage
-```cpp
+text
+text
+
+\n\nUsage
+
+```
+
+cpp
+
 #include <thermostat/thermostat.hpp>
 
 int main() {
+
     // Example code
+
     return 0;
+
 }
+
 ```
 
-## License
+text
+text
+
+\n\nLicense
+
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+\n

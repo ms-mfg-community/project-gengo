@@ -2,67 +2,104 @@
 
 This project implements a simple Inventory Management System in C++. It allows users to manage inventory items, including adding, removing, and displaying items.
 
-## Project Structure
+\n\nProject Structure
 
 The project consists of the following files:
 
-- **src/**
-  - `InventoryItem.h`: Defines the `InventoryItem` class, which represents an item in the inventory.
-  - `InventoryItem.cpp`: Implements the methods of the `InventoryItem` class.
-  - `InventoryManager.h`: Defines the `InventoryManager` class, which manages a collection of `InventoryItem` objects.
-  - `InventoryManager.cpp`: Implements the methods of the `InventoryManager` class.
-  - `main.cpp`: The entry point of the application.
+\n\n**src/**
+\n\n`InventoryItem.h`: Defines the `InventoryItem` class, which represents an item in the inventory.
+\n\n`InventoryItem.cpp`: Implements the methods of the `InventoryItem` class.
+\n\n`InventoryManager.h`: Defines the `InventoryManager` class, which manages a collection of `InventoryItem` objects.
+\n\n`InventoryManager.cpp`: Implements the methods of the `InventoryManager` class.
+\n\n`main.cpp`: The entry point of the application.
 
-- `CMakeLists.txt`: Configuration file for CMake to build the project.
-- `Makefile`: Used for building the project with the make build automation tool.
-- `.gitignore`: Specifies files and directories to be ignored by Git.
-- `README.md`: Documentation for the project.
+\n\n`CMakeLists.txt`: Configuration file for CMake to build the project.
+\n\n`Makefile`: Used for building the project with the make build automation tool.
+\n\n`.gitignore`: Specifies files and directories to be ignored by Git.
+\n\n`README.md`: Documentation for the project.
 
-## Getting Started
+\n\nGetting Started
 
-### Prerequisites
+\n\nPrerequisites
 
-- A C++ compiler (e.g., g++, clang++)
-- CMake (for building the project)
-- Make (if using the Makefile)
+\n\nA C++ compiler (e.g., g++, clang++)
+\n\nCMake (for building the project)
+\n\nMake (if using the Makefile)
 
-### Building the Project
+\n\nBuilding the Project
 
-1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd inventory-management-system
-   ```
+\n\nClone the repository:
 
-2. Build using CMake:
-   ```
-   mkdir build
-   cd build
-   cmake ..
-   make
-   ```
+```
 
-   Or, if using the Makefile:
-   ```
-   make
-   ```
+text
 
-### Running the Application
+git clone <repository-url>
+
+cd inventory-management-system
+
+```
+
+text
+text
+
+\n\nBuild using CMake:
+
+```
+
+text
+
+mkdir build
+
+cd build
+
+cmake ..
+
+make
+
+```
+
+text
+text
+
+Or, if using the Makefile:
+
+```
+
+text
+
+make
+
+```
+
+text
+text
+
+\n\nRunning the Application
 
 After building the project, you can run the application with the following command:
 
 ```
+
+text
+
 ./inventory_management_system
+
 ```
 
-### Usage
+text
+text
+
+\n\nUsage
 
 The application allows you to manage inventory items. You can add items, remove them by name, and display the current inventory.
 
-## Contributing
+\n\nContributing
 
 Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
 
-## License
+\n\nLicense
 
 This project is licensed under the MIT License. See the LICENSE file for details.
+
+\n

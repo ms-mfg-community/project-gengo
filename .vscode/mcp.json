@@ -1,32 +1,32 @@
-// https://github.com/Azure/azure-mcp?tab=readme-ov-file#-manual-install
 {
-  "servers": {
-    "Azure MCP Server": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@azure/mcp@latest",
-        "server",
-        "start"
-      ]
-    },
-    "azureDevOps": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@tiberriver256/mcp-server-azure-devops"
-      ],
-      "env": {
-        "AZURE_DEVOPS_ORG_URL": "https://dev.azure.com/autocloudarc-mcaps",
-        "AZURE_DEVOPS_AUTH_METHOD": "interactive",
-        "AZURE_DEVOPS_DEFAULT_PROJECT": "ado-pipeline-demos"
-      }
-    },
-    "playwright": {
-      "command": "npx",
-      "args": [
-        "@playwright/mcp@latest"
-      ]
-    }
-  }
+	"servers": {
+		"azureDevOps": {
+			"command": "npx",
+			"args": [
+				// "-y",
+				"@tiberriver256/mcp-server-azure-devops"
+			],
+			"env": {
+				"AZURE_DEVOPS_ORG_URL": "https://dev.azure.com/autocloudarc-mcaps",
+				"AZURE_DEVOPS_AUTH_METHOD": "interactive",
+				"AZURE_DEVOPS_DEFAULT_PROJECT": "ado-pipeline-demos"
+			},
+			"type": "stdio"
+		},
+		"playwright": {
+			"command": "npx",
+			"args": [
+				"@playwright/mcp@latest"
+			],
+			"type": "stdio"
+		},
+		"github": {
+			"type": "http",
+			"url": "https://api.githubcopilot.com/mcp",
+			"headers": {
+				"X-MCP-Toolsets": "default,copilot_spaces"
+			}
+		},
+	},
+	"inputs": []
 }
