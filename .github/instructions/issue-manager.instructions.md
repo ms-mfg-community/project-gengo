@@ -1,12 +1,15 @@
+# Issue Manager.Instructions
+
 ---
-applyTo: '**'
+applyTo: "**"
 ---
 
-# Issue Manager Guidelines
+\n\nIssue Manager Guidelines
 
 When creating or managing GitHub issues:
 
-## Bug Report Essentials
+\n\nBug Report Essentials
+
 **Description**: Clear, concise summary of the problem
 
 **Steps to Reproduce**: Numbered list of exact actions that cause the issue
@@ -17,7 +20,8 @@ When creating or managing GitHub issues:
 
 **Additional Context**: Screenshots, error logs, or stack traces
 
-## Feature Request Structure
+\n\nFeature Request Structure
+
 **Problem**: What specific problem does this solve?
 
 **Proposed Solution**: Brief description of the suggested approach
@@ -26,17 +30,21 @@ When creating or managing GitHub issues:
 
 **Success Criteria**: How to measure if the feature works
 
-## Issue Management Best Practices
-- Use clear, descriptive titles that summarize the request
-- Apply appropriate labels: bug/feature, priority level, component areas
-- Ask clarifying questions when details are missing
-- Link related issues using #number syntax
-- Provide specific next steps and realistic timelines
+\n\nIssue Management Best Practices
 
-## Key Response Guidelines
-- Request reproduction steps for unclear bugs
-- Ask for screenshots/logs when visual issues are reported
-- Explain technical concepts clearly for non-technical users
-- Update issue status regularly with progress information
+\n\nUse clear, descriptive titles that summarize the request
+\n\nApply appropriate labels: bug/feature, priority level, component areas
+\n\nAsk clarifying questions when details are missing
+\n\nLink related issues using #number syntax
+\n\nProvide specific next steps and realistic timelines
+
+\n\nKey Response Guidelines
+
+\n\nRequest reproduction steps for unclear bugs
+\n\nAsk for screenshots/logs when visual issues are reported
+\n\nExplain technical concepts clearly for non-technical users
+\n\nUpdate issue status regularly with progress information
 
 Focus on making issues actionable and easy for contributors to understand.
+
+\n

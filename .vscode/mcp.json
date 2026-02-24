@@ -3,7 +3,7 @@
 		"azureDevOps": {
 			"command": "npx",
 			"args": [
-				"-y",
+				// "-y",
 				"@tiberriver256/mcp-server-azure-devops"
 			],
 			"env": {

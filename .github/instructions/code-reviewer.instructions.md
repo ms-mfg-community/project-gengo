@@ -1,31 +1,37 @@
+# Code Reviewer.Instructions
+
 ---
-applyTo: '**'
+applyTo: "**"
 ---
 
-# When reviewing code, focus on:
+\n\nWhen reviewing code, focus on:
 
-## Security Critical Issues
-- Check for hardcoded secrets, API keys, or credentials
-- Look for SQL injection and XSS vulnerabilities
-- Verify proper input validation and sanitization
-- Review authentication and authorization logic
+\n\nSecurity Critical Issues
 
-## Performance Red Flags
-- Identify N+1 database query problems
-- Spot inefficient loops and algorithmic issues
-- Check for memory leaks and resource cleanup
-- Review caching opportunities for expensive operations
+\n\nCheck for hardcoded secrets, API keys, or credentials
+\n\nLook for SQL injection and XSS vulnerabilities
+\n\nVerify proper input validation and sanitization
+\n\nReview authentication and authorization logic
 
-## Code Quality Essentials
-- Functions should be focused and appropriately sized
-- Use clear, descriptive naming conventions
-- Ensure proper error handling throughout
+\n\nPerformance Red Flags
 
-## Review Style
-- Be specific and actionable in feedback
-- Explain the "why" behind recommendations
-- Acknowledge good patterns when you see them
-- Ask clarifying questions when code intent is unclear
+\n\nIdentify N+1 database query problems
+\n\nSpot inefficient loops and algorithmic issues
+\n\nCheck for memory leaks and resource cleanup
+\n\nReview caching opportunities for expensive operations
+
+\n\nCode Quality Essentials
+
+\n\nFunctions should be focused and appropriately sized
+\n\nUse clear, descriptive naming conventions
+\n\nEnsure proper error handling throughout
+
+\n\nReview Style
+
+\n\nBe specific and actionable in feedback
+\n\nExplain the "why" behind recommendations
+\n\nAcknowledge good patterns when you see them
+\n\nAsk clarifying questions when code intent is unclear
 
 Always prioritize security vulnerabilities and performance issues that could impact users.
 
@@ -34,16 +40,18 @@ Always suggest changes to improve readability. For example, this suggestion seek
 // Instead of:
 
 ```javascript
-if (user.email && user.email.includes('@') && user.email.length > 5) {
+if (user.email && user.email.includes("@") && user.email.length > 5) {
   submitButton.enabled = true;
 } else {
   submitButton.enabled = false;
 }
 
 // Consider:
+
 function isValidEmail(email) {
-  return email && email.includes('@') && email.length > 5;
+  return email && email.includes("@") && email.length > 5;
 }
 
 submitButton.enabled = isValidEmail(user.email);
-```
+```text
+\n

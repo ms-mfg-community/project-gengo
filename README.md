@@ -1,175 +1,1000 @@
 # Project Gengo
 
-Project Gengo is a polyglot learning and demo workspace that showcases modern software development practices across languages, CI/CD, security, infrastructure-as-code, and AI-assisted workflows.
+A comprehensive, multi-technology learning and demonstration repository featuring practical examples, best practices, and hands-on implementations across multiple programming languages, frameworks, and cloud platforms.
+
+**Authored by:** Preston K. Parsard
+
+**License:** MIT
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+
+- [Repository Structure](#repository-structure)
+
+- [Quick Start](#quick-start)
+
+- [Featured Projects](#featured-projects)
+
+- [Programming Languages](#programming-languages)
+
+- [Key Features](#key-features)
+
+- [Getting Started](#getting-started)
+
+- [Contributing](#contributing)
+
+- [Security](#security)
+
+- [License](#license)
+
+---
 
 ## Overview
 
-- Multi-language examples (C, C++, .NET, Go, Java, JavaScript/TypeScript, Python)
-- CI/CD with GitHub Actions and Azure DevOps
-- Security workflows with CodeQL and secret scanning
-- Infrastructure as Code (ARM, Bicep, Terraform)
-- Database scripts (PostgreSQL, KQL) and MLOps samples
+Project Gengo is a diverse, full-stack learning repository that demonstrates industry best practices across multiple technology domains. Whether you're exploring cloud infrastructure as code, building applications in different programming languages, implementing CI/CD workflows, or diving into AI/GenAI topics, this repository provides working examples and detailed documentation.
+
+### Purpose
+
+This repository serves as:
+
+- **Learning Resource:** Examples and tutorials for various technologies and frameworks.
+
+- **Demonstration Platform:** Proof-of-concept implementations for complex scenarios.
+
+- **Best Practices Guide:** Code organization, testing patterns, and deployment strategies.
+
+- **Reference Repository:** Custom instructions, configuration templates, and automation scripts.
+
+---
 
 ## Repository Structure
 
-- `programming/`: Language-specific workspaces and examples
-- `cicd/`: CI/CD workflows, pipelines, and PRDs
-- `.github/`: Actions workflows, agents, prompts, instructions
-- `ghas/`: GitHub Advanced Security (CodeQL, SARIF results)
-- `iac/`: Infrastructure-as-code (ARM, Bicep, Terraform)
-- `databases/`: SQL, KQL, and data-related docs
-- `features/`: Focused demos (e.g., Copilot code completion)
-- `scripting/`: PowerShell, Bash, Azure CLI scripts
-- `prompt-engineering/`: Prompts and usage docs
-- `SECURITY.md`, `LICENSE`: Policies and license
+### Core Technology Areas
 
-## Getting Started
+```
+
+text
+programming/          # Multi-language programming examples
+
+├── c/                 # C language projects
+
+├── cpp/               # C++ applications
+
+├── dotnet/            # .NET/C# projects
+
+├── go/                # Go applications
+
+├── java/              # Java projects
+
+├── javascript-html-css/    # JavaScript/Web development
+
+├── node/              # Node.js applications
+
+├── python/            # Python scripts and projects
+
+└── typescript-react/       # React/TypeScript applications
+
+```
+
+text
+text
+
+### Specialized Domains
+
+| Folder       | Purpose                                                |
+| ------------ | ------------------------------------------------------ |
+| `genai/`     | Generative AI and LLM demonstrations                   |
+| `ghas/`      | GitHub Advanced Security (CodeQL analysis)             |
+| `gitops/`    | GitOps workflows and infrastructure                    |
+| `iac/`       | Infrastructure as Code (ARM, Bicep, Terraform)         |
+| `mlops/`     | Machine Learning operations                            |
+| `cicd/`      | CI/CD pipeline patterns and workflows                  |
+| `databases/` | Database examples (KQL, RDBMS)                         |
+| `scripting/` | Cross-platform scripting (PowerShell, Bash, Azure CLI) |
+
+### Configuration & Infrastructure
+
+| Folder           | Purpose                                                   |
+| ---------------- | --------------------------------------------------------- |
+| `.github/`       | GitHub Actions workflows, custom agents, and instructions |
+| `.azure/`        | Azure DevOps configurations                               |
+| `.devcontainer/` | Development container setup                               |
+| `iac/`           | Infrastructure deployment templates                       |
+| `.vscode/`       | VS Code settings and configurations                       |
+
+---
+
+## Quick Start
 
 ### Prerequisites
 
-- Git and a GitHub account
-- Recommended tooling based on interest:
-  - Build tools: `cmake`, `gcc/g++`, `.NET SDK`, `node`, `python`
-  - CI/CD: GitHub Actions (no local install), Azure DevOps (optional)
-  - IaC: `az` CLI, `terraform`, `bicep`
+- Git
 
-### Clone
+- Your preferred programming language runtime(s)
 
-```pwsh
-git clone https://github.com/ms-mfg-community/project-gengo.git
+- VS Code (recommended) with extensions for your technology stack
+
+- For cloud examples: Azure CLI, Azure Bicep CLI, or AWS CLI
+
+### Clone the Repository
+
+```
+
+bash
+git clone <https://github.com/ms-mfg-community/project-gengo.git>
 cd project-gengo
+
 ```
 
-### C++ Build (example)
+text
+text
 
-```pwsh
-mkdir build
-cd build
-cmake ..
-cmake --build .
+### Explore a Specific Technology
+
+Navigate to your area of interest:
+
 ```
 
-### Python (virtual environment)
+bash
 
-```pwsh
-python -m venv dev
-dev\Scripts\activate
-pip install -r requirements.txt
+## Python examples
+
+cd programming/python
+
+## .NET/C# projects
+
+cd programming/dotnet
+
+## Infrastructure as Code
+
+cd iac
+
+## GenAI demonstrations
+
+cd genai
+
 ```
 
-## Running Tests
+text
+text
 
-The repository includes comprehensive tests across multiple languages. To run all tests:
+Each folder contains its own documentation and examples.
 
-### Quick Start
+---
 
-**Bash/Linux/macOS:**
+## Featured Projects
 
-```bash
-./run-all-tests.sh
-```
+### Calculator Application
 
-**PowerShell/Windows:**
+A full-featured calculator demonstration across multiple frameworks:
 
-```powershell
-.\Run-AllTests.ps1
-```
+- **Calculator.Core:** Core calculation engine.
 
-### Manual Test Execution
+- **calculator.tests:** Unit tests using xUnit.
 
-**Python tests (pytest):**
+- **CalculatorBlazor:** Blazor WebAssembly UI.
 
-```bash
-cd programming/python/completed/src/calculator
-python -m pytest test_calculator.py -v
-```
+- **C++ Implementation:** CMake-based build.
 
-**.NET tests (xUnit):**
+Located in:
 
-```bash
-cd programming/dotnet/csharp/workspace/calculator-xunit-testing
-dotnet test calculator.tests/calculator.tests.csproj --verbosity normal
-```
+- `calculator/` - Main .NET console app.
 
-**Node.js tests (Jest):**
+- `Calculator.Core/` - Shared library.
 
-```bash
-cd programming/node/completed/calculator
-npm install
-npm test
-```
+- `calculator.tests/` - Test suite.
 
-**Go tests:**
+- `CalculatorBlazor/` - Web UI.
 
-```bash
-cd programming/go/completed/src
-go test -v ./...
-```
+- `programming/cpp/` - C++ version.
 
-### Test Report
+### Infrastructure as Code
 
-See [TEST_REPORT.md](TEST_REPORT.md) for comprehensive test execution results and coverage details.
+Complete examples for cloud infrastructure deployment:
 
-**Current Status**: ✅ 208 tests passing across 4 languages (Python, C#/.NET, TypeScript/Node.js, Go)
+- **Bicep:** Azure Resource Manager templates.
 
-## CI/CD Workflows
+- **ARM Templates:** Native Azure deployments.
 
-- GitHub Actions examples in `.github/workflows/`
-- PRD for repository auditing workflow: `cicd/prd-01-level-workspace.md`
-- Example Java/Maven workflow: `cicd/workspace/workflow-ghb.yml`
-- Azure DevOps pipeline example: `cicd/workspace/pipeline-ado.yml`
+- **Terraform:** Multi-cloud infrastructure.
 
-## GitHub Copilot Integration
+- **Azure DevOps Pipelines:** Deployment automation.
 
-- Custom instructions: `.github/copilot-instructions.md`
-- Agents (e.g., readme-creator): `.github/agents/`
-- Prompts used in workflows: `.github/prompts/`
+See: [.github/agents/](.github/agents/) and [iac/](iac/).
 
-## Standards
+### GitHub Advanced Security
 
-### Commit Message Format
+CodeQL analysis, security scanning, and vulnerability detection:
 
-Use the Topic Subtopic Activity pattern:
+- Custom CodeQL queries.
 
-```text
-topic(subtopic): activity
-```
+- Security policy templates.
 
-Examples:
+- Dependency analysis workflows.
 
-- `github(instructions): expand guideline details`
-- `feat(auth): add login functionality`
-- `fix(ui): correct button alignment`
+See: [ghas/](ghas/).
 
-### Coding Guidelines
+### CI/CD & GitOps
 
-- Prefer simple solutions and avoid duplication
-- Write environment-aware code (dev, test, prod)
-- Keep files under ~200 lines where practical
-- Write tests for major functionality
-- Follow language-specific style guides (see `.github/copilot-instructions.md`)
+Workflow automation and infrastructure management:
 
-## Documentation
+- GitHub Actions workflows.
 
-- Copilot Instructions: `.github/copilot-instructions.md`
-- Security Policy: `SECURITY.md`
-- GitOps PRDs: `gitops/prd-*.md`
-- Database Docs: `databases/rdbms/*.md`
+- Azure DevOps pipelines.
+
+- GitOps patterns with infrastructure sync.
+
+See: [gitops/](gitops/) and [cicd/](cicd/).
+
+---
+
+## Programming Languages
+
+The repository includes examples and projects in:
+
+| Language       | Folder                           | Notable Features                  |
+| -------------- | -------------------------------- | --------------------------------- |
+| **C**          | programming/c/                   | Systems programming patterns      |
+| **C++**        | programming/cpp/                 | Modern C++17 with CMake           |
+| **.NET/C#**    | programming/dotnet/              | Full-stack examples, Blazor       |
+| **Go**         | programming/go/                  | Concurrent patterns, CLI tools    |
+| **Java**       | programming/java/                | Enterprise patterns, Maven builds |
+| **JavaScript** | programming/javascript-html-css/ | Web fundamentals                  |
+| **Node.js**    | programming/node/                | Backend services, APIs            |
+| **Python**     | programming/python/              | Data processing, automation, AI   |
+| **TypeScript** | programming/typescript-\*        | Type-safe web development         |
+
+---
+
+## Key Features
+
+### GitHub Copilot Integration
+
+Custom instructions and agents for enhanced development:
+
+- **Copilot Instructions:** Best practices for all project types.
+
+- **Custom Agents:** Specialized assistants for different tasks:
+  - README Creator
+  - Code Reviewer
+  - Debugging Tutor
+  - Testing Automation
+  - And more
+
+See: [.github/copilot-instructions.md](.github/copilot-instructions.md).
+
+### Testing & Quality
+
+- Unit testing frameworks for multiple languages.
+
+- Integration test patterns.
+
+- CodeQL security analysis.
+
+- Code coverage tracking.
+
+### DevOps & Automation
+
+- GitHub Actions workflows.
+
+- Azure DevOps pipeline definitions.
+
+- Infrastructure automation.
+
+- Deployment strategies.
+
+### Documentation
+
+- Comprehensive inline code documentation.
+
+- Markdown-linted documentation files.
+
+- API documentation examples.
+
+- Architecture decision records (ADRs).
+
+---
+
+## Getting Started
+
+### For Beginners
+
+1. Choose a technology that interests you.
+1. Navigate to the corresponding folder in `programming/`.
+1. Look for a `README.md` or `GETTING_STARTED.md` file.
+1. Follow the setup instructions.
+
+### For Advanced Users
+
+1. Review the infrastructure templates in `iac/`.
+1. Explore the CI/CD workflows in `.github/workflows/`.
+1. Check the custom Copilot agents in `.github/agents/`.
+1. Examine the best practices in `.github/instructions/`.
+
+### For Cloud Practitioners
+
+- **Azure Users:** See `iac/bicep/` and `.azure-pipelines/`.
+
+- **Infrastructure Automation:** Review `iac/` for Terraform and ARM templates.
+
+- **Security:** Check `ghas/` for security scanning examples.
+
+### For AI/ML Developers
+
+- **GenAI:** Explore `genai/` for LLM demonstrations.
+
+- **MLOps:** See `mlops/` for machine learning workflows.
+
+---
 
 ## Contributing
 
-- Follow coding standards and commit message format above
-- Add tests and update docs when introducing changes
-- Ensure CI passes before submitting PRs
+Contributions are welcome! Please follow these guidelines:
+
+1. **Respect the Repository Structure:** Add code to appropriate language/domain folders.
+1. **Follow Coding Standards:** Adhere to language-specific style guides (see `.github/copilot-instructions.md`).
+1. **Write Tests:** Include unit tests for new functionality.
+1. **Document Your Work:** Add meaningful comments and update relevant README files.
+1. **Keep Files Focused:** Aim for 100-200 lines per file; refactor if exceeding this.
+1. **Commit Messages:** Use the format: `topic(subtopic): description`.
+
+For detailed contribution guidelines, see [SECURITY.md](SECURITY.md).
+
+### Development Setup
+
+- Use VS Code with the recommended extensions.
+
+- Set up dev containers for consistent environments: `.devcontainer/`.
+
+- Follow the custom Copilot instructions: `.github/copilot-instructions.md`.
+
+- Use the appropriate testing framework for your language.
+
+---
+
+## Security
+
+This repository follows security best practices including:
+
+- Secrets scanning and exclusion patterns.
+
+- Dependency vulnerability management with Dependabot.
+
+- CodeQL static analysis.
+
+- Branch protection rules.
+
+- Required status checks for pull requests.
+
+For security concerns, please refer to [SECURITY.md](SECURITY.md).
+
+---
+
+## Technology Stack Overview
+
+### Cloud & Infrastructure
+
+- **Azure:** Resource Manager, Bicep, Terraform.
+
+- **Azure DevOps:** Pipelines, Repositories.
+
+- **GitHub:** Actions, Advanced Security.
+
+- **Infrastructure as Code:** Bicep, ARM, Terraform.
+
+### Web & Frontend
+
+- **Frameworks:** React, Blazor, Vue, Angular.
+
+- **Languages:** TypeScript, JavaScript, C#.
+
+- **Styling:** CSS, Tailwind, Bootstrap.
+
+### Backend & Services
+
+- **Runtimes:** .NET, Node.js, Go, Python, Java.
+
+- **Patterns:** REST APIs, gRPC, microservices.
+
+- **Databases:** SQL Server, PostgreSQL, SQLite.
+
+### DevOps & Automation
+
+- **CI/CD:** GitHub Actions, Azure Pipelines.
+
+- **Scripting:** PowerShell, Bash, Python.
+
+- **Configuration Management:** Ansible.
+
+### AI & Machine Learning
+
+- **Frameworks:** OpenAI, LangChain, Hugging Face.
+
+- **Operations:** MLOps patterns, model deployment.
+
+- **Analytics:** Data processing, analysis.
+
+---
+
+## Directory Quick Reference
+
+```
+
+text
+project-gengo/
+├── programming/          # Multi-language examples
+
+├── genai/               # AI/LLM demonstrations
+
+├── ghas/                # Security & CodeQL
+
+├── gitops/              # GitOps workflows
+
+├── iac/                 # Infrastructure as Code
+
+├── mlops/               # ML operations
+
+├── cicd/                # CI/CD patterns
+
+├── databases/           # Database examples
+
+├── scripting/           # Cross-platform scripts
+
+├── .github/             # GitHub configuration & workflows
+
+├── .azure-pipelines/    # Azure DevOps pipelines
+
+├── .devcontainer/       # Dev container setup
+
+├── calculator*/         # Calculator app demonstrations
+
+└── README.md            # This file
+
+```
+
+text
+text
+
+---
+
+## Resources & Documentation
+
+- [GitHub Copilot Custom Instructions](.github/copilot-instructions.md)
+
+- [Security Policy](SECURITY.md)
+
+- [MIT License](LICENSE)
+
+- [GitHub Actions Workflows](.github/workflows/)
+
+- [Infrastructure Templates](iac/)
+
+- [Programming Examples](programming/)
+
+---
+
+## Support & Questions
+
+For questions, issues, or suggestions:
+
+1. Check existing documentation in relevant folders.
+1. Review the [GitHub Discussions](https://github.com/ms-mfg-community/project-gengo/discussions).
+1. Search for similar issues.
+1. Create a new issue with detailed context.
+
+---
 
 ## License
 
-This project is licensed under the MIT License. See `LICENSE` for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Resources
+---
 
-- [GitHub Copilot](https://docs.github.com/en/copilot "GitHub Copilot Documentation")
-- [GitHub Actions](https://docs.github.com/en/actions "GitHub Actions Documentation")
-- [Azure DevOps Pipelines](https://learn.microsoft.com/azure/devops/pipelines/ "Azure DevOps Pipelines Documentation")
-- [CodeQL](https://codeql.github.com/ "CodeQL Documentation")
+**Last Updated:** January 2026
 
+**Repository:** [project-gengo](https://github.com/ms-mfg-community/project-gengo)
+
+**Owner:** [ms-mfg-community](https://github.com/ms-mfg-community)
+
+## Project Gengo
+
+A comprehensive, multi-technology learning and demonstration repository featuring practical examples, best practices, and hands-on implementations across multiple programming languages, frameworks, and cloud platforms.
+
+**Authored by:** Preston K. Parsard  
+**License:** MIT
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+
+- [Repository Structure](#repository-structure)
+
+- [Quick Start](#quick-start)
+
+- [Featured Projects](#featured-projects)
+
+- [Programming Languages](#programming-languages)
+
+- [Key Features](#key-features)
+
+- [Getting Started](#getting-started)
+
+- [Contributing](#contributing)
+
+- [Security](#security)
+
+- [License](#license)
+
+---
+
+## Overview
+
+Project Gengo is a diverse, full-stack learning repository that demonstrates industry best practices across multiple technology domains. Whether you're exploring cloud infrastructure as code, building applications in different programming languages, implementing CI/CD workflows, or diving into AI/GenAI topics, this repository provides working examples and detailed documentation.
+
+### Purpose
+
+This repository serves as:
+
+- **Learning Resource:** Examples and tutorials for various technologies and frameworks
+
+- **Demonstration Platform:** Proof-of-concept implementations for complex scenarios
+
+- **Best Practices Guide:** Code organization, testing patterns, and deployment strategies
+
+- **Reference Repository:** Custom instructions, configuration templates, and automation scripts
+
+---
+
+## Repository Structure
+
+### Core Technology Areas
+
+```
+
+text
+programming/          # Multi-language programming examples
+
+├── c/               # C language projects
+
+├── cpp/             # C++ applications
+
+├── dotnet/          # .NET/C# projects
+
+├── go/              # Go applications
+
+├── java/            # Java projects
+
+├── javascript-html-css/    # JavaScript/Web development
+
+├── node/            # Node.js applications
+
+├── python/          # Python scripts and projects
+
+├── typescript-html-css/    # TypeScript/Web development
+
+└── typescript-react/       # React/TypeScript applications
+
+```
+
+text
+text
+
+### Specialized Domains
+
+| Folder       | Purpose                                                |
+| ------------ | ------------------------------------------------------ |
+| `genai/`     | Generative AI and LLM demonstrations                   |
+| `ghas/`      | GitHub Advanced Security (CodeQL analysis)             |
+| `gitops/`    | GitOps workflows and infrastructure                    |
+| `iac/`       | Infrastructure as Code (ARM, Bicep, Terraform)         |
+| `mlops/`     | Machine Learning operations                            |
+| `cicd/`      | CI/CD pipeline patterns and workflows                  |
+| `databases/` | Database examples (KQL, RDBMS)                         |
+| `scripting/` | Cross-platform scripting (PowerShell, Bash, Azure CLI) |
+
+### Configuration & Infrastructure
+
+| Folder           | Purpose                                                   |
+| ---------------- | --------------------------------------------------------- |
+| `.github/`       | GitHub Actions workflows, custom agents, and instructions |
+| `.azure/`        | Azure DevOps configurations                               |
+| `.devcontainer/` | Development container setup                               |
+| `iac/`           | Infrastructure deployment templates                       |
+| `.vscode/`       | VS Code settings and configurations                       |
+
+---
+
+## Quick Start
+
+### Prerequisites
+
+- Git
+
+- Your preferred programming language runtime(s)
+
+- VS Code (recommended) with extensions for your technology stack
+
+- For cloud examples: Azure CLI, Azure bicep CLI, or AWS CLI
+
+### Clone the Repository
+
+```
+
+bash
+git clone <https://github.com/ms-mfg-community/project-gengo.git>
+cd project-gengo
+
+```
+
+text
+text
+
+### Explore a Specific Technology
+
+Navigate to your area of interest:
+
+```
+
+bash
+
+## Python examples
+
+cd programming/python
+
+## .NET/C# projects
+
+cd programming/dotnet
+
+## Infrastructure as Code
+
+cd iac
+
+## GenAI demonstrations
+
+cd genai
+
+```
+
+text
+text
+
+Each folder contains its own documentation and examples.
+
+---
+
+## Featured Projects
+
+### Calculator Application
+
+A full-featured calculator demonstration across multiple frameworks:
+
+- **Calculator.Core:** Core calculation engine
+
+- **calculator.tests:** Unit tests using xUnit
+
+- **CalculatorBlazor:** Blazor WebAssembly UI
+
+- **C++ Implementation:** CMake-based build
+
+Located in:
+
+- `calculator/` - Main .NET console app
+
+- `Calculator.Core/` - Shared library
+
+- `calculator.tests/` - Test suite
+
+- `CalculatorBlazor/` - Web UI
+
+- `programming/cpp/` - C++ version
+
+### Infrastructure as Code
+
+Complete examples for cloud infrastructure deployment:
+
+- **Bicep:** Azure Resource Manager templates
+
+- **ARM Templates:** Native Azure deployments
+
+- **Terraform:** Multi-cloud infrastructure
+
+- **Azure DevOps Pipelines:** Deployment automation
+
+See: [`iac/`](iac/)
+
+### GitHub Advanced Security
+
+CodeQL analysis, security scanning, and vulnerability detection:
+
+- Custom CodeQL queries
+
+- Security policy templates
+
+- Dependency analysis workflows
+
+See: [`ghas/`](ghas/)
+
+### CI/CD & GitOps
+
+Workflow automation and infrastructure management:
+
+- GitHub Actions workflows
+
+- Azure DevOps pipelines
+
+- GitOps patterns with infrastructure sync
+
+See: [`gitops/`](gitops/) and [`cicd/`](cicd/)
+
+---
+
+## Programming Languages
+
+The repository includes examples and projects in:
+
+| Language       | Folder                             | Notable Features                  |
+| -------------- | ---------------------------------- | --------------------------------- |
+| **C**          | `programming/c/`                   | Systems programming patterns      |
+| **C++**        | `programming/cpp/`                 | Modern C++17 with CMake           |
+| **.NET/C#**    | `programming/dotnet/`              | Full-stack examples, Blazor       |
+| **Go**         | `programming/go/`                  | Concurrent patterns, CLI tools    |
+| **Java**       | `programming/java/`                | Enterprise patterns, Maven builds |
+| **JavaScript** | `programming/javascript-html-css/` | Web fundamentals                  |
+| **Node.js**    | `programming/node/`                | Backend services, APIs            |
+| **Python**     | `programming/python/`              | Data processing, automation, AI   |
+| **TypeScript** | `programming/typescript-*`         | Type-safe web development         |
+
+---
+
+## Key Features
+
+### GitHub Copilot Integration
+
+Custom instructions and agents for enhanced development:
+
+- **Copilot Instructions:** Best practices for all project types
+
+- **Custom Agents:** Specialized assistants for different tasks
+  - README Creator
+  - Code Reviewer
+  - Debugging Tutor
+  - Testing Automation
+  - And more
+
+See: [`.github/copilot-instructions.md`](.github/copilot-instructions.md)
+
+### Testing & Quality
+
+- Unit testing frameworks for multiple languages
+
+- Integration test patterns
+
+- CodeQL security analysis
+
+- Code coverage tracking
+
+### DevOps & Automation
+
+- GitHub Actions workflows
+
+- Azure DevOps pipeline definitions
+
+- Infrastructure automation
+
+- Deployment strategies
+
+### Documentation
+
+- Comprehensive inline code documentation
+
+- Markdown-linted documentation files
+
+- API documentation examples
+
+- Architecture decision records (ADRs)
+
+---
+
+## Getting Started
+
+### For Beginners
+
+1. Choose a technology that interests you
+1. Navigate to the corresponding folder in `programming/`
+1. Look for a `README.md` or `GETTING_STARTED.md` file
+1. Follow the setup instructions
+
+### For Advanced Users
+
+1. Review the infrastructure templates in `iac/`
+1. Explore the CI/CD workflows in `.github/workflows/`
+1. Check the custom Copilot agents in `.github/agents/`
+1. Examine the best practices in `.github/instructions/`
+
+### For Cloud Practitioners
+
+- **Azure Users:** See `iac/bicep/` and `.azure-pipelines/`
+
+- **Infrastructure Automation:** Review `iac/` for Terraform and ARM templates
+
+- **Security:** Check `ghas/` for security scanning examples
+
+### For AI/ML Developers
+
+- **GenAI:** Explore `genai/` for LLM demonstrations
+
+- **MLOps:** See `mlops/` for machine learning workflows
+
+---
+
+## Contributing
+
+Contributions are welcome! Please follow these guidelines:
+
+1. **Respect the Repository Structure:** Add code to appropriate language/domain folders
+1. **Follow Coding Standards:** Adhere to language-specific style guides (see `.github/copilot-instructions.md`)
+1. **Write Tests:** Include unit tests for new functionality
+1. **Document Your Work:** Add meaningful comments and update relevant README files
+1. **Keep Files Focused:** Aim for 100-200 lines per file; refactor if exceeding this
+1. **Commit Messages:** Use the format: `topic(subtopic): description`
+
+For detailed contribution guidelines, see [SECURITY.md](SECURITY.md).
+
+### Development Setup
+
+- Use VS Code with the recommended extensions
+
+- Set up dev containers for consistent environments: `.devcontainer/`
+
+- Follow the custom Copilot instructions: `.github/copilot-instructions.md`
+
+- Use the appropriate testing framework for your language
+
+---
+
+## Security
+
+This repository follows security best practices including:
+
+- Secrets scanning and exclusion patterns
+
+- Dependency vulnerability management with Dependabot
+
+- CodeQL static analysis
+
+- Branch protection rules
+
+- Required status checks for pull requests
+
+For security concerns, please refer to [SECURITY.md](SECURITY.md).
+
+---
+
+## Technology Stack Overview
+
+### Cloud & Infrastructure
+
+- **Azure:** Resource Manager, Bicep, Terraform
+
+- **Azure DevOps:** Pipelines, Repositories
+
+- **GitHub:** Actions, Advanced Security
+
+- **Infrastructure as Code:** Bicep, ARM, Terraform
+
+### Web & Frontend
+
+- **Frameworks:** React, Blazor, Vue, Angular
+
+- **Languages:** TypeScript, JavaScript, C#
+
+- **Styling:** CSS, Tailwind, Bootstrap
+
+### Backend & Services
+
+- **Runtimes:** .NET, Node.js, Go, Python, Java
+
+- **Patterns:** REST APIs, gRPC, microservices
+
+- **Databases:** SQL Server, PostgreSQL, SQLite
+
+### DevOps & Automation
+
+- **CI/CD:** GitHub Actions, Azure Pipelines
+
+- **Scripting:** PowerShell, Bash, Python
+
+- **Configuration Management:** Ansible
+
+### AI & Machine Learning
+
+- **Frameworks:** OpenAI, LangChain, Hugging Face
+
+- **Operations:** MLOps patterns, model deployment
+
+- **Analytics:** Data processing, analysis
+
+---
+
+## Directory Quick Reference
+
+```
+
+text
+project-gengo/
+├── programming/          # Multi-language examples
+
+├── genai/               # AI/LLM demonstrations
+
+├── ghas/                # Security & CodeQL
+
+├── gitops/              # GitOps workflows
+
+├── iac/                 # Infrastructure as Code
+
+├── mlops/               # ML operations
+
+├── cicd/                # CI/CD patterns
+
+├── databases/           # Database examples
+
+├── scripting/           # Cross-platform scripts
+
+├── .github/             # GitHub configuration & workflows
+
+├── .azure-pipelines/    # Azure DevOps pipelines
+
+├── .devcontainer/       # Dev container setup
+
+├── calculator*/         # Calculator app demonstrations
+
+└── README.md            # This file
+
+```
+
+text
+text
+
+---
+
+## Resources & Documentation
+
+- [GitHub Copilot Custom Instructions](.github/copilot-instructions.md)
+
+- [Security Policy](SECURITY.md)
+
+- [MIT License](LICENSE)
+
+- [GitHub Actions Workflows](.github/workflows/)
+
+- [Infrastructure Templates](iac/)
+
+- [Programming Examples](programming/)
+
+---
+
+## Support & Questions
+
+For questions, issues, or suggestions:
+
+1. Check existing documentation in relevant folders
+1. Review the [GitHub Discussions](https://github.com/ms-mfg-community/project-gengo/discussions)
+1. Search for similar issues
+1. Create a new issue with detailed context
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+**Last Updated:** January 2026  
+**Repository:** [project-gengo](https://github.com/ms-mfg-community/project-gengo)  
+**Owner:** [ms-mfg-community](https://github.com/ms-mfg-community)

@@ -1,96 +1,113 @@
 ---
-applyTo: '**'
+applyTo: "**"
 ---
 
-# Pull Request Assistant Guidelines
+\n\nPull Request Assistant Guidelines
 
-## When creating pull request descriptions or reviewing PRs:
+\n\nWhen creating pull request descriptions or reviewing PRs:
 
-## PR Description Template
-**What changed**
-- Clear summary of modifications and affected components
-- Link to related issues or tickets
+\n\nPR Description Template
 
-**Why**
-- Business context and requirements
-- Technical reasoning for approach taken
+# What changed
 
-**Testing**
-- [ ] Unit tests pass and cover new functionality
-- [ ] Manual testing completed for user-facing changes
-- [ ] Performance/security considerations addressed
+\n\nClear summary of modifications and affected components
+\n\nLink to related issues or tickets
 
-**Breaking Changes**
-- List any API changes or behavioral modifications
-- Include migration instructions if needed
+## Why
 
-## Review Focus Areas
-- **Security**: Check for hardcoded secrets, input validation, auth issues
-- **Performance**: Look for database query problems, inefficient loops
-- **Testing**: Ensure adequate test coverage for new functionality
-- **Documentation**: Verify code comments and README updates
+\n\nBusiness context and requirements
+\n\nTechnical reasoning for approach taken
 
-## Review Style
-- Be specific and constructive in feedback
-- Acknowledge good patterns and solutions
-- Ask clarifying questions when code intent is unclear
-- Focus on maintainability and readability improvements
-- Always prioritize changes that improve security, performance, or user experience.
-- Provide migration guides for significant changes
-- Update version compatibility information
+## Testing
 
-### Deployment Requirements
-- [ ] Database migrations and rollback plans
-- [ ] Environment variable updates required
-- [ ] Feature flag configurations needed
-- [ ] Third-party service integrations updated
-- [ ] Documentation updates completed
+\n\n[ ] Unit tests pass and cover new functionality
+\n\n[ ] Manual testing completed for user-facing changes
+\n\n[ ] Performance/security considerations addressed
 
-## Code Review Guidelines
+## Breaking Changes
 
-### Security Review
-- Scan for input validation vulnerabilities
-- Check authentication and authorization implementation
-- Verify secure data handling and storage practices
-- Flag hardcoded secrets or configuration issues
-- Review error handling to prevent information leakage
+\n\nList any API changes or behavioral modifications
+\n\nInclude migration instructions if needed
 
-### Performance Analysis
-- Evaluate algorithmic complexity and efficiency
-- Review database query optimization opportunities
-- Check for potential memory leaks or resource issues
-- Assess caching strategies and network call efficiency
-- Identify scalability bottlenecks
+\n\nReview Focus Areas
 
-### Code Quality Standards
-- Ensure readable, maintainable code structure
-- Verify adherence to team coding standards and style guides
-- Check function size, complexity, and single responsibility
-- Review naming conventions and code organization
-- Validate proper error handling and logging practices
+\n\n**Security**: Check for hardcoded secrets, input validation, auth issues
+\n\n**Performance**: Look for database query problems, inefficient loops
+\n\n**Testing**: Ensure adequate test coverage for new functionality
+\n\n**Documentation**: Verify code comments and README updates
 
-### Review Communication
-- Provide specific, actionable feedback with examples
-- Explain reasoning behind recommendations to promote learning
-- Acknowledge good patterns, solutions, and creative approaches
-- Ask clarifying questions when context is unclear
-- Focus on improvement rather than criticism
+\n\nReview Style
 
-## Review Comment Format
+\n\nBe specific and constructive in feedback
+\n\nAcknowledge good patterns and solutions
+\n\nAsk clarifying questions when code intent is unclear
+\n\nFocus on maintainability and readability improvements
+\n\nAlways prioritize changes that improve security, performance, or user experience.
+\n\nProvide migration guides for significant changes
+\n\nUpdate version compatibility information
+
+\n\nDeployment Requirements
+
+\n\n[ ] Database migrations and rollback plans
+\n\n[ ] Environment variable updates required
+\n\n[ ] Feature flag configurations needed
+\n\n[ ] Third-party service integrations updated
+\n\n[ ] Documentation updates completed
+
+\n\nCode Review Guidelines
+
+\n\nSecurity Review
+
+\n\nScan for input validation vulnerabilities
+\n\nCheck authentication and authorization implementation
+\n\nVerify secure data handling and storage practices
+\n\nFlag hardcoded secrets or configuration issues
+\n\nReview error handling to prevent information leakage
+
+\n\nPerformance Analysis
+
+\n\nEvaluate algorithmic complexity and efficiency
+\n\nReview database query optimization opportunities
+\n\nCheck for potential memory leaks or resource issues
+\n\nAssess caching strategies and network call efficiency
+\n\nIdentify scalability bottlenecks
+
+\n\nCode Quality Standards
+
+\n\nEnsure readable, maintainable code structure
+\n\nVerify adherence to team coding standards and style guides
+\n\nCheck function size, complexity, and single responsibility
+\n\nReview naming conventions and code organization
+\n\nValidate proper error handling and logging practices
+
+\n\nReview Communication
+
+\n\nProvide specific, actionable feedback with examples
+\n\nExplain reasoning behind recommendations to promote learning
+\n\nAcknowledge good patterns, solutions, and creative approaches
+\n\nAsk clarifying questions when context is unclear
+\n\nFocus on improvement rather than criticism
+
+\n\nReview Comment Format
 
 Use this structure for consistent, helpful feedback:
 
 **Issue:** Describe what needs attention
+
 **Suggestion:** Provide specific improvement with code example
+
 **Why:** Explain the reasoning and benefits
 
-## Review Labels and Emojis
-- 🔒 Security concerns requiring immediate attention
-- ⚡ Performance issues or optimization opportunities
-- 🧹 Code cleanup and maintainability improvements
-- 📚 Documentation gaps or update requirements
-- ✅ Positive feedback and acknowledgment of good practices
-- 🚨 Critical issues that block merge
-- 💭 Questions for clarification or discussion
+\n\nReview Labels and Emojis
+
+\n\n🔒 Security concerns requiring immediate attention
+\n\n⚡ Performance issues or optimization opportunities
+\n\n🧹 Code cleanup and maintainability improvements
+\n\n📚 Documentation gaps or update requirements
+\n\n✅ Positive feedback and acknowledgment of good practices
+\n\n🚨 Critical issues that block merge
+\n\n💭 Questions for clarification or discussion
 
 Always provide constructive feedback that helps the team improve together.
+
+\n

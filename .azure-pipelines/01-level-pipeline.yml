@@ -1,139 +1,122 @@
-# Azure DevOps Pipeline: 01-level-pipeline
-# Translated from GitHub Actions workflow: 01-level-workflow
-
-name: 01-level-pipeline
-
-# Pipeline triggers
 trigger:
-  # Trigger on push to main branch, but exclude changes in .azure-pipelines directory
   branches:
     include:
       - main
+    exclude:
+      - .github/**
   paths:
     exclude:
-      - '.azure-pipelines/**'
+      - .github/**
 
-# Pull request triggers
 pr:
   branches:
     include:
       - main
 
-# Scheduled trigger - runs every 24 hours at midnight UTC
 schedules:
-  - cron: '0 0 * * *'
-    displayName: 'Daily midnight build'
+  - cron: "0 0 * * *"
+    displayName: Daily midnight run
     branches:
       include:
         - main
     always: true
 
-# Variables
-variables:
-  - name: vmImage
-    value: 'ubuntu-latest'
+pool:
+  vmImage: 'ubuntu-latest'
 
-# Define stages and jobs
-stages:
-  # Stage 1: List Contents
-  - stage: ListContents
+jobs:
+  - job: ListContents
     displayName: 'List Repository Contents'
-    jobs:
-      - job: list_contents
-        displayName: 'List Repository Contents'
-        pool:
-          vmImage: $(vmImage)
-        
-        steps:
-          # Step 1: Display pipeline trigger information
-          - task: Bash@3
-            displayName: 'Display Event and Branch Information'
-            inputs:
-              targetType: 'inline'
-              script: |
-                echo "========================================="
-                echo "Pipeline Triggered by: $(Build.Reason)"
-                echo "Branch: $(Build.SourceBranchName)"
-                echo "Repository: $(Build.Repository.Name)"
-                echo "Triggered by: $(Build.RequestedFor)"
-                echo "Build ID: $(Build.BuildId)"
-                echo "========================================="
-          
-          # Step 2: Check out the repository code (implicit in Azure Pipelines)
-          - checkout: self
-            displayName: 'Checkout Repository'
-          
-          # Step 3: List repository contents using tree command
-          - task: Bash@3
-            displayName: 'List Repository Contents with Tree'
-            inputs:
-              targetType: 'inline'
-              script: |
-                echo "========================================="
-                echo "Repository Contents (using tree command):"
-                echo "========================================="
-                # Install tree if not available
-                sudo apt-get update && sudo apt-get install -y tree
-                # Display directory tree with colors and file sizes
-                tree -L 3 -h --dirsfirst
-          
-          # Step 4: List src directory contents recursively using PowerShell
-          - task: PowerShell@2
-            displayName: 'List src Directory Contents with PowerShell'
-            inputs:
-              targetType: 'inline'
-              pwsh: true
-              script: |
-                Write-Host "=========================================" -ForegroundColor Cyan
-                Write-Host "Contents of src Directory (PowerShell):" -ForegroundColor Cyan
-                Write-Host "=========================================" -ForegroundColor Cyan
+    
+    steps:
+      - task: PowerShell@2
+        displayName: 'Display Pipeline Trigger Information'
+        inputs:
+          targetType: 'inline'
+          script: |
+            Write-Host "========== Pipeline Trigger Information ==========" -ForegroundColor Cyan
+            Write-Host "Build Reason:    $(Build.Reason)" -ForegroundColor Yellow
+            Write-Host "Branch:          $(Build.SourceBranchName)" -ForegroundColor Yellow
+            Write-Host "Repository:      $(Build.Repository.Name)" -ForegroundColor Yellow
+            Write-Host "Requested By:    $(Build.RequestedFor)" -ForegroundColor Yellow
+            Write-Host "Source Branch:   $(Build.SourceBranch)" -ForegroundColor Yellow
+            Write-Host "================================================" -ForegroundColor Cyan
+          pwsh: true
+
+      - checkout: self
+
+      - task: PowerShell@2
+        displayName: 'List Repository Contents with Tree Command'
+        inputs:
+          targetType: 'inline'
+          script: |
+            Write-Host "========== Repository Contents (Tree - Depth 3) ==========" -ForegroundColor Cyan
+            tree -L 3 -h --du 2>/dev/null || Write-Host "Tree command not available, using alternative listing" -ForegroundColor Yellow
+            Write-Host "========================================================" -ForegroundColor Cyan
+          pwsh: true
+
+      - task: PowerShell@2
+        displayName: 'List Directory Contents with PowerShell'
+        inputs:
+          targetType: 'inline'
+          script: |
+            function Get-DirectoryTree {
+              param(
+                [string]$Path = '.',
+                [int]$Depth = 0,
+                [int]$MaxDepth = 3
+              )
+              
+              if ($Depth -gt $MaxDepth) { return }
+              
+              try {
+                $items = Get-ChildItem -Path $Path -Force -ErrorAction SilentlyContinue | Sort-Object -Property @{Expression = {$_.PSIsContainer}; Descending = $true}, Name
                 
-                # Check if src directory exists
-                if (Test-Path "src") {
-                    # Get all items recursively from src directory
-                    Get-ChildItem -Path "src" -Recurse | ForEach-Object {
-                        $indent = "  " * ($_.FullName.Split([IO.Path]::DirectorySeparatorChar).Count - $PWD.Path.Split([IO.Path]::DirectorySeparatorChar).Count - 2)
-                        if ($_.PSIsContainer) {
-                            Write-Host "$indent[DIR]  $($_.Name)" -ForegroundColor Yellow
-                        } else {
-                            $size = [math]::Round($_.Length / 1KB, 2)
-                            Write-Host "$indent[FILE] $($_.Name) ($size KB)" -ForegroundColor Green
-                        }
-                    } # end ForEach-Object
-                } else {
-                    Write-Host "src directory does not exist in this repository." -ForegroundColor Red
-                } # end if
-  
-  # Stage 2: Retrieve Values
-  - stage: RetrieveValues
-    displayName: 'Retrieve Pipeline Values'
-    # This stage runs after ListContents completes
+                foreach ($item in $items) {
+                  $indent = "  " * $Depth
+                  $type = if ($item.PSIsContainer) { "[DIR]" } else { "[FILE]" }
+                  $size = if (-not $item.PSIsContainer) { " ({0:N0} KB)" -f ($item.Length / 1KB) } else { "" }
+                  
+                  if ($item.PSIsContainer) {
+                    Write-Host "$indent$type $($item.Name)" -ForegroundColor Yellow
+                  } else {
+                    Write-Host "$indent$type $($item.Name)$size" -ForegroundColor Green
+                  }
+                  
+                  if ($item.PSIsContainer -and $Depth -lt $MaxDepth) {
+                    Get-DirectoryTree -Path $item.FullName -Depth ($Depth + 1) -MaxDepth $MaxDepth
+                  }
+                }
+              }
+              catch {
+                Write-Host "Error accessing path: $_" -ForegroundColor Red
+              }
+            }
+            
+            Write-Host "========== Repository Structure (PowerShell) ==========" -ForegroundColor Cyan
+            Get-DirectoryTree -Path '.' -MaxDepth 3
+            Write-Host "======================================================" -ForegroundColor Cyan
+          pwsh: true
+
+  - job: RetrieveValues
+    displayName: 'Display Pipeline Metadata'
     dependsOn: ListContents
-    jobs:
-      - job: retrieve_values
-        displayName: 'Retrieve Pipeline Values'
-        pool:
-          vmImage: $(vmImage)
-        
-        steps:
-          # Step: Display current branch information
-          - task: Bash@3
-            displayName: 'Show Current Branch'
-            inputs:
-              targetType: 'inline'
-              script: |
-                echo "========================================="
-                echo "Current Branch Information:"
-                echo "========================================="
-                echo "Branch Name: $(Build.SourceBranchName)"
-                echo "Full Ref: $(Build.SourceBranch)"
-                echo "Repository: $(Build.Repository.Name)"
-                echo "Repository URI: $(Build.Repository.Uri)"
-                echo "Default Branch: $(System.DefaultWorkingDirectory)"
-                echo "Commit ID: $(Build.SourceVersion)"
-                echo "Commit Message: $(Build.SourceVersionMessage)"
-                echo "Build Reason: $(Build.Reason)"
-                echo "Pull Request ID: $(System.PullRequest.PullRequestId)"
-                echo "Pull Request Source Branch: $(System.PullRequest.SourceBranch)"
-                echo "Pull Request Target Branch: $(System.PullRequest.TargetBranch)"
-                echo "========================================="
+    
+    steps:
+      - task: PowerShell@2
+        displayName: 'Display Branch and Pipeline Information'
+        inputs:
+          targetType: 'inline'
+          script: |
+            Write-Host "========== Branch and Pipeline Metadata ==========" -ForegroundColor Cyan
+            Write-Host "Branch Name:                         $(Build.SourceBranchName)" -ForegroundColor Yellow
+            Write-Host "Full Source Branch:                  $(Build.SourceBranch)" -ForegroundColor Yellow
+            Write-Host "Source Version (Commit):             $(Build.SourceVersion)" -ForegroundColor Yellow
+            Write-Host "Build ID:                            $(Build.BuildId)" -ForegroundColor Yellow
+            Write-Host "Build Number:                        $(Build.BuildNumber)" -ForegroundColor Yellow
+            Write-Host "Build Reason:                        $(Build.Reason)" -ForegroundColor Yellow
+            Write-Host "Requested By:                        $(Build.RequestedFor)" -ForegroundColor Yellow
+            Write-Host "Repository:                          $(Build.Repository.Name)" -ForegroundColor Yellow
+            Write-Host "Repository URI:                      $(Build.Repository.Uri)" -ForegroundColor Yellow
+            Write-Host "================================================" -ForegroundColor Cyan
+          pwsh: true

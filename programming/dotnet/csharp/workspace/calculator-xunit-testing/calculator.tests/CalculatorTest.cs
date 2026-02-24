@@ -1,261 +1,343 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Xunit;
-using CalculatorApp;
-
-namespace calculator.tests;
 
 /// <summary>
-/// Comprehensive unit tests for the Calculator class
-/// Tests cover normal cases, edge cases, and error conditions
-/// Test data is sourced from a CSV file for maintainability and clarity
+/// Test suite for CalculatorOperations class following section 1.12.4 Testing Strategy.
+/// Tests include Fact tests for simple assertions and Theory tests with InlineData for multiple cases.
+/// Coverage includes normal cases, edge cases, and error conditions.
 /// </summary>
 public class CalculatorTest
 {
+    #region Addition Tests
+    
     /// <summary>
-    /// Gets test data from the CSV file
-    /// </summary>
-    private static IEnumerable<TestDataRecord> GetTestDataFromCsv()
-    {
-        // Find the CSV file relative to the test assembly location
-        string assemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
-        string assemblyDirectory = Path.GetDirectoryName(assemblyLocation) ?? string.Empty;
-        
-        // Navigate up from bin/Debug/net8.0 to the project root, then to TestData
-        string csvPath = Path.Combine(assemblyDirectory, "..", "..", "..", "TestData", "CalculatorTestData.csv");
-        string fullPath = Path.GetFullPath(csvPath);
-
-        if (!File.Exists(fullPath))
-        {
-            throw new FileNotFoundException($"Test data CSV file not found at: {fullPath}");
-        }
-
-        var records = new List<TestDataRecord>();
-
-        using (var reader = new StreamReader(fullPath))
-        {
-            // Skip header line
-            reader.ReadLine();
-
-            string? line;
-            while ((line = reader.ReadLine()) != null)
-            {
-                if (string.IsNullOrWhiteSpace(line))
-                    continue;
-
-                var parts = line.Split(',');
-                if (parts.Length >= 4)
-                {
-                    records.Add(new TestDataRecord
-                    {
-                        FirstNumber = double.Parse(parts[0].Trim()),
-                        SecondNumber = double.Parse(parts[1].Trim()),
-                        Operation = parts[2].Trim(),
-                        ExpectedValue = double.Parse(parts[3].Trim()),
-                        Result = parts.Length > 4 ? parts[4].Trim() : "unknown"
-                    });
-                }
-            }
-        }
-
-        return records;
-    }
-
-    /// <summary>
-    /// Comprehensive test that validates all operations using CSV data
+    /// Fact test: Verifies basic addition with positive numbers.
     /// </summary>
     [Fact]
-    public void Calculator_WithCsvTestData_AllOperationsProduceExpectedResults()
+    public void Add_PositiveNumbers_ReturnsCorrectSum()
     {
         // Arrange
-        var testData = GetTestDataFromCsv();
-        var failedTests = new List<string>();
+        double a = 5;
+        double b = 3;
+        double expected = 8;
 
-        // Act & Assert
-        foreach (var record in testData)
-        {
-            double actualValue = PerformOperation(record.FirstNumber, record.SecondNumber, record.Operation);
-            bool testPassed = false;
-
-            // Handle NaN comparisons for division/modulo by zero
-            if (double.IsNaN(record.ExpectedValue) && double.IsNaN(actualValue))
-            {
-                testPassed = true;
-            }
-            else if (!double.IsNaN(record.ExpectedValue))
-            {
-                testPassed = Math.Abs(actualValue - record.ExpectedValue) < 0.0001;
-            }
-
-            if (!testPassed)
-            {
-                failedTests.Add(
-                    $"Operation: {record.FirstNumber} {record.Operation} {record.SecondNumber}, " +
-                    $"Expected: {record.ExpectedValue}, Actual: {actualValue}, Result: FAILED"
-                );
-            }
-        }
-
-        // Assert all tests passed
-        Assert.Empty(failedTests);
-    }
-
-    /// <summary>
-    /// Tests each operation individually by operation type
-    /// </summary>
-    [Theory]
-    [MemberData(nameof(GetAdditionData))]
-    public void Add_WithCsvData_ReturnsExpectedSum(double first, double second, double expected)
-    {
         // Act
-        double result = Calculator.Add(first, second);
+        double result = CalculatorOperations.Add(a, b);
 
         // Assert
         Assert.Equal(expected, result);
     }
 
+    /// <summary>
+    /// Theory test: Verifies addition with multiple test cases including normal, negative, and zero values.
+    /// </summary>
     [Theory]
-    [MemberData(nameof(GetSubtractionData))]
-    public void Subtract_WithCsvData_ReturnsExpectedDifference(double first, double second, double expected)
+    [InlineData(5, 3, 8)]           // Normal case: positive numbers
+    [InlineData(-5, -3, -8)]        // Edge case: negative numbers
+    [InlineData(0, 5, 5)]           // Edge case: zero operand
+    [InlineData(5.5, 2.3, 7.8)]     // Normal case: decimal numbers
+    [InlineData(-5, 5, 0)]          // Edge case: opposites sum to zero
+    public void Add_VariousCases_ReturnsCorrectSum(double a, double b, double expected)
     {
         // Act
-        double result = Calculator.Subtract(first, second);
+        double result = CalculatorOperations.Add(a, b);
+
+        // Assert
+        Assert.Equal(expected, result, precision: 10);
+    }
+
+    #endregion
+
+    #region Subtraction Tests
+
+    /// <summary>
+    /// Fact test: Verifies basic subtraction with positive numbers.
+    /// </summary>
+    [Fact]
+    public void Subtract_PositiveNumbers_ReturnsCorrectDifference()
+    {
+        // Arrange
+        double a = 10;
+        double b = 3;
+        double expected = 7;
+
+        // Act
+        double result = CalculatorOperations.Subtract(a, b);
 
         // Assert
         Assert.Equal(expected, result);
     }
 
+    /// <summary>
+    /// Theory test: Verifies subtraction with multiple test cases including normal, negative, and zero values.
+    /// </summary>
     [Theory]
-    [MemberData(nameof(GetMultiplicationData))]
-    public void Multiply_WithCsvData_ReturnsExpectedProduct(double first, double second, double expected)
+    [InlineData(10, 3, 7)]          // Normal case: positive numbers
+    [InlineData(-5, -3, -2)]        // Edge case: negative numbers
+    [InlineData(5, 0, 5)]           // Edge case: subtract zero
+    [InlineData(0, 5, -5)]          // Edge case: subtract from zero
+    [InlineData(7.5, 2.3, 5.2)]     // Normal case: decimal numbers
+    public void Subtract_VariousCases_ReturnsCorrectDifference(double a, double b, double expected)
     {
         // Act
-        double result = Calculator.Multiply(first, second);
+        double result = CalculatorOperations.Subtract(a, b);
+
+        // Assert
+        Assert.Equal(expected, result, precision: 10);
+    }
+
+    #endregion
+
+    #region Multiplication Tests
+
+    /// <summary>
+    /// Fact test: Verifies basic multiplication with positive numbers.
+    /// </summary>
+    [Fact]
+    public void Multiply_PositiveNumbers_ReturnsCorrectProduct()
+    {
+        // Arrange
+        double a = 4;
+        double b = 5;
+        double expected = 20;
+
+        // Act
+        double result = CalculatorOperations.Multiply(a, b);
 
         // Assert
         Assert.Equal(expected, result);
     }
 
+    /// <summary>
+    /// Theory test: Verifies multiplication with multiple test cases including normal, negative, and zero values.
+    /// </summary>
     [Theory]
-    [MemberData(nameof(GetDivisionData))]
-    public void Divide_WithCsvData_ReturnsExpectedQuotient(double first, double second, double expected)
+    [InlineData(4, 5, 20)]          // Normal case: positive numbers
+    [InlineData(-4, -5, 20)]        // Edge case: negative numbers (product positive)
+    [InlineData(-4, 5, -20)]        // Edge case: mixed signs
+    [InlineData(0, 5, 0)]           // Edge case: multiply by zero
+    [InlineData(2.5, 4, 10)]        // Normal case: decimal numbers
+    public void Multiply_VariousCases_ReturnsCorrectProduct(double a, double b, double expected)
     {
         // Act
-        double result = Calculator.Divide(first, second);
+        double result = CalculatorOperations.Multiply(a, b);
 
         // Assert
-        if (double.IsNaN(expected))
-        {
-            Assert.True(double.IsNaN(result), "Expected NaN for division by zero");
-        }
-        else
-        {
-            Assert.Equal(expected, result);
-        }
+        Assert.Equal(expected, result, precision: 10);
     }
 
-    [Theory]
-    [MemberData(nameof(GetModuloData))]
-    public void Modulo_WithCsvData_ReturnsExpectedRemainder(double first, double second, double expected)
+    #endregion
+
+    #region Division Tests
+
+    /// <summary>
+    /// Fact test: Verifies basic division with positive numbers.
+    /// </summary>
+    [Fact]
+    public void Divide_PositiveNumbers_ReturnsCorrectQuotient()
     {
+        // Arrange
+        double a = 20;
+        double b = 4;
+        double expected = 5;
+
         // Act
-        double result = Calculator.Modulo(first, second);
+        double result = CalculatorOperations.Divide(a, b);
 
         // Assert
-        if (double.IsNaN(expected))
-        {
-            Assert.True(double.IsNaN(result), "Expected NaN for modulo by zero");
-        }
-        else
-        {
-            Assert.Equal(expected, result);
-        }
-    }
-
-    [Theory]
-    [MemberData(nameof(GetExponentData))]
-    public void Exponent_WithCsvData_ReturnsExpectedPower(double first, double second, double expected)
-    {
-        // Act
-        double result = Calculator.Exponent(first, second);
-
-        // Assert
-        Assert.Equal(expected, result, 10);
+        Assert.Equal(expected, result);
     }
 
     /// <summary>
-    /// Member data providers - extract data from CSV by operation type
+    /// Fact test: Verifies division by zero returns NaN (error condition).
     /// </summary>
-    public static IEnumerable<object[]> GetAdditionData()
+    [Fact]
+    public void Divide_ByZero_ReturnsNaN()
     {
-        return GetTestDataFromCsv()
-            .Where(r => r.Operation == "+")
-            .Select(r => new object[] { r.FirstNumber, r.SecondNumber, r.ExpectedValue });
-    }
+        // Arrange
+        double a = 10;
+        double b = 0;
 
-    public static IEnumerable<object[]> GetSubtractionData()
-    {
-        return GetTestDataFromCsv()
-            .Where(r => r.Operation == "-")
-            .Select(r => new object[] { r.FirstNumber, r.SecondNumber, r.ExpectedValue });
-    }
+        // Act
+        double result = CalculatorOperations.Divide(a, b);
 
-    public static IEnumerable<object[]> GetMultiplicationData()
-    {
-        return GetTestDataFromCsv()
-            .Where(r => r.Operation == "*")
-            .Select(r => new object[] { r.FirstNumber, r.SecondNumber, r.ExpectedValue });
-    }
-
-    public static IEnumerable<object[]> GetDivisionData()
-    {
-        return GetTestDataFromCsv()
-            .Where(r => r.Operation == "/")
-            .Select(r => new object[] { r.FirstNumber, r.SecondNumber, r.ExpectedValue });
-    }
-
-    public static IEnumerable<object[]> GetModuloData()
-    {
-        return GetTestDataFromCsv()
-            .Where(r => r.Operation == "%")
-            .Select(r => new object[] { r.FirstNumber, r.SecondNumber, r.ExpectedValue });
-    }
-
-    public static IEnumerable<object[]> GetExponentData()
-    {
-        return GetTestDataFromCsv()
-            .Where(r => r.Operation == "^")
-            .Select(r => new object[] { r.FirstNumber, r.SecondNumber, r.ExpectedValue });
+        // Assert
+        Assert.True(double.IsNaN(result), "Division by zero should return NaN");
     }
 
     /// <summary>
-    /// Helper method to perform the operation
+    /// Theory test: Verifies division with multiple test cases including normal, negative, and edge values.
     /// </summary>
-    private static double PerformOperation(double first, double second, string operation)
+    [Theory]
+    [InlineData(20, 4, 5)]          // Normal case: positive numbers
+    [InlineData(-20, -4, 5)]        // Edge case: negative numbers (quotient positive)
+    [InlineData(-20, 4, -5)]        // Edge case: mixed signs
+    [InlineData(0, 5, 0)]           // Edge case: zero dividend
+    [InlineData(10, 2.5, 4)]        // Normal case: decimal numbers
+    public void Divide_VariousCases_ReturnsCorrectQuotient(double a, double b, double expected)
     {
-        return operation switch
-        {
-            "+" => Calculator.Add(first, second),
-            "-" => Calculator.Subtract(first, second),
-            "*" => Calculator.Multiply(first, second),
-            "/" => Calculator.Divide(first, second),
-            "%" => Calculator.Modulo(first, second),
-            "^" => Calculator.Exponent(first, second),
-            _ => double.NaN
-        };
-    }
-}
+        // Act
+        double result = CalculatorOperations.Divide(a, b);
 
-/// <summary>
-/// Data class representing a test record from the CSV file
-/// </summary>
-public class TestDataRecord
-{
-    public double FirstNumber { get; set; }
-    public double SecondNumber { get; set; }
-    public string Operation { get; set; } = string.Empty;
-    public double ExpectedValue { get; set; }
-    public string Result { get; set; } = "unknown";
+        // Assert
+        Assert.Equal(expected, result, precision: 10);
+    }
+
+    #endregion
+
+    #region Modulo Tests
+
+    /// <summary>
+    /// Fact test: Verifies basic modulo operation with positive numbers.
+    /// </summary>
+    [Fact]
+    public void Modulo_PositiveNumbers_ReturnsCorrectRemainder()
+    {
+        // Arrange
+        double a = 10;
+        double b = 3;
+        double expected = 1;
+
+        // Act
+        double result = CalculatorOperations.Modulo(a, b);
+
+        // Assert
+        Assert.Equal(expected, result);
+    }
+
+    /// <summary>
+    /// Fact test: Verifies modulo by zero returns NaN (error condition).
+    /// </summary>
+    [Fact]
+    public void Modulo_ByZero_ReturnsNaN()
+    {
+        // Arrange
+        double a = 10;
+        double b = 0;
+
+        // Act
+        double result = CalculatorOperations.Modulo(a, b);
+
+        // Assert
+        Assert.True(double.IsNaN(result), "Modulo by zero should return NaN");
+    }
+
+    /// <summary>
+    /// Theory test: Verifies modulo with multiple test cases including normal, negative, and edge values.
+    /// </summary>
+    [Theory]
+    [InlineData(10, 3, 1)]          // Normal case: positive numbers
+    [InlineData(-10, 3, -1)]        // Edge case: negative dividend
+    [InlineData(10, -3, 1)]         // Edge case: negative divisor
+    [InlineData(0, 5, 0)]           // Edge case: zero dividend
+    [InlineData(7.5, 2.5, 0)]       // Normal case: decimal numbers
+    public void Modulo_VariousCases_ReturnsCorrectRemainder(double a, double b, double expected)
+    {
+        // Act
+        double result = CalculatorOperations.Modulo(a, b);
+
+        // Assert
+        Assert.Equal(expected, result, precision: 10);
+    }
+
+    #endregion
+
+    #region Exponent Tests
+
+    /// <summary>
+    /// Fact test: Verifies basic exponent operation.
+    /// </summary>
+    [Fact]
+    public void Exponent_PositiveExponent_ReturnsCorrectPower()
+    {
+        // Arrange
+        double a = 2;
+        double b = 3;
+        double expected = 8;
+
+        // Act
+        double result = CalculatorOperations.Exponent(a, b);
+
+        // Assert
+        Assert.Equal(expected, result);
+    }
+
+    /// <summary>
+    /// Theory test: Verifies exponent with multiple test cases including normal, zero, negative, and edge values.
+    /// </summary>
+    [Theory]
+    [InlineData(2, 3, 8)]           // Normal case: positive base and exponent
+    [InlineData(2, 0, 1)]           // Edge case: any number to power 0 is 1
+    [InlineData(5, 2, 25)]          // Normal case: squared
+    [InlineData(10, -1, 0.1)]       // Edge case: negative exponent (reciprocal)
+    [InlineData(-2, 3, -8)]         // Edge case: negative base with odd exponent
+    public void Exponent_VariousCases_ReturnsCorrectPower(double a, double b, double expected)
+    {
+        // Act
+        double result = CalculatorOperations.Exponent(a, b);
+
+        // Assert
+        Assert.Equal(expected, result, precision: 10);
+    }
+
+    #endregion
+
+    #region Perform Method Tests
+
+    /// <summary>
+    /// Fact test: Verifies the Perform method routes to correct operation for addition.
+    /// </summary>
+    [Fact]
+    public void Perform_AdditionOperator_CallsAddMethod()
+    {
+        // Arrange
+        double a = 5;
+        double b = 3;
+        char op = '+';
+        double expected = 8;
+
+        // Act
+        double result = CalculatorOperations.Perform(a, b, op);
+
+        // Assert
+        Assert.Equal(expected, result);
+    }
+
+    /// <summary>
+    /// Theory test: Verifies Perform method with all supported operators.
+    /// </summary>
+    [Theory]
+    [InlineData(10, 5, '+', 15)]    // Addition
+    [InlineData(10, 5, '-', 5)]     // Subtraction
+    [InlineData(10, 5, '*', 50)]    // Multiplication
+    [InlineData(10, 5, '/', 2)]     // Division
+    [InlineData(10, 3, '%', 1)]     // Modulo
+    [InlineData(2, 3, '^', 8)]      // Exponent
+    public void Perform_AllOperators_ReturnsCorrectResult(double a, double b, char op, double expected)
+    {
+        // Act
+        double result = CalculatorOperations.Perform(a, b, op);
+
+        // Assert
+        Assert.Equal(expected, result, precision: 10);
+    }
+
+    /// <summary>
+    /// Fact test: Verifies Perform method returns NaN for invalid operator.
+    /// </summary>
+    [Fact]
+    public void Perform_InvalidOperator_ReturnsNaN()
+    {
+        // Arrange
+        double a = 10;
+        double b = 5;
+        char op = '&';  // Invalid operator
+
+        // Act
+        double result = CalculatorOperations.Perform(a, b, op);
+
+        // Assert
+        Assert.True(double.IsNaN(result), "Invalid operator should return NaN");
+    }
+
+    #endregion
 }

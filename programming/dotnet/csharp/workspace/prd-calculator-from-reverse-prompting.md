@@ -1,245 +1,281 @@
 # Product Requirements Document: Console Calculator Application
 
-## 1. Document Information
+\n\n1. Document Information
 
-- **Version:** 1.0
-- **Author:** [Author Name]
-- **Date:** [Current Date]
-- **Status:** Draft
+\n\n**Version:** 1.0
+\n\n**Author:** [Author Name]
+\n\n**Date:** [Current Date]
+\n\n**Status:** Draft
 
-## 2. Executive Summary
+\n\n2. Executive Summary
 
 The Console Calculator Application is a .NET 8-based command-line tool that provides users with a clean, intuitive interface to perform common mathematical operations. The calculator supports six fundamental operations: addition, subtraction, multiplication, division, modulo, and exponentiation. It includes robust error handling, input validation, and a user-friendly loop that enables multiple calculations in sequence.
 
-## 3. Problem Statement
+\n\n3. Problem Statement
 
 Many command-line calculators lack proper error handling, clear user interfaces, or a complete set of operations. This application aims to provide a comprehensive calculator experience with a focus on robustness, usability, and maintainability, while also serving as an example of good practices in C# programming, including unit testing.
 
-## 4. Goals and Objectives
+\n\n4. Goals and Objectives
 
-- Create an easy-to-use console calculator with a clean UI
-- Support six fundamental mathematical operations (+, -, *, /, %, ^)
-- Implement robust error handling and input validation
-- Enable repeatable calculations through a simple prompt flow
-- Provide extensive documentation of edge cases and mathematical behaviors
-- Demonstrate test-driven development with comprehensive unit tests
+\n\nCreate an easy-to-use console calculator with a clean UI
+\n\nSupport six fundamental mathematical operations (+, -, \*, /, %, ^)
+\n\nImplement robust error handling and input validation
+\n\nEnable repeatable calculations through a simple prompt flow
+\n\nProvide extensive documentation of edge cases and mathematical behaviors
+\n\nDemonstrate test-driven development with comprehensive unit tests
 
-## 5. Scope
+\n\n5. Scope
 
-**In Scope:**
-- Console-based calculator interface
-- Six operations: addition, subtraction, multiplication, division, modulo, power
-- Input validation and error handling
-- Repeatable calculation flow
-- Unit test coverage for all operations
+## In Scope
 
-**Out of Scope:**
-- Advanced mathematical functions (trigonometry, logarithms, etc.)
-- Memory functions (store/recall)
-- GUI interface
-- Persistence of calculation history
-- Scientific notation support
+\n\nConsole-based calculator interface
+\n\nSix operations: addition, subtraction, multiplication, division, modulo, power
+\n\nInput validation and error handling
+\n\nRepeatable calculation flow
+\n\nUnit test coverage for all operations
 
-## 6. User Stories / Use Cases
+## Out of Scope
 
-1. **Basic Calculation:** As a user, I want to perform a simple calculation with two operands and receive the correct result.
-2. **Error Recovery:** As a user, I want to be notified of errors (like division by zero) and given an opportunity to try again.
-3. **Invalid Input Handling:** As a user, I want the application to gracefully handle invalid inputs rather than crashing.
-4. **Multiple Calculations:** As a user, I want to perform multiple calculations in sequence without restarting the program.
-5. **Clean Exit:** As a user, I want to exit the program with a friendly message when I'm finished.
+\n\nAdvanced mathematical functions (trigonometry, logarithms, etc.)
+\n\nMemory functions (store/recall)
+\n\nGUI interface
+\n\nPersistence of calculation history
+\n\nScientific notation support
 
-## 7. Functional Requirements
+\n\n6. User Stories / Use Cases
 
-### 7.1 User Interface
-- The application shall display a title and header at startup
-- The application shall clear the screen at start, between calculations, and before exit
-- The application shall display clear prompts for entering numbers and operators
-- The application shall display calculation results clearly
+\n\n**Basic Calculation:** As a user, I want to perform a simple calculation with two operands and receive the correct result.
+\n\n**Error Recovery:** As a user, I want to be notified of errors (like division by zero) and given an opportunity to try again.
+\n\n**Invalid Input Handling:** As a user, I want the application to gracefully handle invalid inputs rather than crashing.
+\n\n**Multiple Calculations:** As a user, I want to perform multiple calculations in sequence without restarting the program.
+\n\n**Clean Exit:** As a user, I want to exit the program with a friendly message when I'm finished.
 
-### 7.2 Input Handling
-- The application shall validate numeric inputs and display appropriate error messages
-- The application shall accept these operators: +, -, *, /, %, ^
-- The application shall validate operators and display an error for invalid operators
+\n\n7. Functional Requirements
 
-### 7.3 Calculation Features
-- The application shall support addition of two numbers
-- The application shall support subtraction of one number from another
-- The application shall support multiplication of two numbers
-- The application shall support division of one number by another (except by zero)
-- The application shall support modulo operation (remainder of division)
-- The application shall support exponentiation (raising one number to the power of another)
+\n\n7.1 User Interface
 
-### 7.4 Error Handling
-- The application shall prevent division by zero and display an appropriate error
-- The application shall prevent modulo with zero divisor and display an appropriate error
-- The application shall handle other potential errors (like argument exceptions)
+\n\nThe application shall display a title and header at startup
+\n\nThe application shall clear the screen at start, between calculations, and before exit
+\n\nThe application shall display clear prompts for entering numbers and operators
+\n\nThe application shall display calculation results clearly
 
-### 7.5 Program Flow
-- The application shall allow the user to perform multiple calculations in sequence
-- The application shall provide a yes/no prompt after each calculation
-- The application shall accept both "yes" and "y" (case insensitive) to continue
-- The application shall display a friendly exit message upon completion
+\n\n7.2 Input Handling
 
-## 8. Non-Functional Requirements
+\n\nThe application shall validate numeric inputs and display appropriate error messages
+\n\nThe application shall accept these operators: +, -, \*, /, %, ^
+\n\nThe application shall validate operators and display an error for invalid operators
 
-### 8.1 Performance
-- The application shall provide calculation results immediately (within 100ms)
-- The application shall handle numbers within the range of the double data type
+\n\n7.3 Calculation Features
 
-### 8.2 Usability
-- The application shall use clear, concise prompts
-- The application shall use consistent language and formatting
-- The application shall provide helpful error messages
+\n\nThe application shall support addition of two numbers
+\n\nThe application shall support subtraction of one number from another
+\n\nThe application shall support multiplication of two numbers
+\n\nThe application shall support division of one number by another (except by zero)
+\n\nThe application shall support modulo operation (remainder of division)
+\n\nThe application shall support exponentiation (raising one number to the power of another)
 
-### 8.3 Maintainability
-- The code shall be well-documented with comments explaining logic and edge cases
-- Math operations shall be implemented as independent, testable methods
-- The application shall follow C# best practices and coding standards
+\n\n7.4 Error Handling
 
-### 8.4 Testability
-- All mathematical operations shall be implemented as public methods
-- All operations shall be thoroughly tested, including edge cases
+\n\nThe application shall prevent division by zero and display an appropriate error
+\n\nThe application shall prevent modulo with zero divisor and display an appropriate error
+\n\nThe application shall handle other potential errors (like argument exceptions)
 
-## 9. Operation Details and Edge Cases
+\n\n7.5 Program Flow
 
-### 9.1 Addition Operation
-- **Syntax:** `a + b`
-- **Function:** Returns the sum of two numbers
-- **Edge Cases:**
-  - Adding very large numbers may result in double.PositiveInfinity
-  - Adding very small negatives to very large positives may lose precision
+\n\nThe application shall allow the user to perform multiple calculations in sequence
+\n\nThe application shall provide a yes/no prompt after each calculation
+\n\nThe application shall accept both "yes" and "y" (case insensitive) to continue
+\n\nThe application shall display a friendly exit message upon completion
 
-### 9.2 Subtraction Operation
-- **Syntax:** `a - b`
-- **Function:** Returns the difference between two numbers
-- **Edge Cases:**
-  - Subtracting a negative is equivalent to addition and may overflow
-  - Subtracting very close numbers may result in precision issues
+\n\n8. Non-Functional Requirements
 
-### 9.3 Multiplication Operation
-- **Syntax:** `a * b`
-- **Function:** Returns the product of two numbers
-- **Edge Cases:**
-  - Multiplying by zero always returns zero
-  - Multiplying large numbers may result in double.PositiveInfinity
-  - Sign rules: negative * negative = positive
+\n\n8.1 Performance
 
-### 9.4 Division Operation
-- **Syntax:** `a / b`
-- **Function:** Returns the quotient of a divided by b
-- **Edge Cases:**
-  - Division by zero throws DivideByZeroException
-  - Division of zero by any non-zero number returns zero
-  - Sign rules: negative / negative = positive
-  - Division by very small numbers can result in very large results
+\n\nThe application shall provide calculation results immediately (within 100ms)
+\n\nThe application shall handle numbers within the range of the double data type
 
-### 9.5 Modulo Operation
-- **Syntax:** `a % b`
-- **Function:** Returns the remainder of a divided by b
-- **Edge Cases:**
-  - Modulo by zero throws DivideByZeroException
-  - In C#, modulo with negative numbers follows the sign of the dividend
-  - Example: -7 % 3 = -1 (may differ from other languages)
+\n\n8.2 Usability
 
-### 9.6 Power Operation
-- **Syntax:** `a ^ b`
-- **Function:** Returns a raised to the power of b
-- **Edge Cases:**
-  - 0^0 returns 1 (mathematical convention)
-  - Any number raised to 0 returns 1
-  - 0 raised to any positive power returns 0
-  - Negative numbers raised to fractional powers return NaN
-  - Very large results might return double.PositiveInfinity
+\n\nThe application shall use clear, concise prompts
+\n\nThe application shall use consistent language and formatting
+\n\nThe application shall provide helpful error messages
 
-## 10. User Experience Flow
+\n\n8.3 Maintainability
 
-1. **Program Start:**
-   - Screen is cleared
-   - Title "Simple Calculator" is displayed
-   - Separator line is shown
+\n\nThe code shall be well-documented with comments explaining logic and edge cases
+\n\nMath operations shall be implemented as independent, testable methods
+\n\nThe application shall follow C# best practices and coding standards
 
-2. **Input Sequence:**
-   - User is prompted for first number
-   - User is prompted for second number
-   - User is prompted for operator
+\n\n8.4 Testability
 
-3. **Result Display:**
-   - Calculation is performed
-   - Result is displayed
-   - Or error message is shown for invalid operations
+\n\nAll mathematical operations shall be implemented as public methods
+\n\nAll operations shall be thoroughly tested, including edge cases
 
-4. **Continuation:**
-   - User is asked if they want to perform another calculation
-   - If yes: screen is cleared and the process repeats
-   - If no: screen is cleared and goodbye message is displayed
+\n\n9. Operation Details and Edge Cases
 
-5. **Program Exit:**
-   - "Thank you for using the calculator. Goodbye!" message is displayed
-   - Program terminates
+\n\n9.1 Addition Operation
 
-## 11. Testing Strategy
+\n\n**Syntax:** `a + b`
+\n\n**Function:** Returns the sum of two numbers
+\n\n**Edge Cases:**
+\n\nAdding very large numbers may result in double.PositiveInfinity
+\n\nAdding very small negatives to very large positives may lose precision
 
-### 11.1 Unit Testing
-- Each mathematical operation shall have dedicated unit tests
-- Tests shall include normal cases, edge cases, and exception scenarios
-- Tests shall use both individual [Fact] tests and parameterized [Theory] tests
+\n\n9.2 Subtraction Operation
 
-### 11.2 Test Coverage
-- Addition: Testing positive numbers, negative numbers, zeros
-- Subtraction: Testing positive results, negative results, zeros
-- Multiplication: Testing positive/negative combinations, zeros
-- Division: Testing various combinations, division by zero exception
-- Modulo: Testing various combinations, modulo by zero exception
-- Power: Testing positive/negative bases and exponents, special cases like 0^0
+\n\n**Syntax:** `a - b`
+\n\n**Function:** Returns the difference between two numbers
+\n\n**Edge Cases:**
+\n\nSubtracting a negative is equivalent to addition and may overflow
+\n\nSubtracting very close numbers may result in precision issues
 
-## 12. Implementation Notes
+\n\n9.3 Multiplication Operation
 
-### 12.1 Code Structure
-- **Top-Level Statements:** Main program flow and user interaction
-- **CalculatorOperations Class:** Contains all mathematical operation methods
-- **Exception Handling:** try-catch blocks for operation exceptions
-- **Input Validation:** TryParse for numeric inputs, validation for operators
+\n\n**Syntax:** `a * b`
+\n\n**Function:** Returns the product of two numbers
+\n\n**Edge Cases:**
+\n\nMultiplying by zero always returns zero
+\n\nMultiplying large numbers may result in double.PositiveInfinity
+\n\nSign rules: negative \* negative = positive
 
-### 12.2 Key Technical Decisions
-- Using nullable string types (string?) to handle potential null returns from Console.ReadLine()
-- Using null-conditional (?.) and null-coalescing (??) operators to prevent NullReferenceException
-- Using TryParse instead of Parse to avoid exceptions for invalid inputs
-- Implementing operations as pure methods with no side effects for better testability
-- Using XML documentation comments for better code documentation
+\n\n9.4 Division Operation
 
-## 13. Usage Instructions
+\n\n**Syntax:** `a / b`
+\n\n**Function:** Returns the quotient of a divided by b
+\n\n**Edge Cases:**
+\n\nDivision by zero throws DivideByZeroException
+\n\nDivision of zero by any non-zero number returns zero
+\n\nSign rules: negative / negative = positive
+\n\nDivision by very small numbers can result in very large results
 
-### 13.1 Starting the Application
+\n\n9.5 Modulo Operation
+
+\n\n**Syntax:** `a % b`
+\n\n**Function:** Returns the remainder of a divided by b
+\n\n**Edge Cases:**
+\n\nModulo by zero throws DivideByZeroException
+\n\nIn C#, modulo with negative numbers follows the sign of the dividend
+\n\nExample: -7 % 3 = -1 (may differ from other languages)
+
+\n\n9.6 Power Operation
+
+\n\n**Syntax:** `a ^ b`
+\n\n**Function:** Returns a raised to the power of b
+\n\n**Edge Cases:**
+\n\n0^0 returns 1 (mathematical convention)
+\n\nAny number raised to 0 returns 1
+\n\n0 raised to any positive power returns 0
+\n\nNegative numbers raised to fractional powers return NaN
+\n\nVery large results might return double.PositiveInfinity
+
+\n\n10. User Experience Flow
+
+\n\n**Program Start:**
+\n\nScreen is cleared
+\n\nTitle "Simple Calculator" is displayed
+\n\nSeparator line is shown
+
+\n\n**Input Sequence:**
+\n\nUser is prompted for first number
+\n\nUser is prompted for second number
+\n\nUser is prompted for operator
+
+\n\n**Result Display:**
+\n\nCalculation is performed
+\n\nResult is displayed
+\n\nOr error message is shown for invalid operations
+
+\n\n**Continuation:**
+\n\nUser is asked if they want to perform another calculation
+\n\nIf yes: screen is cleared and the process repeats
+\n\nIf no: screen is cleared and goodbye message is displayed
+
+\n\n**Program Exit:**
+\n\n"Thank you for using the calculator. Goodbye!" message is displayed
+\n\nProgram terminates
+
+\n\n11. Testing Strategy
+
+\n\n11.1 Unit Testing
+
+\n\nEach mathematical operation shall have dedicated unit tests
+\n\nTests shall include normal cases, edge cases, and exception scenarios
+\n\nTests shall use both individual [Fact] tests and parameterized [Theory] tests
+
+\n\n11.2 Test Coverage
+
+\n\nAddition: Testing positive numbers, negative numbers, zeros
+\n\nSubtraction: Testing positive results, negative results, zeros
+\n\nMultiplication: Testing positive/negative combinations, zeros
+\n\nDivision: Testing various combinations, division by zero exception
+\n\nModulo: Testing various combinations, modulo by zero exception
+\n\nPower: Testing positive/negative bases and exponents, special cases like 0^0
+
+\n\n12. Implementation Notes
+
+\n\n12.1 Code Structure
+
+\n\n**Top-Level Statements:** Main program flow and user interaction
+\n\n**CalculatorOperations Class:** Contains all mathematical operation methods
+\n\n**Exception Handling:** try-catch blocks for operation exceptions
+\n\n**Input Validation:** TryParse for numeric inputs, validation for operators
+
+\n\n12.2 Key Technical Decisions
+
+\n\nUsing nullable string types (string?) to handle potential null returns from Console.ReadLine()
+\n\nUsing null-conditional (?.) and null-coalescing (??) operators to prevent NullReferenceException
+\n\nUsing TryParse instead of Parse to avoid exceptions for invalid inputs
+\n\nImplementing operations as pure methods with no side effects for better testability
+\n\nUsing XML documentation comments for better code documentation
+
+\n\n13. Usage Instructions
+
+\n\n13.1 Starting the Application
+
 ```
+
+text
+
 dotnet run
+
 ```
 
-### 13.2 Performing Calculations
-1. Enter the first number when prompted
-2. Enter the second number when prompted
-3. Enter one of these operators: +, -, *, /, %, ^
-4. View the result
-5. Answer yes/no to perform another calculation
+text
+text
 
-### 13.3 Handling Errors
-- If you enter invalid numbers, you'll be prompted to try again
-- If you attempt division or modulo by zero, an error message will be displayed
-- If you enter an invalid operator, you'll be notified and prompted to continue
+\n\n13.2 Performing Calculations
 
-### 13.4 Exiting the Application
-- Answer "no" or "n" when asked if you want to perform another calculation
+\n\nEnter the first number when prompted
+\n\nEnter the second number when prompted
+\n\nEnter one of these operators: +, -, \*, /, %, ^
+\n\nView the result
+\n\nAnswer yes/no to perform another calculation
 
-## 14. Appendices
+\n\n13.3 Handling Errors
 
-### 14.1 Example Calculations
-- Addition: 5 + 3 = 8
-- Subtraction: 10 - 4 = 6
-- Multiplication: 7 * 8 = 56
-- Division: 20 / 4 = 5
-- Modulo: 7 % 3 = 1
-- Power: 2 ^ 3 = 8
+\n\nIf you enter invalid numbers, you'll be prompted to try again
+\n\nIf you attempt division or modulo by zero, an error message will be displayed
+\n\nIf you enter an invalid operator, you'll be notified and prompted to continue
 
-### 14.2 Common Error Scenarios
-- Division by zero: "Error: Cannot divide by zero."
-- Invalid number input: "Invalid input. Please enter a valid number."
-- Invalid operator: "Invalid operator. Please use +, -, *, /, %, or ^."
+\n\n13.4 Exiting the Application
+
+\n\nAnswer "no" or "n" when asked if you want to perform another calculation
+
+\n\n14. Appendices
+
+\n\n14.1 Example Calculations
+
+\n\nAddition: 5 + 3 = 8
+\n\nSubtraction: 10 - 4 = 6
+\n\nMultiplication: 7 \* 8 = 56
+\n\nDivision: 20 / 4 = 5
+\n\nModulo: 7 % 3 = 1
+\n\nPower: 2 ^ 3 = 8
+
+\n\n14.2 Common Error Scenarios
+
+\n\nDivision by zero: "Error: Cannot divide by zero."
+\n\nInvalid number input: "Invalid input. Please enter a valid number."
+\n\nInvalid operator: "Invalid operator. Please use +, -, \*, /, %, or ^."
+
+\n
