@@ -2,37 +2,66 @@
 
 A simple C++ application that prints "Hello, World!" to the console.
 
-## Building the Application
+\n\nBuilding the Application
 
-### Using CMake
+\n\nUsing CMake
 
-```bash
-# Create a build directory
+```
+
+bash
+\n\nCreate a build directory
+
 mkdir build && cd build
 
-# Configure and build
+\n\nConfigure and build
+
 cmake ..
+
 cmake --build .
+
 ```
 
-### Using G++
+text
+text
 
-```bash
+\n\nUsing G++
+
+```
+
+bash
+
 g++ -std=c++11 src/main.cpp -o hello_world
+
 ```
 
-## Running the Application
+text
+text
 
-```bash
-# If built with CMake
+\n\nRunning the Application
+
+```
+
+bash
+\n\nIf built with CMake
+
 ./HelloWorld  # Linux/Mac
+
 .\HelloWorld.exe  # Windows
 
-# If built with G++
+\n\nIf built with G++
+
 ./hello_world  # Linux/Mac
+
 .\hello_world.exe  # Windows
+
 ```
 
-## Requirements
-- C++11 compatible compiler
-- CMake 3.10 or higher (optional)
+text
+text
+
+\n\nRequirements
+
+\n\nC++11 compatible compiler
+\n\nCMake 3.10 or higher (optional)
+
+\n

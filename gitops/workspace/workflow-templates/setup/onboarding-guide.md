@@ -2,388 +2,607 @@
 
 Welcome to the streamlined .NET CI/CD onboarding experience! This guide will help you set up a complete CI/CD pipeline for your .NET application in under 10 minutes using GitHub Actions, VS Code, and GitHub Copilot.
 
-## 📋 Prerequisites
+\n\n📋 Prerequisites
 
 Before starting, ensure you have:
 
-- **GitHub account** with repository access
-- **VS Code** with GitHub Copilot extension
-- **GitHub CLI** (gh) installed and authenticated
-- **Azure subscription** with appropriate permissions
-- **Azure CLI** installed (optional, for resource verification)
+\n\n**GitHub account** with repository access
+\n\n**VS Code** with GitHub Copilot extension
+\n\n**GitHub CLI** (gh) installed and authenticated
+\n\n**Azure subscription** with appropriate permissions
+\n\n**Azure CLI** installed (optional, for resource verification)
 
-## 🚀 Quick Start
+\n\n🚀 Quick Start
 
-### Step 1: Install GitHub CLI
+\n\nStep 1: Install GitHub CLI
 
-**Windows:**
-```powershell
+## Windows
+
+```
+
+powershell
+
 winget install GitHub.cli
+
 ```
 
-**macOS:**
-```bash
+text
+text
+
+## macOS
+
+```
+
+bash
+
 brew install gh
+
 ```
 
-**Linux:**
-```bash
-# See https://cli.github.com/ for distribution-specific instructions
+text
+text
+
+## Linux
+
 ```
 
-### Step 2: Authenticate GitHub CLI
+bash
+\n\nSee <https://cli.github.com/> for distribution-specific instructions
 
-```bash
+```
+
+text
+text
+
+\n\nStep 2: Authenticate GitHub CLI
+
+```
+
+bash
+
 gh auth login
+
 ```
+
+text
+text
 
 Select the following options:
-- **What account?** GitHub.com
-- **What is your preferred protocol?** HTTPS
-- **Authenticate Git with your GitHub credentials?** Yes
-- **How would you like to authenticate?** Login with a web browser
 
-### Step 3: Create Azure Service Principal
+\n\n**What account?** GitHub.com
+\n\n**What is your preferred protocol?** HTTPS
+\n\n**Authenticate Git with your GitHub credentials?** Yes
+\n\n**How would you like to authenticate?** Login with a web browser
 
-```bash
-# Replace {project-name} with your actual project name
-az ad sp create-for-rbac --name "github-actions-{project-name}" --role contributor --scopes /subscriptions/{subscription-id}
+\n\nStep 3: Create Azure Service Principal
+
 ```
+
+bash
+\n\nReplace {project-name} with your actual project name
+
+az ad sp create-for-rbac --name "github-actions-{project-name}" --role contributor --scopes /subscriptions/{subscription-id}
+
+```
+
+text
+text
 
 Save the output values:
-- `clientId` → `AZURE_CLIENT_ID`
-- `clientSecret` → `AZURE_CLIENT_SECRET`
-- `tenantId` → `AZURE_TENANT_ID`
-- `subscriptionId` → `AZURE_SUBSCRIPTION_ID`
 
-### Step 4: Configure Environment Variables
+\n\n`clientId` → `AZURE_CLIENT_ID`
+\n\n`clientSecret` → `AZURE_CLIENT_SECRET`
+\n\n`tenantId` → `AZURE_TENANT_ID`
+\n\n`subscriptionId` → `AZURE_SUBSCRIPTION_ID`
 
-1. **Copy the environment template:**
-   ```bash
-   cp .env.template .env
-   ```
+\n\nStep 4: Configure Environment Variables
 
-2. **Edit the .env file** with your actual values:
-   ```bash
-   # Use VS Code or your preferred editor
-   code .env
-   ```
+\n\n**Copy the environment template:**
 
-3. **Fill in the required values:**
-   - Azure service principal details (from Step 3)
-   - Azure Web App names for each environment
-   - Azure Resource Group names
-   - GitHub repository information
+```
 
-### Step 5: Run the Setup Script
+bash
 
-**Windows (PowerShell):**
-```powershell
+cp .env.template .env
+
+```
+
+text
+text
+
+\n\n**Edit the .env file** with your actual values:
+
+```
+
+bash
+
+## Use VS Code or your preferred editor
+
+code .env
+
+```
+
+text
+text
+
+\n\n**Fill in the required values:**
+\n\nAzure service principal details (from Step 3)
+\n\nAzure Web App names for each environment
+\n\nAzure Resource Group names
+\n\nGitHub repository information
+
+\n\nStep 5: Run the Setup Script
+
+## Windows (PowerShell)
+
+```
+
+powershell
+
 .\setup\setup-github-environment.ps1 -Owner "your-github-username" -Repo "your-repo-name"
+
 ```
 
-**macOS/Linux (Bash):**
-```bash
+text
+text
+
+## macOS/Linux (Bash)
+
+```
+
+bash
+
 chmod +x setup/setup-github-environment.sh
+
 ./setup/setup-github-environment.sh --owner "your-github-username" --repo "your-repo-name"
+
 ```
 
-### Step 6: Add Publish Profiles
+text
+text
+
+\n\nStep 6: Add Publish Profiles
 
 Get your Azure Web App publish profiles and add them as environment secrets:
 
-```bash
-# For each environment (dev, qa, prod)
-gh secret set AZURE_WEBAPP_PUBLISH_PROFILE --body "$(cat path/to/publish-profile.xml)" --env dev
-gh secret set AZURE_WEBAPP_PUBLISH_PROFILE --body "$(cat path/to/publish-profile.xml)" --env qa
-gh secret set AZURE_WEBAPP_PUBLISH_PROFILE --body "$(cat path/to/publish-profile.xml)" --env prod
 ```
 
-### Step 7: Copy Workflow Files
+bash
+\n\nFor each environment (dev, qa, prod)
 
-1. **Copy the workflow files to your repository:**
-   ```bash
-   mkdir -p .github/workflows
-   cp workflow-templates/master-ci-cd-dotnet-appservices-commented.yaml .github/workflows/
-   cp workflow-templates/references/deploy-child.yaml .github/workflows/
-   ```
+gh secret set AZURE_WEBAPP_PUBLISH_PROFILE --body "$(cat path/to/publish-profile.xml)" --env dev
 
-2. **Rename the main workflow file:**
-   ```bash
-   mv .github/workflows/master-ci-cd-dotnet-appservices-commented.yaml .github/workflows/ci-cd-dotnet.yaml
-   ```
+gh secret set AZURE_WEBAPP_PUBLISH_PROFILE --body "$(cat path/to/publish-profile.xml)" --env qa
 
-## 🤖 Using GitHub Copilot
+gh secret set AZURE_WEBAPP_PUBLISH_PROFILE --body "$(cat path/to/publish-profile.xml)" --env prod
 
-### Initial Setup Prompt
+```
+
+text
+text
+
+\n\nStep 7: Copy Workflow Files
+
+\n\n**Copy the workflow files to your repository:**
+
+```
+
+bash
+
+mkdir -p .github/workflows
+
+cp workflow-templates/master-ci-cd-dotnet-appservices-commented.yaml .github/workflows/
+
+cp workflow-templates/references/deploy-child.yaml .github/workflows/
+
+```
+
+text
+text
+
+\n\n**Rename the main workflow file:**
+
+```
+
+bash
+
+mv .github/workflows/master-ci-cd-dotnet-appservices-commented.yaml .github/workflows/ci-cd-dotnet.yaml
+
+```
+
+text
+text
+
+\n\n🤖 Using GitHub Copilot
+
+\n\nInitial Setup Prompt
 
 Use this prompt in VS Code with GitHub Copilot to get started:
 
 ```
+
+text
+
 I need to set up a .NET CI/CD pipeline using GitHub Actions. Please help me:
 
-1. Review my current workflow configuration
-2. Suggest improvements for my specific project needs
-3. Help me customize environment variables
-4. Explain the deployment process for each environment
+\n\nReview my current workflow configuration
+\n\nSuggest improvements for my specific project needs
+\n\nHelp me customize environment variables
+\n\nExplain the deployment process for each environment
 
 Project Details:
-- Framework: .NET 6/7/8
-- Target: Azure App Service
-- Environments: dev, qa, prod
-- Repository: [YOUR_REPO_NAME]
+\n\nFramework: .NET 6/7/8
+\n\nTarget: Azure App Service
+\n\nEnvironments: dev, qa, prod
+\n\nRepository: [YOUR_REPO_NAME]
+
 ```
 
-### Workflow Customization Prompts
+text
+text
 
-**For adding custom build steps:**
+\n\nWorkflow Customization Prompts
+
+## For adding custom build steps
+
 ```
+
+text
+
 I want to add custom build steps to my .NET CI/CD workflow. Please help me:
 
-1. Add code quality checks using SonarQube
-2. Include database migration steps
-3. Add integration tests that run against a test database
-4. Configure different build configurations for each environment
+\n\nAdd code quality checks using SonarQube
+\n\nInclude database migration steps
+\n\nAdd integration tests that run against a test database
+\n\nConfigure different build configurations for each environment
 
 Current workflow: .github/workflows/ci-cd-dotnet.yaml
+
 ```
 
-**For environment-specific configuration:**
+text
+text
+
+## For environment-specific configuration
+
 ```
+
+text
+
 I need to customize my deployment workflow for different environments. Please help me:
 
-1. Add environment-specific connection strings
-2. Configure different application settings per environment
-3. Set up blue-green deployment for production
-4. Add approval gates for production deployments
+\n\nAdd environment-specific connection strings
+\n\nConfigure different application settings per environment
+\n\nSet up blue-green deployment for production
+\n\nAdd approval gates for production deployments
 
 Environments: dev (auto-deploy), qa (1 reviewer), prod (2 reviewers + 5min wait)
+
 ```
 
-### Troubleshooting with Copilot
+text
+text
 
-**For deployment issues:**
+\n\nTroubleshooting with Copilot
+
+## For deployment issues
+
 ```
+
+text
+
 My .NET deployment to Azure App Service is failing. Please help me troubleshoot:
 
-1. Analyze the GitHub Actions workflow logs
-2. Check Azure App Service configuration
-3. Verify secrets and variables are set correctly
-4. Suggest fixes for common deployment issues
+\n\nAnalyze the GitHub Actions workflow logs
+\n\nCheck Azure App Service configuration
+\n\nVerify secrets and variables are set correctly
+\n\nSuggest fixes for common deployment issues
 
 Error message: [PASTE_ERROR_MESSAGE_HERE]
+
 Workflow run: [PASTE_WORKFLOW_RUN_URL]
+
 ```
 
-## 📁 Project Structure
+text
+text
+
+\n\n📁 Project Structure
 
 After setup, your project should have this structure:
 
 ```
+
+text
+
 your-repo/
+
 ├── .github/
+
 │   └── workflows/
+
 │       ├── ci-cd-dotnet.yaml
+
 │       └── deploy-child.yaml
+
 ├── .env                    # Your environment variables (not committed)
+
 ├── .gitignore             # Includes .env exclusion
+
 ├── src/                   # Your .NET application code
+
 └── README.md              # This file
+
 ```
 
-## 🔧 Configuration Details
+text
+text
 
-### GitHub Environments
+\n\n🔧 Configuration Details
+
+\n\nGitHub Environments
 
 The setup script creates three environments:
 
 | Environment | Protection Rules | Deployment Branch |
-|-------------|------------------|-------------------|
-| **dev**     | None (auto-deploy) | Any branch |
-| **qa**      | 1 reviewer required | main branch |
-| **prod**    | 2 reviewers + 5min wait | main branch only |
 
-### Secrets and Variables
+| ----------- | ----------------------- | ----------------- |
 
-**Repository-level secrets:**
-- `AZURE_CLIENT_ID`
-- `AZURE_CLIENT_SECRET`
-- `AZURE_TENANT_ID`
-- `AZURE_SUBSCRIPTION_ID`
+| **dev** | None (auto-deploy) | Any branch |
 
-**Environment-level variables:**
-- `AZURE_WEBAPP_NAME`
-- `AZURE_RESOURCE_GROUP`
-- `DEPLOYMENT_SLOT`
+| **qa** | 1 reviewer required | main branch |
 
-**Environment-level secrets:**
-- `AZURE_WEBAPP_PUBLISH_PROFILE`
+| **prod** | 2 reviewers + 5min wait | main branch only |
 
-### Branch Protection
+\n\nSecrets and Variables
+
+## Repository-level secrets
+
+\n\n`AZURE_CLIENT_ID`
+\n\n`AZURE_CLIENT_SECRET`
+\n\n`AZURE_TENANT_ID`
+\n\n`AZURE_SUBSCRIPTION_ID`
+
+## Environment-level variables
+
+\n\n`AZURE_WEBAPP_NAME`
+\n\n`AZURE_RESOURCE_GROUP`
+\n\n`DEPLOYMENT_SLOT`
+
+## Environment-level secrets
+
+\n\n`AZURE_WEBAPP_PUBLISH_PROFILE`
+
+\n\nBranch Protection
 
 The main branch is protected with:
-- 1 required reviewer
-- Dismiss stale reviews
-- Require code owner reviews
-- No force pushes allowed
 
-## 🎯 Deployment Process
+\n\n1 required reviewer
+\n\nDismiss stale reviews
+\n\nRequire code owner reviews
+\n\nNo force pushes allowed
 
-### Automatic Deployment (dev)
+\n\n🎯 Deployment Process
 
-1. **Trigger:** Push to any branch
-2. **Process:** Build → Test → Deploy to dev environment
-3. **No approval required**
+\n\nAutomatic Deployment (dev)
 
-### Manual Deployment (qa)
+\n\n**Trigger:** Push to any branch
+\n\n**Process:** Build → Test → Deploy to dev environment
+\n\n**No approval required**
 
-1. **Trigger:** Manual workflow dispatch or push to main
-2. **Process:** Build → Test → Wait for 1 reviewer → Deploy to qa
-3. **Approval required from 1 reviewer**
+\n\nManual Deployment (qa)
 
-### Production Deployment (prod)
+\n\n**Trigger:** Manual workflow dispatch or push to main
+\n\n**Process:** Build → Test → Wait for 1 reviewer → Deploy to qa
+\n\n**Approval required from 1 reviewer**
 
-1. **Trigger:** Manual workflow dispatch from main branch
-2. **Process:** Build → Test → Wait 5 minutes → Wait for 2 reviewers → Deploy to prod
-3. **Approval required from 2 reviewers**
+\n\nProduction Deployment (prod)
 
-## 🛠️ Customization Options
+\n\n**Trigger:** Manual workflow dispatch from main branch
+\n\n**Process:** Build → Test → Wait 5 minutes → Wait for 2 reviewers → Deploy to prod
+\n\n**Approval required from 2 reviewers**
 
-### Adding Custom Build Steps
+\n\n🛠️ Customization Options
+
+\n\nAdding Custom Build Steps
 
 Use GitHub Copilot to add custom steps:
 
-```yaml
-# Example: Add SonarQube analysis
-- name: SonarQube Analysis
-  uses: sonarqube-quality-gate-action@master
-  env:
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 ```
 
-### Environment-Specific Configuration
+yaml
+\n\nExample: Add SonarQube analysis
+\n\nname: SonarQube Analysis
+
+  uses: sonarqube-quality-gate-action@master
+
+  env:
+
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+```
+
+text
+text
+
+\n\nEnvironment-Specific Configuration
 
 Add environment-specific appsettings:
 
-```yaml
-# Example: Replace connection strings per environment
-- name: Update App Settings
-  run: |
-    sed -i 's/{{CONNECTION_STRING}}/${{ secrets.CONNECTION_STRING }}/g' appsettings.json
 ```
 
-### Custom Deployment Strategies
+yaml
+\n\nExample: Replace connection strings per environment
+\n\nname: Update App Settings
+
+  run: |
+
+    sed -i 's/{{CONNECTION_STRING}}/${{ secrets.CONNECTION_STRING }}/g' appsettings.json
+
+```
+
+text
+text
+
+\n\nCustom Deployment Strategies
 
 Configure different deployment strategies:
 
-```yaml
-# Example: Blue-Green deployment for production
-- name: Blue-Green Deployment
-  if: github.ref == 'refs/heads/main'
-  uses: azure/webapps-deploy@v2
-  with:
-    app-name: ${{ vars.AZURE_WEBAPP_NAME }}
-    slot-name: staging
-    publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
 ```
 
-## 🔍 Monitoring and Troubleshooting
+yaml
+\n\nExample: Blue-Green deployment for production
+\n\nname: Blue-Green Deployment
 
-### Workflow Monitoring
+  if: github.ref == 'refs/heads/main'
+
+  uses: azure/webapps-deploy@v2
+
+  with:
+
+    app-name: ${{ vars.AZURE_WEBAPP_NAME }}
+
+    slot-name: staging
+
+    publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+
+```
+
+text
+text
+
+\n\n🔍 Monitoring and Troubleshooting
+
+\n\nWorkflow Monitoring
 
 Monitor your workflows at:
-- **GitHub Actions:** `https://github.com/{owner}/{repo}/actions`
-- **Environments:** `https://github.com/{owner}/{repo}/settings/environments`
 
-### Common Issues and Solutions
+\n\n**GitHub Actions:** `https://github.com/{owner}/{repo}/actions`
+\n\n**Environments:** `https://github.com/{owner}/{repo}/settings/environments`
 
-**1. Authentication Errors**
-```bash
-# Re-authenticate GitHub CLI
+\n\nCommon Issues and Solutions
+
+## 1. Authentication Errors
+
+```
+
+bash
+\n\nRe-authenticate GitHub CLI
+
 gh auth login --web
 
-# Verify authentication
+\n\nVerify authentication
+
 gh auth status
+
 ```
 
-**2. Azure Connection Issues**
-```bash
-# Test Azure service principal
+text
+text
+
+## 2. Azure Connection Issues
+
+```
+
+bash
+\n\nTest Azure service principal
+
 az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
 
-# Verify permissions
+\n\nVerify permissions
+
 az account show
-```
-
-**3. Workflow Syntax Errors**
-- Use VS Code GitHub Actions extension for syntax validation
-- Check workflow logs for detailed error messages
-- Use GitHub Copilot to analyze and fix syntax issues
-
-### Getting Help
-
-**GitHub Copilot Prompts for Help:**
 
 ```
+
+text
+text
+
+## 3. Workflow Syntax Errors
+
+\n\nUse VS Code GitHub Actions extension for syntax validation
+\n\nCheck workflow logs for detailed error messages
+\n\nUse GitHub Copilot to analyze and fix syntax issues
+
+\n\nGetting Help
+
+## GitHub Copilot Prompts for Help
+
+```
+
+text
+
 I'm having issues with my .NET CI/CD pipeline. Please help me:
 
-1. Analyze the workflow error logs
-2. Suggest fixes for the deployment failure
-3. Help me optimize the build performance
-4. Explain best practices for .NET deployments
+\n\nAnalyze the workflow error logs
+\n\nSuggest fixes for the deployment failure
+\n\nHelp me optimize the build performance
+\n\nExplain best practices for .NET deployments
 
 Error details: [PASTE_ERROR_HERE]
+
 Workflow file: .github/workflows/ci-cd-dotnet.yaml
+
 ```
 
-## 📚 Additional Resources
+text
+text
 
-### Documentation
-- [GitHub Actions Documentation](https://docs.github.com/en/actions)
-- [Azure App Service Deployment](https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions)
-- [GitHub CLI Documentation](https://cli.github.com/manual/)
+\n\n📚 Additional Resources
 
-### Best Practices
-- **Security:** Regularly rotate secrets and review permissions
-- **Performance:** Use caching for NuGet packages and build artifacts
-- **Reliability:** Implement proper error handling and retry logic
-- **Monitoring:** Set up alerts for failed deployments
+\n\nDocumentation
 
-### Community
-- **GitHub Community:** Join discussions about GitHub Actions
-- **Stack Overflow:** Tag questions with `github-actions` and `azure-app-service`
-- **Microsoft Learn:** Complete learning paths for Azure and GitHub integration
+\n\n[GitHub Actions Documentation](https://docs.github.com/en/actions)
+\n\n[Azure App Service Deployment](https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions)
+\n\n[GitHub CLI Documentation](https://cli.github.com/manual/)
 
-## 🎉 Success Criteria
+\n\nBest Practices
+
+\n\n**Security:** Regularly rotate secrets and review permissions
+\n\n**Performance:** Use caching for NuGet packages and build artifacts
+\n\n**Reliability:** Implement proper error handling and retry logic
+\n\n**Monitoring:** Set up alerts for failed deployments
+
+\n\nCommunity
+
+\n\n**GitHub Community:** Join discussions about GitHub Actions
+\n\n**Stack Overflow:** Tag questions with `github-actions` and `azure-app-service`
+\n\n**Microsoft Learn:** Complete learning paths for Azure and GitHub integration
+
+\n\n🎉 Success Criteria
 
 Your onboarding is complete when you can:
 
-1. ✅ **Trigger a workflow** manually or by pushing code
-2. ✅ **See successful builds** in GitHub Actions
-3. ✅ **Deploy to dev environment** automatically
-4. ✅ **Deploy to qa/prod** with appropriate approvals
-5. ✅ **Monitor deployments** through GitHub and Azure portals
+\n\n✅ **Trigger a workflow** manually or by pushing code
+\n\n✅ **See successful builds** in GitHub Actions
+\n\n✅ **Deploy to dev environment** automatically
+\n\n✅ **Deploy to qa/prod** with appropriate approvals
+\n\n✅ **Monitor deployments** through GitHub and Azure portals
 
-## 🤝 Contributing
+\n\n🤝 Contributing
 
 Help improve this onboarding experience:
 
-1. **Report issues** with the setup process
-2. **Suggest improvements** for the automation scripts
-3. **Share customizations** that work well for your projects
-4. **Update documentation** based on your experience
+\n\n**Report issues** with the setup process
+\n\n**Suggest improvements** for the automation scripts
+\n\n**Share customizations** that work well for your projects
+\n\n**Update documentation** based on your experience
 
-## 📞 Support
+\n\n📞 Support
 
 For support:
-1. **Check the troubleshooting section** above
-2. **Use GitHub Copilot** for specific technical questions
-3. **Create an issue** in this repository
-4. **Contact your DevOps team** for organization-specific help
+
+\n\n**Check the troubleshooting section** above
+\n\n**Use GitHub Copilot** for specific technical questions
+\n\n**Create an issue** in this repository
+\n\n**Contact your DevOps team** for organization-specific help
 
 ---
 
-**Happy coding! 🚀**
+## Happy coding! 🚀
 
-*This guide is designed to work with GitHub Copilot for the best experience. Use the provided prompts to get contextual help throughout your development process.*
+_This guide is designed to work with GitHub Copilot for the best experience. Use the provided prompts to get contextual help throughout your development process._
+
+\n
