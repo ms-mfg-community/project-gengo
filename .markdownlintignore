@@ -1,0 +1,13 @@
+# Exclude generated/build output (keep .github included)
+build/
+dist/
+out/
+coverage/
+.cache/
+.pytest_cache/
+node_modules/
+IntellisenseRepro/bin/
+IntellisenseRepro/obj/
+**/bin/
+**/obj/
+codeql-db/

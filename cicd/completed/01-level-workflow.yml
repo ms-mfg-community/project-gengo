@@ -1,0 +1,100 @@
+name: 01-level-workflow
+
+# Workflow triggers
+on:
+  # Trigger on push to main branch, but exclude changes in .github directory
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/**'
+  
+  # Trigger on pull requests targeting the main branch
+  pull_request:
+    branches:
+      - main
+  
+  # Scheduled trigger - runs every 24 hours at midnight UTC
+  schedule:
+    - cron: '0 0 * * *'
+  
+  # Manual trigger via GitHub UI
+  workflow_dispatch:
+
+# Define jobs
+jobs:
+  # First job: List repository contents
+  list-contents:
+    name: List Repository Contents
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1: Display workflow trigger information
+      - name: Display Event and Branch Information
+        run: |
+          echo "========================================="
+          echo "Workflow Triggered by: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "========================================="
+      
+      # Step 2: Check out the repository code
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      # Step 3: List repository contents using tree command
+      - name: List Repository Contents with Tree
+        run: |
+          echo "========================================="
+          echo "Repository Contents (using tree command):"
+          echo "========================================="
+          # Install tree if not available
+          sudo apt-get update && sudo apt-get install -y tree
+          # Display directory tree with colors and file sizes
+          tree -L 3 -h --dirsfirst
+      
+      # Step 4: List src directory contents recursively using PowerShell
+      - name: List src Directory Contents with PowerShell
+        shell: pwsh
+        run: |
+          Write-Host "=========================================" -ForegroundColor Cyan
+          Write-Host "Contents of src Directory (PowerShell):" -ForegroundColor Cyan
+          Write-Host "=========================================" -ForegroundColor Cyan
+          
+          # Check if src directory exists
+          if (Test-Path "src") {
+              # Get all items recursively from src directory
+              Get-ChildItem -Path "src" -Recurse | ForEach-Object {
+                  $indent = "  " * ($_.FullName.Split([IO.Path]::DirectorySeparatorChar).Count - $PWD.Path.Split([IO.Path]::DirectorySeparatorChar).Count - 2)
+                  if ($_.PSIsContainer) {
+                      Write-Host "$indent[DIR]  $($_.Name)" -ForegroundColor Yellow
+                  } else {
+                      $size = [math]::Round($_.Length / 1KB, 2)
+                      Write-Host "$indent[FILE] $($_.Name) ($size KB)" -ForegroundColor Green
+                  }
+              } # end ForEach-Object
+          } else {
+              Write-Host "src directory does not exist in this repository." -ForegroundColor Red
+          } # end if
+  
+  # Second job: Retrieve workflow values
+  retrieve-values:
+    name: Retrieve Workflow Values
+    runs-on: ubuntu-latest
+    # This job runs after list-contents completes
+    needs: list-contents
+    
+    steps:
+      # Step: Display current branch information
+      - name: Show Current Branch
+        run: |
+          echo "========================================="
+          echo "Current Branch Information:"
+          echo "========================================="
+          echo "Branch Name: ${{ github.ref_name }}"
+          echo "Full Ref: ${{ github.ref }}"
+          echo "Head Ref (for PRs): ${{ github.head_ref }}"
+          echo "Base Ref (for PRs): ${{ github.base_ref }}"
+          echo "Default Branch: ${{ github.event.repository.default_branch }}"
+          echo "========================================="
