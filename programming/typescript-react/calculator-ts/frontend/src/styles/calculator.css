@@ -1,0 +1,499 @@
+/* CSS Variables for Light Theme */
+:root.light-theme {
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --btn-default: #e0e0e0;
+  --btn-default-hover: #d0d0d0;
+  --btn-default-active: #c0c0c0;
+  --border-number: #ccc;
+  --btn-operator: #2196F3;
+  --btn-operator-hover: #1976D2;
+  --btn-operator-active: #1565C0;
+  --btn-equals: #4caf50;
+  --btn-equals-hover: #45a049;
+  --btn-equals-active: #3d8b40;
+  --btn-clear: #f44336;
+  --btn-clear-hover: #da190b;
+  --btn-clear-active: #ba0000;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-dark: rgba(0, 0, 0, 0.2);
+  --border-color: #ddd;
+}
+
+/* CSS Variables for Dark Theme */
+:root.dark-theme {
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #2d2d2d;
+  --text-primary: #ffffff;
+  --text-secondary: #bbbbbb;
+  --btn-default: #3d3d3d;
+  --btn-default-hover: #4d4d4d;
+  --btn-default-active: #5d5d5d;
+  --border-number: #555;
+  --btn-operator: #1976D2;
+  --btn-operator-hover: #1565C0;
+  --btn-operator-active: #0d47a1;
+  --btn-equals: #388E3C;
+  --btn-equals-hover: #2e7d32;
+  --btn-equals-active: #1b5e20;
+  --btn-clear: #d32f2f;
+  --btn-clear-hover: #c62828;
+  --btn-clear-active: #b71c1c;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --shadow-dark: rgba(0, 0, 0, 0.5);
+  --border-color: #444;
+}
+
+/* Smooth theme transition */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Root container */
+.calculator-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Main wrapper */
+.calculator-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 20px;
+  padding: 20px;
+  max-width: 700px;
+  width: 100%;
+}
+
+/* Header */
+.calculator-header {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.calculator-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* Main calculator section */
+.calculator-main {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: var(--bg-secondary);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+/* Display area */
+.display-area {
+  padding: 10px 0;
+}
+
+.display {
+  width: 100%;
+  padding: 20px;
+  font-size: 28px;
+  text-align: right;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Keypad styles */
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 15px;
+}
+
+/* Button base styles */
+.btn {
+  padding: 22px 12px;
+  font-size: 20px;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 60px;
+  color: var(--text-primary);
+  transition: all 0.15s ease;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.5px;
+}
+
+/* Number buttons */
+.btn-number {
+  background-color: var(--btn-default);
+  color: var(--text-primary);
+  border: 2px solid var(--border-number);
+  font-size: 24px;
+}
+
+.btn-number:hover {
+  background-color: var(--btn-default-hover);
+  box-shadow: 0 3px 8px var(--shadow-dark);
+  transform: translateY(-2px);
+}
+
+.btn-number:active {
+  background-color: var(--btn-default-active);
+  transform: scale(0.97) translateY(0);
+  box-shadow: 0 1px 3px var(--shadow);
+}
+
+/* Operator buttons - bright orange */
+.btn-operator {
+  background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+  color: white;
+  border: 2px solid #E65100;
+  font-size: 26px;
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-operator:hover {
+  background: linear-gradient(135deg, #FFB300 0%, #FF9800 100%);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-operator:active {
+  background: linear-gradient(135deg, #FF9800 0%, #E65100 100%);
+  transform: scale(0.97) translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Equals button - green */
+.btn-equals {
+  background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+  color: white;
+  border: 2px solid #1B5E20;
+  font-size: 26px;
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-equals:hover {
+  background: linear-gradient(135deg, #66BB6A 0%, #4CAF50 100%);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+  transform: translateY(-2px);
+  animation: pulse 0.3s ease-out;
+}
+
+.btn-equals:active {
+  background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+  transform: scale(0.97) translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Clear button - red */
+.btn-clear {
+  background: linear-gradient(135deg, #F44336 0%, #D32F2F 100%);
+  color: white;
+  border: 2px solid #B71C1C;
+  font-size: 16px;
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  flex-direction: column;
+  gap: 2px;
+  min-height: 60px;
+}
+
+.btn-clear:hover {
+  background: linear-gradient(135deg, #EF5350 0%, #F44336 100%);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-clear:active {
+  background: linear-gradient(135deg, #F44336 0%, #C62828 100%);
+  transform: scale(0.97) translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.btn-label {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.btn-sublabel {
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+/* Reset button - blue */
+.btn-reset {
+  background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  color: white;
+  border: 2px solid #0D47A1;
+  font-size: 16px;
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  min-height: 60px;
+}
+
+.btn-reset:hover {
+  background: linear-gradient(135deg, #42A5F5 0%, #2196F3 100%);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-reset:active {
+  background: linear-gradient(135deg, #2196F3 0%, #1565C0 100%);
+  transform: scale(0.97) translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Theme toggle button */
+.btn-theme-toggle {
+  background: none;
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn-theme-toggle:hover {
+  background-color: var(--btn-default);
+  box-shadow: 0 2px 8px var(--shadow-dark);
+}
+
+/* History panel */
+.history-panel {
+  grid-row: 2;
+  grid-column: 2;
+  background-color: var(--bg-secondary);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.history-panel h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.history-empty {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 20px 0;
+  font-style: italic;
+}
+
+.history-loading {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 20px 0;
+}
+
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* History items */
+.history-item {
+  padding: 10px;
+  background-color: var(--bg-primary);
+  border-radius: 6px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+  animation: slideInFromRight 0.3s ease-out;
+}
+
+.history-item:hover {
+  background-color: var(--btn-default);
+  border-color: var(--btn-operator);
+  box-shadow: 0 2px 6px var(--shadow-dark);
+}
+
+.history-item:active {
+  transform: scale(0.98);
+}
+
+.history-text {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 13px;
+  width: 100%;
+  text-align: left;
+  padding: 0;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .calculator-wrapper {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .history-panel {
+    grid-row: auto;
+    grid-column: 1;
+    max-height: 300px;
+  }
+
+  .keypad {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .btn {
+    padding: 16px 8px;
+    font-size: 16px;
+    min-height: 50px;
+  }
+
+  .display {
+    font-size: 24px;
+    padding: 16px;
+  }
+
+  .calculator-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .calculator-wrapper {
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .calculator-header h1 {
+    font-size: 22px;
+  }
+
+  .display {
+    font-size: 20px;
+    padding: 12px;
+  }
+
+  .keypad {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .btn {
+    padding: 12px 6px;
+    font-size: 14px;
+    min-height: 45px;
+  }
+
+  .btn-label {
+    font-size: 14px;
+  }
+
+  .btn-sublabel {
+    font-size: 8px;
+  }
+}
+
+/* Scrollbar styling */
+.history-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-panel::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+  border-radius: 10px;
+}
+
+.history-panel::-webkit-scrollbar-thumb {
+  background: var(--btn-operator);
+  border-radius: 10px;
+}
+
+.history-panel::-webkit-scrollbar-thumb:hover {
+  background: var(--btn-operator-hover);
+}
