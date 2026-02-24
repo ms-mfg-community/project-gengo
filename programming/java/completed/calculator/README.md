@@ -2,63 +2,104 @@
 
 A command-line calculator application that performs basic arithmetic operations.
 
-## Features
+\n\nFeatures
 
-- Addition, subtraction, multiplication, and division operations
-- Input validation for numbers and operators
-- Support for decimal numbers
-- User-friendly interface with clear prompts
+\n\nAddition, subtraction, multiplication, and division operations
+\n\nInput validation for numbers and operators
+\n\nSupport for decimal numbers
+\n\nUser-friendly interface with clear prompts
 
-## Requirements
+\n\nRequirements
 
-- Java 11 or higher
-- Maven (for building)
+\n\nJava 11 or higher
+\n\nMaven (for building)
 
-## How to Build
+\n\nHow to Build
 
 From the project root directory, run:
 
-```bash
-mvn clean package
 ```
+
+bash
+
+mvn clean package
+
+```
+
+text
+text
 
 This will create a runnable JAR file in the `target` directory.
 
-## How to Run
+\n\nHow to Run
 
 After building the project, you can run the calculator using:
 
-```bash
-java -jar target/calculator-1.0-SNAPSHOT.jar
 ```
+
+bash
+
+java -jar target/calculator-1.0-SNAPSHOT.jar
+
+```
+
+text
+text
 
 Alternatively, you can run it directly with:
 
-```bash
+```
+
+bash
+
 mvn exec:java -Dexec.mainClass="com.calculator.Calculator"
-```
-
-## Usage Instructions
-
-1. Enter the first number when prompted
-2. Enter the second number when prompted
-3. Select an operation (+, -, *, /)
-4. View the calculation result
-5. Choose whether to perform another calculation or exit
-
-## Example Session
 
 ```
+
+text
+text
+
+\n\nUsage Instructions
+
+\n\nEnter the first number when prompted
+\n\nEnter the second number when prompted
+\n\nSelect an operation (+, -, \*, /)
+\n\nView the calculation result
+\n\nChoose whether to perform another calculation or exit
+
+\n\nExample Session
+
+```
+
+text
+
 Welcome to the Simple Calculator!
+
 Enter the first number: 10
+
 Enter the second number: 5
+
 Enter the operator (+, -, *, /): +
+
 Result: 15.0
+
 Do you want to perform another calculation? (yes/no): yes
+
 Enter the first number: 20
+
 Enter the second number: 4
+
 Enter the operator (+, -, *, /): /
+
 Result: 5.0
+
 Do you want to perform another calculation? (yes/no): no
+
 Thank you for using the Simple Calculator. Goodbye!
+
 ```
+
+text
+text
+
+\n

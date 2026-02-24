@@ -1,0 +1,32 @@
+# Force include these files (override parent .gitignore)
+!package.json
+!tsconfig.json
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+src/**/*.js
+src/**/*.js.map
+src/**/*.d.ts
+src/**/*.d.ts.map
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary files
+*.tmp
+.tmp/
