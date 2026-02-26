@@ -1,7 +1,6 @@
 # Project Gengo
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![GitHub Actions](https://github.com/ms-mfg-community/project-gengo/actions/workflows/codeql.yml/badge.svg)](https://github.com/ms-mfg-community/project-gengo/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![GitHub Actions](https://github.com/ms-mfg-community/project-gengo/actions/workflows/codeql.yml/badge.svg)](https://github.com/ms-mfg-community/project-gengo/actions)
 
 A comprehensive, multi-technology learning repository that demonstrates best practices across programming languages, frameworks, cloud platforms, and DevOps — with a focus on [GitHub Copilot](https://github.com/features/copilot) productivity.
 
