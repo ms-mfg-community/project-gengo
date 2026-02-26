@@ -254,9 +254,9 @@ All tests must pass before completion
 
 1.13 Cleanup Solution
 
-Create a PowerShell script named `Remove-DotnetSlnForCalculator.ps1` in "$(git rev-parse --show-toplevel)\src\workspace" that:
+Create a PowerShell script named `Remove-DotnetSlnForCalculator.ps1` in "$(git rev-parse --show-toplevel)\programming\dotnet\csharp\workspace" that:
 Gets the repository root path using `git rev-parse --show-toplevel`
-Constructs the path to the workspace folder: `{RepoRoot}\src\workspace`
+Constructs the path to the workspace folder: `{RepoRoot}\programming\dotnet\csharp\workspace`
 Identifies the solution directory: `{Workspace}\calculator-xunit-testing`
 Removes the entire `calculator-xunit-testing` folder and all its contents (calculator project, calculator.tests project, and solution file) recursively using `Remove-Item -Recurse -Force`
 Provides user-friendly status messages indicating successful removal or any errors
@@ -266,7 +266,7 @@ Suggests the user re-run the setup script to recreate the solution if needed
 After creating the script, execute it from the workspace directory to remove the calculator solution:
 
 ```powershell
-cd {RepoRoot}\src\workspace
+cd {RepoRoot}\programming\dotnet\csharp\workspace
 .\Remove-DotnetSlnForCalculator.ps1
 ```
 
