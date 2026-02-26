@@ -48,47 +48,96 @@ applyTo: "**"
 
 \n\nDeployment Requirements
 
-\n\n[ ] Database migrations and rollback plans
-\n\n[ ] Environment variable updates required
-\n\n[ ] Feature flag configurations needed
-\n\n[ ] Third-party service integrations updated
-\n\n[ ] Documentation updates completed
+---
+applyTo: "**"
+---
 
-\n\nCode Review Guidelines
+# Pull Request Assistant Guidelines
 
-\n\nSecurity Review
+When creating pull request descriptions or reviewing PRs, follow this template and guidance.
 
-\n\nScan for input validation vulnerabilities
-\n\nCheck authentication and authorization implementation
-\n\nVerify secure data handling and storage practices
-\n\nFlag hardcoded secrets or configuration issues
-\n\nReview error handling to prevent information leakage
+## PR Description Template
 
-\n\nPerformance Analysis
+### What changed
 
-\n\nEvaluate algorithmic complexity and efficiency
-\n\nReview database query optimization opportunities
-\n\nCheck for potential memory leaks or resource issues
-\n\nAssess caching strategies and network call efficiency
-\n\nIdentify scalability bottlenecks
+- Clear summary of modifications and affected components.
+- Link to related issues or tickets.
 
-\n\nCode Quality Standards
+### Why
 
-\n\nEnsure readable, maintainable code structure
-\n\nVerify adherence to team coding standards and style guides
-\n\nCheck function size, complexity, and single responsibility
-\n\nReview naming conventions and code organization
-\n\nValidate proper error handling and logging practices
+- Business context and requirements.
+- Technical reasoning for the approach taken.
 
-\n\nReview Communication
+### Testing
 
-\n\nProvide specific, actionable feedback with examples
-\n\nExplain reasoning behind recommendations to promote learning
-\n\nAcknowledge good patterns, solutions, and creative approaches
-\n\nAsk clarifying questions when context is unclear
-\n\nFocus on improvement rather than criticism
+- [ ] Unit tests pass and cover new functionality.
+- [ ] Manual testing completed for user-facing changes.
+- [ ] Performance/security considerations addressed.
 
-\n\nReview Comment Format
+### Breaking Changes
+
+- List any API changes or behavioral modifications.
+- Include migration instructions if needed.
+
+## Review Focus Areas
+
+- **Security:** Check for hardcoded secrets, input validation, auth issues.
+- **Performance:** Look for database query problems and inefficient loops.
+- **Testing:** Ensure adequate test coverage for new functionality.
+- **Documentation:** Verify code comments and README updates.
+
+## Review Style
+
+- Be specific and constructive in feedback.
+- Acknowledge good patterns and solutions.
+- Ask clarifying questions when code intent is unclear.
+- Focus on maintainability and readability improvements.
+- Prioritize changes that improve security, performance, or user experience.
+- Provide migration guides for significant changes and update version compatibility information.
+
+## Deployment Requirements
+
+- [ ] Database migrations and rollback plans.
+- [ ] Environment variable updates required.
+- [ ] Feature flag configurations needed.
+- [ ] Third-party service integrations updated.
+- [ ] Documentation updates completed.
+
+## Code Review Guidelines
+
+### Security Review
+
+- Scan for input validation vulnerabilities.
+- Check authentication and authorization implementation.
+- Verify secure data handling and storage practices.
+- Flag hardcoded secrets or configuration issues.
+- Review error handling to prevent information leakage.
+
+### Performance Analysis
+
+- Evaluate algorithmic complexity and efficiency.
+- Review database query optimization opportunities.
+- Check for potential memory leaks or resource issues.
+- Assess caching strategies and network call efficiency.
+- Identify scalability bottlenecks.
+
+### Code Quality Standards
+
+- Ensure readable, maintainable code structure.
+- Verify adherence to team coding standards and style guides.
+- Check function size, complexity, and single responsibility.
+- Review naming conventions and code organization.
+- Validate proper error handling and logging practices.
+
+## Review Communication
+
+- Provide specific, actionable feedback with examples.
+- Explain reasoning behind recommendations to promote learning.
+- Acknowledge good patterns, solutions, and creative approaches.
+- Ask clarifying questions when context is unclear.
+- Focus on improvement rather than criticism.
+
+## Review Comment Format
 
 Use this structure for consistent, helpful feedback:
 
@@ -98,16 +147,14 @@ Use this structure for consistent, helpful feedback:
 
 **Why:** Explain the reasoning and benefits
 
-\n\nReview Labels and Emojis
+## Review Labels and Emojis
 
-\n\n🔒 Security concerns requiring immediate attention
-\n\n⚡ Performance issues or optimization opportunities
-\n\n🧹 Code cleanup and maintainability improvements
-\n\n📚 Documentation gaps or update requirements
-\n\n✅ Positive feedback and acknowledgment of good practices
-\n\n🚨 Critical issues that block merge
-\n\n💭 Questions for clarification or discussion
+- 🔒 Security concerns requiring immediate attention
+- ⚡ Performance issues or optimization opportunities
+- 🧹 Code cleanup and maintainability improvements
+- 📚 Documentation gaps or update requirements
+- ✅ Positive feedback and acknowledgment of good practices
+- 🚨 Critical issues that block merge
+- 💭 Questions for clarification or discussion
 
 Always provide constructive feedback that helps the team improve together.
-
-\n
