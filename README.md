@@ -26,7 +26,7 @@ A comprehensive, multi-technology learning repository that demonstrates best pra
 
 ## Overview
 
-Project Gengo is a polyglot learning environment designed to help developers adopt GitHub Copilot and modern software engineering best practices. The repository covers a broad technology landscape — from calculator implementations in eight languages to full CI/CD pipelines, IaC templates, and custom GitHub Copilot agents.
+Project Gengo is a polyglot learning environment designed to help developers adopt GitHub Copilot and modern software engineering best practices. The repository covers a broad technology landscape — from calculator implementations in ten languages to full CI/CD pipelines, IaC templates, and custom GitHub Copilot agents.
 
 **Key goals:**
 
@@ -38,6 +38,8 @@ Project Gengo is a polyglot learning environment designed to help developers ado
 ---
 
 ## Repository Structure
+
+High-level (non-exhaustive) layout:
 
 ```text
 project-gengo/
@@ -74,7 +76,7 @@ project-gengo/
 
 ## Programming Languages
 
-Each language area contains `workspace/` (starter projects), `completed/` (reference solutions), and associated guide documents.
+Most language areas include `workspace/` (starter projects) and/or `completed/` (reference solutions), with associated guide documents; structure varies by stack (for example, .NET content is under `programming/dotnet/csharp/`).
 
 | Language | Location | Frameworks / Tools | Test Framework |
 |----------|----------|--------------------|---------------|
@@ -212,7 +214,7 @@ Install the tools for the languages you plan to work with:
 | Go | Go | 1.21+ |
 | Java | JDK + Maven | Java 11+ |
 | JavaScript / TypeScript | Node.js + npm | Node.js 20+ |
-| Python | Python | 3.8+ |
+| Python | Python | 3.12+ |
 
 ### Clone the Repository
 
@@ -243,7 +245,7 @@ python -m pytest test_calculator.py -v
 
 ## Running Tests
 
-The repository includes a unified test runner script that executes all language test suites:
+The repository includes a unified test runner script that executes the currently automated core suites (Python, .NET, Node.js/TypeScript, and Go):
 
 **Linux / macOS:**
 
