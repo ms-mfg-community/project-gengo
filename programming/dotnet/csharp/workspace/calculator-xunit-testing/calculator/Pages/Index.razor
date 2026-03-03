@@ -1,0 +1,195 @@
+@page "/"
+
+<div class="calculator-wrapper">
+    <section class="calculator" aria-label="Calculator">
+        <div class="calculator-display" aria-live="polite" aria-atomic="true">
+            <div class="operation-indicator">@operationIndicator</div>
+            <div class="result">@display</div>
+        </div>
+
+        <div class="keys" role="group" aria-label="Calculator keys">
+            <button class="key key-clear" @onclick="ClearAll" aria-label="Clear">C</button>
+            <button class="key key-function" @onclick="Backspace" aria-label="Backspace">⌫</button>
+            <button class="key key-function" @onclick="ToggleSign" aria-label="Toggle sign">±</button>
+            <button class="key key-operator" @onclick='() => SetOperator("/")' aria-label="Divide">÷</button>
+
+            <button class="key key-number" @onclick='() => AppendDigit("7")' aria-label="Seven">7</button>
+            <button class="key key-number" @onclick='() => AppendDigit("8")' aria-label="Eight">8</button>
+            <button class="key key-number" @onclick='() => AppendDigit("9")' aria-label="Nine">9</button>
+            <button class="key key-operator" @onclick='() => SetOperator("*")' aria-label="Multiply">×</button>
+
+            <button class="key key-number" @onclick='() => AppendDigit("4")' aria-label="Four">4</button>
+            <button class="key key-number" @onclick='() => AppendDigit("5")' aria-label="Five">5</button>
+            <button class="key key-number" @onclick='() => AppendDigit("6")' aria-label="Six">6</button>
+            <button class="key key-operator" @onclick='() => SetOperator("-")' aria-label="Subtract">−</button>
+
+            <button class="key key-number" @onclick='() => AppendDigit("1")' aria-label="One">1</button>
+            <button class="key key-number" @onclick='() => AppendDigit("2")' aria-label="Two">2</button>
+            <button class="key key-number" @onclick='() => AppendDigit("3")' aria-label="Three">3</button>
+            <button class="key key-operator" @onclick='() => SetOperator("+")' aria-label="Add">+</button>
+
+            <button class="key key-number key-zero" @onclick='() => AppendDigit("0")' aria-label="Zero">0</button>
+            <button class="key key-number" @onclick="AppendDecimal" aria-label="Decimal point">.</button>
+            <button class="key key-equals" @onclick="Calculate" aria-label="Equals">=</button>
+        </div>
+    </section>
+</div>
+
+@code {
+    private string display = "0";
+    private string operationIndicator = string.Empty;
+    private double? leftOperand;
+    private string? pendingOperator;
+    private bool resetDisplayOnNextDigit;
+
+    private void AppendDigit(string digit)
+    {
+        if (resetDisplayOnNextDigit || display == "0")
+        {
+            display = digit;
+            resetDisplayOnNextDigit = false;
+            return;
+        }
+
+        display += digit;
+    }
+
+    private void AppendDecimal()
+    {
+        if (resetDisplayOnNextDigit)
+        {
+            display = "0";
+            resetDisplayOnNextDigit = false;
+        }
+
+        if (!display.Contains('.'))
+        {
+            display += ".";
+        }
+    }
+
+    private void Backspace()
+    {
+        if (resetDisplayOnNextDigit)
+        {
+            display = "0";
+            resetDisplayOnNextDigit = false;
+            return;
+        }
+
+        if (display.Length <= 1)
+        {
+            display = "0";
+            return;
+        }
+
+        display = display[..^1];
+    }
+
+    private void ToggleSign()
+    {
+        if (display == "0")
+        {
+            return;
+        }
+
+        display = display.StartsWith('-') ? display[1..] : $"-{display}";
+    }
+
+    private void SetOperator(string operatorSymbol)
+    {
+        if (!TryParseDisplay(out double currentValue))
+        {
+            return;
+        }
+
+        if (leftOperand.HasValue && pendingOperator is not null && !resetDisplayOnNextDigit)
+        {
+            ExecuteCalculation(currentValue);
+            return;
+        }
+
+        leftOperand = currentValue;
+        pendingOperator = operatorSymbol;
+        operationIndicator = $"{FormatNumber(currentValue)} {GetOperatorVisual(operatorSymbol)}";
+        resetDisplayOnNextDigit = true;
+    }
+
+    private void Calculate()
+    {
+        if (!TryParseDisplay(out double currentValue) || !leftOperand.HasValue || pendingOperator is null)
+        {
+            return;
+        }
+
+        ExecuteCalculation(currentValue);
+        pendingOperator = null;
+        operationIndicator = string.Empty;
+    }
+
+    private void ExecuteCalculation(double rightOperand)
+    {
+        if (!leftOperand.HasValue || pendingOperator is null)
+        {
+            return;
+        }
+
+        try
+        {
+            double result = global::Calculator.Calculator.Calculate(leftOperand.Value, rightOperand, pendingOperator);
+            display = FormatNumber(result);
+            leftOperand = result;
+            operationIndicator = $"{FormatNumber(leftOperand.Value)}";
+            resetDisplayOnNextDigit = true;
+        }
+        catch (Exception)
+        {
+            display = "Error";
+            operationIndicator = "Invalid operation";
+            leftOperand = null;
+            pendingOperator = null;
+            resetDisplayOnNextDigit = true;
+        }
+    }
+
+    private void ClearAll()
+    {
+        display = "0";
+        operationIndicator = string.Empty;
+        leftOperand = null;
+        pendingOperator = null;
+        resetDisplayOnNextDigit = false;
+    }
+
+    private bool TryParseDisplay(out double value)
+    {
+        if (double.TryParse(display, NumberStyles.Float, CultureInfo.InvariantCulture, out value))
+        {
+            return true;
+        }
+
+        if (display == "Error")
+        {
+            ClearAll();
+        }
+
+        return false;
+    }
+
+    private static string FormatNumber(double value)
+    {
+        return value.ToString("G15", CultureInfo.InvariantCulture);
+    }
+
+    private static string GetOperatorVisual(string operatorSymbol)
+    {
+        return operatorSymbol switch
+        {
+            "/" => "÷",
+            "*" => "×",
+            "-" => "−",
+            "+" => "+",
+            _ => operatorSymbol
+        };
+    }
+}

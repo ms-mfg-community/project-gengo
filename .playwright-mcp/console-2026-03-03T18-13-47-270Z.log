@@ -1,0 +1,4 @@
+[      58ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:5050/_framework/blazor.server.js:0
+[     340ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:5050/favicon.ico:0
+[   77759ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:5050/_framework/blazor.server.js:0
+[   79579ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:5050/_framework/blazor.server.js:0
