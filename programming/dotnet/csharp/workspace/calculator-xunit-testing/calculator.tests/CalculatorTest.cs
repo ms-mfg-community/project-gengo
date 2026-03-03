@@ -1,5 +1,8 @@
 ﻿#nullable enable
 
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Xunit;
 using Calculator;
 
@@ -597,6 +600,91 @@ public class CalculatorTest
         // Act & Assert
         Assert.Throws<DivideByZeroException>(() => Calculator.Calculator.Calculate(a, b, operatorSymbol));
     }
+
+    #endregion
+
+    #region CSV Data-Driven Tests
+
+    /// <summary>
+    /// Path to the CSV test data file.
+    /// Uses AppContext.BaseDirectory to locate the file in the output directory.
+    /// </summary>
+    private static readonly string TestDataPath = Path.Combine(
+        AppContext.BaseDirectory,
+        "TestData",
+        "CalculatorTestData.csv"
+    );
+
+    /// <summary>
+    /// Loads test data from the CalculatorTestData.csv file.
+    /// CSV format: firstNumber, secondNumber, operator, expectedResult, testDescription
+    /// </summary>
+    /// <returns>IEnumerable of object arrays containing test data</returns>
+    /// <exception cref="FileNotFoundException">Thrown if CSV file is not found</exception>
+    public static IEnumerable<object[]> LoadTestDataFromCsv()
+    {
+        if (!File.Exists(TestDataPath))
+            throw new FileNotFoundException($"Test data file not found: {TestDataPath}");
+
+        var lines = File.ReadAllLines(TestDataPath);
+
+        foreach (var line in lines.Skip(1))
+        {
+            if (string.IsNullOrWhiteSpace(line))
+                continue;
+
+            var parts = line.Split(',');
+            if (parts.Length < 5)
+                continue;
+
+            yield return new object[]
+            {
+                double.Parse(parts[0].Trim()),
+                double.Parse(parts[1].Trim()),
+                parts[2].Trim(),
+                double.Parse(parts[3].Trim()),
+                parts[4].Trim()
+            };
+        }
+    }
+
+    /// <summary>
+    /// CSV-driven theory test that validates all calculator operations using data from CalculatorTestData.csv.
+    /// Tests cover addition, subtraction, multiplication, division, modulo, and power operations.
+    /// Handles floating-point precision for division and power operations.
+    /// </summary>
+    /// <param name="firstNumber">First operand</param>
+    /// <param name="secondNumber">Second operand</param>
+    /// <param name="op">Operator symbol (+, -, *, /, %, ^)</param>
+    /// <param name="expectedResult">Expected calculation result</param>
+    /// <param name="testDescription">Description of the test case for clarity in test output and debugging</param>
+#pragma warning disable xUnit1026 // testDescription is intentionally included for test identification and xUnit output
+    [Theory]
+    [MemberData(nameof(LoadTestDataFromCsv))]
+    public void Calculate_WithCsvData_ReturnsCorrectResult(
+        double firstNumber,
+        double secondNumber,
+        string op,
+        double expectedResult,
+        string testDescription)
+    {
+        // testDescription parameter is intentionally kept for xUnit theory data display
+        _ = testDescription;
+
+        // Act
+        double result = Calculator.Calculator.Calculate(firstNumber, secondNumber, op);
+
+        // Assert - Use precision handling for floating-point operations
+        if (op == "^" || op == "/")
+        {
+            Assert.Equal(expectedResult, result, precision: 10);
+        }
+        else
+        {
+            Assert.Equal(expectedResult, result);
+        }
+    }
+#pragma warning restore xUnit1026
 
     #endregion
 }

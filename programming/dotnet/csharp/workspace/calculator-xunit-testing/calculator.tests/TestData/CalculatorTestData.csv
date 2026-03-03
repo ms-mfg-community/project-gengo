@@ -1,0 +1,33 @@
+firstNumber,secondNumber,operator,expectedResult,testDescription
+0,0,+,0,Add - zero plus zero
+1,1,+,2,Add - one plus one
+2.5,2.5,+,5,Add - decimal addition
+100,200,+,300,Add - large numbers
+-10,-20,+,-30,Add - negative numbers
+15.75,24.25,+,40,Add - mixed decimals
+0,0,-,0,Subtract - zero minus zero
+5,2,-,3,Subtract - positive numbers
+10.5,3.5,-,7,Subtract - decimal subtraction
+100,50,-,50,Subtract - large numbers
+-5,5,-,-10,Subtract - mixed signs
+25.75,10.25,-,15.5,Subtract - mixed decimals
+0,0,*,0,Multiply - zero times zero
+1,1,*,1,Multiply - one times one
+3,4,*,12,Multiply - positive numbers
+2.5,2,*,5,Multiply - decimal multiplication
+10,10,*,100,Multiply - large numbers
+-2,3,*,-6,Multiply - mixed signs
+10,2,/,5,Divide - positive numbers
+15,3,/,5,Divide - positive numbers
+100,10,/,10,Divide - large numbers
+7.5,2.5,/,3,Divide - decimal division
+-10,2,/,-5,Divide - mixed signs
+10,3,%,1,Modulo - basic remainder
+17,5,%,2,Modulo - positive numbers
+20,4,%,0,Modulo - evenly divisible
+15,6,%,3,Modulo - positive numbers
+2,1,^,2,Power - base to first power
+2,2,^,4,Power - base squared
+3,2,^,9,Power - base squared
+5,3,^,125,Power - base cubed
+10,2,^,100,Power - base squared

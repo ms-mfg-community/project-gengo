@@ -9,7 +9,7 @@
 			"env": {
 				"AZURE_DEVOPS_ORG_URL": "https://dev.azure.com/autocloudarc-mcaps",
 				"AZURE_DEVOPS_AUTH_METHOD": "interactive",
-				"AZURE_DEVOPS_DEFAULT_PROJECT": "ado-pipeline-demos"
+				"AZURE_DEVOPS_DEFAULT_PROJECT": "create-dotnet-calculator"
 			},
 			"type": "stdio"
 		},
