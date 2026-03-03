@@ -2,56 +2,6 @@
 applyTo: "**"
 ---
 
-\n\nPull Request Assistant Guidelines
-
-\n\nWhen creating pull request descriptions or reviewing PRs:
-
-\n\nPR Description Template
-
-# What changed
-
-\n\nClear summary of modifications and affected components
-\n\nLink to related issues or tickets
-
-## Why
-
-\n\nBusiness context and requirements
-\n\nTechnical reasoning for approach taken
-
-## Testing
-
-\n\n[ ] Unit tests pass and cover new functionality
-\n\n[ ] Manual testing completed for user-facing changes
-\n\n[ ] Performance/security considerations addressed
-
-## Breaking Changes
-
-\n\nList any API changes or behavioral modifications
-\n\nInclude migration instructions if needed
-
-\n\nReview Focus Areas
-
-\n\n**Security**: Check for hardcoded secrets, input validation, auth issues
-\n\n**Performance**: Look for database query problems, inefficient loops
-\n\n**Testing**: Ensure adequate test coverage for new functionality
-\n\n**Documentation**: Verify code comments and README updates
-
-\n\nReview Style
-
-\n\nBe specific and constructive in feedback
-\n\nAcknowledge good patterns and solutions
-\n\nAsk clarifying questions when code intent is unclear
-\n\nFocus on maintainability and readability improvements
-\n\nAlways prioritize changes that improve security, performance, or user experience.
-\n\nProvide migration guides for significant changes
-\n\nUpdate version compatibility information
-
-\n\nDeployment Requirements
-
----
-applyTo: "**"
----
-
 # Pull Request Assistant Guidelines
 
 When creating pull request descriptions or reviewing PRs, follow this template and guidance.
