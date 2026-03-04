@@ -1,0 +1,31 @@
+firstNumber,secondNumber,operator,expectedResult,testDescription
+5.5,3.2,+,8.7,Addition: Two positive decimals
+10.5,3.3,-,7.2,Subtraction: Positive decimals
+5.5,3.2,*,17.6,Multiplication: Two positive decimals
+10.5,2.1,/,5,Division: Positive decimals with clean result
+10,3,%,1,Modulo: 10 % 3 = 1
+2,3,^,8,Power: 2^3 = 8
+-5.5,-3.3,+,-8.8,Addition: Two negative decimals
+10.5,-3.3,-,13.8,Subtraction: Positive minus negative
+5.5,0,*,0,Multiplication: Decimal times zero
+0,5.5,+,5.5,Addition: Zero plus decimal
+10,-4.3,-,14.3,Subtraction: Positive integer minus negative decimal
+-2,2,^,4,Power: Negative base even exponent
+-2,3,^,-8,Power: Negative base odd exponent
+2,0,^,1,Power: Any base to zero exponent
+3,3,^,27,Power: 3^3 = 27
+0,5,+,5,Addition: Zero plus integer
+4.5,5.2,*,23.4,Multiplication: 4.5 * 5.2 = 23.4
+20,7,%,6,Modulo: 20 % 7 = 6
+15.5,3,-,12.5,Subtraction: 15.5 - 3 = 12.5
+1.5,2.5,+,4,Addition: Two positive decimals
+100,50,-,50,Subtraction: Large integers
+2.5,-5.2,*,-13,Multiplication: Positive decimal times negative decimal
+-10,2,-,-12,Subtraction: Negative minus positive
+7,2.5,%,2,Modulo: 7 % 2.5 = 2
+0,0,+,0,Addition: Zero plus zero
+2,5,^,32,Power: 2^5 = 32
+-5,2,*,-10,Multiplication: Negative times positive
+12,4,/,3,Division: 12 / 4 = 3
+0,10,/,0,Division: Zero divided by number
+100,0.1,*,10,Multiplication: 100 * 0.1 = 10
