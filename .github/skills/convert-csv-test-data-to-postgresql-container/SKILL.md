@@ -49,8 +49,15 @@ If `-PostgresPassword` is not provided, the script securely prompts for it.
 2. Creates or starts the PostgreSQL container.
 3. Waits for PostgreSQL readiness.
 4. Creates a table from CSV headers (as `TEXT` columns).
-5. Copies CSV into the container and imports rows using `COPY`.
-6. Prints imported row count for verification.
+5. Performs an idempotency check by comparing CSV row count and current table row count.
+6. If counts match, skips import and reports data is already seeded.
+7. If counts differ, truncates the target table and re-imports rows using `COPY`.
+8. Prints imported row count for verification.
+
+### Idempotent Re-runs
+- Re-running the script does not create duplicate rows.
+- Matching row counts skip import.
+- Mismatched row counts trigger deterministic reset (`TRUNCATE`) and clean re-import.
 
 ### Troubleshooting
 - **Port already in use (`5432`)**: use `-HostPort 5433`.

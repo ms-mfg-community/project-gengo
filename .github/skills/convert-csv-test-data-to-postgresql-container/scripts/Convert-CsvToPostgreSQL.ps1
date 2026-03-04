@@ -1,8 +1,6 @@
 #Requires -Version 7.0
-Set-StrictMode -Version Latest
-$ErrorActionPreference = "Stop"
 
-<#!
+<#
 .SYNOPSIS
     Creates a PostgreSQL Docker container and imports CSV test data.
 
@@ -89,6 +87,10 @@ param
     [Parameter(Mandatory = $false)]
     [switch]$ForceRecreate
 )
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = "Stop"
+$PSNativeCommandUseErrorActionPreference = $true
 
 function Test-CommandAvailable
 {
@@ -177,9 +179,19 @@ function Wait-PostgresReady
 
     for ($attempt = 1; $attempt -le $MaxAttempts; $attempt++)
     {
-        docker exec $Container pg_isready -U $User -d $Database *> $null
+        $isReady = $false
+        try
+        {
+            docker exec $Container pg_isready -U $User -d $Database *> $null
+            $isReady = ($LASTEXITCODE -eq 0)
+        }
+        catch
+        {
+            $isReady = $false
+        }
+        # end try-catch
 
-        if ($LASTEXITCODE -eq 0)
+        if ($isReady)
         {
             Write-Host "PostgreSQL is ready."
             return
@@ -251,8 +263,13 @@ else
 Wait-PostgresReady -Container $ContainerName -User $PostgresUser -Database "postgres"
 
 Write-Host "Ensuring database '$DatabaseName' exists..."
-$createDatabaseSql = "SELECT 'CREATE DATABASE \"$DatabaseName\"' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = '$DatabaseName')\gexec"
-docker exec $ContainerName psql -U $PostgresUser -d postgres -v ON_ERROR_STOP=1 -c $createDatabaseSql | Out-Null
+$dbExistsOutput = docker exec $ContainerName psql -U $PostgresUser -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname = '$DatabaseName';"
+$dbExists = "$dbExistsOutput".Trim()
+if ($dbExists -ne "1")
+{
+    docker exec $ContainerName createdb -U $PostgresUser $DatabaseName | Out-Null
+}
+# end if
 
 Wait-PostgresReady -Container $ContainerName -User $PostgresUser -Database $DatabaseName
 
@@ -280,22 +297,45 @@ foreach ($header in $rawHeaders)
 # end foreach
 
 $tableIdentifier = ConvertTo-SqlIdentifier -Value $TableName
-$columnDefinitions = ($columns | ForEach-Object { "\"$_\" TEXT" }) -join ", "
-$quotedColumnList = ($columns | ForEach-Object { "\"$_\"" }) -join ", "
+$columnDefinitions = ($columns | ForEach-Object { "`"$_`" TEXT" }) -join ", "
+$quotedColumnList = ($columns | ForEach-Object { "`"$_`"" }) -join ", "
 
-$createTableSql = "CREATE TABLE IF NOT EXISTS \"$tableIdentifier\" ($columnDefinitions);"
-$copySql = "COPY \"$tableIdentifier\" ($quotedColumnList) FROM '/tmp/input.csv' WITH (FORMAT csv, HEADER true);"
-
-Write-Host "Copying CSV file into container..."
-docker cp $resolvedCsvPath "${ContainerName}:/tmp/input.csv"
+$createTableSql = "CREATE TABLE IF NOT EXISTS `"$tableIdentifier`" ($columnDefinitions);"
+$truncateTableSql = "TRUNCATE TABLE `"$tableIdentifier`";"
+$copySql = "COPY `"$tableIdentifier`" ($quotedColumnList) FROM '/tmp/input.csv' WITH (FORMAT csv, HEADER true);"
 
 Write-Host "Creating table '$tableIdentifier'..."
 docker exec $ContainerName psql -U $PostgresUser -d $DatabaseName -v ON_ERROR_STOP=1 -c $createTableSql | Out-Null
 
-Write-Host "Importing CSV data into '$tableIdentifier'..."
-docker exec $ContainerName psql -U $PostgresUser -d $DatabaseName -v ON_ERROR_STOP=1 -c $copySql | Out-Null
+$csvDataRowCount = (Get-Content -Path $resolvedCsvPath | Select-Object -Skip 1 | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }).Count
+$tableRowCountOutput = docker exec $ContainerName psql -U $PostgresUser -d $DatabaseName -tAc "SELECT COUNT(*) FROM `"$tableIdentifier`";"
+$tableRowCountText = "$tableRowCountOutput".Trim()
+$tableRowCount = 0
+if (-not [int]::TryParse($tableRowCountText, [ref]$tableRowCount))
+{
+    throw "Unable to parse table row count value '$tableRowCountText' for table '$tableIdentifier'."
+}
+# end if
+
+if ($tableRowCount -eq $csvDataRowCount)
+{
+    Write-Host "Idempotency check passed: table '$tableIdentifier' already has $tableRowCount rows (matches CSV). Skipping import."
+}
+else
+{
+    Write-Host "Idempotency check mismatch: table has $tableRowCount rows, CSV has $csvDataRowCount rows."
+    Write-Host "Clearing table '$tableIdentifier' for deterministic re-import..."
+    docker exec $ContainerName psql -U $PostgresUser -d $DatabaseName -v ON_ERROR_STOP=1 -c $truncateTableSql | Out-Null
+
+    Write-Host "Copying CSV file into container..."
+    docker cp $resolvedCsvPath "${ContainerName}:/tmp/input.csv"
+
+    Write-Host "Importing CSV data into '$tableIdentifier'..."
+    docker exec $ContainerName psql -U $PostgresUser -d $DatabaseName -v ON_ERROR_STOP=1 -c $copySql | Out-Null
+}
+# end if
 
 Write-Host "Verifying imported row count..."
-docker exec $ContainerName psql -U $PostgresUser -d $DatabaseName -c "SELECT COUNT(*) AS imported_rows FROM \"$tableIdentifier\";"
+docker exec $ContainerName psql -U $PostgresUser -d $DatabaseName -c "SELECT COUNT(*) AS imported_rows FROM `"$tableIdentifier`";"
 
 Write-Host "Completed successfully."
