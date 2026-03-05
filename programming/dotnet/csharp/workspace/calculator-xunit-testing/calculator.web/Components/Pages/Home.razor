@@ -1,0 +1,115 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using calculator.web.Services
+@inject CalculatorService Calc
+@inject HistoryService History
+@inject ThemeService Theme
+@inject IJSRuntime JS
+@implements IDisposable
+
+<PageTitle>.NET Calculator</PageTitle>
+
+<div class="calculator-app @Theme.ThemeClass">
+    <div class="calculator-header">
+        <h1>.NET Calculator</h1>
+        <ThemeToggle IsDark="@Theme.IsDarkMode" OnToggle="HandleThemeToggle" />
+    </div>
+
+    <div class="calculator-body">
+        <div class="calculator-main">
+            <div class="calculator-display" aria-live="polite" role="status">
+                <span class="display-text">@Calc.Display</span>
+            </div>
+
+            <CalculatorKeypad                OnDigitPressed="HandleDigit"                OnOperatorPressed="HandleOperator"
+                                             OnEqualsPressed="HandleEquals"                OnClearPressed="HandleClear" />
+        </div>
+
+        <HistoryPanel            Items="@History.Items"            OnReplayClicked="HandleReplay" />
+    </div>
+</div>
+
+@code {
+    private DotNetObjectReference<Home>? _dotNetRef;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Calc.OnDisplayChanged += StateHasChanged;
+            Calc.OnCalculationCompleted += OnCalculationCompleted;
+            History.OnHistoryChanged += StateHasChanged;
+            Theme.OnThemeChanged += StateHasChanged;
+
+            _dotNetRef = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("calculatorKeyboard.init", _dotNetRef);
+        }
+    }
+
+    private void OnCalculationCompleted(CalculationRecord record)
+    {
+        History.Add(record);
+    }
+
+    private void HandleDigit(string digit) => Calc.InputDigit(digit);
+    private void HandleOperator(string op) => Calc.InputOperator(op);
+    private void HandleEquals() => Calc.Calculate();
+    private void HandleClear() => Calc.Clear();
+    private void HandleThemeToggle() => Theme.Toggle();
+
+    private void HandleReplay(CalculationRecord record) => Calc.Replay(record);
+
+    /// <summary>
+    /// Called from JavaScript when a keyboard key is pressed.
+    /// </summary>
+    [JSInvokable]
+    public void HandleKeyPress(string key)
+    {
+        switch (key)
+        {
+            case "0":
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
+            case "8":
+            case "9":
+            case ".":
+                Calc.InputDigit(key);
+                break;
+            case "+":
+            case "-":
+            case "/":
+            case "^":
+            case "%":
+                Calc.InputOperator(key);
+                break;
+            case "*":
+                Calc.InputOperator("*");
+                break;
+            case "Enter":
+            case "=":
+                Calc.Calculate();
+                break;
+            case "Backspace":
+            case "Delete":
+            case "c":
+            case "C":
+                Calc.Clear();
+                break;
+        }
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        Calc.OnDisplayChanged -= StateHasChanged;
+        Calc.OnCalculationCompleted -= OnCalculationCompleted;
+        History.OnHistoryChanged -= StateHasChanged;
+        Theme.OnThemeChanged -= StateHasChanged;
+        _dotNetRef?.Dispose();
+    }
+}

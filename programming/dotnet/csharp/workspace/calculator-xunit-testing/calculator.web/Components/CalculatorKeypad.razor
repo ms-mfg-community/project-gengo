@@ -1,0 +1,72 @@
+@using calculator.web.Services
+
+<div class="calculator-keypad">
+    <div class="keypad-grid">
+        @* Row 1: Clear, Modulo, Power, Divide *@
+        <button class="btn-clear" @onclick="OnClear">C</button>
+        <button class="btn-operator" @onclick='() => OnOperator("%")'>%</button>
+        <button class="btn-operator" @onclick='() => OnOperator("^")'>^</button>
+        <button class="btn-operator" @onclick='() => OnOperator("/")'>÷</button>
+
+        @* Row 2: 7, 8, 9, Multiply *@
+        <button class="btn-digit" @onclick='() => OnDigit("7")'>7</button>
+        <button class="btn-digit" @onclick='() => OnDigit("8")'>8</button>
+        <button class="btn-digit" @onclick='() => OnDigit("9")'>9</button>
+        <button class="btn-operator" @onclick='() => OnOperator("*")'>×</button>
+
+        @* Row 3: 4, 5, 6, Subtract *@
+        <button class="btn-digit" @onclick='() => OnDigit("4")'>4</button>
+        <button class="btn-digit" @onclick='() => OnDigit("5")'>5</button>
+        <button class="btn-digit" @onclick='() => OnDigit("6")'>6</button>
+        <button class="btn-operator" @onclick='() => OnOperator("-")'>−</button>
+
+        @* Row 4: 1, 2, 3, Add *@
+        <button class="btn-digit" @onclick='() => OnDigit("1")'>1</button>
+        <button class="btn-digit" @onclick='() => OnDigit("2")'>2</button>
+        <button class="btn-digit" @onclick='() => OnDigit("3")'>3</button>
+        <button class="btn-operator" @onclick='() => OnOperator("+")'>+</button>
+
+        @* Row 5: 0 (span 2), Decimal, Equals *@
+        <button class="btn-digit btn-span-2" @onclick='() => OnDigit("0")'>0</button>
+        <button class="btn-digit" @onclick='() => OnDigit(".")'>.</button>
+        <button class="btn-equals" @onclick="OnEquals">=</button>
+    </div>
+</div>
+
+@code {
+    /// <summary>Callback for digit/decimal input.</summary>
+    [Parameter]
+    public EventCallback<string> OnDigitPressed { get; set; }
+
+    /// <summary>Callback for operator input.</summary>
+    [Parameter]
+    public EventCallback<string> OnOperatorPressed { get; set; }
+
+    /// <summary>Callback for equals/calculate.</summary>
+    [Parameter]
+    public EventCallback OnEqualsPressed { get; set; }
+
+    /// <summary>Callback for clear/reset.</summary>
+    [Parameter]
+    public EventCallback OnClearPressed { get; set; }
+
+    private async Task OnDigit(string digit)
+    {
+        await OnDigitPressed.InvokeAsync(digit);
+    }
+
+    private async Task OnOperator(string op)
+    {
+        await OnOperatorPressed.InvokeAsync(op);
+    }
+
+    private async Task OnEquals()
+    {
+        await OnEqualsPressed.InvokeAsync();
+    }
+
+    private async Task OnClear()
+    {
+        await OnClearPressed.InvokeAsync();
+    }
+}

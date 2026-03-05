@@ -1,0 +1,20 @@
+@using calculator.web.Services
+
+<button class="theme-toggle" @onclick="Toggle" title="Toggle theme">
+    @(IsDark ? "☀️" : "🌙")
+</button>
+
+@code {
+    /// <summary>Whether dark mode is active.</summary>
+    [Parameter]
+    public bool IsDark { get; set; }
+
+    /// <summary>Callback when toggle is clicked.</summary>
+    [Parameter]
+    public EventCallback OnToggle { get; set; }
+
+    private async Task Toggle()
+    {
+        await OnToggle.InvokeAsync();
+    }
+}
