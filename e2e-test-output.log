@@ -1,0 +1,77 @@
+Build started 3/4/2026 23:12:34.
+     1>Project "C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\calculator.tests.e2e.csproj" on node 1 (Restore target(s)).
+     1>_GetAllRestoreProjectPathItems:
+         Determining projects to restore...
+     1>Project "C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\calculator.tests.e2e.csproj" (1) is building "C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\calculator.tests.e2e.csproj" (1:6) on node 1 (_GenerateProjectRestoreGraph target(s)).
+     1>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.3
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.3\data\PackageOverrides.txt
+     1>Done Building Project "C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\calculator.tests.e2e.csproj" (_GenerateProjectRestoreGraph target(s)).
+     1>Restore:
+         X.509 certificate chain validation will use the default trust store selected by .NET for code signing.
+         X.509 certificate chain validation will use the default trust store selected by .NET for timestamping.
+         Assets file has not changed. Skipping assets file writing. Path: C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\obj\project.assets.json
+         Restored C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\calculator.tests.e2e.csproj (in 77 ms).
+         
+         NuGet Config files used:
+             C:\Users\prestopa\AppData\Roaming\NuGet\NuGet.Config
+             C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.FallbackLocation.config
+             C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.Offline.config
+         
+         Feeds used:
+             https://api.nuget.org/v3/index.json
+             C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\
+             C:\Program Files\dotnet\library-packs
+         All projects are up-to-date for restore.
+     1>Done Building Project "C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\calculator.tests.e2e.csproj" (Restore target(s)).
+   1:7>Project "C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\calculator.tests.e2e.csproj" on node 1 (VSTest target(s)).
+     1>BuildProject:
+         Build started, please wait...
+   1:7>Project "C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\calculator.tests.e2e.csproj" (1:7) is building "C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\calculator.tests.e2e.csproj" (1:8) on node 1 (default targets).
+     1>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+       _GenerateSourceLinkFile:
+         Source Link file 'obj\Debug\net10.0\calculator.tests.e2e.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       Skipping target "_CopyOutOfDateSourceItemsToOutputDirectory" because all output files are up-to-date with respect to the input files.
+       GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       GenerateBuildRuntimeConfigurationFiles:
+       Skipping target "GenerateBuildRuntimeConfigurationFiles" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         calculator.tests.e2e -> C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\bin\Debug\net10.0\calculator.tests.e2e.dll
+     1>Done Building Project "C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\calculator.tests.e2e.csproj" (default targets).
+     1>BuildProject:
+         Build completed.
+         
+Test run for C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\bin\Debug\net10.0\calculator.tests.e2e.dll (.NETCoreApp,Version=v10.0)
+VSTest version 18.0.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\bin\Debug\net10.0\calculator.tests.e2e.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.3)
+[xUnit.net 00:00:00.14]   Discovering: calculator.tests.e2e
+[xUnit.net 00:00:00.19]   Discovered:  calculator.tests.e2e
+[xUnit.net 00:00:00.22]   Starting:    calculator.tests.e2e
+[xUnit.net 00:00:19.30]   Finished:    calculator.tests.e2e
+  Passed calculator.tests.e2e.CalculatorWebSmokeTests.HomePageLoadsSuccessfully [19 s]
+
+Test Run Successful.
+Total tests: 1
+     Passed: 1
+ Total time: 20.0457 Seconds
+     1>Done Building Project "C:\onedrive-prsn\OneDrive\02.00.00.GENERAL\repos\git\project-gengo\programming\dotnet\csharp\workspace\calculator-xunit-testing\calculator.tests.e2e\calculator.tests.e2e.csproj" (VSTest target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:21.94

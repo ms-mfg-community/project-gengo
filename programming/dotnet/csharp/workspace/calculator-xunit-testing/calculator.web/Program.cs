@@ -4,6 +4,8 @@ using calculator.web.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddApplicationInsightsTelemetry();
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 

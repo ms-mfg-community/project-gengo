@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="calculator.tests.e2e/calculator.tests.e2e.csproj" />
   <Project Path="calculator.tests/calculator.tests.csproj" />
   <Project Path="calculator/calculator.csproj" />
   <Project Path="calculator.library/calculator.library.csproj" />
