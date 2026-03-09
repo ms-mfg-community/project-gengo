@@ -6,7 +6,7 @@ Flask-Cors==6.0.1
 SQLAlchemy==2.0.41
 marshmallow==4.1.2
 python-dotenv==1.1.0
-pytest==8.4.2
+pytest==9.0.2
 gunicorn==23.0.0
 psycopg2-binary==2.9.10
 Werkzeug==3.1.6
