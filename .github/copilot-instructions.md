@@ -4,13 +4,23 @@ applyTo: '**'
 
 # GitHub Copilot Instructions for Project Gengo
 
-**Version:** 1.0  
-**Last Updated:** February 2026  
+**Version:** 1.1  
+**Last Updated:** April 2026  
 **Repository:** [project-gengo](https://github.com/ms-mfg-community/project-gengo)
 
 ## Overview
 
 Project Gengo is a comprehensive, multi-technology learning repository demonstrating best practices across programming languages, frameworks, cloud platforms, and DevOps. These instructions guide GitHub Copilot to maintain consistency, quality, and alignment with project standards.
+
+The repository has evolved significantly since the previous instruction update. Current high-signal areas now include:
+
+- A .NET 10 calculator workspace with console, library, Blazor web, unit test, and E2E test projects
+- PostgreSQL-backed calculator test data and a custom skill for seeding CSV data into a local container
+- Azure deployment assets for the calculator web application, including Bicep infrastructure and PowerShell automation
+- Expanded prompt, agent, and skill assets under `.github/`
+- Continued emphasis on GitHub Advanced Security workflows and dependency governance
+
+When generating or modifying code, prefer patterns that already exist in the repository today over older or generic examples.
 
 ---
 
@@ -55,6 +65,8 @@ When writing functions, always:
 - Include at least one example usage in comments
 - Keep functions focused on a single responsibility (aim for < 50 lines)
 - Add error handling appropriate to the context
+- Prefer existing repository helpers, scripts, runners, and project structures before creating parallel implementations
+- Use environment-variable-driven configuration for integration points and make failure messages actionable by naming the missing variable or dependency
 
 **Example Pattern (C#):**
 
@@ -108,6 +120,10 @@ public UserData ValidateUserData(UserData data)
 - Test naming: `test[FunctionName][Scenario][ExpectedBehavior]` or `[UnitOfWork]_[Scenario]_[ExpectedBehavior]`
 - Include edge cases, error conditions, and happy paths
 - Aim for minimum 80% code coverage on critical paths
+- Extend existing test projects and runner scripts before introducing a new framework or parallel test harness
+- Use repository runners when validating cross-language changes: `Run-AllTests.ps1` on Windows and `run-all-tests.sh` on Linux/macOS
+- Keep integration and E2E tests deterministic by reading configuration from environment variables such as `TEST_PG_*`, `CALCULATOR_WEB_URL`, and `PLAYWRIGHT_SERVICE_URL`
+- In the active calculator workspace, prefer xUnit for unit/integration tests and a separate `.tests.e2e` project with Playwright for browser smoke or workflow tests
 
 **Example Test Pattern (C#/xUnit):**
 
@@ -149,18 +165,40 @@ public class CalculatorTests
 
 ## Repository-Specific Guidelines
 
+### Current Repository Snapshot
+
+Before adding new assets, check whether one of these current repository patterns already solves the problem:
+
+- `.github/prompts/` contains staged, numbered prompt workflows for implementation, migration, testing, Azure, and security tasks
+- `.github/skills/` contains repo-specific skills, including local PostgreSQL test-data seeding from CSV
+- `.github/agents/` contains custom GitHub Copilot agent definitions; use the directory contents as the source of truth because secondary docs may lag behind the files
+- `programming/dotnet/csharp/workspace/calculator-xunit-testing/` is the most active end-to-end sample and now spans console, library, Blazor web, unit tests, and E2E tests
+- `scripting/azure/` and `infra/bicep/` contain Azure deployment automation that should be reused rather than duplicated in ad hoc locations
+
 ### Multi-Language Support
 
 The repository spans multiple programming languages. When generating code:
 
-- **C/C++:** Use CMake for builds, follow modern C++17+ standards, include header guards or pragma once
-- **.NET/C#:** Target .NET 6+, use nullable reference types (`#nullable enable`), follow Microsoft naming conventions
-- **Python:** Follow PEP 8, use type hints, target Python 3.8+, use virtual environments
-- **TypeScript:** Use strict mode, target ES2020+, include full type definitions, avoid `any` type
+- **C/C++:** Use CMake for builds, follow modern C++17+ standards, include header guards or pragma once, and match the current `include/`, `src/`, `tests/` layout used in workspace examples such as `programming/cpp/workspace/thermostat/`
+- **.NET/C#:** For the active calculator workspace, target .NET 10, use nullable reference types (`#nullable enable`), follow Microsoft naming conventions, keep XML documentation on public members, and prefer solution/project layouts that separate app, library, unit tests, and E2E tests
+- **Python:** Follow PEP 8, use type hints, target Python 3.8+, use virtual environments, keep dependencies in `requirements.txt`, and prefer pytest-based test organization already used across the repo
+- **TypeScript:** Use strict mode, target ES2020+, include full type definitions, avoid `any` type, and follow the current workspace pattern of `tsconfig.json` with `strict: true` and simple script-driven execution via `ts-node` where applicable
 - **Java:** Use Maven, follow Java naming conventions, include Javadoc, target Java 11+
 - **JavaScript:** Use ES6+ features, include JSDoc comments, use meaningful variable names
 - **Go:** Follow `gofmt` conventions, use error wrapping, implement interfaces explicitly
-- **PowerShell:** Use PascalCase for functions, place opening braces on new line, include proper error handling
+- **PowerShell:** Use PascalCase for functions, place opening braces on new line, include proper error handling, add `Set-StrictMode -Version Latest` in maintained scripts, and prefer parameter validation plus repo-root resolution from `$PSScriptRoot` for operational scripts
+
+### Current .NET Guidance
+
+The repository's current .NET guidance should prioritize what is actually present in `programming/dotnet/csharp/workspace/calculator-xunit-testing/`:
+
+- Prefer `net10.0` when working in that workspace unless the user explicitly requests a different target
+- Keep `#nullable enable` in source files and `Nullable` enabled in project files
+- Use xUnit for unit and integration tests
+- Use Playwright for browser-based E2E coverage when validating web flows
+- Use `Npgsql` and environment-variable-based configuration when tests depend on PostgreSQL
+- For Blazor web features, prefer scoped services, clear state transitions, and user-facing error strings over tightly coupled UI logic
+- Preserve existing Application Insights and Azure Identity integrations when extending cloud-connected samples
 
 ### CI/CD and Workflow Conventions
 
@@ -174,6 +212,9 @@ When creating GitHub Actions workflows or Azure Pipelines:
 - **Reusability:** Extract common steps into reusable workflows or composite actions
 - **Logging:** Add meaningful log messages at each step with `echo` or `Write-Host`
 - **Versioning:** Pin action versions for reproducibility (e.g., `actions/checkout@v4`)
+- **Security Posture:** Respect the repository's current GHAS emphasis: CodeQL, dependency review, tfsec, and alert triage workflows are first-class assets, not optional extras
+- **Dependency Governance:** Do not casually relax dependency review policy; the current repo configuration allows production dependencies and blocks development-only additions by default
+- **CodeQL:** Preserve current CodeQL trigger coverage (`push`, `pull_request`, `schedule`, `workflow_dispatch`) and current query intent unless the change explicitly requires a different setup
 
 **Workflow Structure Example:**
 
@@ -214,6 +255,8 @@ When writing Bicep, ARM templates, or Terraform:
 - **Security:** Use parameterized secrets, enable diagnostics logging, implement least-privilege access
 - **Best Practices:** Implement consistent tagging strategy, use minimal RBAC permissions, enable monitoring
 - **Testing:** Validate templates with `az deployment` or `terraform plan` before deployment
+- **Placement:** Keep reusable Azure infrastructure in `infra/` or `iac/` and keep operational deployment scripts under `scripting/azure/`
+- **Current Azure Pattern:** Reuse the calculator web deployment pattern already present in `infra/bicep/main.bicep` and `scripting/azure/deploy-calculator-web-containerapp.ps1` before inventing new folder layouts
 
 ### Documentation Standards
 
@@ -223,6 +266,7 @@ When writing Bicep, ARM templates, or Terraform:
 - **Code Examples:** Include language identifier in code blocks (e.g., ` ```csharp `)
 - **Tables:** Use for structured information comparisons
 - **Lists:** Use bullet points for unordered information, numbered lists for procedures
+- **Markdown Hygiene:** Use language-tagged code fences and prefer `text` over empty fences when no specific language applies
 - **PRDs:** Follow the established Product Requirements Document template:
   - Executive Summary
   - Problem Statement / Context
@@ -232,6 +276,15 @@ When writing Bicep, ARM templates, or Terraform:
   - Implementation Guidance
   - Testing Requirements
   - Success Criteria
+
+### Prompt, Agent, and Skill Asset Conventions
+
+When editing files under `.github/` customization folders:
+
+- **Prompts:** Follow the existing numbered naming scheme where prompts represent staged workflows (for example `2.03-...`, `3.04-...`, `7.01-...`)
+- **Agents:** Keep frontmatter accurate and prefer updating existing agent definitions instead of creating near-duplicate personas
+- **Skills:** Store repo-specific automation as self-contained skill folders with a `SKILL.md` and any supporting scripts/templates
+- **Accuracy:** Verify names and paths against the live directory contents before documenting them; some older markdown summaries in the repo may not match current filenames
 
 ---
 
@@ -392,6 +445,35 @@ Include:
 - Conditional steps where appropriate
 ```
 
+### For Code Review Findings
+
+```
+Perform a strict code review of this repository.
+
+Primary goal:
+- Identify bugs, behavioral regressions, security risks, performance issues, and missing tests.
+
+Scope:
+- Default to whole-repository review.
+- If a subset is provided (specific files, diff, or module), limit review to that subset.
+
+Output format (required):
+1. Findings (ordered by severity: Critical, High, Medium, Low)
+2. Open questions or assumptions
+3. Brief change summary
+
+For each finding, include:
+- Issue: What is wrong and where it appears
+- Suggestion: Concrete fix (include short code example when helpful)
+- Why: Impact and rationale
+
+Requirements:
+- Use precise file and line references
+- Prioritize security and performance risks
+- Call out missing or insufficient test coverage
+- If no findings exist, explicitly state "no findings" and list residual risks/testing gaps
+```
+
 ---
 
 ## Quality Metrics
@@ -426,14 +508,16 @@ Before submitting code for review, verify:
 
 ### .NET/C# Projects
 
-- Use `#nullable enable` at the top of all files
+- Use `#nullable enable` at the top of all maintained source files
 - Follow Microsoft naming conventions (PascalCase for public members, camelCase for parameters)
 - Include XML documentation comments (`///`) for all public members
 - Use xUnit for testing
-- Target .NET 6 or higher (use latest LTS)
+- Target the framework already used by the project you are editing; for the active calculator workspace this is now .NET 10
 - Implement dependency injection where applicable
 - Use async/await for I/O operations
 - Structure: `namespace Project.Category.Subcategory { ... }`
+- When adding web coverage, prefer keeping browser automation in a dedicated `.tests.e2e` project rather than mixing it into unit test projects
+- For data-backed tests, prefer environment-based configuration and actionable exception messages over hardcoded machine-specific settings
 
 **Example:**
 
@@ -470,8 +554,9 @@ namespace Project.Calculator
 - Use proper parameter validation with `[Parameter(Mandatory=$true)]`
 - Include detailed comments for non-trivial logic
 - Use proper error handling with try-catch-finally
-- Compatible with PowerShell 5.1+ and PowerShell Core 7+
-- Use `Set-StrictMode -Version Latest` at script top
+- Compatible with the target runtime required by the script; Azure automation in this repo may explicitly require PowerShell 7+
+- Use `Set-StrictMode -Version Latest` at script top in maintained scripts
+- Prefer `$ErrorActionPreference = 'Stop'` for deployment and infrastructure automation
 
 **Example:**
 
@@ -669,6 +754,7 @@ The repository includes multiple calculator implementations across languages. Wh
 - Support multiple interfaces (CLI, GUI, API/Web)
 - Include comprehensive unit tests covering all operations
 - Document supported number ranges and precision limitations
+- In the active .NET workspace, treat the console app, shared library, Blazor web app, unit tests, and E2E tests as one coherent sample rather than separate unrelated demos
 - Example locations: `programming/dotnet/`, `programming/java/`, `programming/python/`
 
 ### Pattern 2: CI/CD Workflows
@@ -681,6 +767,7 @@ Workflows follow a consistent pattern:
 - **Artifacts:** Store build outputs, test reports, coverage reports
 - **Notifications:** Status updates to team channels when appropriate
 - **Concurrency:** Use concurrency groups to cancel in-progress runs
+- **Security focus:** GHAS and security automation workflows are prominent and should be treated as core repository scenarios
 - Workflow locations: `.github/workflows/`
 
 ### Pattern 3: Infrastructure as Code
@@ -694,6 +781,23 @@ IaC implementations follow Azure best practices:
 - **Documentation:** Purpose, parameters, and outputs clearly documented
 - **Security:** Implement network segmentation, encryption, RBAC
 - Template locations: `iac/bicep/`, `iac/terraform/`, `iac/arm/`
+
+### Pattern 4: Environment-Driven Integration Testing
+
+Recent repository additions use environment-driven integration and E2E testing:
+
+- PostgreSQL-backed tests read from `TEST_PG_*` variables instead of embedding machine-specific connection strings
+- Browser smoke tests use `CALCULATOR_WEB_URL` and optional `PLAYWRIGHT_SERVICE_URL`
+- Cloud-authenticated test flows may rely on `DefaultAzureCredential`
+- Failure messages should tell contributors exactly which variable, service, or setup step is missing
+
+### Pattern 5: Root-Level Validation Scripts
+
+The repository now includes reusable root-level and repo-level validation assets. When possible:
+
+- Reuse `Run-AllTests.ps1` and `run-all-tests.sh` for broad validation guidance
+- Prefer extending existing deployment or setup scripts over adding one-off duplicates in project folders
+- Keep operational automation discoverable from stable top-level folders such as `scripting/`, `infra/`, and `.github/skills/`
 
 ---
 
@@ -743,6 +847,7 @@ IaC implementations follow Azure best practices:
 - **GitHub Actions** - YAML workflow editing and validation
 - **Azure Tools** - For IaC and cloud resource management
 - **Markdown Preview Enhanced** - For better documentation editing
+- **Playwright Test for VS Code** - Helpful for the current calculator web E2E workflow
 - **Language-specific extensions:**
   - C#: C# Dev Kit
   - Python: Pylance, Python
@@ -770,6 +875,7 @@ IaC implementations follow Azure best practices:
 - Review and understand generated code before committing
 - Ask Copilot to explain its suggestions
 - Iterate on suggestions if the first result isn't perfect
+- If working in `.github/agents`, `.github/prompts`, or `.github/skills`, verify the current live files before updating related documentation because inventory can change faster than summaries
 
 ---
 

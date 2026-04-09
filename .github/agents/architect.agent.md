@@ -1,7 +1,7 @@
 ---
-name: 'Architecture & Design Consultant'
+name: 'architect'
 description: 'Expert in system design, architectural patterns, scalability, and technical decision-making for complex systems'
-tools: ['codebase', 'search', 'githubRepo', 'web/fetch']
+tools: ['search/codebase', 'search', 'web/githubRepo', 'web/fetch']
 ---
 
 # Architecture & Design Consultant

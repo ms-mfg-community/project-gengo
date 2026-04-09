@@ -18,7 +18,7 @@ When To Use:
 - For automated pre-commit or CI documentation checks.
 
 Inputs:
-- Path(s) to Markdown file(s) to check (relative to repository root).
+- Path(s) to Markdown file(s) to check (relative to repository root)
 - Optional: preferred ruleset (`github`, `commonmark`, or `custom`).
 - Optional: whether to auto-apply safe fixes (`yes|no`).
 
