@@ -3,7 +3,7 @@ name: markdown-lint-editor
 description: "Markdown Lint & Editor agent — reviews, lints, and applies best-practice edits to Markdown files using GitHub/CommonMark guidance."
 target: vscode
 user-invokable: true
-tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'azure-mcp/search', 'agent', 'todo']
+tools: [vscode, execute, read, agent, edit, search, web, azure-mcp/search, todo]
 model: Claude Haiku 4.5 (copilot)
 ---
 
