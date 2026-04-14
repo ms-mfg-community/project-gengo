@@ -1,103 +1,171 @@
-# GitHub Copilot Custom Agents for Project-Gengo
+# GitHub Copilot Custom Agents for Project Gengo
 
-This directory contains custom GitHub Copilot agents tailored to the project-gengo repository. These agents embody different expertise personas that can be used to get specialized guidance and assistance across various aspects of the project.
+This directory contains custom GitHub Copilot agents tailored to the project-gengo repository. These agents embody different expertise personas that can be invoked to get specialized guidance and assistance across various aspects of the project.
+
+## Quick Start
+
+To use an agent, reference it in Copilot Chat:
+
+```text
+@agent-name Your question or task
+```
+
+For example:
+
+```text
+@sw-developer Create a new Calculator API endpoint
+@security-engineer Review this authentication implementation
+@devops-engineer Set up a CI/CD pipeline for this service
+```
+
+---
 
 ## Available Agents
 
-### 1. Code Reviewer (`code-reviewer.agent.md`)
+### Development & Architecture
 
-**Persona**: Expert code reviewer focusing on security, performance, testing coverage, and maintainability
+#### [`architect`](architect.agent.md)
+Expert in system design, architectural patterns, scalability, and technical decision-making for complex systems.
 
-**Use When**:
-- Reviewing pull requests
-- Assessing code quality
-- Identifying security vulnerabilities
-- Evaluating performance implications
-- Checking testing coverage
-- Ensuring documentation completeness
+**Use for**: Designing system architecture, evaluating design patterns, making technical decisions, planning scalability.
 
-**Capabilities**:
-- Security analysis (input validation, authentication, data protection)
-- Performance optimization detection
-- Code quality standards enforcement
-- Testing coverage assessment
-- Project-specific guideline compliance
-- Constructive feedback generation
+#### [`sw-developer`](sw-developer.agent.md)
+Assists with common software development tasks for .NET and Angular. Includes handoffs to `sw-tester` and `devops-engineer`.
 
-**Example Prompt**:
-> @code-reviewer Review this Python function for security vulnerabilities and performance issues. Consider database access patterns and error handling.
+**Use for**: Implementing features, fixing bugs, refactoring code in .NET/Angular, code reviews.
 
----
+#### [`azure-architect`](azure-architect.agent.md)
+Specialized in Azure cloud architecture and cloud-native design patterns.
 
-### 2. Multi-Language Software Engineer (`multi-language-engineer.agent.md`)
+**Use for**: Azure infrastructure design, cloud migration planning, cost optimization, cloud-native architecture.
 
-**Persona**: Expert software engineer spanning C++, Python, TypeScript, Java, C#, and Go
+#### [`data-scientist`](data-scientist.agent.md)
+Specializes in data analysis, machine learning, and data-driven solutions.
 
-**Use When**:
-- Implementing features across multiple languages
-- Fixing bugs in unfamiliar languages
-- Refactoring existing code
-- Following project language-specific standards
-- Creating new components
-- Learning project patterns
-
-**Capabilities**:
-- Multi-language implementation expertise
-- Language-specific best practices
-- Testing alongside features
-- Design pattern guidance
-- Documentation generation
-- Performance optimization
-
-**Example Prompt**:
-> @multi-language-engineer Implement a REST API endpoint in Python that connects to our database and returns paginated user data. Include proper error handling and type hints.
+**Use for**: Data analysis, building ML models, statistical analysis, data processing pipelines.
 
 ---
 
-### 3. DevOps & CI/CD Specialist (`devops-specialist.agent.md`)
+### Database & Infrastructure
 
-**Persona**: DevOps expert specializing in GitHub Actions, Azure DevOps, IaC, and deployment automation
+#### [`dba`](dba.agent.md)
+Database administration expert with general relational database knowledge.
 
-**Use When**:
-- Creating or updating CI/CD pipelines
-- Designing infrastructure as code
-- Optimizing deployment processes
-- Implementing containerization
-- Setting up monitoring and observability
-- Automating security scanning
+**Use for**: Database design, query optimization, performance tuning, backup/recovery strategies.
 
-**Capabilities**:
-- GitHub Actions workflow design
-- Azure DevOps pipeline creation
-- Bicep and Terraform expertise
-- Container orchestration guidance
-- Deployment strategy optimization
-- Security automation
+#### [`ms-sql-dba`](ms-sql-dba.agent.md)
+Specialized database administrator focused on Microsoft SQL Server.
 
-**Example Prompt**:
-> @devops-specialist Create a GitHub Actions workflow that builds a Docker image, runs security scans, and deploys to Azure Container Instances.
+**Use for**: SQL Server administration, T-SQL optimization, security, replication, high availability.
+
+#### [`devops-engineer`](devops-engineer.agent.md)
+DevOps specialist for CI/CD pipelines, infrastructure as code, and deployment automation.
+
+**Use for**: Creating/updating pipelines, automation, containers, infrastructure, monitoring setup.
 
 ---
 
-### 4. Security & Quality Auditor (`security-auditor.agent.md`)
+### Security & Testing
 
-**Persona**: Security expert specializing in vulnerability detection, security analysis, and code quality metrics
+#### [`security-engineer`](security-engineer.agent.md)
+Security expert specializing in vulnerability detection, threat modeling, and security best practices.
 
-**Use When**:
-- Conducting security audits
-- Identifying vulnerabilities
-- Assessing compliance
-- Analyzing code quality metrics
-- Reviewing testing coverage
-- Performing risk assessments
+**Use for**: Security audits, vulnerability assessment, threat modeling, compliance verification, security design review.
 
-**Capabilities**:
-- Vulnerability detection (OWASP, CWE)
-- Dependency security analysis
-- Secret scanning guidance
-- Compliance validation
-- Code quality metrics interpretation
-- Risk prioritization
+#### [`sw-tester`](sw-tester.agent.md)
+QA and testing specialist focused on test strategy, automation, and quality assurance.
+
+**Use for**: Test plan creation, test automation, quality metrics, bug analysis, testing strategy.
+
+---
+
+### Documentation & Code Quality
+
+#### [`readme-creator`](readme-creator.agent.md)
+Documentation specialist focused on creating and updating README files and related documentation.
+
+**Use for**: Creating READMEs, writing documentation, structuring guides, API documentation.
+
+#### [`linter`](linter.agent.md)
+Code quality and linting expert for enforcing standards and fixing code style issues.
+
+**Use for**: Code style violations, linting rules, formatting, code cleanup, standards enforcement.
+
+#### [`markdown-lint-editor`](markdown-lint-editor.agent.md)
+Markdown formatting and linting specialist for documentation quality.
+
+**Use for**: Formatting markdown, linting documentation, fixing formatting issues, style consistency.
+
+---
+
+### Project Management & Tools
+
+#### [`project-manager`](project-manager.agent.md)
+Project management expert for planning, tracking, and coordination.
+
+**Use for**: Project planning, milestone tracking, resource allocation, timeline estimation.
+
+#### [`ado-boards`](ado-boards.agent.md)
+Azure DevOps Boards specialist for work item management and tracking.
+
+**Use for**: Creating work items, managing sprints, board organization, linking items.
+
+---
+
+### Custom/Sandbox
+
+#### [`my-agent`](my-agent.agent.md)
+Template or custom agent for user-specific extensions.
+
+**Use for**: Custom workflows, personal preferences, experimental personas.
+
+---
+
+## How to Choose an Agent
+
+| Task | Recommended Agent |
+|------|------------------|
+| System architecture design | `architect`, `azure-architect` |
+| Implement features | `sw-developer` |
+| Review code quality & security | `security-engineer`, `linter` |
+| Database work | `dba`, `ms-sql-dba` |
+| CI/CD & deployment | `devops-engineer` |
+| Testing & QA | `sw-tester` |
+| Create documentation | `readme-creator`, `markdown-lint-editor` |
+| Data analysis & ML | `data-scientist` |
+| Work item tracking | `ado-boards`, `project-manager` |
+
+---
+
+## Agent Handoffs
+
+Some agents have configured handoffs to related agents. These appear as suggestions during chat and allow seamless transitions:
+
+- `sw-developer` → `sw-tester` (for test generation)
+- `sw-developer` → `devops-engineer` (for deployment feedback)
+- `readme-creator` → `markdown-lint-editor` (for markdown formatting)
+
+---
+
+## Creating Custom Agents
+
+To create a new custom agent:
+
+1. Create a new `.agent.md` file with frontmatter and documentation
+2. Include required fields: `name`, `description`, `target`, `model`
+3. Add optional fields: `tools`, `handoffs`, `argument-hint`
+4. Document the agent's purpose and usage in the file
+
+See [Creating a Custom Agent (GitHub Docs)](https://docs.github.com/en/copilot/concepts/agents/coding-agent/creating-a-custom-agent) for detailed guidance.
+
+---
+
+## References
+
+- [GitHub Copilot Custom Agents](https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-custom-agents)
+- [Creating a Custom Agent](https://docs.github.com/en/copilot/concepts/agents/coding-agent/creating-a-custom-agent)
+- [Agent Best Practices](https://code.visualstudio.com/docs/copilot/customization/custom-agents)
+- [Project Gengo Copilot Instructions](./../copilot-instructions.md)
 
 **Example Prompt**:
 > @security-auditor Audit this TypeScript service for security vulnerabilities, focusing on input validation and authentication handling.
@@ -179,7 +247,7 @@ This directory contains custom GitHub Copilot agents tailored to the project-gen
 
 ---
 
-## How to Use Agents
+### How to Use Agents
 
 ### In VS Code with GitHub Copilot
 
@@ -190,7 +258,7 @@ This directory contains custom GitHub Copilot agents tailored to the project-gen
 
 ### Example Usage Flow
 
-```
+```text
 You: @code-reviewer Review this pull request for security issues
 Copilot: I'll analyze the code for security vulnerabilities, performance concerns, and testing coverage...
 
@@ -226,25 +294,25 @@ These agents are specifically configured for the project-gengo repository, which
 ## Guidelines for Effective Agent Use
 
 ### 1. Provide Context
-```
+```text
 ❌ @multi-language-engineer How do I sort a list?
 ✅ @multi-language-engineer I need to sort user records by creation date in a Python service that uses SQLAlchemy ORM.
 ```
 
 ### 2. Reference Project Conventions
-```
+```text
 ❌ @code-reviewer Review this code.
 ✅ @code-reviewer Review this Python code for compliance with our PEP 8 standards and test coverage requirements.
 ```
 
 ### 3. Ask Specific Questions
-```
+```text
 ❌ @architect How should I design my system?
 ✅ @architect Design a microservices architecture for a real-time data processing system that needs to handle 1M events/second with <100ms latency.
 ```
 
 ### 4. Combine Agents for Comprehensive Feedback
-```
+```text
 1. @code-reviewer for code quality
 2. @security-auditor for security analysis
 3. @testing-expert for test coverage
