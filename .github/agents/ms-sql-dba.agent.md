@@ -2,9 +2,7 @@
 
 ---
 description: "Work with Microsoft SQL Server databases using the MS SQL extension."
-
 name: "ms-sql-dba"
-
 tools:
   [
     "edit/editFiles",

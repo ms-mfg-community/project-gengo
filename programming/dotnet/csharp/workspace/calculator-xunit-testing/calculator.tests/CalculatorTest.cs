@@ -3,14 +3,169 @@
 namespace calculator.tests;
 
 /// <summary>
-/// Comprehensive xUnit tests for the Calculator class.
+/// Comprehensive xUnit tests for the Calculator class using CSV-driven and individual tests.
 /// Tests all arithmetic operations with normal cases, edge cases, and error conditions.
-/// Total: 49 tests covering all calculator functionality.
+/// CSV-driven tests: 38 tests covering all operations with various inputs
+/// Error/Edge case tests: 10 tests for error conditions and special cases
+/// Total: 48 tests covering all calculator functionality.
 /// </summary>
 public class CalculatorTest
 {
-    #region Add Tests
+    /// <summary>
+    /// Path to the CSV test data file. Uses AppContext.BaseDirectory to locate the file
+    /// in the output directory after the build process.
+    /// </summary>
+    private static readonly string TestDataPath = Path.Combine(
+        AppContext.BaseDirectory,
+        "TestData",
+        "CalculatorTestData.csv"
+    );
 
+    /// <summary>
+    /// Loads test data from CSV file and yields test cases for MemberData.
+    /// CSV columns: firstNumber, secondNumber, operator, expectedResult, testDescription
+    /// 
+    /// This method is public and static as required by xUnit's MemberData attribute.
+    /// </summary>
+    /// <returns>Enumerable of object arrays containing test parameters</returns>
+    /// <exception cref="FileNotFoundException">Thrown when CSV file is not found</exception>
+    public static IEnumerable<object[]> LoadTestDataFromCsv()
+    {
+        if (!File.Exists(TestDataPath))
+            throw new FileNotFoundException($"Test data file not found: {TestDataPath}");
+
+        var lines = File.ReadAllLines(TestDataPath);
+
+        foreach (var line in lines.Skip(1))
+        {
+            if (string.IsNullOrWhiteSpace(line))
+                continue;
+
+            var parts = line.Split(',');
+            if (parts.Length < 5)
+                continue;
+
+            // Parse CSV columns: firstNumber, secondNumber, operator, expectedResult, testDescription
+            double firstNumber = double.Parse(parts[0].Trim());
+            double secondNumber = double.Parse(parts[1].Trim());
+            string op = parts[2].Trim();
+            double expectedResult = double.Parse(parts[3].Trim());
+            string testDescription = parts[4].Trim();
+
+            yield return new object[]
+            {
+                firstNumber,
+                secondNumber,
+                op,
+                expectedResult,
+                testDescription
+            };
+        }
+    }
+
+    #region CSV-Driven Calculator Tests
+
+    /// <summary>
+    /// Theory test that uses CSV data to validate all calculator operations.
+    /// Handles floating-point precision for division and power operations.
+    /// 
+    /// Test parameters from CSV:
+    /// - firstNumber: First operand
+    /// - secondNumber: Second operand
+    /// - op: Operation (+, -, *, /, %, ^)
+    /// - expectedResult: Expected calculation result
+    /// - testDescription: Human-readable test description
+    /// </summary>
+    [Theory]
+    [MemberData(nameof(LoadTestDataFromCsv))]
+    public void Calculate_WithCsvData_ReturnsExpectedResult(
+        double firstNumber,
+        double secondNumber,
+        string op,
+        double expectedResult,
+        string testDescription)
+    {
+        // Act
+        double result = Calculator.Calculate(firstNumber, secondNumber, op);
+
+        // Assert - Use precision for division and power operations due to floating-point precision
+        if (op == "^" || op == "/")
+        {
+            Assert.Equal(expectedResult, result, precision: 10);
+        }
+        else
+        {
+            Assert.Equal(expectedResult, result);
+        }
+    }
+
+    #endregion
+
+    #region Error Condition Tests
+
+    /// <summary>
+    /// Tests that division by zero throws DivideByZeroException.
+    /// This error condition cannot be easily tested via CSV and requires explicit testing.
+    /// </summary>
+    [Fact]
+    public void Calculate_DivideByZero_ThrowsDivideByZeroException()
+    {
+        // Act & Assert
+        Assert.Throws<DivideByZeroException>(() => Calculator.Calculate(10, 0, "/"));
+    }
+
+    /// <summary>
+    /// Tests that modulo by zero throws DivideByZeroException.
+    /// This error condition cannot be easily tested via CSV and requires explicit testing.
+    /// </summary>
+    [Fact]
+    public void Calculate_ModuloByZero_ThrowsDivideByZeroException()
+    {
+        // Act & Assert
+        Assert.Throws<DivideByZeroException>(() => Calculator.Calculate(10, 0, "%"));
+    }
+
+    /// <summary>
+    /// Tests that null operator throws ArgumentException with appropriate message.
+    /// </summary>
+    [Fact]
+    public void Calculate_NullOperator_ThrowsArgumentException()
+    {
+        // Act & Assert
+        var ex = Assert.Throws<ArgumentException>(() => Calculator.Calculate(5, 3, null!));
+        Assert.Contains("cannot be null or empty", ex.Message);
+    }
+
+    /// <summary>
+    /// Tests that empty operator throws ArgumentException with appropriate message.
+    /// </summary>
+    [Fact]
+    public void Calculate_EmptyOperator_ThrowsArgumentException()
+    {
+        // Act & Assert
+        var ex = Assert.Throws<ArgumentException>(() => Calculator.Calculate(5, 3, ""));
+        Assert.Contains("cannot be null or empty", ex.Message);
+    }
+
+    /// <summary>
+    /// Tests that invalid operator throws ArgumentException with appropriate message.
+    /// </summary>
+    [Fact]
+    public void Calculate_InvalidOperator_ThrowsArgumentException()
+    {
+        // Act & Assert
+        var ex = Assert.Throws<ArgumentException>(() => Calculator.Calculate(5, 3, "&"));
+        Assert.Contains("Invalid operator", ex.Message);
+    }
+
+    #endregion
+
+    #region Individual Operation Tests (Supplementary)
+
+    /// <summary>
+    /// Tests the Add operation directly.
+    /// Supplementary test to verify operation isolation from Calculate method.
+    /// </summary>
     [Fact]
     public void Add_TwoPositiveNumbers_ReturnsCorrectSum()
     {
@@ -25,39 +180,10 @@ public class CalculatorTest
         Assert.Equal(8, result);
     }
 
-    [Theory]
-    [InlineData(0, 0, 0)]
-    [InlineData(5, 3, 8)]
-    [InlineData(-5, 3, -2)]
-    [InlineData(5, -3, 2)]
-    [InlineData(-5, -3, -8)]
-    public void Add_VariousNumbers_ReturnsCorrectSum(double a, double b, double expected)
-    {
-        // Act
-        double result = Calculator.Add(a, b);
-
-        // Assert
-        Assert.Equal(expected, result);
-    }
-
-    [Fact]
-    public void Add_WithZero_ReturnsOtherOperand()
-    {
-        Assert.Equal(5, Calculator.Add(5, 0));
-        Assert.Equal(5, Calculator.Add(0, 5));
-    }
-
-    [Fact]
-    public void Add_LargeNumbers_ReturnsCorrectSum()
-    {
-        double result = Calculator.Add(1000000, 2000000);
-        Assert.Equal(3000000, result);
-    }
-
-    #endregion
-
-    #region Subtract Tests
-
+    /// <summary>
+    /// Tests the Subtract operation directly.
+    /// Supplementary test to verify operation isolation from Calculate method.
+    /// </summary>
     [Fact]
     public void Subtract_TwoPositiveNumbers_ReturnsCorrectDifference()
     {
@@ -72,37 +198,10 @@ public class CalculatorTest
         Assert.Equal(2, result);
     }
 
-    [Theory]
-    [InlineData(0, 0, 0)]
-    [InlineData(5, 3, 2)]
-    [InlineData(-5, 3, -8)]
-    [InlineData(5, -3, 8)]
-    [InlineData(-5, -3, -2)]
-    public void Subtract_VariousNumbers_ReturnsCorrectDifference(double a, double b, double expected)
-    {
-        // Act
-        double result = Calculator.Subtract(a, b);
-
-        // Assert
-        Assert.Equal(expected, result);
-    }
-
-    [Fact]
-    public void Subtract_SameNumber_ReturnsZero()
-    {
-        Assert.Equal(0, Calculator.Subtract(5, 5));
-    }
-
-    [Fact]
-    public void Subtract_FromZero_ReturnsNegative()
-    {
-        Assert.Equal(-5, Calculator.Subtract(0, 5));
-    }
-
-    #endregion
-
-    #region Multiply Tests
-
+    /// <summary>
+    /// Tests the Multiply operation directly.
+    /// Supplementary test to verify operation isolation from Calculate method.
+    /// </summary>
     [Fact]
     public void Multiply_TwoPositiveNumbers_ReturnsCorrectProduct()
     {
@@ -117,39 +216,10 @@ public class CalculatorTest
         Assert.Equal(15, result);
     }
 
-    [Theory]
-    [InlineData(0, 0, 0)]
-    [InlineData(5, 3, 15)]
-    [InlineData(-5, 3, -15)]
-    [InlineData(5, -3, -15)]
-    [InlineData(-5, -3, 15)]
-    public void Multiply_VariousNumbers_ReturnsCorrectProduct(double a, double b, double expected)
-    {
-        // Act
-        double result = Calculator.Multiply(a, b);
-
-        // Assert
-        Assert.Equal(expected, result);
-    }
-
-    [Fact]
-    public void Multiply_ByZero_ReturnsZero()
-    {
-        Assert.Equal(0, Calculator.Multiply(5, 0));
-        Assert.Equal(0, Calculator.Multiply(0, 5));
-    }
-
-    [Fact]
-    public void Multiply_ByOne_ReturnsOtherOperand()
-    {
-        Assert.Equal(5, Calculator.Multiply(5, 1));
-        Assert.Equal(5, Calculator.Multiply(1, 5));
-    }
-
-    #endregion
-
-    #region Divide Tests
-
+    /// <summary>
+    /// Tests the Divide operation directly.
+    /// Supplementary test to verify operation isolation from Calculate method.
+    /// </summary>
     [Fact]
     public void Divide_TwoPositiveNumbers_ReturnsCorrectQuotient()
     {
@@ -164,48 +234,10 @@ public class CalculatorTest
         Assert.Equal(3, result);
     }
 
-    [Theory]
-    [InlineData(6, 2, 3)]
-    [InlineData(-6, 2, -3)]
-    [InlineData(6, -2, -3)]
-    [InlineData(-6, -2, 3)]
-    [InlineData(5, 2, 2.5)]
-    public void Divide_VariousNumbers_ReturnsCorrectQuotient(double a, double b, double expected)
-    {
-        // Act
-        double result = Calculator.Divide(a, b);
-
-        // Assert
-        Assert.Equal(expected, result);
-    }
-
-    [Fact]
-    public void Divide_ByZero_ThrowsDivideByZeroException()
-    {
-        // Arrange
-        double dividend = 10;
-        double divisor = 0;
-
-        // Act & Assert
-        Assert.Throws<DivideByZeroException>(() => Calculator.Divide(dividend, divisor));
-    }
-
-    [Fact]
-    public void Divide_ZeroByNumber_ReturnsZero()
-    {
-        Assert.Equal(0, Calculator.Divide(0, 5));
-    }
-
-    [Fact]
-    public void Divide_BySelf_ReturnsOne()
-    {
-        Assert.Equal(1, Calculator.Divide(5, 5));
-    }
-
-    #endregion
-
-    #region Modulo Tests
-
+    /// <summary>
+    /// Tests the Modulo operation directly.
+    /// Supplementary test to verify operation isolation from Calculate method.
+    /// </summary>
     [Fact]
     public void Modulo_TwoNumbers_ReturnsCorrectRemainder()
     {
@@ -220,42 +252,10 @@ public class CalculatorTest
         Assert.Equal(1, result);
     }
 
-    [Theory]
-    [InlineData(7, 3, 1)]
-    [InlineData(-7, 3, -1)]
-    [InlineData(7, -3, 1)]
-    [InlineData(-7, -3, -1)]
-    [InlineData(10, 5, 0)]
-    public void Modulo_VariousNumbers_ReturnsCorrectRemainder(double a, double b, double expected)
-    {
-        // Act
-        double result = Calculator.Modulo(a, b);
-
-        // Assert
-        Assert.Equal(expected, result);
-    }
-
-    [Fact]
-    public void Modulo_ByZero_ThrowsDivideByZeroException()
-    {
-        // Arrange
-        double dividend = 10;
-        double divisor = 0;
-
-        // Act & Assert
-        Assert.Throws<DivideByZeroException>(() => Calculator.Modulo(dividend, divisor));
-    }
-
-    [Fact]
-    public void Modulo_ZeroByNumber_ReturnsZero()
-    {
-        Assert.Equal(0, Calculator.Modulo(0, 5));
-    }
-
-    #endregion
-
-    #region Power Tests
-
+    /// <summary>
+    /// Tests the Power operation directly.
+    /// Supplementary test to verify operation isolation from Calculate method.
+    /// </summary>
     [Fact]
     public void Power_BaseAndExponent_ReturnsCorrectPower()
     {
@@ -268,92 +268,6 @@ public class CalculatorTest
 
         // Assert
         Assert.Equal(8, result);
-    }
-
-    [Theory]
-    [InlineData(2, 0, 1)]
-    [InlineData(2, 3, 8)]
-    [InlineData(5, 2, 25)]
-    [InlineData(10, 1, 10)]
-    [InlineData(-2, 2, 4)]
-    public void Power_VariousExponents_ReturnsCorrectPower(double baseNum, double exponent, double expected)
-    {
-        // Act
-        double result = Calculator.Power(baseNum, exponent);
-
-        // Assert
-        Assert.Equal(expected, result);
-    }
-
-    [Fact]
-    public void Power_ZeroExponent_ReturnsOne()
-    {
-        Assert.Equal(1, Calculator.Power(5, 0));
-        Assert.Equal(1, Calculator.Power(10, 0));
-    }
-
-    [Fact]
-    public void Power_BaseOne_ReturnsOne()
-    {
-        Assert.Equal(1, Calculator.Power(1, 5));
-    }
-
-    #endregion
-
-    #region Calculate Method Tests
-
-    [Theory]
-    [InlineData(5, 3, "+", 8)]
-    [InlineData(5, 3, "-", 2)]
-    [InlineData(5, 3, "*", 15)]
-    [InlineData(6, 2, "/", 3)]
-    [InlineData(7, 3, "%", 1)]
-    [InlineData(2, 3, "^", 8)]
-    public void Calculate_AllOperators_DelegatesCorrectly(double a, double b, string op, double expected)
-    {
-        // Act
-        double result = Calculator.Calculate(a, b, op);
-
-        // Assert
-        Assert.Equal(expected, result);
-    }
-
-    [Fact]
-    public void Calculate_InvalidOperator_ThrowsArgumentException()
-    {
-        // Act & Assert
-        var ex = Assert.Throws<ArgumentException>(() => Calculator.Calculate(5, 3, "&"));
-        Assert.Contains("Invalid operator", ex.Message);
-    }
-
-    [Fact]
-    public void Calculate_NullOperator_ThrowsArgumentException()
-    {
-        // Act & Assert
-        var ex = Assert.Throws<ArgumentException>(() => Calculator.Calculate(5, 3, null!));
-        Assert.Contains("cannot be null or empty", ex.Message);
-    }
-
-    [Fact]
-    public void Calculate_EmptyOperator_ThrowsArgumentException()
-    {
-        // Act & Assert
-        var ex = Assert.Throws<ArgumentException>(() => Calculator.Calculate(5, 3, ""));
-        Assert.Contains("cannot be null or empty", ex.Message);
-    }
-
-    [Fact]
-    public void Calculate_DivideByZeroWithCalculate_ThrowsDivideByZeroException()
-    {
-        // Act & Assert
-        Assert.Throws<DivideByZeroException>(() => Calculator.Calculate(10, 0, "/"));
-    }
-
-    [Fact]
-    public void Calculate_ModuloByZeroWithCalculate_ThrowsDivideByZeroException()
-    {
-        // Act & Assert
-        Assert.Throws<DivideByZeroException>(() => Calculator.Calculate(10, 0, "%"));
     }
 
     #endregion
