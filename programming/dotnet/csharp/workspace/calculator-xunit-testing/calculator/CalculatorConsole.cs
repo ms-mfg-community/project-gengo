@@ -8,6 +8,21 @@ namespace calculator;
 public static class CalculatorConsole
 {
     /// <summary>
+    /// Prompt displayed when reading the first operand.
+    /// </summary>
+    public const string FirstOperandPrompt = "Enter the first operand: ";
+
+    /// <summary>
+    /// Prompt displayed when reading the second operand.
+    /// </summary>
+    public const string SecondOperandPrompt = "Enter the second operand: ";
+
+    /// <summary>
+    /// Prompt displayed when reading the operator.
+    /// </summary>
+    public const string OperatorPrompt = "Enter an operator (+, -, *, /, %, ^): ";
+
+    /// <summary>
     /// Runs a single calculator interaction using first operand, second operand, then operator input order.
     /// </summary>
     /// <param name="input">The input source that supplies calculator values.</param>
@@ -27,8 +42,8 @@ public static class CalculatorConsole
         ArgumentNullException.ThrowIfNull(input);
         ArgumentNullException.ThrowIfNull(output);
 
-        double firstOperand = ReadOperand(input, output, "Enter the first operand: ");
-        double secondOperand = ReadOperand(input, output, "Enter the second operand: ");
+        double firstOperand = ReadOperand(input, output, FirstOperandPrompt);
+        double secondOperand = ReadOperand(input, output, SecondOperandPrompt);
         string operation = ReadOperator(input, output);
 
         double result = Calculator.Calculate(firstOperand, secondOperand, operation);
@@ -50,12 +65,12 @@ public static class CalculatorConsole
 
     private static string ReadOperator(TextReader input, TextWriter output)
     {
-        output.Write("Enter an operator (+, -, *, /, %, ^): ");
+        output.Write(OperatorPrompt);
 
         string? operation = input.ReadLine();
         if (string.IsNullOrWhiteSpace(operation))
         {
-            throw new ArgumentException("Operator cannot be null or empty.", nameof(input));
+            throw new ArgumentException("Operator cannot be null or empty.");
         }
 
         return operation.Trim();

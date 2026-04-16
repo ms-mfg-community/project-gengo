@@ -14,9 +14,9 @@ public class CalculatorTest
         CalculatorConsole.Run(input, output);
 
         string consoleOutput = output.ToString();
-        int firstOperandPromptIndex = consoleOutput.IndexOf("Enter the first operand: ", StringComparison.Ordinal);
-        int secondOperandPromptIndex = consoleOutput.IndexOf("Enter the second operand: ", StringComparison.Ordinal);
-        int operatorPromptIndex = consoleOutput.IndexOf("Enter an operator (+, -, *, /, %, ^): ", StringComparison.Ordinal);
+        int firstOperandPromptIndex = consoleOutput.IndexOf(CalculatorConsole.FirstOperandPrompt, StringComparison.Ordinal);
+        int secondOperandPromptIndex = consoleOutput.IndexOf(CalculatorConsole.SecondOperandPrompt, StringComparison.Ordinal);
+        int operatorPromptIndex = consoleOutput.IndexOf(CalculatorConsole.OperatorPrompt, StringComparison.Ordinal);
 
         Assert.True(firstOperandPromptIndex >= 0);
         Assert.True(secondOperandPromptIndex > firstOperandPromptIndex);
