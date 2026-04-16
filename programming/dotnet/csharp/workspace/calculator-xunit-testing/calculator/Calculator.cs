@@ -5,7 +5,7 @@ namespace calculator;
 /// <summary>
 /// Provides basic arithmetic operations for the calculator application.
 /// </summary>
-public class Calculator
+public static class Calculator
 {
     /// <summary>
     /// Adds two numbers.
@@ -58,7 +58,7 @@ public class Calculator
     }
 
     /// <summary>
-    /// Returns the remainder of dividing the first number by the second.
+    /// Computes the remainder of dividing the first number by the second.
     /// </summary>
     /// <param name="a">Dividend</param>
     /// <param name="b">Divisor</param>
@@ -90,8 +90,8 @@ public class Calculator
     /// </summary>
     /// <param name="a">First operand</param>
     /// <param name="b">Second operand</param>
-    /// <param name="op">Arithmetic operator (+, -, *, /, %, ^)</param>
-    /// <returns>The result of the arithmetic operation</returns>
+    /// <param name="op">Operator (+, -, *, /, %, ^)</param>
+    /// <returns>The result of the calculation</returns>
     /// <exception cref="ArgumentException">Thrown when an invalid operator is provided</exception>
     /// <exception cref="DivideByZeroException">Thrown when dividing or modulo by zero</exception>
     public static double Calculate(double a, double b, string op)
