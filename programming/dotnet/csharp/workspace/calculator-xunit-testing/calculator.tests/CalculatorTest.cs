@@ -14,9 +14,9 @@ public class CalculatorTest
         CalculatorConsole.Run(input, output);
 
         string consoleOutput = output.ToString();
-        int firstOperandPromptIndex = consoleOutput.IndexOf(CalculatorConsole.FirstOperandPrompt, StringComparison.Ordinal);
-        int secondOperandPromptIndex = consoleOutput.IndexOf(CalculatorConsole.SecondOperandPrompt, StringComparison.Ordinal);
-        int operatorPromptIndex = consoleOutput.IndexOf(CalculatorConsole.OperatorPrompt, StringComparison.Ordinal);
+        int firstOperandPromptIndex = GetPromptIndex(consoleOutput, CalculatorConsole.FirstOperandPrompt);
+        int secondOperandPromptIndex = GetPromptIndex(consoleOutput, CalculatorConsole.SecondOperandPrompt);
+        int operatorPromptIndex = GetPromptIndex(consoleOutput, CalculatorConsole.OperatorPrompt);
 
         Assert.True(firstOperandPromptIndex >= 0);
         Assert.True(secondOperandPromptIndex > firstOperandPromptIndex);
@@ -36,10 +36,15 @@ public class CalculatorTest
     }
 
     [Fact]
-    public void Calculate_WithOperatorAsThirdArgument_ReturnsExpectedResult()
+    public void Calculate_SubtractOperation_ReturnsCorrectDifference()
     {
         double result = Calculator.Calculate(10, 2, "-");
 
         Assert.Equal(8, result);
+    }
+
+    private static int GetPromptIndex(string consoleOutput, string prompt)
+    {
+        return consoleOutput.IndexOf(prompt, StringComparison.Ordinal);
     }
 }
