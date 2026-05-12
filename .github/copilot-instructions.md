@@ -276,6 +276,7 @@ When writing Bicep, ARM templates, or Terraform:
   - Implementation Guidance
   - Testing Requirements
   - Success Criteria
+- **Meeting Notes Conversion:** When source material is raw workshop or kickoff notes, normalize it into PRD sections by separating confirmed requirements, constraints, assumptions, open questions, and follow-up assets such as ADRs, templates, CODEOWNERS, or issue seeds.
 
 ### Prompt, Agent, and Skill Asset Conventions
 
@@ -330,6 +331,44 @@ When requesting code reviews, emphasize:
 - **Testing:** Code coverage, edge cases, error scenarios, integration tests
 - **Documentation:** Comments, README updates, inline documentation, examples
 - **Maintainability:** Readability, DRY principle, SOLID principles, separation of concerns
+
+### Issue Template
+
+When creating backlog items or implementation tasks, use this structure:
+
+```markdown
+## Issue [Number]
+
+- Type: [Feature | Bug | Tech debt | ADR request | Documentation]
+- Title: [Concise action-oriented title]
+- Description: [One or two sentences describing the change and why it matters]
+- Acceptance Criteria: [Concrete expected outcomes, ideally testable]
+- Test Plan: [How the change should be verified]
+- Logging And Telemetry: [Expected logging, audit, metrics, or tracing behavior]
+- Rollout Risk: [Low | Medium | High, with a short explanation]
+```
+
+Guidance for issue creation:
+
+- Write titles as actionable work items, not vague topics.
+- Keep each issue focused on one implementation concern or one decision.
+- Derive acceptance criteria directly from PRD requirements or explicit workshop decisions.
+- Include validation expectations even for documentation or standards tasks.
+- Use `ADR request` when the issue is intended to drive a design decision rather than implementation.
+
+### Issue Example
+
+```markdown
+## Issue [Number]
+
+- Type: Feature
+- Title: Add `POST /resource` ingestion endpoint
+- Description: Create the initial workshop API endpoint that accepts validated requests and returns a processing response with correlation metadata.
+- Acceptance Criteria: Valid requests are accepted; malformed requests are rejected with clear validation errors; every response includes a correlation ID.
+- Test Plan: API tests for accepted and rejected requests, including missing-field and invalid-shape payloads.
+- Logging And Telemetry: Emit a correlation ID and request outcome for every processed request.
+- Rollout Risk: Low, because the endpoint is isolated and backed by workshop-scoped behavior.
+```
 
 ---
 
@@ -472,6 +511,237 @@ Requirements:
 - Prioritize security and performance risks
 - Call out missing or insufficient test coverage
 - If no findings exist, explicitly state "no findings" and list residual risks/testing gaps
+```
+
+### For Meeting Notes to PRD Conversion
+
+Use this pattern when the source material is workshop notes, kickoff notes, discovery notes, or other unstructured planning content.
+
+```
+Convert these raw meeting notes into a structured Product Requirements Document.
+
+Requirements:
+1. Separate confirmed decisions from open questions and assumptions.
+2. Normalize ambiguous notes into clear functional and non-functional requirements.
+3. Preserve constraints, compliance requirements, and delivery boundaries.
+4. Call out follow-up artifacts needed such as ADRs, issues, PR templates, CODEOWNERS, standards docs, or sample payloads.
+
+Output structure:
+- Executive Summary
+- Problem Statement / Context
+- Goals and Objectives
+- Scope
+- Functional Requirements
+- Non-Functional Requirements
+- Risks and Assumptions
+- Open Questions
+- Implementation Guidance
+- Required Follow-Up Artifacts
+- Success Criteria
+
+Additional guidance:
+- Do not invent decisions that were not made in the notes.
+- Convert unresolved debates into explicit open questions.
+- When timing, compliance, or audit requirements appear, surface them prominently.
+- Keep language implementation-ready rather than conversational.
+```
+
+### For PRD to Issue Conversion
+
+Use this pattern when the source material is a completed PRD and the next step is to derive implementation-ready issues.
+
+```
+Convert this PRD into a set of implementation issues.
+
+Requirements:
+1. Use one issue per meaningful work item or decision.
+2. Follow the repository issue structure exactly: Type, Title, Description, Acceptance Criteria, Test Plan, Logging And Telemetry, Rollout Risk.
+3. Keep issue titles action-oriented and implementation-ready.
+4. Derive issue scope from the PRD without copying the PRD text verbatim.
+5. Include documentation, CI, standards, or ADR items when the PRD calls for them.
+
+Output structure:
+- Issue 1
+- Issue 2
+- Issue 3
+- Continue as needed
+
+Additional guidance:
+- Split architectural decisions into `ADR request` issues when the PRD still contains unresolved choices.
+- Use `Tech debt` for cross-cutting alignment or standards work that supports implementation quality.
+- Ensure acceptance criteria and test plans are specific enough to validate completion.
+```
+
+### Meeting Notes Example: ForgeOps Kickoff to PRD
+
+The following example shows how raw notes should be transformed into a structured PRD-style summary.
+
+#### Example Source Characteristics
+
+- Demo-oriented industrial operations workflow
+- FastAPI preference for readable live coding
+- One workshop endpoint with in-memory persistence
+- Strong audit, sanitization, and review expectations
+- Several unresolved product and architecture questions
+
+#### Example Structured Output
+
+```markdown
+# 1. Product Requirements Document: ForgeOps Workshop Service
+
+## 1.1 Executive Summary
+
+ForgeOps is a workshop-ready plant operations demo service that ingests telemetry events, evaluates whether a maintenance work order should be created, and records an append-only audit trail. The implementation should feel like a realistic industrial workflow while remaining small enough to build and explain in a 90-minute session.
+
+## 1.2 Problem Statement / Context
+
+The workshop needs a compact but credible operational scenario instead of a generic sample app. The service must demonstrate how telemetry from plant gateways can drive maintenance decisions, how auditability is preserved across the flow, and how Copilot can help turn planning artifacts into implementation assets such as issues, standards, templates, and code.
+
+## 1.3 Goals and Objectives
+
+- Deliver a small but realistic plant operations demo.
+- Ingest telemetry through a single workshop-friendly API.
+- Demonstrate a maintenance-triggering path and a no-action path.
+- Create maintenance work orders for hot-running compressors in under 2 seconds end to end.
+- Preserve auditability with correlation IDs and append-only audit records.
+- Keep the service easy to set up locally in under 5 minutes.
+
+## 1.4 Scope
+
+### 1.4.1 In Scope
+
+- A single ingestion endpoint, likely `POST /events`
+- Temperature-based maintenance triggering for the initial workshop flow
+- In-memory persistence for both business state and audit records
+- Structured application logging without a full observability stack
+- Notification stubs that simulate dispatch behavior without calling a real external service
+- Standards and governance assets that demonstrate process maturity
+
+### 1.4.2 Out of Scope
+
+- Database setup during the workshop
+- Real notification service integration
+- Multi-metric support beyond temperature in the initial slice
+- Full multi-site feature depth beyond retaining `site_id` in the payload
+- Automatic merge of pull requests
+
+## 1.5 Functional Requirements
+
+- FR-1: The service shall expose one workshop endpoint for event ingestion.
+- FR-2: The service shall accept telemetry payloads that include `site_id`.
+- FR-3: The service shall support a temperature-based rule for identifying overheated compressors.
+- FR-4: The service shall support a no-trigger path where valid events do not generate maintenance work orders.
+- FR-5: The service shall create a maintenance work order when trigger conditions are met.
+- FR-6: The service shall complete the trigger-to-work-order path in under 2 seconds end to end for the workshop scenario.
+- FR-7: The service shall include a correlation ID throughout request processing and audit records.
+- FR-8: The service shall maintain an append-only audit log for all relevant workflow steps.
+- FR-9: The service shall sanitize input and stored data so that no PII is captured.
+- FR-10: The service shall tolerate older upstream field naming differences when telemetry payloads are not fully normalized.
+- FR-11: The service shall include a notification stub that can demonstrate dispatch behavior without external dependencies.
+- FR-12: The project shall show how Copilot can turn planning output into issues and implementation artifacts.
+
+## 1.6 Non-Functional Requirements
+
+- NFR-1: The full demo shall fit within a 90-minute workshop.
+- NFR-2: Local setup on a clean laptop shall complete in under 5 minutes.
+- NFR-3: Logs shall be structured enough for explanation in a live session.
+- NFR-4: CI shall run formatting, linting, and tests.
+- NFR-5: Human review shall remain required; auto-merge is not permitted.
+- NFR-6: Audit entries shall be non-editable after creation.
+
+## 1.7 Risks and Assumptions
+
+### 1.7.1 Assumptions
+
+- FastAPI is the preferred framework because it is readable and supports fast live coding.
+- Upstream telemetry is usually normalized, but some legacy sites may still emit inconsistent field names.
+- In-memory append-only audit storage is acceptable for the workshop even though it is not a production retention strategy.
+
+### 1.7.2 Risks
+
+- Upstream schema drift may complicate payload validation and rule execution.
+- Undefined severity ownership may block clear prioritization logic.
+- Future multi-site requirements may introduce routing or tenancy concerns beyond the workshop scope.
+
+## 1.8 Open Questions
+
+- Should unknown metrics be rejected or stored without action?
+- Should severity be computed in this service or supplied upstream?
+- Should severity directly drive maintenance priority or only affect notifications?
+- What should long-term audit retention look like outside the workshop scenario?
+- Should notification stubs remain inside the service or be split into a separate component later?
+
+## 1.9 Implementation Guidance
+
+- Use FastAPI for the workshop service.
+- Start with a single `POST /events` endpoint.
+- Model temperature as the first supported signal; defer pressure and vibration.
+- Keep persistence in memory to avoid environment setup overhead.
+- Normalize correlation ID handling and ensure every step emits structured logs.
+- Support legacy field aliasing where needed so older gateway payloads do not break the demo.
+
+## 1.10 Required Follow-Up Artifacts
+
+- Standards document for the team to capture agreed conventions
+- Pull request template that requires test evidence and acceptance-criteria mapping
+- CODEOWNERS file routing docs to facilitators and app code to platform/backend owners
+- Sample ADR covering event schema versioning and contract drift
+- Seed issues showing how Copilot can translate planning into backlog items
+
+## 1.11 Success Criteria
+
+- A workshop participant can run the service locally in under 5 minutes.
+- The demo successfully shows both a maintenance-triggering and non-triggering event flow.
+- Correlation IDs and append-only audit records are visible throughout the flow.
+- No PII appears in payload handling, logs, or audit entries.
+- CI enforces formatting, linting, and tests before merge.
+```
+
+### Meeting Notes Example: ForgeOps Kickoff to Issues and ADR Seeds
+
+Use a second pass when the user wants actionable backlog and architecture artifacts in addition to the PRD.
+
+#### Example Derived Outputs
+
+```markdown
+## Example Issue Seeds
+
+1. Define event ingestion contract for `POST /events`
+    - Capture required payload fields including `site_id`, signal type, measured value, timestamp, and correlation ID.
+    - Decide how legacy field aliases are normalized.
+
+2. Implement temperature-based maintenance trigger path
+    - Create rule logic for hot-running compressors.
+    - Ensure the end-to-end path completes within 2 seconds for the demo scenario.
+
+3. Implement append-only in-memory audit log
+    - Record every workflow step with correlation ID.
+    - Prevent mutation of existing audit entries.
+
+4. Add notification stub for dispatch simulation
+    - Simulate downstream notification behavior without calling a real service.
+    - Support both trigger and no-trigger demo paths.
+
+5. Add CI checks for formatting, linting, and tests
+    - Prevent merge when required quality gates fail.
+    - Preserve human review as a required step.
+
+6. Add governance assets for workshop collaboration
+    - Create PR template with acceptance-criteria mapping and test evidence.
+    - Create CODEOWNERS routing docs and app code to the correct owners.
+
+## Example ADR Seed
+
+### ADR: Event Schema Versioning Strategy
+
+- Status: Proposed
+- Context: Upstream plant gateway contracts may drift, and older sites may continue sending legacy field names.
+- Decision: The service will accept a versioned event contract and support a normalization layer for approved legacy aliases during the workshop phase.
+- Consequences:
+  - Positive: The demo remains resilient to known schema variation.
+  - Positive: Contract evolution is explicit and easier to document.
+  - Negative: A normalization layer adds maintenance overhead.
+  - Negative: Unclear versioning rules may create ambiguity if not documented early.
 ```
 
 ---
@@ -908,11 +1178,11 @@ Please update this file or create an issue to propose improvements.
 ## Resources
 
 - [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
-- [Repository Instructions](./.github/instructions/)
-- [Project Gengo README](../../README.md)
-- [Contributing Guidelines](../../SECURITY.md)
-- [Agent Prompts](./.github/agents/)
-- [Workflow Examples](./.github/workflows/)
+- [Repository Instructions](instructions/)
+- [Project Gengo Quickstart](../docs/quickstart.md)
+- [Contributing Guidelines](../SECURITY.md)
+- [Agent Prompts](agents/)
+- [Workflow Examples](workflows/)
 
 ---
 
